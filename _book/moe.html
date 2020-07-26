@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.3 Approximating probabilities: Simulation margin of error | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.3 Approximating probabilities: Simulation margin of error | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.3 Approximating probabilities: Simulation margin of error | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="technology-intro.html"/>
+<link rel="next" href="non-equally-likely-outcomes-a-weighted-die.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="moe" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Approximating probabilities: Simulation margin of error</h2>
+<p>The probability of an event can be approximated by simulating the random phenomenon a large number of times and computing the relative frequency of the event. However, while after enough repetitions we expect the simulated relative frequency to be <em>close to</em> the true probability, there probably won’t be an exact match. Therefore, in addition to reporting the approximate probability, we should also provide a margin of error which indicates how close we think our simulated relative frequency is to the true probability.</p>
+<p>Continuing the dice example, suppose we want to estimate <span class="math inline">\(\IP(X=6)\)</span>, the probability that the sum of two rolls of a fair four-sided is six. The true probability is <span class="math inline">\(3/16=0.1875\)</span>. We will now carry out an analysis similar to the coin flipping example in Section <a href="interpretations.html#rel-freq">1.2.1</a> to investigate simulation margin of error and how it is influenced by the number of simulated values used to compute the relative frequency.</p>
+<p>We will perform a “meta-simulation”. The process is as follows</p>
+<ol style="list-style-type: decimal">
+<li>Simulate two rolls of a fair four-sided die. Compute the sum (<span class="math inline">\(X\)</span>) and see if it is equal to 6.</li>
+<li>Repeat step 1 to generate <span class="math inline">\(n\)</span> simulated values of the sum (<span class="math inline">\(X\)</span>). Compute the relative frequency of sixes: count the number of the <span class="math inline">\(n\)</span> simulated values equal to 6 and divide by <span class="math inline">\(n\)</span>. Denote this relative frequency <span class="math inline">\(\hat{p}\)</span>.</li>
+<li>Repeat step 2 a large number of times, recording the relative frequency <span class="math inline">\(\hat{p}\)</span> for each set of <span class="math inline">\(n\)</span> values.</li>
+</ol>
+<p>Be sure to distinguish between steps 2 and 3. A simulation will typically involve just steps 1 and 2, resulting in a single relative frequency based on <span class="math inline">\(n\)</span> simulated values. Step 3 is the “meta” step; we see how this relative frequency varies from simulation to simulation to help us in determing an appropriate margin of error. The important quantity in this analysis is <span class="math inline">\(n\)</span>, the <em>number of simulated values used to compute relative frequency</em> in a single simulation. We wish to see how <span class="math inline">\(n\)</span> impacts margin of error. The number of simulations in step 3 just needs to be “large” enough to provide a clear picture of how the relative frequency varies from simulation to simulation. The more the relative frequency varies from simulation to simulation, the larger the margin of error needs to be.</p>
+<p>We can combine steps 1 and 2 of the meta-simulation to put it in the framework of the simulations from earlier in this chapter. Namely, we can code the meta-simulation as a single simulation in which</p>
+<ul>
+<li>A sample space outcome represents <span class="math inline">\(n\)</span> values of the sum of two fair-four sided dice</li>
+<li>The main random variable of interest is the proportion of the <span class="math inline">\(n\)</span> values which are equal to 6.</li>
+</ul>
+<p>Let’s first consider <span class="math inline">\(n=100\)</span>. The following Symbulate code defines the probability space corresponding to 100 values of the sum of two-fair four sided dice. Notice the use of <code>apply</code> which functions much in the same way<a href="#fn45" class="footnote-ref" id="fnref45"><sup>45</sup></a> as <code>RV</code>.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb72-1"><a href="moe.html#cb72-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb72-2"><a href="moe.html#cb72-2"></a>P <span class="op">=</span> (DiscreteUniform(<span class="dv">1</span>, <span class="dv">4</span>) <span class="op">**</span> <span class="dv">2</span>).<span class="bu">apply</span>(<span class="bu">sum</span>) <span class="op">**</span> n</span>
+<span id="cb72-3"><a href="moe.html#cb72-3"></a>P.sim(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.Results object at 0x000000002EB49288&gt;</code></pre>
+<p>In the code above</p>
+<ul>
+<li><code>DiscreteUniform(1, 4) ** 2</code> simulates two rolls of a fair four-sided die</li>
+<li><code>.apply(sum)</code> computes the sum of the two rolls</li>
+<li><code>** n</code> repeats the process <code>n</code> times to generate a set of <code>n</code> independent values, each value representing the sum of two rolls of a fair four-sided die</li>
+<li><code>P.sim(5)</code> simulates 5 sets, each set consisting of <code>n</code> sums</li>
+</ul>
+<p>Now we define the random variable which takes as an input a set of <span class="math inline">\(n\)</span> sums and returns the proportion of the <span class="math inline">\(n\)</span> sums which are equal to six.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb74-1"><a href="moe.html#cb74-1"></a></span>
+<span id="cb74-2"><a href="moe.html#cb74-2"></a>phat <span class="op">=</span> RV(P, count_eq(<span class="dv">6</span>)) <span class="op">/</span> n</span>
+<span id="cb74-3"><a href="moe.html#cb74-3"></a>phat.sim(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000002E4BB3C8&gt;</code></pre>
+<p>In the code above</p>
+<ul>
+<li><code>phat</code> is an <code>RV</code> defined on the probability space <code>P</code>. Recall that an outcome of <code>P</code> is a set of <code>n</code> sums (and each sum is the sum of two rolls of a fair four-sided die).</li>
+<li>The function that defines the <code>RV</code> is <code>count.eq(6)</code>, which counts the number of values in the set that are equal to 6. We then<a href="#fn46" class="footnote-ref" id="fnref46"><sup>46</sup></a> divide by <code>n</code>, the total number of values in the set, to get the relative frequency. (Remember that a transformation of a random variable is also a random variable.)</li>
+<li><code>phat.sim(5)</code> generates 5 simulated values of the relative frequency <code>phat</code>. Each simulated value of <code>phat</code> is the relative frequency of sixes in <code>n</code> sums of two rolls of a fair four-sided die.</li>
+</ul>
+<p>Now we simulate and summarize a large number of values of <code>phat</code>. We’ll simulate 100 values for illustration. Be sure not to confuse 100 with <code>n</code>. Remmeber, the important quantity is <code>n</code>, the number of simulated values used in computing each relative frequency.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb76-1"><a href="moe.html#cb76-1"></a>phat.sim(<span class="dv">100</span>).plot(normalize <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb76-2"><a href="moe.html#cb76-2"></a>plt.ylabel(<span class="st">&#39;Number of simulations&#39;</span>)<span class="op">;</span></span>
+<span id="cb76-3"><a href="moe.html#cb76-3"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p>We see that the 100 relative frequencies are roughly centered around the true probability 0.1875, but there is variability in the relative frequencies from simulation to simulation. From the range of values, we see that most relative frequencies are within about 0.08 or so from the true probability 0.1875. So 0.08 seems like a reasonable value of the margin of error, but the actual depends on what we mean by “most”. We can get a clearer picture if we run more simulations.</p>
+<p>Now we repeat the analysis, but with <span class="math inline">\(n=10000\)</span>. In this case, each relative frequency is computed based on 10000 independent values, each value representing a sum of two rolls of a fair four-sided die. As before, we simulate 100 relative frequencies.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb77-1"><a href="moe.html#cb77-1"></a></span>
+<span id="cb77-2"><a href="moe.html#cb77-2"></a>n <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb77-3"><a href="moe.html#cb77-3"></a>P <span class="op">=</span> (DiscreteUniform(<span class="dv">1</span>, <span class="dv">4</span>) <span class="op">**</span> <span class="dv">2</span>).<span class="bu">apply</span>(<span class="bu">sum</span>) <span class="op">**</span> n</span>
+<span id="cb77-4"><a href="moe.html#cb77-4"></a>phat <span class="op">=</span> RV(P, count_eq(<span class="dv">6</span>)) <span class="op">/</span> n</span>
+<span id="cb77-5"><a href="moe.html#cb77-5"></a></span>
+<span id="cb77-6"><a href="moe.html#cb77-6"></a>phat.sim(<span class="dv">100</span>).plot(normalize <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb77-7"><a href="moe.html#cb77-7"></a>plt.ylabel(<span class="st">&#39;Number of simulations&#39;</span>)<span class="op">;</span></span>
+<span id="cb77-8"><a href="moe.html#cb77-8"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>Again we see that the 100 relative frequencies are roughly centered around the true probability 0.1875, but there is less variability in the relative frequencies from simulation to simulation for <span class="math inline">\(n=10000\)</span> than for <span class="math inline">\(n=100\)</span>. From the range of values, we see that most relative frequencies are within about 0.007 of the true probability 0.1875. Thus, it seems reasonable to define 0.007 as the margin of error of a simulation-based approximation of <span class="math inline">\(\IP(X = 6)\)</span> based on <span class="math inline">\(n=10000\)</span> repetitions.</p>
+<p>(<a href="cap:moe-compare" class="uri">cap:moe-compare</a>) Comparison of margins of error for 95% confidence for the meta-simulations in Sections <a href="interpretations.html#rel-freq">1.2.1</a> and <a href="moe.html#moe">3.3</a>.</p>
+<table>
+<colgroup>
+<col width="35%" />
+<col width="8%" />
+<col width="16%" />
+<col width="18%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Probability that</th>
+<th align="right">True value</th>
+<th align="right">95% m.o.e. (n = 100)</th>
+<th align="right">95% m.o.e. (n = 10000)</th>
+<th align="right">95% m.o.e. (n = 1000000)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A fair coin flip lands H</td>
+<td align="right">0.5000</td>
+<td align="right">0.1000</td>
+<td align="right">0.0100</td>
+<td align="right">1e-03</td>
+</tr>
+<tr class="even">
+<td align="left">Two rolls of a fair four-sided die sum to 3</td>
+<td align="right">0.1875</td>
+<td align="right">0.0781</td>
+<td align="right">0.0078</td>
+<td align="right">8e-04</td>
+</tr>
+</tbody>
+</table>
+<p>That is, the larger the number (<span class="math inline">\(n\)</span>) of values used in the computation of relative frequency, the smaller the margin of error.</p>
+<p>Depends on true probability. Numerator is max at 0.5, so 1/sqrt(n). True probability is unknown in practice, so we can estimate the margin of error using by plugging in the approximate probability.</p>
+<p>As in Section <a href="interpretations.html#rel-freq">1.2.1</a> it appears that when we increase <span class="math inline">\(n\)</span> by a factor of 100 (from 100 to 10000) we achieve an extra decimal place in precision. This is indeed the case in general.</p>
+<ul>
+<li>Remember: in any simulation the resulting probabilities are
+approximate.</li>
+<li>The margin of error between an actual probability and a
+simulated relative frequency is roughly on the order <span class="math inline">\(1/\sqrt{n}\)</span>,
+where <span class="math inline">\(n\)</span> is the number of simulated values used to calculate
+the relative frequency</li>
+<li>More precisely, if <span class="math inline">\(\hat{p}\)</span> represents the simulated relative frequency, we estimate with 95% confidence<a href="#fn47" class="footnote-ref" id="fnref47"><sup>47</sup></a> that the interval with
+endpoints
+<span class="math display">\[
+\hat{p}\pm 2 \sqrt{\frac{\hat{p}(1-\hat{p})}{N}}
+\]</span>
+contains the actual probability.</li>
+<li>Warning: alternative methods are necessary when the actual probability
+being estimated is close to 0 or to 1.</li>
+</ul>
+<p>Finally, keep in mind that any probability is based on a series of assumptions and these assumptions are probably not satisfied exactly by the random phenomenon. For example, the probability that a coin lands on H is probably not 0.5 exactly . But there is no practical difference. For most of the situations we’ll enounter, estimating a probability to within 0.01 of its true value will be sufficient, and so simulations of size 10000 are appropriate. (Of course, there are situations where probabilities need to be estimated much more precisely, e.g., the probability that a bridge will collapse. These situations require more intensive methods.)</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="45">
+<li id="fn45"><p>One difference between <code>RV</code> and <code>apply</code>: <code>apply</code> preserves the type of the input object. That is, if <code>apply</code> is applied to a <code>ProbabilitySpace</code> then the output will be a <code>ProbabilitySpace</code>; if <code>apply</code> is applied to an <code>RV</code> then the output will be an <code>RV</code>. In contrast, <code>RV</code> always creates an <code>RV</code>.<a href="moe.html#fnref45" class="footnote-back">↩︎</a></p></li>
+<li id="fn46"><p>Unfortunately, for techincal reasons, <code>RV(P, count_eq(6) / n)</code> will not work. It is possible to divide by <code>n</code> within <code>RV</code> if we define a custom function <code>def rel_freq_six(x): return x.count_eq(6) / n</code>
+and then define <code>RV(P, rel_freq_six)</code>.<a href="moe.html#fnref46" class="footnote-back">↩︎</a></p></li>
+<li id="fn47"><p>We will see
+the rationale behind this formula later in the class. The factor 2
+comes from the fact that for a Normal distribution, about 95% of values
+are within 2 standard deviations of the mean. Technically, the
+factor 2 corresponds to 95% confidence only when a single
+probability is estimated. If multiple probabilities are estimated
+simultaneously, then alternative methods should be used,
+e.g., increasing the factor 2 using a
+<a href="https://en.wikipedia.org/wiki/Bonferroni_correction">Bonferroni
+correction</a>. For example, a multiple of 5 rather than 2 produces very conservative error bounds.<a href="moe.html#fnref47" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="technology-intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="non-equally-likely-outcomes-a-weighted-die.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

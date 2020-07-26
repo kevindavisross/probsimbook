@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.5 Some examples | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.5 Some examples | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.5 Some examples | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="approximating-probabilities-simulation-margin-of-error.html"/>
+<link rel="next" href="univeral-spinner.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>2</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>2.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="2.2" data-path="symbulate-intro.html"><a href="symbulate-intro.html"><i class="fa fa-check"></i><b>2.2</b> Introduction to simulation</a></li>
+<li class="chapter" data-level="2.3" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>2.3</b> Technology simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>2.3.1</b> Brief summary of Symbulate commands</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="approximating-probabilities-simulation-margin-of-error.html"><a href="approximating-probabilities-simulation-margin-of-error.html"><i class="fa fa-check"></i><b>2.4</b> Approximating probabilities - simulation margin of error</a></li>
+<li class="chapter" data-level="2.5" data-path="sim-examples.html"><a href="sim-examples.html"><i class="fa fa-check"></i><b>2.5</b> Some examples</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="sim-examples.html"><a href="sim-examples.html#a-weighted-die"><i class="fa fa-check"></i><b>2.5.1</b> A weighted die</a></li>
+<li class="chapter" data-level="2.5.2" data-path="sim-examples.html"><a href="sim-examples.html#more-dice-rolling"><i class="fa fa-check"></i><b>2.5.2</b> More dice rolling</a></li>
+<li class="chapter" data-level="2.5.3" data-path="sim-examples.html"><a href="sim-examples.html#sec-mscoin-sim"><i class="fa fa-check"></i><b>2.5.3</b> Proportion of coin flips immediately following heads that result in heads</a></li>
+<li class="chapter" data-level="2.5.4" data-path="sim-examples.html"><a href="sim-examples.html#sec-linear-rescaling"><i class="fa fa-check"></i><b>2.5.4</b> Outcomes on a continuous scale</a></li>
+<li class="chapter" data-level="2.5.5" data-path="sim-examples.html"><a href="sim-examples.html#sec-log-uniform"><i class="fa fa-check"></i><b>2.5.5</b> A logarithmic transformation</a></li>
+<li class="chapter" data-level="2.5.6" data-path="sim-examples.html"><a href="sim-examples.html#uniform-sum-max"><i class="fa fa-check"></i><b>2.5.6</b> Continuous analog of rolling two dice</a></li>
+<li class="chapter" data-level="2.5.7" data-path="sim-examples.html"><a href="sim-examples.html#sec-example-sat-math"><i class="fa fa-check"></i><b>2.5.7</b> SAT Math scores</a></li>
+<li class="chapter" data-level="2.5.8" data-path="sim-examples.html"><a href="sim-examples.html#sec-example-sat-both"><i class="fa fa-check"></i><b>2.5.8</b> SAT Math and Reading scores</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="univeral-spinner.html"><a href="univeral-spinner.html"><i class="fa fa-check"></i><b>2.6</b> One spinner to rule them all?</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sim-examples" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Some examples</h2>
+<p>Now that we have covered the primary mathematical objects of probability — probability spaces, events, random variables — we will investigate some examples.</p>
+<p>The tables and plots in the previous section, as well as those in this section, are representations of <em>distributions.</em> The <strong>(probability) distribution</strong> of a random variable specifies the possible values of the RV and a way of determining corresponding probabilities. The distribution of a random variable specifies the long run pattern of variation of values of the random variable over many repetitions of the underlying random phenomenon. The distribution of a random variable (<span class="math inline">\(X\)</span>) can be approximated by</p>
+<ul>
+<li>simulating an outcome of the underlying random phenomenon (<span class="math inline">\(\omega\)</span>)</li>
+<li>observing the value of the random variable for that outcome (<span class="math inline">\((X(\omega)\)</span>)</li>
+<li>repeating this process many times</li>
+<li>then computing relative frequencies involving the simulated values of the RV (<span class="math inline">\(x\)</span>) to approximate probabilities of events involving the random variable (e.g., <span class="math inline">\(\IP(X\le x)\)</span>).</li>
+</ul>
+<p>We will discuss distributions in more detail in the next section, but the examples in this section will provide an introduction to some of the ideas. But as you read this section and encounter different distributions, observe that <em>each distribution can be represented by a spinner</em>.</p>
+<div id="a-weighted-die" class="section level3" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> A weighted die</h3>
+<p>The example in Section <a href="symbulate-intro.html#symbulate-intro">2.2</a> involved a fair four-sided die. But what about a weighted die like the one in Example <a href="#exm:die-weighted"><strong>??</strong></a>?</p>
+<p>Let <span class="math inline">\(X\)</span> be the result of a single roll of a four-sided die. Let <span class="math inline">\(\IP\)</span> be the probability measure corresponding to a fair die. <code>BoxModel</code> assumes equally likely outcomes by default, so calling <code>BoxModel([1, 2, 3, 4])</code> assumes a fair die. (The default <code>size</code> value is 1, so <code>BoxModel([1, 2, 3, 4])</code> corresponds to a <em>single roll</em> of a fair four-sided die.) The random variable <span class="math inline">\(X\)</span> is just the outcome of this roll, identified by the identity function <span class="math inline">\(X(\omega) = \omega\)</span>. (Recall that a Symbulate <code>RV</code> is always defined in terms of a probability space and a function <code>RV(probspace, function)</code>. The default function is the identity: <span class="math inline">\(g(u) = u\)</span>.)</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href="sim-examples.html#cb57-1"></a></span>
+<span id="cb57-2"><a href="sim-examples.html#cb57-2"></a>P <span class="op">=</span> BoxModel([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>])</span>
+<span id="cb57-3"><a href="sim-examples.html#cb57-3"></a>X <span class="op">=</span> RV(P)</span>
+<span id="cb57-4"><a href="sim-examples.html#cb57-4"></a>plt.figure()</span>
+<span id="cb57-5"><a href="sim-examples.html#cb57-5"></a>X.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb57-6"><a href="sim-examples.html#cb57-6"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>The plot displays a simulation-based approximation to the distribution of <span class="math inline">\(X\)</span> according to the probability meaure <span class="math inline">\(\IP\)</span>. We see that the four sides are equally likely. This distribution can be represented by the spinner in Figure <a href="tactile.html#fig:spinner-die">2.1</a>.</p>
+<p>Now consider the weighted die in Example <a href="#exm:die-weighted"><strong>??</strong></a>. Let <span class="math inline">\(\IQ\)</span> be the probability measure corresponding to the assumption that the die is weighted as in Example <a href="#exm:die-weighted"><strong>??</strong></a>. While <code>BoxModel</code> assumes equally likely outcomes by default, we can specify outcomes with different probabilities using the <code>probs</code> option. The probability space <code>Q</code> in the following code corresponds to a single roll of the weighted die. Note that <span class="math inline">\(X\)</span> is still defined via the identity function.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="sim-examples.html#cb58-1"></a></span>
+<span id="cb58-2"><a href="sim-examples.html#cb58-2"></a>Q <span class="op">=</span> BoxModel([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], probs <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>])</span>
+<span id="cb58-3"><a href="sim-examples.html#cb58-3"></a>X <span class="op">=</span> RV(Q)</span>
+<span id="cb58-4"><a href="sim-examples.html#cb58-4"></a>plt.figure()</span>
+<span id="cb58-5"><a href="sim-examples.html#cb58-5"></a>X.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb58-6"><a href="sim-examples.html#cb58-6"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>The plot displays a simulation-based approximation to the distribution of <span class="math inline">\(X\)</span>, but now according to the probability meaure <span class="math inline">\(\IQ\)</span>. This distribution can be represented by the spinner in Figure <a href="sim-examples.html#fig:spinner-die-weighted">2.3</a>.</p>
+
+<div class="figure"><span id="fig:spinner-die-weighted"></span>
+<img src="_graphics/spinner-die-weighted.PNG" alt="Spinner corresponding to a single roll of the weighted four-sided die in Example ??." width="186" />
+<p class="caption">
+Figure 2.3: Spinner corresponding to a single roll of the weighted four-sided die in Example <a href="#exm:die-weighted"><strong>??</strong></a>.
+</p>
+</div>
+<p>Note that in the two scenarios, (1) the sample space is the same, <span class="math inline">\(\Omega=\{1,2,3,4\}\)</span>, and (2) the random variable is the same function, <span class="math inline">\(X(\omega) = \omega\)</span>. What changes is the probability measure, from <span class="math inline">\(\IP\)</span> (fair die) to <span class="math inline">\(\IQ\)</span> (weighted die). Changing the probability measure changes the distribution of <span class="math inline">\(X\)</span>.</p>
+<p>Another way to model a weighted die is with a box model with 10 tickets — one ticket labeled 1, two tickets labeled 2, three tickets labeled 3, and four tickets labeled 4 — from which a single ticket is drawn. A <code>BoxModel</code> can be specified in this way using the following <code>{label: number of tickets with the label}</code> formulation<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a>. We will see that this formulation is especially useful when mutliple tickets are drawn from the box <em>without replacement</em>.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a href="sim-examples.html#cb59-1"></a></span>
+<span id="cb59-2"><a href="sim-examples.html#cb59-2"></a>Q <span class="op">=</span> BoxModel({<span class="dv">1</span>: <span class="dv">1</span>, <span class="dv">2</span>: <span class="dv">2</span>, <span class="dv">3</span>: <span class="dv">3</span>, <span class="dv">4</span>: <span class="dv">4</span>})</span>
+<span id="cb59-3"><a href="sim-examples.html#cb59-3"></a>X <span class="op">=</span> RV(Q)</span></code></pre></div>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>Changing a probability measure changes distributions of random variables.</li>
+<li>Box models can handle situations without equally likely outcomes. In Symbulate, <code>BoxModel</code> has options like <code>probs</code> that can be used to specify probabilities of individual outcomes.</li>
+</ul>
+</div>
+<div id="more-dice-rolling" class="section level3" number="2.5.2">
+<h3><span class="header-section-number">2.5.2</span> More dice rolling</h3>
+<p>The example in Section <a href="technology-intro.html#technology-intro">2.3</a> involved the sum <span class="math inline">\(X\)</span> and max <span class="math inline">\(Y\)</span> of two rolls of a fair four-sided die. In Example <a href="#exm:dice-probspace"><strong>??</strong></a> we found <span class="math inline">\(\IP(X=4, Y=3)=2/16\)</span>. In a similar way, we can find <span class="math inline">\(\IP(X=x, Y=y)\)</span> for each possible <span class="math inline">\((x, y)\)</span> pair. These values, displayed in Table <a href="sim-examples.html#tab:dice-dist">2.1</a>, specify the <em>joint</em> distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<table>
+<caption><span id="tab:dice-dist">Table 2.1: </span> Joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die. Possible values of <span class="math inline">\(X\)</span> are in the leftmost column; possible values of <span class="math inline">\(Y\)</span> are in the top row.</caption>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x\)</span> \ <span class="math inline">\(y\)</span> |</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>2 |</td>
+<td align="right">1/16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>3 |</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>4 |</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">2/16</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>5 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="even">
+<td>6 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="odd">
+<td>7 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="even">
+<td>8 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+</tr>
+</tbody>
+</table>
+<p>The joint distribution in Table <a href="sim-examples.html#tab:dice-dist">2.1</a> corresponds to the spinner in Figure <a href="technology-intro.html#fig:spinner-dice-sum-max">2.2</a>. Once we have obtained the distribution, we now have two ways to simulate an <span class="math inline">\((X, Y)\)</span> pair with the distribution inTable <a href="sim-examples.html#tab:dice-dist">2.1</a> .</p>
+<ol style="list-style-type: decimal">
+<li>Simulate two rolls of a fair four sided die. Let <span class="math inline">\(X\)</span> be the sum of the two values and let <span class="math inline">\(Y\)</span> be the larger of the two rolls (or the common value if a tie).</li>
+<li>Spin the spinner in Figure <a href="technology-intro.html#fig:spinner-dice-sum-max">2.2</a> once and record the resulting <span class="math inline">\((X, Y)\)</span> pair. (Recall that this spinner returns a pair of values.)</li>
+</ol>
+<p>Of course, the second method requires that the distribution of <span class="math inline">\((X, Y)\)</span> is known. But in principle, there are always two ways of simulating a value <span class="math inline">\(x\)</span> of a random variable <span class="math inline">\(X\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li>(Simulate from the probability space.) Simulate an outcome <span class="math inline">\(\omega\)</span> from the underlying probability space and set <span class="math inline">\(x = X(\omega)\)</span>.</li>
+<li>(Simulate from the distribution.) Construct a spinner corresponding to the distribution of <span class="math inline">\(X\)</span> and spin it once to generate <span class="math inline">\(x\)</span>.</li>
+</ol>
+<p>The second method requires that the distribution of <span class="math inline">\(X\)</span> is known. However, as we will see in many examples, it is common to specify the distribution of a random variable directly without defining the underlying probability space.</p>
+<p>Below is the Symbulate code for the second method, which corresponds to the spinner in Figure <a href="technology-intro.html#fig:spinner-dice-sum-max">2.2</a>. Note that the probability space outcomes (the tickets in <code>BoxModel</code>) correspond to the possible <span class="math inline">\((X, Y)\)</span> pairs, which are not equally likely (even though the 16 pairs of rolls are). We specify the probability of each outcome by using the <code>probs</code> option. To generate a single <span class="math inline">\((X, Y)\)</span> pair, we spin the spinner once, and we draw one ticket from the box of pairs; this is why <code>size = 1</code>.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="sim-examples.html#cb60-1"></a></span>
+<span id="cb60-2"><a href="sim-examples.html#cb60-2"></a>xy_pairs <span class="op">=</span> [(<span class="dv">2</span>, <span class="dv">1</span>), (<span class="dv">3</span>, <span class="dv">2</span>), (<span class="dv">4</span>, <span class="dv">2</span>), (<span class="dv">4</span>, <span class="dv">3</span>), (<span class="dv">5</span>, <span class="dv">3</span>), (<span class="dv">5</span>, <span class="dv">4</span>), (<span class="dv">6</span>, <span class="dv">3</span>), (<span class="dv">6</span>, <span class="dv">4</span>), (<span class="dv">7</span>, <span class="dv">4</span>), (<span class="dv">8</span>, <span class="dv">4</span>)]</span>
+<span id="cb60-3"><a href="sim-examples.html#cb60-3"></a>pxy <span class="op">=</span> [<span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>]</span>
+<span id="cb60-4"><a href="sim-examples.html#cb60-4"></a></span>
+<span id="cb60-5"><a href="sim-examples.html#cb60-5"></a>P <span class="op">=</span> BoxModel(xy_pairs, probs <span class="op">=</span> pxy, size <span class="op">=</span> <span class="dv">1</span>, replace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb60-6"><a href="sim-examples.html#cb60-6"></a></span>
+<span id="cb60-7"><a href="sim-examples.html#cb60-7"></a><span class="bu">print</span>(P.sim(<span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.Results object at 0x00000000293BB0C8&gt;</code></pre>
+<p>We now wish to define the random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. An outcome of <code>P</code> is a pair of values. Recall that a Symbulate <code>RV</code> is always defined in terms of a probability space and a function <code>RV(probspace, function)</code>. The default function is the identity: <span class="math inline">\(g(\omega) = \omega\)</span>. Therefore, <code>RV(P)</code> would just correspond to the pair of values generated by <code>P</code>. The sum <span class="math inline">\(X\)</span> corresponds to the first coordinate in the pair and the max <span class="math inline">\(Y\)</span> corresponds to the second. We can define these random variables in Symbulate by “unpacking” the pair as in the following<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="sim-examples.html#cb62-1"></a></span>
+<span id="cb62-2"><a href="sim-examples.html#cb62-2"></a>X, Y <span class="op">=</span> RV(P)</span>
+<span id="cb62-3"><a href="sim-examples.html#cb62-3"></a></span>
+<span id="cb62-4"><a href="sim-examples.html#cb62-4"></a>(X <span class="op">&amp;</span> Y).sim(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x00000000293BBB88&gt;</code></pre>
+<p>Then we can simulate many <span class="math inline">\((X, Y)\)</span> pairs and summarize as before. The tile plot depicts the approximate joint distribution on <span class="math inline">\((X, Y)\)</span> pairs. The impulse plots in the “margins” of the plot are the simulated “marginal distributions” of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="sim-examples.html#cb64-1"></a></span>
+<span id="cb64-2"><a href="sim-examples.html#cb64-2"></a>xy <span class="op">=</span> (X <span class="op">&amp;</span> Y).sim(<span class="dv">16000</span>)</span>
+<span id="cb64-3"><a href="sim-examples.html#cb64-3"></a></span>
+<span id="cb64-4"><a href="sim-examples.html#cb64-4"></a>plt.figure()</span>
+<span id="cb64-5"><a href="sim-examples.html#cb64-5"></a>xy.plot([<span class="st">&#39;tile&#39;</span>, <span class="st">&#39;marginal&#39;</span>])</span>
+<span id="cb64-6"><a href="sim-examples.html#cb64-6"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb65-1"><a href="sim-examples.html#cb65-1"></a>xy.tabulate()</span></code></pre></div>
+<pre><code>## {(5, 4): 2042, (3, 2): 2006, (6, 4): 1998, (2, 1): 987, (4, 2): 941, (8, 4): 995, (4, 3): 2084, (7, 4): 2007, (6, 3): 987, (5, 3): 1953}</code></pre>
+<p>We can compute <span class="math inline">\(\IP(X=4)\)</span> from the joint distribution by summing over the possible <span class="math inline">\((X, Y)\)</span> pairs for which <span class="math inline">\(X=4\)</span>: <span class="math inline">\(\IP(X=4) = \IP(X=4, Y=2) + \IP(X=4, Y=3)=3/16\)</span>. In the context of multiple random variables, a probability involving only one of the random variables is called a <em>marginal probability</em>. The <em>marginal distribution</em> of <span class="math inline">\(X\)</span> is obtained by computing <span class="math inline">\(\IP(X=x)\)</span> for each possible value of <span class="math inline">\(x\)</span>. This is accomplished by summing across the columns in Table <a href="sim-examples.html#tab:dice-dist">2.1</a>. Similarly, the marginal distribution of <span class="math inline">\(Y\)</span> is obtained by summing across the rows. Think of adding a total column (for <span class="math inline">\(X\)</span>) and a total row (for <span class="math inline">\(Y\)</span>) in the “margins” of the table. For example, the marginal distribution of <span class="math inline">\(Y\)</span> is displayed in the following table; a simulation-based approximation is displayed in Figure <a href="#fig:dice-max-marginal-sim"><strong>??</strong></a>.</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(y\)</span> |</th>
+<th align="right">1</th>
+<th align="right">2</th>
+<th align="right">3</th>
+<th align="right">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\IP(Y=y)\)</span></td>
+<td align="right">1/16 |</td>
+<td align="right">3/16</td>
+<td align="right">5/16 |</td>
+<td align="right">7/16</td>
+</tr>
+</tbody>
+</table>
+<p>The marginal distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> can be depicted as spinners, as in Figure <a href="sim-examples.html#fig:spinner-dice-sum-max-marginal">2.4</a>.</p>
+
+<div class="figure"><span id="fig:spinner-dice-sum-max-marginal"></span>
+<img src="_graphics/spinner-dice-sum-marginal.PNG" alt="Marginal distributions of \(X\) (left) and \(Y\) (right), the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die." width="50%" /><img src="_graphics/spinner-dice-max-marginal.PNG" alt="Marginal distributions of \(X\) (left) and \(Y\) (right), the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die." width="50%" />
+<p class="caption">
+Figure 2.4: Marginal distributions of <span class="math inline">\(X\)</span> (left) and <span class="math inline">\(Y\)</span> (right), the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die.
+</p>
+</div>
+
+<div class="example">
+<p><span id="exm:dd-dice-marginal-sim" class="example"><strong>Example 2.2  (Don’t do what Donny Don’t does.)  </strong></span>
+Donny says “Forget the spinner in Figure <a href="technology-intro.html#fig:spinner-dice-sum-max">2.2</a>. I can simulate an <span class="math inline">\((X, Y)\)</span> pair just by spinning each of the spinners in Figure <a href="sim-examples.html#fig:spinner-dice-sum-max-marginal">2.4</a> once.” Is Donny correct? If not, can you help him see why not?</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="sim-examples.html#exm:dd-dice-marginal-sim">2.2</a></p>
+</div>
+<p>Donny is not correct. Yes, spinning the <span class="math inline">\(X\)</span> spinner in Figure <a href="sim-examples.html#fig:spinner-dice-sum-max-marginal">2.4</a> will generate values of <span class="math inline">\(X\)</span> according to the proper marginal distribution, and similarly for <span class="math inline">\(Y\)</span>. However, spinning each of the spinners will <em>not</em> produce <span class="math inline">\((X, Y)\)</span> pairs with the correct <em>joint</em> distribution. For example, Donny’s method could produce <span class="math inline">\(X=2\)</span> and <span class="math inline">\(Y=4\)</span>, which is not a possible <span class="math inline">\((X, Y)\)</span> pair. Donny’s method treats the values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> as if they were <em>independent</em>; the result of the <span class="math inline">\(X\)</span> spin would not change what could happen with the <span class="math inline">\(Y\)</span> spin (since the spins are physically independent). However, the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> values are related. For example, if <span class="math inline">\(X=2\)</span> then <span class="math inline">\(Y\)</span> must be 1; if <span class="math inline">\(X=4\)</span> then <span class="math inline">\(Y\)</span> must be 2 or 3. The joint distribution spinner in Figure <a href="technology-intro.html#fig:spinner-dice-sum-max">2.2</a> correctly reflects the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. But in general, you cannot recover the joint distribution from the marginal distributions, which is what Donny is attempting to do. Just because you know the row and column totals doesn’t mean you know all the values of the interior cells in the joint distribution table.</p>
+<p>Donny’s method corresponds to (1) rolling the die twice and summing to get <span class="math inline">\(X\)</span>, (2) rolling the die two more times and finding the larger roll to get <span class="math inline">\(Y\)</span>. Essentially, Donny is not using the same probability space for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, and therefore events involving both random variables cannot be studied. In Symbulate, Donny’s code — which would produce an error — would look like</p>
+<pre><code>
+X = RV(BoxModel([1, 2, 3, 4], size = 2), sum)
+Y = RV(BoxModel([1, 2, 3, 4], size = 2), max)
+
+(X &amp; Y).sim(10000)
+
+### Error: Events must be defined on same probability space.</code></pre>
+<p>In Donny’s code, his random variables are defined on different probability spaces; one box model is used to generate the rolls for <span class="math inline">\(X\)</span> and a separate box model is used to generate the rolls for <span class="math inline">\(Y\)</span>. As we have mentioned a few times, random variables (and events) must all be defined on the same probability space<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>.</p>
+
+<div class="example">
+<p><span id="exm:dd-dice-joint-sim" class="example"><strong>Example 2.3  (Don’t do what Donny Don’t does.)  </strong></span>
+Donny says “I see what you mean about needing the spinner in Figure <a href="technology-intro.html#fig:spinner-dice-sum-max">2.2</a> to simulate <span class="math inline">\((X, Y)\)</span> pairs. So then forget the spinners in Figure <a href="sim-examples.html#fig:spinner-dice-sum-max-marginal">2.4</a>. If I want to simulate <span class="math inline">\(X\)</span> values, I could just spin the spinner in Figure <a href="technology-intro.html#fig:spinner-dice-sum-max">2.2</a> and ignore the <span class="math inline">\(Y\)</span> values.” Is Donny’s method correct? If not, can you help him see why not?</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="sim-examples.html#exm:dd-dice-joint-sim">2.3</a></p>
+</div>
+<p>Donny is correct! The joint distribution spinner in Figure <a href="technology-intro.html#fig:spinner-dice-sum-max">2.2</a> correctly produces <span class="math inline">\((X, Y)\)</span> pairs according to the joint distribution in Table <a href="sim-examples.html#tab:dice-dist">2.1</a>. Ignoring the <span class="math inline">\(Y\)</span> values is like “summing across the rows” and only worrying about what happens in total for <span class="math inline">\(X\)</span>. For example, in the long run, 1/16 of spins will generate (4, 2) and 2/16 of spins will generate (4, 3), so ignoring the <span class="math inline">\(y\)</span> values, 3/16 of spins will return an <span class="math inline">\(x\)</span> value of 4. From the joint distribution you can always find the marginal distributions (by finding row and column totals). (Donny’s method does work, but it does require more work than necessary. If you really only needed to simulate <span class="math inline">\(X\)</span> values, you only need the distribution of <span class="math inline">\(X\)</span> and not the joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, so you could use the <span class="math inline">\(X\)</span> spinner in Figure <a href="sim-examples.html#fig:spinner-dice-sum-max-marginal">2.4</a>.)</p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>There are two ways to simulate a value of a random variable.
+<ul>
+<li>Simulate an outcome from the underlying probability space and evaluate the random variable for the simulated outcome.</li>
+<li>Find the distribution of the random variable, and simulate a value from that distribution (e.g., by constructing a spinner).</li>
+</ul></li>
+<li>To simulate an <span class="math inline">\((X, Y)\)</span> pair it is, in general<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>, <em>not</em> sufficient to simulate a value of <span class="math inline">\(X\)</span> from its marginal distribution and a value of <span class="math inline">\(Y\)</span> from its marginal distribution. Instead, a pair <span class="math inline">\((X, Y)\)</span> must be simulated from the joint distribution.</li>
+</ul>
+</div>
+<div id="sec-mscoin-sim" class="section level3" number="2.5.3">
+<h3><span class="header-section-number">2.5.3</span> Proportion of coin flips immediately following heads that result in heads</h3>
+<p>Recall the coin flipping problem in Section <a href="#sim"><strong>??</strong></a>. Flip a fair coin four times and record the results in order. For the recorded sequence, compute <em>the proportion of the flips which immediately follow a H that result in H</em>. What value do you expect for this proportion? (If there are no flips which immediately follow a H, i.e. the outcome is either TTTT or TTTH, discard the sequence and try again with four more flips.)</p>
+<p>For example, the sequence HHTT means the the first and second flips are heads and the third and fourth flips are tails. For this sequence there are two flips which immediately followed heads, the second and the third, of which one (the second) was heads. So the proportion in question for this sequence is 1/2.</p>
+<p>We saw in Example <a href="#exm:mscoin-rv"><strong>??</strong></a> that the quantity of interest, the proportion
+Proportion of H following H, is a <em>random variable</em>. We define the random variables</p>
+<ul>
+<li><span class="math inline">\(Z\)</span>, the number of flips immediately following H.</li>
+<li><span class="math inline">\(Y\)</span>, the number of flips immediately following H that result in H.</li>
+<li><span class="math inline">\(X=Y/Z\)</span>, the proportion of flips immediately following H that result in H.</li>
+</ul>
+<p>Table <a href="#tab:mscoin"><strong>??</strong></a> displays the 16 possible outcomes in the sample space along with the value of <span class="math inline">\(X, Y, Z\)</span> for each outcome. Note that <span class="math inline">\(X\)</span> takes values in <span class="math inline">\(\{0, 1/2, 2/3, 1\}\)</span>.</p>
+<p>Now let’s assume the 16 outcomes are equally likely. This corresponds to assuming (1) the coin is fair (that is, any flip is equally likely to land on H or T), and (2) the result of one flip has no bearing on the others (that is, the flips are <em>independent</em>). One technicality is that <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are not defined for the outcomes TTTH and TTTT and we assume that these outcomes are discarded. One way to model this scenario is with a probability measure <span class="math inline">\(\IP\)</span> that assigns probability 0 to the event <span class="math inline">\(\{TTTH, TTTT\}\)</span> and probability 1/14 to each of the remaining outcomes. Using Table <a href="#tab:mscoin"><strong>??</strong></a> we can summarize the behavior of <span class="math inline">\(X\)</span> according to the probability measure <span class="math inline">\(\IP\)</span>. Namely, we compute <span class="math inline">\(\IP(X=x)\)</span> for each possible value of <span class="math inline">\(x\)</span>. These values, reported in <a href="sim-examples.html#tab:mscoin-dist">2.2</a>, describe the distribution of the random variable <span class="math inline">\(X\)</span>, which is depicted in the spinner in Figure</p>
+<table>
+<caption><span id="tab:mscoin-dist">Table 2.2: </span> Distribution of <span class="math inline">\(X\)</span>, the proportion of flips immediately following H that result in H, for four flips of a fair coin.</caption>
+<thead>
+<tr class="header">
+<th align="right"><span class="math inline">\(x\)</span> |</th>
+<th align="right"><span class="math inline">\(\IP(X=x)\)</span> |</th>
+<th align="right">(Corresponding outcomes) |</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0 |</td>
+<td align="right">6/14 |</td>
+<td align="right"><span class="math inline">\(\{HTHT, HTTH, HTTT, THTT, THTH, TTHT\}\)</span> |</td>
+</tr>
+<tr class="even">
+<td align="right">1/2 |</td>
+<td align="right">4/14 |</td>
+<td align="right"><span class="math inline">\(\{HHTH, HTHH, HHTT, THHT\}\)</span> |</td>
+</tr>
+<tr class="odd">
+<td align="right">2/3 |</td>
+<td align="right">1/14 |</td>
+<td align="right"><span class="math inline">\(\{HHHT\}\)</span> |</td>
+</tr>
+<tr class="even">
+<td align="right">1 |</td>
+<td align="right">3/14 |</td>
+<td align="right"><span class="math inline">\(\{HHHH, THHH, TTHH\}\)</span> |</td>
+</tr>
+</tbody>
+</table>
+
+<div class="figure"><span id="fig:spinner-mscoin"></span>
+<img src="_graphics/spinner-mscoin.PNG" alt="Spinner corresponding to the distribution of the proportion of flips immediately following H that result in H, for four flips of a fair coin." width="200" />
+<p class="caption">
+Figure 2.5: Spinner corresponding to the distribution of the proportion of flips immediately following H that result in H, for four flips of a fair coin.
+</p>
+</div>
+<p>We now use Symbulate to conduct a simulation. We first define the probability space of 16 equally likely outcomes, but when we run the simulation we’ll discard TTTH and TTTT, keeping only those repetitions which result in one of the other 14 outcomes.</p>
+<p>We define the probability space of 16 equally likely outcomes via a box model: <code>P = BoxModel([0, 1], size = 4)</code>. When dealing with sequences of binary outcomes it is useful to define the outcome of interest as 1 and the other outcome as 0. In coin flips, we can define H as 1 and T as 0. For example, HHTT would be (1,1,0,0). With this formulation we can count the number of heads in a sequence by summing the 0/1 values in the sequence. If we sum the elements in the outcome sequence, we add 1 every time we see a H and 0 every time we see a T, resulting in the total number of H. For example (1, 1, 0, 0) leads to 1+1+0+0=2 H.</p>
+<p>We will define the random variables <span class="math inline">\(X, Y, Z\)</span> in Symbulate. Remember that a random variable is a function defined on the probability space. In Section <a href="symbulate-intro.html#symbulate-intro">2.2</a>, simple built-in functions like <code>sum</code> and <code>max</code> were used to define <code>RV</code>s. For example, the random variable which counts the total number of H in the sequence of flips (using the 0/1 formulation) would be <code>RV(P, sum)</code>. However, it is also possible to program custom functions to use in defining Symbulate random variables, e.g., <code>X=RV(P, custom_function)</code>. You just need to make sure that the custom function takes as an input an object corresponding to the output of the probability space <code>P</code>.</p>
+<p>The custom function <code>count_flips_following_H</code>, defined using Python code below, takes as an input a sequence of coin flips and returns the number of flips in the sequence which immediately followed H; this will be used to define <span class="math inline">\(Z\)</span>. Similarly, the custom function <code>count_H_following_H</code> counts the number of flips immediately following H that result in H; this will be used to define <span class="math inline">\(Y\)</span>. For now, you don’t need to worry too much about the Python code. Just know that the functions do what they’re supposed to do. (And note that with the 0/1 formulation, we are counting H using <code>sum</code>.)</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb68-1"><a href="sim-examples.html#cb68-1"></a></span>
+<span id="cb68-2"><a href="sim-examples.html#cb68-2"></a><span class="kw">def</span> count_flips_following_H(omega):</span>
+<span id="cb68-3"><a href="sim-examples.html#cb68-3"></a>    <span class="cf">return</span> <span class="bu">sum</span>(omega[<span class="dv">0</span>:(<span class="bu">len</span>(omega) <span class="op">-</span> <span class="dv">1</span>)])</span>
+<span id="cb68-4"><a href="sim-examples.html#cb68-4"></a>  </span>
+<span id="cb68-5"><a href="sim-examples.html#cb68-5"></a><span class="kw">def</span> count_H_following_H(omega):</span>
+<span id="cb68-6"><a href="sim-examples.html#cb68-6"></a>    <span class="cf">return</span> <span class="bu">sum</span>(a <span class="op">*</span> b <span class="cf">for</span> a, b <span class="kw">in</span> <span class="bu">zip</span>(omega[<span class="dv">1</span>:<span class="bu">len</span>(omega)], omega[<span class="dv">0</span>:<span class="bu">len</span>(omega) <span class="op">-</span> <span class="dv">1</span>]))</span>
+<span id="cb68-7"><a href="sim-examples.html#cb68-7"></a></span>
+<span id="cb68-8"><a href="sim-examples.html#cb68-8"></a><span class="co"># An example outcome</span></span>
+<span id="cb68-9"><a href="sim-examples.html#cb68-9"></a>outcome <span class="op">=</span> (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb68-10"><a href="sim-examples.html#cb68-10"></a><span class="bu">print</span>(count_flips_following_H(outcome), count_H_following_H(outcome))</span></code></pre></div>
+<pre><code>## 2 1</code></pre>
+<p>Now we have everything we need to set up the probability space and random variables in Symbulate. Remember that <em>transformations of random variables defined on the sample probability space are random variables</em>. The same is true in Symbulate. Once we have defined Symbulate <code>RV</code>s <code>Z</code> and <code>Y</code>, we can define <code>X = Y / Z</code>, which will also be a Symbulate <code>RV</code>.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href="sim-examples.html#cb70-1"></a></span>
+<span id="cb70-2"><a href="sim-examples.html#cb70-2"></a>P <span class="op">=</span> BoxModel([<span class="dv">1</span>, <span class="dv">0</span>], size <span class="op">=</span> <span class="dv">4</span>)</span>
+<span id="cb70-3"><a href="sim-examples.html#cb70-3"></a></span>
+<span id="cb70-4"><a href="sim-examples.html#cb70-4"></a>Z <span class="op">=</span> RV(P, count_flips_following_H)</span>
+<span id="cb70-5"><a href="sim-examples.html#cb70-5"></a>Y <span class="op">=</span> RV(P, count_H_following_H)</span>
+<span id="cb70-6"><a href="sim-examples.html#cb70-6"></a>X <span class="op">=</span> Y <span class="op">/</span> Z</span>
+<span id="cb70-7"><a href="sim-examples.html#cb70-7"></a></span>
+<span id="cb70-8"><a href="sim-examples.html#cb70-8"></a><span class="co"># An example outcome</span></span>
+<span id="cb70-9"><a href="sim-examples.html#cb70-9"></a>outcome <span class="op">=</span> (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb70-10"><a href="sim-examples.html#cb70-10"></a><span class="bu">print</span>(Z(outcome), Y(outcome), X(outcome))</span></code></pre></div>
+<pre><code>## Warning: Calling an RV as a function simply applies the function that defines the RV to the input, regardless of whether that input is a possible outcome in the underlying probability space.
+## Warning: Calling an RV as a function simply applies the function that defines the RV to the input, regardless of whether that input is a possible outcome in the underlying probability space.
+## Warning: Calling an RV as a function simply applies the function that defines the RV to the input, regardless of whether that input is a possible outcome in the underlying probability space.
+## 2 1 0.5</code></pre>
+<p>Now we run the simulation. Recall that the probability space corresponds to the 16 equally likely outcomes, but we want to discard TTTH and TTTT, the outcomes for which <span class="math inline">\(Z=0\)</span>. We do this by <em>conditioning</em> on the event <span class="math inline">\(\{Z&gt;0\}\)</span> (coded in Symbulate as <code>(Z&gt;0)</code>). We will cover conditioning in much more detail starting in Chapter <a href="#cond"><strong>??</strong></a>. For now, just read the code <code>(X | (Z &gt; 0) )</code> as “keep values of <code>X</code> only for simulated repetitions for which <span class="math inline">\(Z&gt;0\)</span> (and discard the rest)”. In the presence of conditioning, <code>sim</code> doesn’t count the values it discards, so the simulation below will continue to run until 14000 repetitions that satisfy <code>(Z&gt;0)</code> are obtained.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb72-1"><a href="sim-examples.html#cb72-1"></a></span>
+<span id="cb72-2"><a href="sim-examples.html#cb72-2"></a>x <span class="op">=</span> (X <span class="op">|</span> (Z <span class="op">&gt;</span> <span class="dv">0</span>) ).sim(<span class="dv">14000</span>)</span>
+<span id="cb72-3"><a href="sim-examples.html#cb72-3"></a>plt.figure()</span>
+<span id="cb72-4"><a href="sim-examples.html#cb72-4"></a>x.plot()</span>
+<span id="cb72-5"><a href="sim-examples.html#cb72-5"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb73-1"><a href="sim-examples.html#cb73-1"></a>x.tabulate()</span></code></pre></div>
+<pre><code>## {0.0: 5953, 1.0: 3024, 0.5: 3992, 0.6666666666666666: 1031}</code></pre>
+<p>We see that the results of the simulation are consistent with the theoretical values in Table <a href="sim-examples.html#tab:mscoin-dist">2.2</a>. That is, the simulated (long run) relative frequencies are close to the theoretical probabilities.</p>
+<p>As discussed in Section <a href="#sim"><strong>??</strong></a>, one quantity of interest is the long run average of <span class="math inline">\(X\)</span>, which we can approximate by computing the mean (average) of the 14000 simulated values.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb75-1"><a href="sim-examples.html#cb75-1"></a></span>
+<span id="cb75-2"><a href="sim-examples.html#cb75-2"></a><span class="bu">print</span>(x.mean())</span></code></pre></div>
+<pre><code>## 0.4076666666666666</code></pre>
+<p>We see the average of simulated values of <span class="math inline">\(X\)</span> is close to 0.4. That is, 0.4 (roughly) is the <em>average value of the proportion of H following H that we would expect to see in the long run over many sets of four fair coin flips</em>. This is decidely less than 1/2; we think most people would find this surprising. The distribution of <span class="math inline">\(X\)</span> is not centered at 0; it is more likely for <span class="math inline">\(X\)</span> to be 0 than to be either 2/3 or 1. This imbalance pulls the long run average down below 0.5. We will return to this idea later.</p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>The <em>proportion of flips that immediately follow H that result in H</em> is a <em>random variable</em>, and not a single number. This random variable has a distribution that is not centered at 1/2; the proportion of interest is more likely to be below 1/2 than above 1/2.</li>
+<li>A random variable is a function defined on a problem space. In Symbulate, custom functions can be used to define <code>RV</code>s.</li>
+<li>Both mathematically and in Symbulate, transformations of random variables defined on the same probability space are random variables.</li>
+<li>When dealing with sequences of binary outcomes it is useful to define the outcome of interest as 1 and the other outcome as 0. With this formulation, counting the 1s is equivalent to summing.</li>
+<li>We saw a brief introduction to how conditioning on event, with the vertical bar <code>|</code>, can be used to keep only those simulated repetitions that satisfy some criteria.</li>
+</ul>
+</div>
+<div id="sec-linear-rescaling" class="section level3" number="2.5.4">
+<h3><span class="header-section-number">2.5.4</span> Outcomes on a continuous scale</h3>
+<p>Uniform distributions are the continuous analog of equally likely outcomes. The standard uniform distribution is the Uniform(0, 1) distribution corresponding to the spinner in Figure <a href="#fig:uniform-spinner"><strong>??</strong></a> which returns values between<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a> 0 and 1. Recall that the values in the picture are rounded to two decimal places, but the spinner represents an idealized model where the spinner is infinitely precise so that any real number between 0 and 1 is a possible value. We assume that the (infinitely fine) needle is “equally likely” to land on any value between 0 and 1.</p>
+<p>The following Symbulate code defines a probability space representing the Uniform(0, 1) model, and a random variable equal to the result of a single spin: <span class="math inline">\(U(\omega)=\omega\)</span>. Recall that the default function used to define a Symbulate <code>RV</code> is the identity. The plot displays 100 simulated values. Note that the values seem to be “evenly spread” between 0 and 1.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb77-1"><a href="sim-examples.html#cb77-1"></a></span>
+<span id="cb77-2"><a href="sim-examples.html#cb77-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb77-3"><a href="sim-examples.html#cb77-3"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb77-4"><a href="sim-examples.html#cb77-4"></a></span>
+<span id="cb77-5"><a href="sim-examples.html#cb77-5"></a>plt.figure() </span>
+<span id="cb77-6"><a href="sim-examples.html#cb77-6"></a>U.sim(<span class="dv">100</span>).plot(<span class="st">&#39;rug&#39;</span>)</span>
+<span id="cb77-7"><a href="sim-examples.html#cb77-7"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>The usual plot, and the Symbulate default, for summarizing values on a continuous scale is a histogram. A <strong>histogram</strong> groups the observed values into “bins” and plots relative frequencies for each bin<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>. Typically, in a histogram <em>areas</em> of bars represent relative frequencies; in which case the axis which represents the length of the bars is called “density”. It is recommended that the bins all have the same width so that area and length of the bars are equivalent, with the only difference being the scale on the axis (that is, with equal bin widths, density is a linear rescaling of height and bars with the same height represent the same area/relative frequency.)</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb78-1"><a href="sim-examples.html#cb78-1"></a></span>
+<span id="cb78-2"><a href="sim-examples.html#cb78-2"></a>plt.figure()</span>
+<span id="cb78-3"><a href="sim-examples.html#cb78-3"></a>U.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb78-4"><a href="sim-examples.html#cb78-4"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>The standard uniform distribution, Uniform(0, 1), is a distribution on the interval <span class="math inline">\([0, 1]\)</span>. The uniform distribution on the interval <span class="math inline">\([a, b]\)</span>, for <span class="math inline">\(a&lt;b\)</span>, is called the Uniform(<span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>) distribution. Uniform distributions on other intervals can be obtained from the Uniform(0, 1) distribution via a <em>linear rescaling</em>.</p>
+<ul>
+<li>A <strong>linear rescaling</strong> is a transformation of the form <span class="math inline">\(g(u) = a +bu\)</span>. For example, converting temperature from Celsius to Fahrenheit using <span class="math inline">\(g(u) = 32 + 1.8u\)</span> is a linear rescaling.</li>
+<li>A linear rescaling “preserves relative interval length” in the following sense.
+<ul>
+<li>If interval A and interval B have the same length in the original measurement units, then the rescaled intervals A and B will have the same length in the rescaled units. For example, [0, 10] and [10, 20] Celsius, both length 10 degrees Celsius, correspond to [32, 50] and [50, 68] Fahrenheit, both length 18 degrees Fahrenheit.</li>
+<li>If the ratio of the lengths of interval A and B is <span class="math inline">\(r\)</span> in the original measurement units, then the ratio of the lengths in the rescaled units is also <span class="math inline">\(r\)</span>. For example, [10, 30] is twice as long as [0, 10] in Celsius; for the corresponding Fahrenheit intervals, [50, 86] is twice as long as [32, 50].</li>
+</ul></li>
+</ul>
+<p>Suppose <span class="math inline">\(U\)</span> has a Uniform(0, 1) distribution. Then for any <span class="math inline">\(a&lt;b\)</span>, the linear rescaling <span class="math inline">\(X = a + (b-a)U\)</span> has a Uniform(<span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>) distribution. (This rescaling maps 0 to <span class="math inline">\(a\)</span> and 1 to <span class="math inline">\(b\)</span>, which corresponds to a line with y-intercept <span class="math inline">\(a\)</span> and slope <span class="math inline">\((b-a)/(1-0)\)</span>.)</p>
+<p>For example, suppose that SAT Math scores have a uniform distribution on the interval <span class="math inline">\([200, 800]\)</span>. (This is certainly NOT true, and we will consider a more realistic distribution in Section <a href="sim-examples.html#sec-example-sat-both">2.5.8</a>.) If <span class="math inline">\(X\)</span> denotes Math score, then we can simulate values of <span class="math inline">\(X\)</span> by spinning the Uniform(0, 1) spinner to obtain <span class="math inline">\(U\)</span> and set <span class="math inline">\(X = 200 + 600 U\)</span>.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb79-1"><a href="sim-examples.html#cb79-1"></a></span>
+<span id="cb79-2"><a href="sim-examples.html#cb79-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb79-3"><a href="sim-examples.html#cb79-3"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb79-4"><a href="sim-examples.html#cb79-4"></a>X <span class="op">=</span> <span class="dv">200</span> <span class="op">+</span> <span class="dv">600</span> <span class="op">*</span> U</span>
+<span id="cb79-5"><a href="sim-examples.html#cb79-5"></a></span>
+<span id="cb79-6"><a href="sim-examples.html#cb79-6"></a>plt.figure()</span>
+<span id="cb79-7"><a href="sim-examples.html#cb79-7"></a>X.sim(<span class="dv">100</span>).plot(<span class="st">&#39;rug&#39;</span>)</span>
+<span id="cb79-8"><a href="sim-examples.html#cb79-8"></a></span>
+<span id="cb79-9"><a href="sim-examples.html#cb79-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb80-1"><a href="sim-examples.html#cb80-1"></a></span>
+<span id="cb80-2"><a href="sim-examples.html#cb80-2"></a>plt.figure()</span>
+<span id="cb80-3"><a href="sim-examples.html#cb80-3"></a>x<span class="op">=</span> X.sim(<span class="dv">10000</span>)</span>
+<span id="cb80-4"><a href="sim-examples.html#cb80-4"></a>x.plot()</span>
+<span id="cb80-5"><a href="sim-examples.html#cb80-5"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb81-1"><a href="sim-examples.html#cb81-1"></a><span class="bu">print</span>(x.count_lt(<span class="dv">300</span>) <span class="op">/</span> <span class="dv">10000</span>, x.count_lt(<span class="dv">400</span>) <span class="op">/</span> <span class="dv">10000</span>, x.count_lt(<span class="dv">500</span>) <span class="op">/</span> <span class="dv">10000</span>)</span></code></pre></div>
+<pre><code>## 0.173 0.3374 0.5023</code></pre>
+<p>The plots show that the values are roughly uniformly distributed between 200 and 800: about 17% of values are between 200 and 300, about 17% between 300 and 400, about 17% between 400 and 500. Recall from Section <a href="#sec-uniform-prob"><strong>??</strong></a> that for a continuous uniform distribution, probability is a ratio of lengths. Each of these intervals is length 100, and the total length of the interval of possible values is 600, so the theoretical probability for each interval is <span class="math inline">\(100/600\approx 0.167\)</span>.</p>
+<p>Note that the shape of the histogram for the SAT scores is similar to that of the Uniform(0, 1) values. the only difference is the labeling on the horizontal axis. Because a linear rescaling preserves relative interval length, it will not change the shape of the histogram. That is, a linear rescaling does not change the shape of the distribution, only the range of possible values.</p>
+<p>For example, on the original [0, 1] scale, the intervals (0.1, 0.2) and (0.5, 0.6) both are of length 0.1 and so they each have probability 0.1/1. On the [200, 800] scale, these intervals correspond, respectively, to (260, 320) and (500, 560), each an interval of length 60 with probability <span class="math inline">\(60/600=0.1\)</span>. Roughly, all the values in the (0.1, 0.2) bin in the original scale map to the (260, 320) bin in the new scale, similarly for (0.5, 0.6) to (500, 560). Therefore, the shape of the histogram is preserved.</p>
+
+<div class="example">
+<p><span id="exm:uniform-linear" class="example"><strong>Example 2.4  </strong></span>
+Let <span class="math inline">\(\IP\)</span> be the probabilty space corresponding to the Uniform(0, 1) spinner and let <span class="math inline">\(U\)</span> represent the result of a single spin. Define <span class="math inline">\(V=1-U\)</span>.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Does <span class="math inline">\(V\)</span> result from a linear rescaling of <span class="math inline">\(U\)</span>?</li>
+<li>What are the possible values of <span class="math inline">\(V\)</span>?</li>
+<li>Is <span class="math inline">\(V\)</span> the same random variable as <span class="math inline">\(U\)</span>?</li>
+<li>Find <span class="math inline">\(\IP(U \le 0.1)\)</span> and <span class="math inline">\(\IP(V \le 0.1)\)</span>.</li>
+<li>Sketch a plot of what the histogram of many simulated values of <span class="math inline">\(V\)</span> would look like.</li>
+<li>Does <span class="math inline">\(V\)</span> have the same distribution as <span class="math inline">\(U\)</span>?</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="sim-examples.html#exm:uniform-linear">2.4</a>
+</div>
+<ol style="list-style-type: decimal">
+<li>Yes, <span class="math inline">\(V\)</span> result from the linear rescaling <span class="math inline">\(u\mapsto 1-u\)</span> (intercept of 1 and slope of <span class="math inline">\(-1\)</span>.)</li>
+<li><span class="math inline">\(V\)</span> takes values in the interval [0,1]. (Basically, this transformation just changes the direction of the spinner from clockwise to counterclockwise. The axis on the usual spinner has values <span class="math inline">\(u\)</span> increasing clockwise from 0 to 1. Applying the transformation <span class="math inline">\(1-u\)</span>, the values would decrease clockwise from 1 to 0.)</li>
+<li>No. <span class="math inline">\(V\)</span> and <span class="math inline">\(U\)</span> are different random variables. If the spin lands on <span class="math inline">\(\omega=0.1\)</span>, then <span class="math inline">\(U(\omega)=0.1\)</span> but <span class="math inline">\(V(\omega)=0.9\)</span>. <span class="math inline">\(V\)</span> and <span class="math inline">\(U\)</span> return different values for the same outcome; they are measuring different things.</li>
+<li><span class="math inline">\(\IP(U \le 0.1) = 0.1\)</span> and <span class="math inline">\(\IP(V \le 0.1)=\IP(1-U \le 0.1) = \IP(U\ge 0.9) = 0.1\)</span>. Note, however, that these are different events: <span class="math inline">\(\{U \le 0.1\}=\{0 \le \omega \le 0.1\}\)</span> while <span class="math inline">\(\{V \le 0.1\}=\{0.9 \le \omega \le 1\}\)</span>. But each is an interval of length 0.1 so they have the same probability according to the uniform probability measure.</li>
+<li>Since <span class="math inline">\(V\)</span> is a linear rescaling of <span class="math inline">\(U\)</span>, the shape of the histogram of simulated values of <span class="math inline">\(V\)</span> should be the same as that for <span class="math inline">\(U\)</span>. Also, the possible values of <span class="math inline">\(V\)</span> are the same as those for <span class="math inline">\(U\)</span>. So the histograms should look identical (aside from natural simulation variability).</li>
+<li>Yes, <span class="math inline">\(V\)</span> has the same distribution as <span class="math inline">\(U\)</span>. While for any single outcome (spin), the values of <span class="math inline">\(V\)</span> and <span class="math inline">\(U\)</span> will be different, over many repetitions (spins) the pattern of variation of the <span class="math inline">\(V\)</span> values, as depicted in a histogram, will be identical to that of <span class="math inline">\(U\)</span>.</li>
+</ol>
+<div class="sourceCode" id="cb83"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="sim-examples.html#cb83-1"></a></span>
+<span id="cb83-2"><a href="sim-examples.html#cb83-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb83-3"><a href="sim-examples.html#cb83-3"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb83-4"><a href="sim-examples.html#cb83-4"></a></span>
+<span id="cb83-5"><a href="sim-examples.html#cb83-5"></a>V <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> U</span>
+<span id="cb83-6"><a href="sim-examples.html#cb83-6"></a></span>
+<span id="cb83-7"><a href="sim-examples.html#cb83-7"></a>plt.figure()</span>
+<span id="cb83-8"><a href="sim-examples.html#cb83-8"></a>V.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb83-9"><a href="sim-examples.html#cb83-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>A histogram can be used to summarize the distribution of a random variable that takes values on a continuous scale.</li>
+<li>When plotting values on a continuous scale in a histogram, relative frequencies are represented by areas.</li>
+<li>A linear rescaling of a random variable does not change the basic shape of its distribution, just the range of possible values.</li>
+<li>Do NOT confuse a random variable with its distribution.
+<ul>
+<li>The RV is the numerical quantity being measured</li>
+<li>The distribution is the long run pattern of variation of many observed values of the RV</li>
+</ul></li>
+<li>Two random variables can have the same (long run) distribution, even if the values of the two random variables are never equal on any particular repetition (outcome).</li>
+</ul>
+</div>
+<div id="sec-log-uniform" class="section level3" number="2.5.5">
+<h3><span class="header-section-number">2.5.5</span> A logarithmic transformation</h3>
+<p>The preceding section illustrated that a linear rescaling does not change the shape of a distribution, only the range of possible values. But what about a non-linear rescaling, like a logarithmic or square root transformation? In contrast to a linear rescaling, a non-linear rescaling does <em>not</em> preserve relative interval length, so we might expect that a non-linear rescaling can change the shape of a distribution. We’ll investigate by considering the Uniform(0, 1) spinner and a logarithmic<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> transformation.</p>
+<p>Let <span class="math inline">\(\IP\)</span> be the probabilty space corresponding to the Uniform(0, 1) spinner and let <span class="math inline">\(U\)</span> represent the result of a single spin. Attempting the transformation <span class="math inline">\(\log(U)\)</span> leads to two minor technicalities.</p>
+<ul>
+<li>Since <span class="math inline">\(U\in[0, 1]\)</span>, <span class="math inline">\(\log(U)&lt;0\)</span>. To obtain positive values we consider <span class="math inline">\(-\log(U)\)</span>, which takes values in <span class="math inline">\([0,\infty)\)</span>.</li>
+<li>Technically, applying <span class="math inline">\(-\log(u)\)</span> to the values on the axis of the Uniform(0, 1) spinner, the resulting values would decrease from <span class="math inline">\(\infty\)</span> to 0 clockwise. To make the values start at 0 and increase to <span class="math inline">\(\infty\)</span> clockwise, we consider <span class="math inline">\(-\log(1-U)\)</span>. (We saw in the previous section the transformation <span class="math inline">\(u \to 1-u\)</span> basically just changes direction from clockwise to counterclockwise.)</li>
+</ul>
+<p>Therefore, it’s a little more convenient to consider the random variable <span class="math inline">\(X=-\log(1-U)\)</span> which takes values in <span class="math inline">\([0,\infty)\)</span>. Remember: a transformation of a random variable is a random variable. Also, always be sure to identify the possible values that a random variable can take.</p>
+<p>The following code defines <span class="math inline">\(X\)</span> and plots a few simulated values. Notice that values near 0 occur with higher frequency than larger values. For example, there are many more simulated values of <span class="math inline">\(X\)</span> that lie in the interval <span class="math inline">\([0, 1]\)</span> than in the interval <span class="math inline">\([3, 4]\)</span>, even though these intervals both have length 1.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb84-1"><a href="sim-examples.html#cb84-1"></a></span>
+<span id="cb84-2"><a href="sim-examples.html#cb84-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb84-3"><a href="sim-examples.html#cb84-3"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb84-4"><a href="sim-examples.html#cb84-4"></a></span>
+<span id="cb84-5"><a href="sim-examples.html#cb84-5"></a>X <span class="op">=</span> <span class="op">-</span>log(<span class="dv">1</span> <span class="op">-</span> U)</span>
+<span id="cb84-6"><a href="sim-examples.html#cb84-6"></a></span>
+<span id="cb84-7"><a href="sim-examples.html#cb84-7"></a>x <span class="op">=</span> X.sim(<span class="dv">100</span>)</span>
+<span id="cb84-8"><a href="sim-examples.html#cb84-8"></a></span>
+<span id="cb84-9"><a href="sim-examples.html#cb84-9"></a>plt.figure() </span>
+<span id="cb84-10"><a href="sim-examples.html#cb84-10"></a>x.plot(<span class="st">&#39;rug&#39;</span>)</span>
+<span id="cb84-11"><a href="sim-examples.html#cb84-11"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p>Now we simulate many values of <span class="math inline">\(X\)</span> and summarize the results in a histogram.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb85-1"><a href="sim-examples.html#cb85-1"></a></span>
+<span id="cb85-2"><a href="sim-examples.html#cb85-2"></a>x <span class="op">=</span> X.sim(<span class="dv">10000</span>)</span>
+<span id="cb85-3"><a href="sim-examples.html#cb85-3"></a></span>
+<span id="cb85-4"><a href="sim-examples.html#cb85-4"></a>plt.figure() </span>
+<span id="cb85-5"><a href="sim-examples.html#cb85-5"></a>x.plot()</span>
+<span id="cb85-6"><a href="sim-examples.html#cb85-6"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<p>It should be clear that the simulated values of <span class="math inline">\(X\)</span> do not follow a uniform distribution. Values near 0 occur with greater frequency than larger values. The non-linear log transformation changed the shape of the distribution.</p>
+<p>To get some intuition behind why the shape changes, consider the following illustration. Consider intervals in increments of 0.1, starting from 0, on the original [0, 1] scale. These intervals each have length 0.1 and so each have probability 0.1 according to the uniform probability measure. Now consider the corresponding transformed intervals.</p>
+<ul>
+<li>[0, 0.1] maps to<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a> [0, 0.105], an interval of length 0.105.</li>
+<li>[0.1, 0.2] maps to [0.105, 0.223], an interval of length 0.118.</li>
+<li>[0.2, 0.3] maps to [0.223, 0.357], an interval of length 0.134.</li>
+<li>[0.3, 0.4] maps to [0.357, 0.511], an interval of length 0.154.</li>
+<li>[0.4, 0.5] maps to [0.511, 0.693], an interval of length 0.182, and so on.</li>
+</ul>
+<p>We see that the logarithmic transformation does not preserve relative interval length, rather it “stretches out” the intervals. However, each of the above intervals has a probability of 0.1. As the transformation stretches the intervals, the 0.1 probability gets “spread” over different lengths of values. Since probability/relative frequency is represented by area in the histogram, if two regions of differing length have the same area, then they must have different heights.</p>
+<p>Here’s a similar illustration, but from the reverse perspective. In the transformed scale, consider the intervals [0,1], [1, 2], [2, 3]. Each of these intervals has length 1, but they correspond to intervals of differing length in the original scale, and hence intervals of different probability.</p>
+<ul>
+<li>[0, 1] corresponds to<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> [0, 0.632], and interval with probability 0.632.</li>
+<li>[1, 2] corresponds to [0.632, 0.865], and interval with probability 0.233.</li>
+<li>[2, 3] corresponds to [0.865, 0.950], and interval with probability 0.086.</li>
+</ul>
+<p>Notice that the shape of the histogram depicting the simulated values of <span class="math inline">\(X\)</span> appears that it can be approximated by a smooth curve. This smooth curve is an idealized model of what would happen in the long run if</p>
+<ul>
+<li>we kept simulating more and more values, and</li>
+<li>made the histogram bin widths smaller and smaller.</li>
+</ul>
+<p>The following plot illustrates the results of 100,000 simulated values of <span class="math inline">\(X\)</span> summarized in a histogram with 1000 bins. The command <code>Exponential(1).plot()</code> overlays the smooth solid curve modeling the theoretical shape of the distribution of <span class="math inline">\(X\)</span> (called the “Exponential(1)” distribution).</p>
+
+<div class="sourceCode" id="cb86"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a href="sim-examples.html#cb86-1"></a></span>
+<span id="cb86-2"><a href="sim-examples.html#cb86-2"></a>plt.figure()</span>
+<span id="cb86-3"><a href="sim-examples.html#cb86-3"></a>X.sim(<span class="dv">100000</span>).plot(bins<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb86-4"><a href="sim-examples.html#cb86-4"></a>Exponential(<span class="dv">1</span>).plot() <span class="co"># overlays the smooth curve</span></span>
+<span id="cb86-5"><a href="sim-examples.html#cb86-5"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/log-uniform-density-1.png" width="672" /></p>
+<p>What about a spinner which generates values according to the distribution in Figure <a href="#fig:log-uniform-density"><strong>??</strong></a>? The “simulate from the probability space” method for simulating of <span class="math inline">\(X\)</span> values entailed</p>
+<ul>
+<li>Spinning the Uniform(0, 1) spinner to get a value <span class="math inline">\(U\)</span></li>
+<li>Setting <span class="math inline">\(X=-\log(1-U)\)</span></li>
+</ul>
+<p>These two steps can be combined by relabeling the values on the axis of the spinner according to the transformation <span class="math inline">\(u\mapsto -\log(1-u)\)</span>. For example, replace 0.1 by <span class="math inline">\(-\log(1-0.1)\approx 0.105\)</span>; replace 0.9 by <span class="math inline">\(-\log(1-0.9)\approx 2.30\)</span>. This transformation results in the spinner in Figure <a href="sim-examples.html#fig:exponential-spinner">2.6</a>.</p>
+
+<div class="figure"><span id="fig:exponential-spinner"></span>
+<img src="_graphics/exponential-spinner.PNG" alt="A spinner representing the distribution in Figure ?? (the “Exponential(1)” distribution.). The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities." width="50%" /><img src="_graphics/exponential-spinner-sectors.PNG" alt="A spinner representing the distribution in Figure ?? (the “Exponential(1)” distribution.). The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities." width="50%" />
+<p class="caption">
+Figure 2.6: A spinner representing the distribution in Figure <a href="#fig:log-uniform-density"><strong>??</strong></a> (the “Exponential(1)” distribution.). The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities.
+</p>
+</div>
+<p>Pay special attention to the values on the axis; they do not increase in equal increments. (As with the Uniform(0, 1) spinner, while only certain values are marked on the axis, we consider an idealized model in which any value in the continuous interval <span class="math inline">\([0, \infty)\)</span> is a possible result of the spin.) The spinner on the right in Figure <a href="sim-examples.html#fig:exponential-spinner">2.6</a> is the same as the one on the left, with the intervals [0, 1], [1, 2], and [2, 3] highlighted with their respective probabilities. Putting a needle on this spinner that is “equally likely” to land anywhere on the axis, the needle will land in the interval [0, 1] with probability 0.632, in the interval [1, 2] with probability 0.233, etc. Therefore, values generated using this spinner, which represents the “Exponential(1)” distribution, will follow the pattern in Figure <a href="#fig:log-uniform-density"><strong>??</strong></a>. Figure <a href="#fig:exponential-simulation"><strong>??</strong></a> illustrations this “simulate from a distribution” method; values of <span class="math inline">\(X\)</span> are generated directly from an Exponential(1) distribution, rather than first generating <span class="math inline">\(U\)</span> and then transforming.</p>
+
+<div class="sourceCode" id="cb87"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb87-1"><a href="sim-examples.html#cb87-1"></a></span>
+<span id="cb87-2"><a href="sim-examples.html#cb87-2"></a>X <span class="op">=</span> RV(Exponential(<span class="dv">1</span>)) </span>
+<span id="cb87-3"><a href="sim-examples.html#cb87-3"></a></span>
+<span id="cb87-4"><a href="sim-examples.html#cb87-4"></a>plt.figure()</span>
+<span id="cb87-5"><a href="sim-examples.html#cb87-5"></a>X.sim(<span class="dv">100000</span>).plot(bins<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb87-6"><a href="sim-examples.html#cb87-6"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/exponential-simulation-1.png" width="672" /></p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>Remember: a transformation of a random variable, both mathematically and in Symbulate.</li>
+<li>Be sure to always specify the possible values a random variable can take.</li>
+<li>A nonlinear transformation of a random variable changes the shape of its distribution.</li>
+<li>The shape of the histogram of simulated continuous values can be approximated by a smooth curve.</li>
+<li>Spinners can be used to generate values from non-uniform distributions by applying non-linear transformations to values on the spinner axis.</li>
+</ul>
+</div>
+<div id="uniform-sum-max" class="section level3" number="2.5.6">
+<h3><span class="header-section-number">2.5.6</span> Continuous analog of rolling two dice</h3>
+<p>In Section <a href="technology-intro.html#technology-intro">2.3</a> we studied the joint distribution of the sum and max of two fair-four sided dice rolls. Now we consider a continuous analog. Let <span class="math inline">\(\IP\)</span> be the probability space corresponding to two spins of the Uniform(0, 1) spinner, and let <span class="math inline">\(X\)</span> be the sum of the two spins, and <span class="math inline">\(Y\)</span> the larger spin (or the common value if a tie). We saw that in Section <a href="technology-intro.html#technology-intro">2.3</a>, we could model a two rolls of a fair-four sided die using <code>DiscreteUniform(1, 4) ** 2</code>. Similarly, we can model two spins of the Uniform(0, 1) spinner with <code>Uniform(0, 1) ** 2</code>.</p>
+<p>We start by looking at the joint distribution of the two spins, <span class="math inline">\((U_1, U_2)\)</span>, which take values in <span class="math inline">\([0, 1]\times[0, 1]\)</span>.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb88-1"><a href="sim-examples.html#cb88-1"></a></span>
+<span id="cb88-2"><a href="sim-examples.html#cb88-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb88-3"><a href="sim-examples.html#cb88-3"></a>U1, U2 <span class="op">=</span> RV(P)</span>
+<span id="cb88-4"><a href="sim-examples.html#cb88-4"></a></span>
+<span id="cb88-5"><a href="sim-examples.html#cb88-5"></a>plt.figure()</span>
+<span id="cb88-6"><a href="sim-examples.html#cb88-6"></a>u1u2 <span class="op">=</span> (U1 <span class="op">&amp;</span> U2).sim(<span class="dv">100</span>).plot()</span>
+<span id="cb88-7"><a href="sim-examples.html#cb88-7"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb89-1"><a href="sim-examples.html#cb89-1"></a><span class="bu">print</span>(u1u2)</span></code></pre></div>
+<pre><code>## None</code></pre>
+<p>We see that the <span class="math inline">\((U_1, U_2)\)</span> pairs are roughly “evenly spread” throughout <span class="math inline">\([0, 1]\times [0, 1]\)</span>. The scatterplot displays each individual pair. We can summarize the distribution of many pairs with a two-dimensional histogram. To construct the histogram, the space of values <span class="math inline">\([0, 1]\times[0, 1]\)</span> is chopped into rectangular bins and the relative frequency of pairs which fall within each bin is computed. While for a one-dimensional histogram area represents relative frequency, volume represents relative frequency in a two-dimensional histogram, with the height of each rectangular bin on a “density” scale represented by its color intensity.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb91-1"><a href="sim-examples.html#cb91-1"></a></span>
+<span id="cb91-2"><a href="sim-examples.html#cb91-2"></a>plt.figure()</span>
+<span id="cb91-3"><a href="sim-examples.html#cb91-3"></a>(U1 <span class="op">&amp;</span> U2).sim(<span class="dv">10000</span>).plot(<span class="st">&#39;hist&#39;</span>)</span></code></pre></div>
+<pre><code>## Error in py_call_impl(callable, dots$args, dots$keywords): ValueError: invalid literal for int() with base 10: &#39;&#39;
+## 
+## Detailed traceback: 
+##   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\symbulate\results.py&quot;, line 538, in plot
+##     new_labels.append(int(label.get_text()) / len(x))</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb93-1"><a href="sim-examples.html#cb93-1"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>Now we let <span class="math inline">\(X\)</span> be the sum and <span class="math inline">\(Y\)</span> the max of the two rolls<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>. First consider the possible values of <span class="math inline">\((X, Y)\)</span>. Marginally, <span class="math inline">\(X\)</span> takes values in <span class="math inline">\([0, 2]\)</span> and <span class="math inline">\(Y\)</span> takes values in <span class="math inline">\([0, 1]\)</span>. However, not every value in <span class="math inline">\([0, 2]\times [0, 1]\)</span> is possible.</p>
+<ul>
+<li>We must have <span class="math inline">\(Y \ge 0.5 X\)</span>. For example, if <span class="math inline">\(X=1.5\)</span> then <span class="math inline">\(Y\)</span> must at least 0.75, because if the larger of the two spins were less than 0.75, then the sum must be less than 1.5.</li>
+<li>We must have <span class="math inline">\(Y \le X\)</span>. For example, if <span class="math inline">\(Y=0.5\)</span>, then one of the spins is 0.5 and the other one is at least 0, so the sum must be at least 0.5.</li>
+</ul>
+<p>Therefore, the possible values of <span class="math inline">\((X, Y)\)</span> lie in the set <span class="math inline">\(\{(x, y): 0\le x\le 2, 0 \le y\le 1, 0.5x \le y, y\le x\}\)</span>, which can be simplified slightly as <span class="math inline">\(\{(x, y): 0\le x \le 2, 0.5 x\le y \le \min(1, x)\}\)</span>. This set is represented by the triangular region in the plots below.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb94-1"><a href="sim-examples.html#cb94-1"></a></span>
+<span id="cb94-2"><a href="sim-examples.html#cb94-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb94-3"><a href="sim-examples.html#cb94-3"></a>X <span class="op">=</span> RV(P, <span class="bu">sum</span>)</span>
+<span id="cb94-4"><a href="sim-examples.html#cb94-4"></a>Y <span class="op">=</span> RV(P, <span class="bu">max</span>)</span>
+<span id="cb94-5"><a href="sim-examples.html#cb94-5"></a></span>
+<span id="cb94-6"><a href="sim-examples.html#cb94-6"></a>xy <span class="op">=</span> (X <span class="op">&amp;</span> Y).sim(<span class="dv">100</span>)</span>
+<span id="cb94-7"><a href="sim-examples.html#cb94-7"></a>plt.figure()</span>
+<span id="cb94-8"><a href="sim-examples.html#cb94-8"></a>xy.plot()</span>
+<span id="cb94-9"><a href="sim-examples.html#cb94-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb95-1"><a href="sim-examples.html#cb95-1"></a><span class="bu">print</span>(xy)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x0000000034C1D5C8&gt;</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb97-1"><a href="sim-examples.html#cb97-1"></a></span>
+<span id="cb97-2"><a href="sim-examples.html#cb97-2"></a>plt.figure()</span>
+<span id="cb97-3"><a href="sim-examples.html#cb97-3"></a>(X <span class="op">&amp;</span> Y).sim(<span class="dv">10000</span>).plot(<span class="st">&#39;hist&#39;</span>)</span></code></pre></div>
+<pre><code>## Error in py_call_impl(callable, dots$args, dots$keywords): ValueError: invalid literal for int() with base 10: &#39;&#39;
+## 
+## Detailed traceback: 
+##   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\symbulate\results.py&quot;, line 538, in plot
+##     new_labels.append(int(label.get_text()) / len(x))</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb99-1"><a href="sim-examples.html#cb99-1"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p>We see that <span class="math inline">\((X, Y)\)</span> pairs are roughly uniformly distributed within the triangular region of possible values. Consider a single <span class="math inline">\((X, Y)\)</span> pair, say (0.8, 0.5). There are two outcomes — that is, pairs of spins — that for which <span class="math inline">\(X=0.8, Y=0.5\)</span>, namely (0.5, 0.3) and (0.3, 0.5). Like (0.8, 0.5), most of the possible <span class="math inline">\((X, Y)\)</span> values correspond to exactly two outcomes. The only ones that do not are the values with <span class="math inline">\(X = Y/2\)</span> that lie along the western border of the triangular region. The pairs <span class="math inline">\((X, 2X)\)</span> only correspond to exactly one outcome. For example, the only outcome corresponding to (1, 0.5) is (0.5, 0.5) (that is, spin 0.5 on both spins). However, we will see that the probability that a continuous pair of values <span class="math inline">\((X, Y)\)</span> lies along a line like <span class="math inline">\(Y=2X\)</span> is 0. Therefore, roughly each pair in the triangular region corresponds to exactly two outcomes, and since the outcomes are uniformly distributed (over <span class="math inline">\([0, 1]\times[0, 1]\)</span>) then the <span class="math inline">\((X, Y)\)</span> pairs are uniformly distributed (over the triangular region of possible values).</p>
+<p>We now consider the marginal distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb100-1"><a href="sim-examples.html#cb100-1"></a></span>
+<span id="cb100-2"><a href="sim-examples.html#cb100-2"></a>plt.figure()</span>
+<span id="cb100-3"><a href="sim-examples.html#cb100-3"></a>(X <span class="op">&amp;</span> Y).sim(<span class="dv">10000</span>).plot([<span class="st">&#39;hist&#39;</span>, <span class="st">&#39;marginal&#39;</span>])</span></code></pre></div>
+<pre><code>## Error in py_call_impl(callable, dots$args, dots$keywords): ValueError: invalid literal for int() with base 10: &#39;&#39;
+## 
+## Detailed traceback: 
+##   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\symbulate\results.py&quot;, line 538, in plot
+##     new_labels.append(int(label.get_text()) / len(x))</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb102-1"><a href="sim-examples.html#cb102-1"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p>The marginal distribution of <span class="math inline">\(X\)</span> has highest density near 1 and lowest density near 0 and 2. Intuitively, there is only one pair of spins (0, 0) for which the sum is 0; similarly for a sum of 2. But there are many pairs for which the sum is 1: (0, 1), (1, 0), (0.2, 0.8), (0.5, 0.5), etc. Recall that for the dice rolls, we could obtain the marginal distribution of <span class="math inline">\(X\)</span> by summing the joint distribution over all <span class="math inline">\(Y\)</span> values. Similarly, we can find the marginal density of <span class="math inline">\(X\)</span> by aggregating over all possible values of <span class="math inline">\(Y\)</span>. For each possible value of <span class="math inline">\(X\)</span>, “collapse” the joint histogram vertically over all possible values of <span class="math inline">\(Y\)</span>. Imagine the joint histogram is composed of stacks of blocks, one for each bin, each stack of the same height (because the values are uniformly distributed over the triangular region). To get the marginal density for a particular <span class="math inline">\(x\)</span>, take all the stacks corresponding to that <span class="math inline">\(x\)</span>, for different values of <span class="math inline">\(y\)</span>, and stack them on top of one another. There will be the most stacks for <span class="math inline">\(x\)</span> values near 1 and the fewest stacks for <span class="math inline">\(x\)</span> values near 0 or 2. In other words, the aggregated density along “vertical strips” is largest for the vertical strip for <span class="math inline">\(x=1\)</span>.</p>
+<p>Similarly reasoning applies to find the marginal distribution of <span class="math inline">\(Y\)</span>. The density increases with <span class="math inline">\(y\)</span>. Intuitively, there is only one pair of spins, (0, 0), for which <span class="math inline">\(Y=0\)</span>, but many pairs of spins for which <span class="math inline">\(Y=1\)</span>, e.g., (0, 1), (1, 0), (1, 0.5), (0.7, 1), etc.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb103-1"><a href="sim-examples.html#cb103-1"></a></span>
+<span id="cb103-2"><a href="sim-examples.html#cb103-2"></a>plt.figure()</span>
+<span id="cb103-3"><a href="sim-examples.html#cb103-3"></a>Y.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb103-4"><a href="sim-examples.html#cb103-4"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<p>Finally, observe that the plots in this section look like continuous versions of the plots in Section <a href="technology-intro.html#technology-intro">2.3</a> (aside from the scale; the dice rolls take values in <span class="math inline">\(\{1, 2, 3, 4\}\)</span> while the spins take values in <span class="math inline">\([0, 4]\)</span>.) However, it took a little more work in this section to think about what the joint or marginal distributions might look like. When studying continuous random variables, it is often helpful to think about how a discrete analog behaves.</p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>The joint distribution of values on a continuous scale can be visualized in a two-dimensional histogram.</li>
+<li>Remember to always identify possible values of random variables, including possible pairs in a joint distribution.</li>
+<li>The marginal distribution of a single random variable can be obtained from a joint distribution by aggregating or “collapsing” over the values of the other random variables.</li>
+<li>When studying continuous random variables, it is often helpful to think about how a discrete analog behaves.</li>
+</ul>
+</div>
+<div id="sec-example-sat-math" class="section level3" number="2.5.7">
+<h3><span class="header-section-number">2.5.7</span> SAT Math scores</h3>
+<p>Now suppose we want to simulate the SAT Math score of a single randomly selected student. Our spinner would now be labeled with values from 200 to 800 (instead of 0 to 1). However, if the values were equally spaced from 200 to 800, like in the Uniform
+spinner, this would not lead to very realistic SAT scores. The average SAT Math score is around 500, and a much higher percentage of students score closer to average (500) than to the extreme scores of 200 or 800.</p>
+<p>For SAT Math scores, we might use a spinner like the following. Notice that the values on the spinner axis are <em>not</em> equally spaced. Even though only some values are displayed on the spinner axis, imagine this spinner represents an infinitely fine model where any value between 200 and 800 is possible<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>.</p>
+
+<div class="figure"><span id="fig:sat-normal-spinner"></span>
+<img src="_graphics/spinner-normal-sat.PNG" alt="A spinner representing the “Normal(500, 100)” distribution. The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities." width="50%" /><img src="_graphics/spinner-normal-sat-sectors.PNG" alt="A spinner representing the “Normal(500, 100)” distribution. The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities." width="50%" />
+<p class="caption">
+Figure 2.7: A spinner representing the “Normal(500, 100)” distribution. The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities.
+</p>
+</div>
+<p>Since the axis values are not evenly spaced, different intervals of the same length will have different probabilities. For example, the probability that this spinner lands on a value in the interval [400, 500] is about 0.341, but it is about 0.136 for the interval [300, 400].</p>
+<p>Consider what the distribution of values simulated using this spinner would look like.</p>
+<ul>
+<li>About half of values would be below 500 and half above</li>
+<li>Because axis values near 500 are stretched out, values near 500 would occur with higher frequency than those near 200 or 800.</li>
+<li>The shape would be symmetric since the spacing below 500 mirrors that above. For example, about 34% of values would be between 400 and 500, and also 34% between 500 and 600.</li>
+<li>About 68% of values would be between 400 and 600.</li>
+<li>About 95% of values would be between 300 and 700.</li>
+</ul>
+<p>And so on. We could compute percentages for other intervals by measuring the areas of corresponding sectors on the circle to complete the pattern of variability that values resulting from this spinner would follow. This particular pattern is called a “Normal(500, 100)” distribution<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>, and it is illustrated in the following plots.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb104-1"><a href="sim-examples.html#cb104-1"></a></span>
+<span id="cb104-2"><a href="sim-examples.html#cb104-2"></a>P <span class="op">=</span> Normal(<span class="dv">500</span>, <span class="dv">100</span>)</span>
+<span id="cb104-3"><a href="sim-examples.html#cb104-3"></a>X <span class="op">=</span> RV(P)</span>
+<span id="cb104-4"><a href="sim-examples.html#cb104-4"></a></span>
+<span id="cb104-5"><a href="sim-examples.html#cb104-5"></a>x <span class="op">=</span> X.sim(<span class="dv">100</span>)</span>
+<span id="cb104-6"><a href="sim-examples.html#cb104-6"></a></span>
+<span id="cb104-7"><a href="sim-examples.html#cb104-7"></a>plt.figure()</span>
+<span id="cb104-8"><a href="sim-examples.html#cb104-8"></a>x.plot(<span class="st">&#39;rug&#39;</span>)</span>
+<span id="cb104-9"><a href="sim-examples.html#cb104-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb105-1"><a href="sim-examples.html#cb105-1"></a><span class="bu">print</span>(x)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x0000000029BA7988&gt;</code></pre>
+<p>Simulating lots of values, we see that the histogram appears like it can be approximated by a smooth, “bell-shaped” curve, called a <em>Normal density</em>.</p>
+
+<div class="sourceCode" id="cb107"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb107-1"><a href="sim-examples.html#cb107-1"></a></span>
+<span id="cb107-2"><a href="sim-examples.html#cb107-2"></a></span>
+<span id="cb107-3"><a href="sim-examples.html#cb107-3"></a>x <span class="op">=</span> X.sim(<span class="dv">10000</span>)</span>
+<span id="cb107-4"><a href="sim-examples.html#cb107-4"></a></span>
+<span id="cb107-5"><a href="sim-examples.html#cb107-5"></a>plt.figure()</span>
+<span id="cb107-6"><a href="sim-examples.html#cb107-6"></a>x.plot() <span class="co"># plot the simulated values</span></span>
+<span id="cb107-7"><a href="sim-examples.html#cb107-7"></a>Normal(<span class="dv">500</span>, <span class="dv">100</span>).plot() <span class="co"># plot the density</span></span>
+<span id="cb107-8"><a href="sim-examples.html#cb107-8"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/normal-sat-density-1.png" width="672" /></p>
+<p>The parameter 500 represents the long run average (a.k.a. mean) value. Calling <code>x.mean()</code> will compute an average as usual: sum the 10000 simulated values and divide by 10000. This average should be close to 500. The more simulated values included in the average, the closer we would expect the simulated average value to be to 500.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb108-1"><a href="sim-examples.html#cb108-1"></a></span>
+<span id="cb108-2"><a href="sim-examples.html#cb108-2"></a><span class="bu">print</span>(x.mean())</span></code></pre></div>
+<pre><code>## 499.3106462021636</code></pre>
+<p>The parameter 100 represents the standard deviation, which is a measure of degree of variability. While the average is 500, the values vary about that average. Many values are close to the average, but some are farther away. The standard deviation measures, roughly, the average distance of the values from their mean. Calling <code>x.sd()</code> will compute the distance of each of the 10000 simulated from the mean and then average these distances.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb110-1"><a href="sim-examples.html#cb110-1"></a></span>
+<span id="cb110-2"><a href="sim-examples.html#cb110-2"></a><span class="bu">print</span>(x.sd())</span></code></pre></div>
+<pre><code>## 98.95717397441405</code></pre>
+<p>Technically, to compute the standard deviation you must first square all the distances, then average, then take the square root. (We will see more on standard deviation in Section XX.)</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb112-1"><a href="sim-examples.html#cb112-1"></a></span>
+<span id="cb112-2"><a href="sim-examples.html#cb112-2"></a><span class="bu">print</span>( sqrt( ( (x <span class="op">-</span> x.mean()) <span class="op">**</span> <span class="dv">2</span> ).mean() ) )</span></code></pre></div>
+<pre><code>## 98.95717397441405</code></pre>
+<p>For comparison, consider values from the Uniform(200, 800) distribution. While the Uniform(200, 800) and Normal(500, 100) distributions have the same mean, the Uniform(200, 800) has a larger standard deviation than the Normal(500, 100) distribution. In comparison to a Normal(500, 100) distribution, a Uniform(200, 800) distribution will give higher probability to ranges of values near the extremes of 200 and 800, as well as lower probability to ranges of values near 500. Thus, there will be more values far from the mean of 500 and fewer values close, and so the average distance from the mean and hence standard deviation will be larger. The standard deviation of values from a Uniform(200, 800) distribution is about 173.</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb114-1"><a href="sim-examples.html#cb114-1"></a></span>
+<span id="cb114-2"><a href="sim-examples.html#cb114-2"></a>plt.figure()</span>
+<span id="cb114-3"><a href="sim-examples.html#cb114-3"></a>RV(Normal(<span class="dv">500</span>, <span class="dv">100</span>)).sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb114-4"><a href="sim-examples.html#cb114-4"></a>RV(Uniform(<span class="dv">200</span>, <span class="dv">800</span>)).sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb114-5"><a href="sim-examples.html#cb114-5"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>Spinners can be used to generate values from non-uniform distributions by applying non-linear transformations to values on the spinner axis.</li>
+<li>Normal distributions are common models of situations where the pattern of variability follows a bell-shaped curve centered at the average value.</li>
+<li>Variability is an essential feature of a distribution. Standard deviation measures degree of variability in terms of the average distance from the mean.</li>
+</ul>
+</div>
+<div id="sec-example-sat-both" class="section level3" number="2.5.8">
+<h3><span class="header-section-number">2.5.8</span> SAT Math and Reading scores</h3>
+<p>Now consider randomly selecting an SAT taker and recording both their Math and Reading score. Suppose we want to conduct an appropriate simulation.</p>
+<p>Donny Don’t says: “That’s easy; just spin the SAT spinner twice, once for Math and once for Reading.” Do you agree?</p>
+<p>You should not agree with Donny, for two reasons.</p>
+<ul>
+<li>It’s possible that the distribution of SAT Math scores follow a different pattern than SAT Reading scores. So we might need one spinner to simulate a Math score, and a second spinner to simulate the Reading score. (In reality, SAT Math and Reading scores do follow pretty similar distributions. But it’s possible that they could follow different distributions.)</li>
+<li>Furthermore, there is probably some relationship between scores. It is plausible that students who do well on one test tend to do well on the other. For example, students who score over 700 on Math are probably more likely to score above than below average on Reading. If we simulate a pair of scores by spinning one spinner for Math and a separate spinner for Reading, then there will be no relationship between the scores because the spins are physically independent.</li>
+</ul>
+<p>What we really need is a spinner that generates a pair of scores simultaneously to reflect their association. This is a little harder to visualize, but we could imagine spinning a “globe” with lines of latitude corresponding to SAT Math score and lines of longitutde to SAT Reading score. But this would not be a typical globe:</p>
+<ul>
+<li>The lines of latitude would not be equally spaced, since SAT Math scores are not equally likely. (Remember the spacing of the axis values on the spinner in Figure @ref(fig:sat-normal-spinner.) Similary for lines of longitude.</li>
+<li>The scale of the lines of latitude would not necessarily match the scale of the lines of longitude, since Math and Reading scores could follow difference distributions. For example, the equator (average Math) might be 500 while the prime meridian (average Reading) might be 520.</li>
+<li>The “lines” would be tilted or squiggled to reflect the relationship between the scores. For example, the region corresponding to Math scores near 700 and Reading scores near 700 would be larger than the region corresponding to Math scores near 700 but Reading scores near 200.</li>
+</ul>
+<p>So we would like a model that</p>
+<ul>
+<li>Simulates Math scores that follow a Normal distribution pattern, with some mean and some standard deviation.</li>
+<li>Simulates Reading scores that follow a Normal distribution pattern, with possibly a different mean and standard deviation.</li>
+<li>Reflects how strongly the scores are associated.</li>
+</ul>
+<p>Such a model is called a “Bivariate Normal” distribution. There are five parameters: the two means, the two standard deviations, and the <em>correlation</em> which reflects the strength of the association between the two scores. Correlation is a number between <span class="math inline">\(-1\)</span> and <span class="math inline">\(1\)</span> that measures the degree of association, with correlation values closer to 1 or <span class="math inline">\(-1\)</span> denoting the strongest association. We will study correlation in more detail in Section XX.</p>
+<p>In Symbulate, a `BivariateNormal’ probability space returns a pair of values; we let <span class="math inline">\(X\)</span> be the first coordinate (Math) and <span class="math inline">\(Y\)</span> the second (Reading). We’ll assume, as <a href="https://blog.prepscholar.com/sat-standard-deviation#targetText=Standard%20deviation%20tells%20you%2C%20on,either%20above%20or%20below%20it">suggested by this site</a>.), that Math scores have mean 527 and standard deviation 107, Reading scores have mean 533 and standard deviation 100, and the pairs of scores have correlation 0.77.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb115-1"><a href="sim-examples.html#cb115-1"></a></span>
+<span id="cb115-2"><a href="sim-examples.html#cb115-2"></a>P <span class="op">=</span> BivariateNormal(mean1<span class="op">=</span><span class="dv">527</span>, mean2<span class="op">=</span><span class="dv">533</span>, sd1<span class="op">=</span><span class="dv">107</span>, sd2<span class="op">=</span><span class="dv">100</span>, corr<span class="op">=</span><span class="fl">0.77</span>)</span>
+<span id="cb115-3"><a href="sim-examples.html#cb115-3"></a>X, Y <span class="op">=</span> RV(P)</span>
+<span id="cb115-4"><a href="sim-examples.html#cb115-4"></a></span>
+<span id="cb115-5"><a href="sim-examples.html#cb115-5"></a>xy <span class="op">=</span> (X <span class="op">&amp;</span> Y).sim(<span class="dv">100</span>)</span>
+<span id="cb115-6"><a href="sim-examples.html#cb115-6"></a></span>
+<span id="cb115-7"><a href="sim-examples.html#cb115-7"></a>plt.figure()</span>
+<span id="cb115-8"><a href="sim-examples.html#cb115-8"></a>xy.plot()</span>
+<span id="cb115-9"><a href="sim-examples.html#cb115-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb116-1"><a href="sim-examples.html#cb116-1"></a><span class="bu">print</span>(xy)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x0000000026D0E548&gt;</code></pre>
+<p>Notice the strong positive association; students who have high scores on one exam tend to have high scores on the other. We can simulate lots of values and construct a two-dimensional histogram.</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb118-1"><a href="sim-examples.html#cb118-1"></a></span>
+<span id="cb118-2"><a href="sim-examples.html#cb118-2"></a>plt.figure()</span>
+<span id="cb118-3"><a href="sim-examples.html#cb118-3"></a>(X <span class="op">&amp;</span> Y).sim(<span class="dv">10000</span>).plot(<span class="st">&#39;hist&#39;</span>)</span></code></pre></div>
+<pre><code>## Error in py_call_impl(callable, dots$args, dots$keywords): ValueError: invalid literal for int() with base 10: &#39;&#39;
+## 
+## Detailed traceback: 
+##   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\symbulate\results.py&quot;, line 538, in plot
+##     new_labels.append(int(label.get_text()) / len(x))</code></pre>
+<div class="sourceCode" id="cb120"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb120-1"><a href="sim-examples.html#cb120-1"></a>plt.show() </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p>Recall that in some of the previous examples the shapes of one-dimensional histograms could be approximated with a smooth density curve. Similarly, a two-dimensional histogram can sometimes be approximated with a smooth density surface. Like with histograms, the height of the density surface at a particular <span class="math inline">\((X, Y)\)</span> pair of values can be represented by color intensity. Like a Normal distribution is a bell-shaped curve, a Bivariate Normal distribution is a “mound-shaped” curve; imagine a pile of sand. (Symbulate does not yet have the capability to display densities in a three-dimensional-like plot such as <a href="https://en.wikipedia.org/wiki/Multivariate_normal_distribution#/media/File:Multivariate_Gaussian.png">this plot</a>.)</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb121-1"><a href="sim-examples.html#cb121-1"></a></span>
+<span id="cb121-2"><a href="sim-examples.html#cb121-2"></a>plt.figure()</span>
+<span id="cb121-3"><a href="sim-examples.html#cb121-3"></a>(X <span class="op">&amp;</span> Y).sim(<span class="dv">10000</span>).plot(<span class="st">&#39;density&#39;</span>)</span>
+<span id="cb121-4"><a href="sim-examples.html#cb121-4"></a>plt.show() </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p>We can find marginal distributions by “aggregating/stacking/collapsing” as in Section <a href="sim-examples.html#uniform-sum-max">2.5.6</a>. The SAT Math scores follow a Normal distribution with mean 527 and standard deviation 107, similarly for Reading.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb122-1"><a href="sim-examples.html#cb122-1"></a></span>
+<span id="cb122-2"><a href="sim-examples.html#cb122-2"></a>plt.figure()</span>
+<span id="cb122-3"><a href="sim-examples.html#cb122-3"></a>X.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb122-4"><a href="sim-examples.html#cb122-4"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<p>The value of correlation measures the strength of the association. For example, with a correlation of 0.4 the association would not be nearly as strong.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb123-1"><a href="sim-examples.html#cb123-1"></a></span>
+<span id="cb123-2"><a href="sim-examples.html#cb123-2"></a>P <span class="op">=</span> BivariateNormal(mean1<span class="op">=</span><span class="dv">527</span>, mean2<span class="op">=</span><span class="dv">533</span>, sd1<span class="op">=</span><span class="dv">107</span>, sd2<span class="op">=</span><span class="dv">100</span>, corr<span class="op">=</span><span class="fl">0.40</span>)</span>
+<span id="cb123-3"><a href="sim-examples.html#cb123-3"></a>X, Y <span class="op">=</span> RV(P)</span>
+<span id="cb123-4"><a href="sim-examples.html#cb123-4"></a></span>
+<span id="cb123-5"><a href="sim-examples.html#cb123-5"></a>xy <span class="op">=</span> (X <span class="op">&amp;</span> Y).sim(<span class="dv">10000</span>)</span>
+<span id="cb123-6"><a href="sim-examples.html#cb123-6"></a></span>
+<span id="cb123-7"><a href="sim-examples.html#cb123-7"></a>plt.figure()</span>
+<span id="cb123-8"><a href="sim-examples.html#cb123-8"></a>xy.plot()</span>
+<span id="cb123-9"><a href="sim-examples.html#cb123-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
+<p>A negative correlation represents a negative association: large values of one variable tend to be associated with small values of the other. (This would not be realistic for SAT scores.)</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb124-1"><a href="sim-examples.html#cb124-1"></a></span>
+<span id="cb124-2"><a href="sim-examples.html#cb124-2"></a>P <span class="op">=</span> BivariateNormal(mean1<span class="op">=</span><span class="dv">527</span>, mean2<span class="op">=</span><span class="dv">533</span>, sd1<span class="op">=</span><span class="dv">107</span>, sd2<span class="op">=</span><span class="dv">100</span>, corr<span class="op">=-</span><span class="fl">0.77</span>)</span>
+<span id="cb124-3"><a href="sim-examples.html#cb124-3"></a>X, Y <span class="op">=</span> RV(P)</span>
+<span id="cb124-4"><a href="sim-examples.html#cb124-4"></a></span>
+<span id="cb124-5"><a href="sim-examples.html#cb124-5"></a>xy <span class="op">=</span> (X <span class="op">&amp;</span> Y).sim(<span class="dv">10000</span>)</span>
+<span id="cb124-6"><a href="sim-examples.html#cb124-6"></a></span>
+<span id="cb124-7"><a href="sim-examples.html#cb124-7"></a>plt.figure()</span>
+<span id="cb124-8"><a href="sim-examples.html#cb124-8"></a>xy.plot()</span>
+<span id="cb124-9"><a href="sim-examples.html#cb124-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p>Note that in all of the above cases, the marginal distribution of Math scores is the same, similarly for Reading scores. But different correlations lead to different joint distributions. Remember: it is not possible to simulate <span class="math inline">\((X, Y)\)</span> pairs simply for the marginal distributions.</p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>“Mound-shaped” Bivariate Normal distributions are the two-dimensional analogs of Normal distributions.</li>
+<li>Correlation is a measure of the strength of the association between two random variables.</li>
+<li>Remember: it is not possible to simulate <span class="math inline">\((X, Y)\)</span> pairs simply for the marginal distributions.</li>
+</ul>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="13">
+<li id="fn13"><p>Braces <code>{}</code> are used here because this defines a Python <em>dictionary</em>. But don’t confuse this code with set notation<a href="sim-examples.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>Since <code>P</code> returns pairs of outcomes, <code>Z=RV(P)</code> is a random <em>vector</em>. Components of a vector can be indexed with brackets <code>[]</code>; e.g., the first component is <code>Z[0]</code> and the second is <code>Z[1]</code>. (Remember: Python uses zero-based indexing.) So the “unpacked” code is an equivalent but simpler version of <code>Z = RV(P); X = Z[0]; Y = Z[1]</code>.<a href="sim-examples.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>If Donny <em>really</em> wanted to simulate two independent pairs of rolls, one to compute <span class="math inline">\(X\)</span> and one to compute <span class="math inline">\(Y\)</span>, he would still need define the random variables on the same probability space, using <code>BoxModel([1, 2, 3, 4], size = 2) ** 2</code> for which an example outcome would be ((3, 2), (1, 1)). Then he could define <code>X=RV(P)[0].apply(sum)</code> and <code>X=RV(P)[1].apply(max)</code>. But it’s hard to justify why Donny would want to do this.<a href="sim-examples.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>When <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <em>independent</em> it is sufficient to simulate values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> separately from their respective marginal distributions. We study independence in detail in Section <a href="#independence"><strong>??</strong></a>.<a href="sim-examples.html#fnref16" class="footnote-back">↩︎</a></p></li>
+<li id="fn17"><p>Why is the interval <span class="math inline">\([0, 1]\)</span> the standard instead of some other range of values? Because probabilities take values in <span class="math inline">\([0, 1]\)</span>. We will see why this is useful in more detail later, but for a preview see <a href="univeral-spinner.html#univeral-spinner">2.6</a>.<a href="sim-examples.html#fnref17" class="footnote-back">↩︎</a></p></li>
+<li id="fn18"><p>Symbulate chooses the number of bins automatically, but you can set the number of bins using the <code>bins</code> option, e.g., <code>.plot(bins=100)</code><a href="sim-examples.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<li id="fn19"><p>As in many other contexts and programming languages, in this text any reference to logarithms or <span class="math inline">\(\log\)</span> refers to natural (base <span class="math inline">\(e\)</span>) logarithms. In the instances we need to consider another base, we’ll make that explicit.<a href="sim-examples.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p>Each of these values is obtained from the transformation <span class="math inline">\(u\mapsto-\log(1-u)\)</span>, e.g. <span class="math inline">\(-\log(1-0.1)\approx 0.105\)</span>.<a href="sim-examples.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn21"><p>Each of these values is obtained by applying the inverse transformation <span class="math inline">\(u\mapsto 1-e^{-u}\)</span>, e.g. <span class="math inline">\(1-e^{-1}\approx 0.632\)</span><a href="sim-examples.html#fnref21" class="footnote-back">↩︎</a></p></li>
+<li id="fn22"><p>Remember that a probability space outcome corresponds to the pair of rolls, so we can define random variables on this space as we have done. We could also first define random variables <code>U1, U2 = RV(P)</code> corresponding to the individual spins, and then define the sum as <code>X = U1 + U2</code>. For technical reasons the syntax for <code>max</code> is a little different: <code>Y = (U1 &amp; U2).apply(max)</code>.<a href="sim-examples.html#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p>Technically, for a Normal distribution, <em>any</em> real value is possible. But values that are more than 3 or 4 standard deviations occur with small probability.<a href="sim-examples.html#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn24"><p>Note that the arguments for a Normal distribution play a different role than those for a Uniform distribution. In a Uniform(<span class="math inline">\(a, b\)</span>) distribution, <span class="math inline">\(a\)</span> represents the minimum possible value and <span class="math inline">\(b\)</span> the maximum. In a Normal(<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) distribution, <span class="math inline">\(\mu\)</span> represents the <em>mean</em> (a.k.a. average) and <span class="math inline">\(\sigma\)</span> the <em>standard deviation</em>.<a href="sim-examples.html#fnref24" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="approximating-probabilities-simulation-margin-of-error.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="univeral-spinner.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

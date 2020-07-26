@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.4 Probability spaces | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.4 Probability spaces | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.4 Probability spaces | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="rv.html"/>
+<link rel="next" href="probability-distributions-a-brief-introduction.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="probspace" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Probability spaces</h2>
+<p>In the previous sections we defined outcomes, events, and random variables, the main mathematical objects associated with a random phenomenon. But we haven’t actually computed any probabilities yet! So far we have only been concerned with what is <em>possible</em>. You might have noticed that the examples did not include any assumptions like “the coin is fair”, “the die is weighted”, “Regina is more likely to arrive late and Cady is more likely to arrive early”, “the janitor is equally likely to put any rock in any spot.” Now we will incorporate assumptions of the random phenomenon to determine how <em>probable</em> various events are.</p>
+<p>In keeping with the theme of this chapter, we will focus on what it means to assign probabilities to events, rather than how to actually compute probabilities. Later chapters will focus in much more detail on solving a wide variety of probability problems.</p>
+<p>A probability measure assigns probabilities to events to quantify their relative likelihoods. As we saw in Section <a href="consistency.html#consistency">1.4</a>, there are some basic logical consistency requirements that probabilities must satisfy. These requirements are formalized in the following definition.</p>
+
+<div class="definition">
+<p><span id="def:probspace" class="definition"><strong>Definition 2.6  </strong></span>A <strong>probability space</strong> is a triple <span class="math inline">\((\Omega, \mathcal{F}, \textrm{P})\)</span> where</p>
+<ul>
+<li><span class="math inline">\(\Omega\)</span> is a sample space of outcomes</li>
+<li><span class="math inline">\(\mathcal{F}\)</span> is a collection of events of interest<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a> <span class="math inline">\(A\subseteq\Omega\)</span></li>
+<li><span class="math inline">\(\textrm{P}\)</span> is a <strong>probability measure</strong> which assigns a probability <span class="math inline">\(\textrm{P}(A)\)</span> to events <span class="math inline">\(A\in\mathcal{F}\)</span>. A probability measure satisfies the following three axioms
+<ul>
+<li><span class="math inline">\(\textrm{P}(\Omega)=1\)</span></li>
+<li>For all events <span class="math inline">\(A\in\mathcal{F}\)</span>, <span class="math inline">\(0\le \textrm{P}(A)\le 1\)</span></li>
+<li>(<em>Countable additivity</em>.) If events <span class="math inline">\(A_1, A_2, \ldots\in\mathcal{F}\)</span> are <em>disjoint (a.k.a. mutually exclusive)</em> — that is <span class="math inline">\(A_i\cap A_j = \emptyset\)</span> for all <span class="math inline">\(i\neq j\)</span> — then
+<span class="math display">\[\begin{equation*}
+\textrm{P}\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty \textrm{P}\left(A_i\right)
+\end{equation*}\]</span></li>
+</ul></li>
+</ul>
+</div>
+<p>A probability space puts all the objects we have seen in this chapter together in a model for the random phenomenon. Even though random variables are not an explicit component of a probability space, remember that many events of interest are defined in terms of random variables. Think of a probability space as the collection of all outcomes, events, and random variables associated with a random phenomenon along with the probabilities of all events of interest.</p>
+<p>A probability measure is a <em>set function</em>: <span class="math inline">\(\textrm{P}:\mathcal{F}\mapsto[0, 1]\)</span> takes as an input an event (set) <span class="math inline">\(A\)</span> (from the collection of events of interest <span class="math inline">\(\mathcal{F}\)</span>) and returns as an output a number <span class="math inline">\(\textrm{P}(A)\in[0,1]\)</span> quantifying the probability of the event.</p>
+<p>The requirement <span class="math inline">\(0\le \textrm{P}(A)\le 1\)</span> makes sense in light of the relative frequency interpretation: an event <span class="math inline">\(A\)</span> can not occur on more than 100% of repetitions or less than 0% of repetitions of the random phenomenon.</p>
+<p>The requirement that <span class="math inline">\(\textrm{P}(\Omega)=1\)</span> just ensures that the sample space accounts for all of the possible outcomes. If outcome <span class="math inline">\(\omega\)</span> is observed, then event <span class="math inline">\(A\)</span> occurs if <span class="math inline">\(\omega\in A\)</span>. If <span class="math inline">\(\textrm{P}(\Omega)&lt;1\)</span> then it would be possible to observe outcomes <span class="math inline">\(\omega\notin \Omega\)</span>; but this violates the requirement that <span class="math inline">\(\Omega\)</span> is the set of all possible outcomes. Basically, <span class="math inline">\(\textrm{P}(\Omega)=1\)</span> says that on any repetition of the random phenomenon, “something has to happen”. If <span class="math inline">\(\Omega\)</span> is a countable set, countable additivity and <span class="math inline">\(\textrm{P}(\Omega)=1\)</span> imply that probability of all the outcomes must add up to 1. For example, in Example <a href="consistency.html#exm:worldseries">1.1</a> <span class="math inline">\(\textrm{P}(\Omega)=1\)</span>, together with countable additivity, is what requires that the probability that a team other than those four teams win to be 26%.</p>
+<p>Countable additivity is best understood through a diagram with areas representing probabilities, as in the figure below which represents two events (yellow / and blue \). On the left, there is no “overlap” between areas so the total area is the sum of the two pieces; this depicts countable additivity for two disjoint events. On the right, there is overlap between the two areas, so simply adding the two areas “double counts” the intersection (green <span class="math inline">\(\times\)</span>) and does not result in the correct total area. Countable additivity applies to any <em>countable</em> number<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a> of events, as long as there is no “overlap”.</p>
+
+<div class="figure"><span id="fig:venn-disjoint"></span>
+<img src="_graphics/venn-disjoint.PNG" alt="Illustration of countable additivity for two events. The events in the picture on the left are disjoint, but not on the right." width="368" />
+<p class="caption">
+Figure 2.7: Illustration of countable additivity for two events. The events in the picture on the left are disjoint, but not on the right.
+</p>
+</div>
+<p>In Example <a href="consistency.html#exm:worldseries">1.1</a>, the events <span class="math inline">\(A\)</span>=“the Astros win the 2020 World Series” and <span class="math inline">\(D\)</span>=“the Dodgers win the 2020 World Series” are disjoint <span class="math inline">\(A\cap D = \emptyset\)</span>; in a single World Series, both teams cannot win. Therefore, the probability of <span class="math inline">\(A\cup D\)</span>, the event that either the Astros or the Dodgers win, must be 46%.</p>
+<p>The three axioms of a probability measure are minimal logical consistency requirements that must be satisfied by any probability model. There are also many physical aspects of the random phenomenon or assumptions (e.g.
+“fairness”, independence, conditional relationships) that must be considered when determining a reasonable
+probability measure for a particular situation. Sometimes <span class="math inline">\(\textrm{P}(A)\)</span> is defined explicitly for an event <span class="math inline">\(A\)</span> via a formula. But it is much more common for a probability measure to be defined only implicitly through modeling
+assumptions; probabilities of events then follow from the
+axioms and related properties.</p>
+<p>Probabilities are always defined for events (sets) but remember than many events are defined in terms of random variables. For example, if <span class="math inline">\(X\)</span> is tomorrow’s high temperature (degrees F) we might be interested in <span class="math inline">\(\textrm{P}(\{X&gt;80\})\)</span>, the probability of the event that tomorrow’s high temperature is above 80 degrees F. If <span class="math inline">\(Y\)</span> is the amount of rainfall tomorrow (inches) we might be interested in <span class="math inline">\(\textrm{P}(\{X &gt; 80\}\cap \{Y &lt; 2\})\)</span>, the probability of the event that tomorrow’s high temperature is above 80 degrees F and the amount of rainfall is less than 2 inches. To simplify notation, it is common to write <span class="math inline">\(\textrm{P}(X&gt;80)\)</span> instead of <span class="math inline">\(\textrm{P}(\{X&gt;80\})\)</span>, or <span class="math inline">\(\textrm{P}(X &gt; 80, Y &lt; 2)\)</span> instead of <span class="math inline">\(\textrm{P}(\{X &gt; 80\}\cap \{Y &lt; 2\})\)</span>. (Read the comma in <span class="math inline">\(\textrm{P}(X &gt; 80, Y &lt; 2)\)</span> as “and”.) But keep in mind that an expression like “<span class="math inline">\(X&gt;80\)</span>” really represents an event <span class="math inline">\(\{X&gt;80\}\)</span>, an expression which itself represents <span class="math inline">\(\{\omega\in\Omega: X(\omega) &gt; 80\}\)</span>, a subset of the sample space <span class="math inline">\(\Omega\)</span>.</p>
+<p>In the next few sections we’ll work with some actual numerical probabilities. But let’s first pause to think about some of the concepts we have seen so far. It’s easy to get confused between things like events, random variables, and probabilities, and the symbols that represent them. But a strong understanding of these fundamental concepts will help you solve probability problems. Examples like the following do more than encourage proper use of notation. Explaining to Donny why he is wrong will help you better understand the objects that symbols represent, how they are different from one another, and how they connect to real-world contexts.</p>
+
+<div class="example">
+<p><span id="exm:dd-notation" class="example"><strong>Example 2.30  (Don’t do what Donny Don’t does.)  </strong></span>
+At various points in his homework, Donny Don’t writes the following. Explain to Donny why each of the following symbols is nonsense, both mathematically and intuitively using a simple example (like tomorrow’s weather). Below, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> represent events, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> represent random variables.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\textrm{P}(A = 0.5)\)</span></li>
+<li><span class="math inline">\(\textrm{P}(A + B)\)</span></li>
+<li><span class="math inline">\(\textrm{P}(A) \cup \textrm{P}(B)\)</span></li>
+<li><span class="math inline">\(\textrm{P}(X)\)</span></li>
+<li><span class="math inline">\(\textrm{P}(X = A)\)</span></li>
+<li><span class="math inline">\(\textrm{P}(X \cap Y)\)</span></li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="probspace.html#exm:dd-notation">2.30</a>
+</div>
+<p>We’ll respond to Donny using tomorrow’s weather as an example, with <span class="math inline">\(A\)</span> representing the event that it rains tomorrow, <span class="math inline">\(X\)</span> tomorrow’s high temperature (degrees F), <span class="math inline">\(B=\{X&gt;80\}\)</span> the event that tomorrow’s high temperature is above 80 degrees, and <span class="math inline">\(Y\)</span> tomorrow’s rainfall (inches).</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(A\)</span> is a set and 0.5 is a number; it doesn’t make mathematical sense to equate them. It doesn’t make sense to say “it rains tomorrow equals 0.5”. Donny probably means “the probability that it rains tomorrow equals 0.5” which he should write as <span class="math inline">\(\textrm{P}(A) = 0.5\)</span>.</li>
+<li><span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are sets; it doesn’t make mathematical sense to add them. What Donny has written reads as “the probability that it rains tomorrow or the probability that tomorrow’s high temperature is above 80 degrees F,” which doesn’t make much sense. Donny probably means “the probability that (it rains tomorrow) or (tomorrow’s high temperature is above 80 degrees),” which he should write as <span class="math inline">\(\textrm{P}(A \cup B)\)</span>. (Mathematically, <span class="math inline">\(\textrm{P}(A)\)</span> and <span class="math inline">\(\textrm{P}(B)\)</span> are numbers while union is an operation on sets, so it doesn’t make mathematical sense to take a union of numbers.) Donny might have meant to write <span class="math inline">\(\textrm{P}(A) + \textrm{P}(B)\)</span>, which is valid expression since <span class="math inline">\(\textrm{P}(A)\)</span> and <span class="math inline">\(\textrm{P}(B)\)</span> are numbers. However, he should keep in mind that <span class="math inline">\(\textrm{P}(A) + \textrm{P}(B)\)</span> is not necessarily a probability of anything; this sum could even be greater than one. In particular, since there are some rainy days with high temperatures above 80 degrees — that is, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are not disjoint — <span class="math inline">\(\textrm{P}(A) + \textrm{P}(B)\)</span> is greater than <span class="math inline">\(\textrm{P}(A\cup B)\)</span>. (See the general addition rule and related discussion in Section <a href="probspace.html#propprob">2.4.2</a>.)</li>
+<li><span class="math inline">\(\textrm{P}(A)\)</span> and <span class="math inline">\(\textrm{P}(B)\)</span> are numbers; union is an operation on sets, and it doesn’t make mathematical sense to take a union of numbers. See the previous part for related discussion.</li>
+<li><span class="math inline">\(X\)</span> is a random variable, and probabilities are assigned to events. <span class="math inline">\(P(X)\)</span> reads “the probability that tomorrow’s high temperature in degrees F”, a subject in need of a predicate; the phrase is missing any qualifying information that could define an event . We assign probabilities to things that could happen (events) like “tomorrow’s high temperature is above 80 degrees,” which has probability <span class="math inline">\(\textrm{P}(X &gt; 80)\)</span>.</li>
+<li><span class="math inline">\(X\)</span> is a random variable (a function) and <span class="math inline">\(A\)</span> is an event (a set), and it doesn’t make sense to equate these two different mathematical objects. It doesn’t make sense to say “tomorrow’s high temperature in degrees F equals the event that it rains tomorrow”. We’re not sure what Donny was thinking here.</li>
+<li><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are RVs (functions) and intersection is an operation on sets. <span class="math inline">\(X \cap Y\)</span> is attempting to say “tomorrow’s high temperature in degrees F and the amount of rainfall in inches tomorrow”, but this is still missing qualifying information to define a valid event for which a probability can be assigned. We could say <span class="math inline">\(\textrm{P}(X &gt; 80, Y &lt; 2)\)</span> to represent “the probability that (tomorrow’s high temperature is greater than 80 degrees F) AND (the amount of rainfall tomorrow is less than 2 inches)”. (Remember,“<span class="math inline">\(X &gt; 80, Y &lt; 2\)</span>” is short for the event <span class="math inline">\(\{X &gt; 80\} \cap \{Y &lt; 2\}\)</span></li>
+</ol>
+<div id="some-probability-measures-for-a-roll-of-a-four-sided" class="section level3" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Some probability measures for a roll of a four-sided</h3>
+<p>Consider a single roll of a four-sided die. The sample space consists of four possible outcomes <span class="math inline">\(\Omega = \{1, 2, 3, 4\}\)</span>. Recall that we identified all possible events in Section <a href="events.html#sigmafield">2.2.1</a>.</p>
+<p>Let’s first assume that the die is fair, so all four outcomes are equally likely, each with probability<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a> 1/4. Given that the probability of each outcome<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> is 1/4, countable additivity implies</p>
+<p><span class="math display">\[
+\textrm{P}(A) = \frac{\text{number of elements in $A$}}{4}, \qquad{\text{$\textrm{P}$ assumes a fair four-sided die}}
+\]</span></p>
+<p>Table <a href="probspace.html#tab:die-events-fair">2.7</a> lists all the possible events, and their probabilities according to the probability measure <span class="math inline">\(\textrm{P}\)</span>.</p>
+<table>
+<caption><span id="tab:die-events-fair">Table 2.7: </span> All possible events associated with a single roll of a four-sided die, and their probabilities assuming the die is fair.</caption>
+<thead>
+<tr class="header">
+<th>Event</th>
+<th>Description</th>
+<th>Probability of event assuming equally likely outcomes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\emptyset\)</span></td>
+<td>Roll nothing (not possible)</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1\}\)</span></td>
+<td>Roll a 1</td>
+<td>1/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2\}\)</span></td>
+<td>Roll a 2</td>
+<td>1/4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{3\}\)</span></td>
+<td>Roll a 3</td>
+<td>1/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{4\}\)</span></td>
+<td>Roll a 4</td>
+<td>1/4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2\}\)</span></td>
+<td>Roll a 1 or a 2</td>
+<td>2/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{1, 3\}\)</span></td>
+<td>Roll a 1 or a 3</td>
+<td>2/4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 4\}\)</span></td>
+<td>Roll a 1 or a 4</td>
+<td>2/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2, 3\}\)</span></td>
+<td>Roll a 2 or a 3</td>
+<td>2/4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{2, 4\}\)</span></td>
+<td>Roll a 2 or a 4</td>
+<td>2/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{3, 4\}\)</span></td>
+<td>Roll a 3 or a 4</td>
+<td>2/4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2, 3\}\)</span></td>
+<td>Roll a 1, 2, or 3 (a.k.a. do not roll a 4)</td>
+<td>3/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{1, 2, 4\}\)</span></td>
+<td>Roll a 1, 2, or 4 (a.k.a. do not roll a 3)</td>
+<td>3/4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 3, 4\}\)</span></td>
+<td>Roll a 1, 3, or 4 (a.k.a. do not roll a 2)</td>
+<td>3/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2, 3, 4\}\)</span></td>
+<td>Roll a 2, 3, or 4 (a.k.a. do not roll a 1)</td>
+<td>3/4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2, 3, 4\}\)</span></td>
+<td>Roll something</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The above assignment satisfies all the axioms and so it represents a valid probability measure. But assuming that the outcomes are equally likely is a much stricter assumption than the basic logical consistency requirements of the axioms. There are many other possible probability measures, like in the following.</p>
+
+<div class="example">
+<p><span id="exm:die-weighted" class="example"><strong>Example 2.31  </strong></span>Now consider a single roll of a four-sided die, but suppose the die is weighted so that the outcomes are no longer equally likely. Suppose that the probability of event <span class="math inline">\(\{2, 3\}\)</span> is 0.5, of event <span class="math inline">\(\{3, 4\}\)</span> is 0.7, and of event <span class="math inline">\(\{1, 2, 3\}\)</span> is 0.6. Complete a table, like Table <a href="probspace.html#tab:die-events-fair">2.7</a>, listing the probability of each event for this particular weighted die. In what particular way is the die weighted? That is, what is the probability of each the four possible outcomes?</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="probspace.html#exm:die-weighted">2.31</a></p>
+</div>
+<p>Since the probability of not rolling a 4 is 0.6, the probability of rolling a 4 must be 0.4. Since <span class="math inline">\(\{3, 4\} = \{3\} \cup \{4\}\)</span>, a union of disjoint sets, the probability of rolling a 3 must be 0.3. Similarly, the probability of rolling a 2 must be 0.2, and the probability of rolling a 1 must be 0.1. From there we can find the probabilities of all possible events for this particular weighted die, displayed in Table <a href="probspace.html#tab:die-events-weighted">2.8</a>.</p>
+<table>
+<caption><span id="tab:die-events-weighted">Table 2.8: </span> All possible events associated with a single roll of a four-sided die, and their probabilities assuming the die is weighted: roll a 1 with probability 0.1, 2 with probability 0.2, 3 with probability 0.3, 4 with probability 0.4.</caption>
+<thead>
+<tr class="header">
+<th>Event</th>
+<th>Description</th>
+<th>Probability of event assuming a particular weighted die</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\emptyset\)</span></td>
+<td>Roll nothing (not possible)</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1\}\)</span></td>
+<td>Roll a 1</td>
+<td>0.1</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2\}\)</span></td>
+<td>Roll a 2</td>
+<td>0.2</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{3\}\)</span></td>
+<td>Roll a 3</td>
+<td>0.3</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{4\}\)</span></td>
+<td>Roll a 4</td>
+<td>0.4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2\}\)</span></td>
+<td>Roll a 1 or a 2</td>
+<td>0.3</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{1, 3\}\)</span></td>
+<td>Roll a 1 or a 3</td>
+<td>0.4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 4\}\)</span></td>
+<td>Roll a 1 or a 4</td>
+<td>0.5</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2, 3\}\)</span></td>
+<td>Roll a 2 or a 3</td>
+<td>0.5</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{2, 4\}\)</span></td>
+<td>Roll a 2 or a 4</td>
+<td>0.6</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{3, 4\}\)</span></td>
+<td>Roll a 3 or a 4</td>
+<td>0.7</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2, 3\}\)</span></td>
+<td>Roll a 1, 2, or 3 (a.k.a. do not roll a 4)</td>
+<td>0.6</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{1, 2, 4\}\)</span></td>
+<td>Roll a 1, 2, or 4 (a.k.a. do not roll a 3)</td>
+<td>0.7</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 3, 4\}\)</span></td>
+<td>Roll a 1, 3, or 4 (a.k.a. do not roll a 2)</td>
+<td>0.8</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2, 3, 4\}\)</span></td>
+<td>Roll a 2, 3, or 4 (a.k.a. do not roll a 1)</td>
+<td>0.9</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2, 3, 4\}\)</span></td>
+<td>Roll something</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The symbol <span class="math inline">\(\textrm{P}\)</span> is more than just shorthand for the word “probability”. <span class="math inline">\(\textrm{P}\)</span> denotes the underlying probability measure, which represents all the assumptions about the random phenomenon. Changing assumptions results in a change of the probability measure and a different probability model. We often consider several probability measures for the same sample space and collection of events; these several measures represent different sets of assumptions and different probability models.</p>
+<p>In the dice example above, suppose <span class="math inline">\(\textrm{P}\)</span> represents the probability measure corresponding to the assumption of a fair die (equally likely outcomes). With this measure <span class="math inline">\(\textrm{P}(A) = 2/4\)</span> for <span class="math inline">\(A = \{1, 2\}\)</span>. Now let <span class="math inline">\(\textrm{Q}\)</span> represent the probability measure corresponding to the assumption of the weighted die; then <span class="math inline">\(\textrm{Q}(A) = 0.3\)</span>. The outcomes and events are the same in both scenarios, because both scenarios involve a four sided-die. What is different is the probability measure that assigns probabilities to the events. One scenario assumes the die is fair while the other assumes the die has a particular weighting, resulting in two different probability measures.</p>
+<p>Both probability measures in the dice example could be written as explicit set functions: for an event <span class="math inline">\(A\)</span></p>
+<p><span class="math display">\[\begin{align*}
+\textrm{P}(A) &amp; = \frac{\text{number of elements in $A$}}{4}, &amp; &amp; {\text{$\textrm{P}$ assumes a fair four-sided die}}
+\\
+\textrm{Q}(A) &amp; = \frac{\text{sum of elements in $A$}}{10}, &amp; &amp; {\text{$\textrm{Q}$ assumes a particular weighted four-sided die}}
+\end{align*}\]</span></p>
+<p>We provide the above descriptions to illustrate that a probability measure operates on sets. However, in many situations there does not exist a simple closed form expression for the set function defining the probability measure which maps events to probabilities.</p>
+
+<div class="example">
+<p><span id="exm:dice-normalize" class="example"><strong>Example 2.32  </strong></span>Consider again a single roll of a weighted four-sided die. Suppose that</p>
+<ul>
+<li>Rolling a 1 is twice as likely as rolling a 4</li>
+<li>Rolling a 2 is three times as likely as rolling a 4</li>
+<li>Rolling a 3 is 1.5 times as likely as rolling a 4</li>
+</ul>
+<p>Let <span class="math inline">\(\tilde{\textrm{Q}}\)</span> be the probability measure corresponding to this die. Compute <span class="math inline">\(\tilde{\textrm{Q}}(A)\)</span> for each event in Table <a href="probspace.html#tab:die-events-fair">2.7</a>. In what particular way is the die weighted? That is, what is the probability of each the four possible outcomes?</p>
+</div>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="probspace.html#exm:dice-normalize">2.32</a>.
+</div>
+<p>Let <span class="math inline">\(q = \tilde{\textrm{Q}}(\{4\})\)</span> denote the probability of rolling a 4. Then <span class="math inline">\(\tilde{\textrm{Q}}(\{1\}) = 2q\)</span>, <span class="math inline">\(\tilde{\textrm{Q}}(\{2\}) = 3q\)</span>, and <span class="math inline">\(\tilde{\textrm{Q}}(\{3\}) = 1.5q\)</span>. Since these probabilities must sum to 1, we have <span class="math inline">\(2q + 3q + 1.5q + q = 1\)</span> so <span class="math inline">\(q = 2/15\)</span>. From there we can find the probabilities of all possible events for this particular weighted die, displayed in Table <a href="probspace.html#tab:die-events-weighted2">2.9</a>. Note this probability measure does not have a simple closed formula for <span class="math inline">\(\tilde{\textrm{Q}}(A)\)</span>.</p>
+<table>
+<caption><span id="tab:die-events-weighted2">Table 2.9: </span> All possible events associated with a single roll of a four-sided die, and their probabilities assuming the die is weighted: roll a 1 with probability 4/15, 2 with probability 6/15, 3 with probability 3/15, 4 with probability 2/15.</caption>
+<thead>
+<tr class="header">
+<th>Event</th>
+<th>Description</th>
+<th>Probability of event assuming a particular weighted die</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\emptyset\)</span></td>
+<td>Roll nothing (not possible)</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1\}\)</span></td>
+<td>Roll a 1</td>
+<td>4/15</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2\}\)</span></td>
+<td>Roll a 2</td>
+<td>6/15</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{3\}\)</span></td>
+<td>Roll a 3</td>
+<td>3/15</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{4\}\)</span></td>
+<td>Roll a 4</td>
+<td>2/15</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2\}\)</span></td>
+<td>Roll a 1 or a 2</td>
+<td>10/15</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{1, 3\}\)</span></td>
+<td>Roll a 1 or a 3</td>
+<td>7/15</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 4\}\)</span></td>
+<td>Roll a 1 or a 4</td>
+<td>6/15</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2, 3\}\)</span></td>
+<td>Roll a 2 or a 3</td>
+<td>9/15</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{2, 4\}\)</span></td>
+<td>Roll a 2 or a 4</td>
+<td>8/15</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{3, 4\}\)</span></td>
+<td>Roll a 3 or a 4</td>
+<td>5/15</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2, 3\}\)</span></td>
+<td>Roll a 1, 2, or 3 (a.k.a. do not roll a 4)</td>
+<td>13/15</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{1, 2, 4\}\)</span></td>
+<td>Roll a 1, 2, or 4 (a.k.a. do not roll a 3)</td>
+<td>12/15</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 3, 4\}\)</span></td>
+<td>Roll a 1, 3, or 4 (a.k.a. do not roll a 2)</td>
+<td>9/15</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\{2, 3, 4\}\)</span></td>
+<td>Roll a 2, 3, or 4 (a.k.a. do not roll a 1)</td>
+<td>11/15</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\{1, 2, 3, 4\}\)</span></td>
+<td>Roll something</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The dice rolling example is not the most exciting or practical scenario. But the example does illustrate the idea of several probability measures, each corresponding to a different set of assumptions about the random phenomenon. If it’s difficult to imagine how to physically weight a die in these particular ways, consider the spinners (like from a kids game) in <a href="probspace.html#fig:die-three-spinners">2.8</a>.</p>
+
+<div class="figure"><span id="fig:die-three-spinners"></span>
+<img src="bookdown-demo_files/figure-html/die-three-spinners-1.png" alt="Three possible spinners corresponding to the roll of a four-sided die. Left: a fair die. Middle: the weighted die of Example 2.31. Right: the weighted die of Example 2.32." width="33%" /><img src="bookdown-demo_files/figure-html/die-three-spinners-2.png" alt="Three possible spinners corresponding to the roll of a four-sided die. Left: a fair die. Middle: the weighted die of Example 2.31. Right: the weighted die of Example 2.32." width="33%" /><img src="bookdown-demo_files/figure-html/die-three-spinners-3.png" alt="Three possible spinners corresponding to the roll of a four-sided die. Left: a fair die. Middle: the weighted die of Example 2.31. Right: the weighted die of Example 2.32." width="33%" />
+<p class="caption">
+Figure 2.8: Three possible spinners corresponding to the roll of a four-sided die. Left: a fair die. Middle: the weighted die of Example <a href="probspace.html#exm:die-weighted">2.31</a>. Right: the weighted die of Example <a href="probspace.html#exm:dice-normalize">2.32</a>.
+</p>
+</div>
+<p>Perhaps the concept of multiple potential probability measures is easier to understand in a subjective probability situation. For example, each model that is used to forecast the 2020-2021 NFL season corresponds to a probability measure which assigns probabilities to events like “the Eagles win the 2021 Superbowl”. Different sets of assumptions and models can assign different probabilities for the same events. As another example, the weather forecaster on one local news station might report that the probability of rain tomorrow is 0.6, while an online source might report it as 0.5. Each weather forecasting model corresponds to a different probability measure which encodes a set of assumptions about the random phenomenon.</p>
+<ul>
+<li>A single probability measure corresponds to a particular set of assumptions about the random phenomenon.</li>
+<li>There can be many probability measures defined on a single sample space, each one corresponding to a different probability model for the random phenomenon.</li>
+<li>Probabilities of events can change if the probability measure changes.</li>
+</ul>
+</div>
+<div id="propprob" class="section level3" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Properties of probability measures</h3>
+<p>Many other properties follow from the axioms. The main “meat” of the axioms is countable additivity. Thus, the key to many proofs of probability properties is to write relevant events in terms of disjoint events.</p>
+
+<div class="theorem">
+<p><span id="thm:prob-properties" class="theorem"><strong>Theorem 2.1  (Properties of a probability measure.)  </strong></span>
+Complement rule<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>. For any event <span class="math inline">\(A\)</span>, <span class="math inline">\(\textrm{P}(A^c) = 1 - \textrm{P}(A)\)</span>. In particular, since <span class="math inline">\(\Omega^c=\emptyset\)</span>, <span class="math inline">\(\textrm{P}(\emptyset)=0\)</span>.</p>
+<p>Subset rule<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a>. If <span class="math inline">\(A \subseteq B\)</span> then <span class="math inline">\(\textrm{P}(A) \le \textrm{P}(B)\)</span>.</p>
+<p>General addition rule for two events<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a>. If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are any two events
+<span class="math display">\[\begin{align*}
+\textrm{P}(A\cup B) = \textrm{P}(A) + \textrm{P}(B) - \textrm{P}(A \cap B)
+\end{align*}\]</span></p>
+<p>Law of total probability. If <span class="math inline">\(B_1,\ldots, B_k\)</span> are disjoint with <span class="math inline">\(B_1\cup \cdots \cup B_k=\Omega\)</span>, then
+<span class="math display">\[\begin{align*}
+\textrm{P}(A) &amp; = \sum_{i=1}^k \textrm{P}(A \cap B_i)
+\end{align*}\]</span></p>
+</div>
+<p>The key to the proofs is to represent relevant events in terms of disjoint events and use countable additivity (and the other axioms).</p>
+
+<div class="example">
+<span id="exm:dd-union" class="example"><strong>Example 2.33  </strong></span>Donny Don’t says: “Wait a minute. You said unions are inclusive; <span class="math inline">\(\textrm{P}(A\cup B)\)</span> means the probability of <span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span> OR BOTH. So <span class="math inline">\(\textrm{P}(A\cup B)\)</span> should just be <span class="math inline">\(\textrm{P}(A)+\textrm{P}(B)\)</span>.” Explain to Donny his mistake, using the picture on the right in Figure <a href="probspace.html#fig:venn-disjoint">2.7</a> as an example.
+</div>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="probspace.html#exm:dd-union">2.33</a>.
+</div>
+<p><span class="math inline">\(A\cup B\)</span> is inclusive so we <em>do</em> want to count the possibility of both, <span class="math inline">\(A\cap B\)</span>. The problem with simply adding <span class="math inline">\(\textrm{P}(A)\)</span> and <span class="math inline">\(\textrm{P}(B)\)</span> is that their sum <em>double counts</em> <span class="math inline">\(A \cap B\)</span>. We do want to count the outcomes that satisfy both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, but <em>we only want to count them once</em>. Subtracting <span class="math inline">\(\textrm{P}(A \cap B)\)</span> in the general addition rule for two events corrects for the double counting.</p>
+<p>For example, consider the picture on the right in Figure <a href="probspace.html#fig:venn-disjoint">2.7</a>. Suppose each rectangular cell represents a distinct outcome; there are 16 outcomes in total. Assume the outcomes are equally likely, each with probability <span class="math inline">\(1/16\)</span>. Let <span class="math inline">\(A\)</span> represent the yellow / event which has probability <span class="math inline">\(4/16\)</span> and let <span class="math inline">\(B\)</span> represent the blue \ event which has probability 4/16. Then <span class="math inline">\(\textrm{P}(A\cup B) = 6/16\)</span>, since there are 6 outcomes which satisfy either event <span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span> (or both). However, simply adding <span class="math inline">\(\textrm{P}(A)+\textrm{P}(B)\)</span> yields <span class="math inline">\(8/16\)</span> because the two outcomes that satisfy the green event <span class="math inline">\(A\cap B\)</span> are counted both in <span class="math inline">\(\textrm{P}(A)\)</span> and <span class="math inline">\(\textrm{P}(B)\)</span>. So to correct for this double counting, we subtract out <span class="math inline">\(\textrm{P}(A\cap B)\)</span>:
+<span class="math display">\[
+\textrm{P}(A)+\textrm{P}(B)-\textrm{P}(A\cap B) = 4/16 + 4/16 -2/16 = 6/16 = \textrm{P}(A\cup B)
+\]</span></p>
+<p>Warning: The general addition rule for more than two events is more complicated<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a>; see <a href="https://en.wikipedia.org/wiki/Inclusion%E2%80%93exclusion_principle#In_probability">the inclusion-exclusion principle</a>.</p>
+<p>In the law of total probability the events <span class="math inline">\(B_1, \ldots, B_k\)</span>, which represent “cases”, form a <em>partition</em> of the sample space; each outcome <span class="math inline">\(\omega\in\Omega\)</span> lies in exactly one of the <span class="math inline">\(B_i\)</span>. The law of total probability says that we can interpret the “overall” probability <span class="math inline">\(\textrm{P}(A)\)</span> by summing the probability of <span class="math inline">\(A\)</span> in each “case” <span class="math inline">\(\textrm{P}(A\cap B_i)\)</span>. (We will see a different and more useful expression of the law of total probability, involving conditional probabilities, in Section <a href="#lawtotalprob"><strong>??</strong></a>.)</p>
+
+<div class="example">
+<p><span id="exm:venn-prob" class="example"><strong>Example 2.34  </strong></span></p>
+<p>Computer monitors are given a final inspection following assembly. Three types of defects are identified as minor, major, and critical and are coded <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, and <span class="math inline">\(C\)</span>, respectively. The following data are found through the inspection:</p>
+<ul>
+<li>15% have minor defects</li>
+<li>12% have major defects</li>
+<li>10% have critical defects</li>
+<li>4% have both minor and major defects</li>
+<li>5% have both minor and critical defects</li>
+<li>4% have both major and critical defects</li>
+<li>1% have all three types of defects
+</div></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Use a Venn diagram below and the information above to partition the sample space into 8 disjoint regions, along with their probabilities. (Hint: Work your way out from the center.)</li>
+<li>One of the 8 pieces of the partition has a probability of 0.07. Identify the event in symbols, and then interpret the event in words.</li>
+<li>Find the probability that a randomly selected computer monitor has at least one of these three types of defects.</li>
+<li>Find the probability that a randomly selected computer monitor has no defects.</li>
+<li>Find the probability that a randomly selected computer monitor has exactly one of these three types of defects.</li>
+<li>Find the probability that a randomly selected computer monitor has either a minor or major defect (or both), but not a critical defect.</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="probspace.html#exm:venn-prob">2.34</a>.
+</div>
+<p>The following example involves random selecting a U.S. household. Note that while “randomly select” is commonly used terminology, it is not the best wording. Remember that “random” simply means uncertain, so technically “randomly select” just means selecting in a way that the outcome is uncertain. Suppose I want to “randomly select” one of two households, A or B. I could put 10 tickets in a hat, with 9 labeled A and 1 labeled B, and then draw a ticket; this is random selection because the outcome of the draw is uncertain. However, what is often meant by “randomly select” is selecting in a way that each outcome is equally likely. To give households A and B the same chance of being selected, I would put a single ticket for each in the hat. Randomly selecting in a way that each outcome is equally likely could be described more precisely as “selecting uniformly at random”. (We discuss equally likely outcomes in more detail starting in Section <a href="probspace.html#equally-likely">2.4.3</a>.)</p>
+
+<div class="example">
+<span id="exm:largest-smallest-prob" class="example"><strong>Example 2.35  </strong></span>The probability that a randomly selected U.S. household has a pet dog is 0.47. The probability that a randomly selected U.S. household has a pet cat is 0.25. (These values are based on the 2018 <a href="https://gss.norc.org/">General Social Survey (GSS)</a>.)
+</div>
+<ol style="list-style-type: decimal">
+<li>Represent the information provided using proper symbols.</li>
+<li>Donny Don’t says: “the probability that a randomly selected U.S. household has a pet dog OR a pet cat is <span class="math inline">\(0.47 + 0.25=0.72\)</span>.” Do you agree? What must be true for Donny to be correct? Explain.</li>
+<li>What is the <em>largest possible</em> value of the probability that a randomly selected U.S. household has a pet dog AND a pet cat? Describe the (unrealistic) situation in which this extreme case would occur. (Hint: for the remaining parts it helps to consider two-way tables.)</li>
+<li>What is the <em>smallest possible</em> value of the probability that a randomly selected U.S. household has a pet dog AND a pet cat? Describe the (unrealistic) situation in which this extreme case would occur.</li>
+<li>Donny Don’t says: “I remember hearing once that in probability OR means add and AND means multiply. So the probability that a randomly selected U.S. household has a pet dog AND a pet cat is <span class="math inline">\(0.47 \times 0.25=0.1175\)</span>.” Do you agree? Explain.</li>
+<li>According to the GSS, the probability that a randomly selected U.S. household has a pet dog AND a pet cat is <span class="math inline">\(0.15\)</span>. Compute the probability that a randomly selected U.S. household has a pet dog OR a pet cat.</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="probspace.html#exm:largest-smallest-prob">2.35</a>.
+</div>
+<ol style="list-style-type: decimal">
+<li><p>The sample space consists of U.S. households. Let <span class="math inline">\(C\)</span> be the event that the household has a pet cat, and let <span class="math inline">\(D\)</span> be the event that the household has a pet dog. Let <span class="math inline">\(\textrm{P}\)</span> be the probability measure corresponding to randomly selecting a U.S. household. (The probability measure corresponds to however the random selection is done; though not specified, it’s assumed to be uniformly at random.) Then <span class="math inline">\(\textrm{P}(C) = 0.25\)</span> and <span class="math inline">\(\textrm{P}(D) = 0.47\)</span>.</p></li>
+<li><p>Donny would be correct if the events <span class="math inline">\(C\)</span> and <span class="math inline">\(D\)</span> were disjoint, which would only be true if the probability that a randomly selected U.S. household has a pet dog AND a pet cat were 0. This is unrealistic, since I’m sure you know households (maybe even your own!) that have both pet cats and dogs.</p></li>
+<li><p><span class="math inline">\(\textrm{P}(C \cup D) = \textrm{P}(C) + \textrm{P}(D) - \textrm{P}(C \cap D) = 0.25 + 0.42 - \textrm{P}(C\cap D)\)</span>. So <span class="math inline">\(\textrm{P}(C\cup D)\)</span> is the largest it can be when <span class="math inline">\(\textrm{P}(C \cap D)\)</span> is the smallest it can be. The smallest <span class="math inline">\(\textrm{P}(C \cap D)\)</span> can be is 0, and hence the largest <span class="math inline">\(\textrm{P}(C\cup D)\)</span> can be is 0.72, which would only be true if no households had both a pet cat and a pet dog. The following two-way table of percents represents this unrealistic scenario.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">D</th>
+<th align="right">not D</th>
+<th align="right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>C</strong></td>
+<td align="right">0</td>
+<td align="right">25</td>
+<td align="right">25</td>
+</tr>
+<tr class="even">
+<td><strong>not C</strong></td>
+<td align="right">47</td>
+<td align="right">28</td>
+<td align="right">75</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td align="right">47</td>
+<td align="right">53</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><span class="math inline">\(\textrm{P}(C \cup D) = \textrm{P}(C) + \textrm{P}(D) - \textrm{P}(C \cap D) = 0.25 + 0.42 - \textrm{P}(C\cap D)\)</span>. <span class="math inline">\(\textrm{P}(C\cup D)\)</span> is the smallest it can be when <span class="math inline">\(\textrm{P}(C \cap D)\)</span> is the largest it can be. The probability that the household has both a pet cat and a pet dog can not be larger than either of the two component probabilities; that is <span class="math inline">\(\textrm{P}(C\cap D)\le \textrm{P}(C) = 0.25\)</span> and <span class="math inline">\(\textrm{P}(C\cap D)\le \textrm{P}(D) = 0.42\)</span>. The largest <span class="math inline">\(\textrm{P}(C \cap D)\)</span> can be is 0.25, and hence the smallest <span class="math inline">\(\textrm{P}(C\cup D)\)</span> can be is 0.42, which would only be true if every household that has a pet cat also has a pet dog. The following two-way table of percents represents this unrealistic scenario.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">D</th>
+<th align="right">not D</th>
+<th align="right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>C</strong></td>
+<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">25</td>
+</tr>
+<tr class="even">
+<td><strong>not C</strong></td>
+<td align="right">22</td>
+<td align="right">53</td>
+<td align="right">75</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td align="right">47</td>
+<td align="right">53</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>Tell Donny to check the axioms of probability. There is no requirement that the probability of an intersection must be the product of the probabilities. The two previous parts show that <span class="math inline">\(0\le \textrm{P}(C \cap D) \le 0.25\)</span>, but without further information we can’t determine the value of <span class="math inline">\(\textrm{P}(C\cap D)\)</span>. It helps to think it in percentage terms. The extreme of 0 occurs when 0% of households with a pet cat also have a pet dog; the extreme of 0.25 occurs when 100% of households with a pet cat also have a pet dog. We might expect that that the true value of <span class="math inline">\(\textrm{P}(C \cap D)\)</span> depends on the actual percentage of households with a pet cat that also have a pet dog. Without knowing that percentage (or equivalent information), we cannot determine <span class="math inline">\(\textrm{P}(C \cap D)\)</span>. (We will explore this topic in more depth in Chapter XXX.)</p></li>
+<li><p><span class="math inline">\(\textrm{P}(C \cup D) = \textrm{P}(C) + \textrm{P}(D) - \textrm{P}(C \cap D) = 0.25 + 0.42 - 0.15 = 0.52\)</span>. Notice that this is between the hypothetical extremes of 0.42 and 0.72. Also notice that the actual <span class="math inline">\(\textrm{P}(C \cap D)\)</span> is between the hypothetical extremes of 0 and 0.25, but it is not equal to the product of 0.25 and 0.42. The moral is that we are not able to compute probabilities involving both events (<span class="math inline">\(\textrm{P}(C\cup D)\)</span>, <span class="math inline">\(\textrm{P}(C \cap D\)</span>)) based on the probability of each event alone. The following two-way table of percents represents the actual scenario.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">D</th>
+<th align="right">not D</th>
+<th align="right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>C</strong></td>
+<td align="right">15</td>
+<td align="right">10</td>
+<td align="right">25</td>
+</tr>
+<tr class="even">
+<td><strong>not C</strong></td>
+<td align="right">32</td>
+<td align="right">43</td>
+<td align="right">75</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td align="right">47</td>
+<td align="right">53</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+<p>Probabilities involving multiple events, such as <span class="math inline">\(\textrm{P}(A \cap B)\)</span> or <span class="math inline">\(\textrm{P}(X&gt;80, Y&lt;2)\)</span>, are often called <strong>joint probabilities</strong>.
+Note that the axioms do not specify any direct requirements on probabilities of intersections. In particular, is not necessarily true that <span class="math inline">\(\textrm{P}(A\cap B)\)</span> equals <span class="math inline">\(\textrm{P}(A)\textrm{P}(B)\)</span>. It is true that probabilities of intersections can be obtained by multiplying, but the product generally involves at least one <em>conditional probability</em> that reflects any association between the events involved. In general, joint probabilities (<span class="math inline">\(\textrm{P}(A \cap B)\)</span>) can not be computed based on the individual probabilities (<span class="math inline">\(\textrm{P}(A)\)</span>, <span class="math inline">\(\textrm{P}(B)\)</span>) alone. We will explore this topic in more depth in Chapter XXX.</p>
+
+<div class="exercise">
+<p><span id="exr:linda" class="exercise"><strong>Exercise 2.1  </strong></span>Consider a Cal Poly student who frequently has blurry, bloodshot eyes, generally exhibits slow reaction time, always seems to have the munchies, and disappears at 4:20 each day. Which of the following events, <span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span>, has a higher probability? (Assume the two probabilities are not equal.)</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: The student has a GPA above 3.0.</li>
+<li><span class="math inline">\(B\)</span>: The student has a GPA above 3.0 and smokes marijuana regularly.</li>
+</ul>
+</div>
+<p><strong>Warning!</strong> Your psychological judgment of probabilities is often inconsistent with the mathematical logic of probabilities.</p>
+</div>
+<div id="equally-likely" class="section level3" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> Equally likely outcomes</h3>
+<p>Sometimes a probability <span class="math inline">\(\textrm{P}(A)\)</span> is defined explicitly for an event <span class="math inline">\(A\)</span> via a formula. For example, in the case of a finite sample space with <strong>equally likely outcomes</strong>,</p>
+<p><span class="math display">\[
+\textrm{P}(A) = \frac{|A|}{|\Omega|} = \frac{\text{number of outcomes in $A$}}{\text{number of outcomes in $\Omega$}} \qquad{\text{when outcomes are equally likely}}
+\]</span></p>
+
+<div class="example">
+<p><span id="exm:coin-probspace" class="example"><strong>Example 2.36  </strong></span>
+Consider the outcome of a sequence of 4 flips of a coin. Recall the sample space from Example <a href="samplespace.html#exm:coin-outcome">2.2</a> consisting of 16 possible outcomes. Let <span class="math inline">\(X\)</span> be the number of H. One choice of probability measure <span class="math inline">\(\textrm{P}\)</span> corresponds to assuming the 16 possible outcomes are equally likely, consistent with the assumption that the coin is fair and the flips are independent. (We’ll discuss independence in Section XXX.)</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Specify the probability of each individual outcome, e.g. <span class="math inline">\(\{HHTH\}\)</span>.<br />
+</li>
+<li>Find <span class="math inline">\(\textrm{P}(E_1)\)</span>, the event that the first flip results in heads. (Hint: remember the sample space.)</li>
+<li>Find <span class="math inline">\(\textrm{P}(E_2)\)</span>, the event that the second flip results in heads.</li>
+<li>Find and interpret <span class="math inline">\(\textrm{P}(E_1 \cup E_2)\)</span>. (Can you do it two ways?)</li>
+<li>Find and interpret <span class="math inline">\(\textrm{P}(X=3)\)</span>.</li>
+<li>Find and interpret <span class="math inline">\(\textrm{P}(X = 4)\)</span>.</li>
+<li>Find and interpret <span class="math inline">\(\textrm{P}(X \ge 3)\)</span>. (Can you do it two ways?)</li>
+<li>We assumed the 16 outcomes are equally likely. Do the axioms or probability require this assumption?</li>
+<li>Are the possible values are <span class="math inline">\(X\)</span> equally likely?</li>
+<li>Provide a “long run relative frequency” interpretation of <span class="math inline">\(\textrm{P}(X = 3)\)</span>.</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="probspace.html#exm:coin-probspace">2.36</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li>The sample space is composed of 16 outcomes which are assumed to be equally likely, so the probability of each outcome is 1/16.</li>
+<li>Intuitively this is 1/2, but sample space outcomes consist of sequences of four coin flips, so we should define the proper event.
+<span class="math display">\[
+E_1 = \{HHHH, HHHT, HHTH, HTHH, HHTT, HTHT, HTTH, HTTT\}
+\]</span>
+So <span class="math inline">\(\textrm{P}(E_1) = 8/16 = 1/2\)</span>.</li>
+<li>Similar to the previous part.
+<span class="math display">\[
+E_2 = \{HHHH, HHHT, HHTH, THHH, HHTT, THHT, THTH, THTT\}
+\]</span>
+So <span class="math inline">\(\textrm{P}(E_2) = 8/16 = 1/2\)</span>.</li>
+<li><span class="math inline">\(E_1 \cup E_2\)</span> is the event that at least one of the first two flips is heads. We can identify the event and compute its probability directly.
+<span class="math display">\[\begin{align*}
+E_1 \cup E_2 &amp; = \{HHHH, HHHT, HHTH, HTHH, THHH, HHTT,
+\\
+&amp; \quad HTHT, HTTH, THHT, THTH, HTTT, THTT\}
+\end{align*}\]</span>
+So <span class="math inline">\(\textrm{P}(E_1 \cup E_2) = 12/16\)</span>. Note that <span class="math inline">\(\textrm{E}_1\)</span> and <span class="math inline">\(\textrm{E}_2\)</span> are not disjoint — it is possible for the first two flips to both be H — so we cannot just add their probabilities. But we can use the general addition rule for two events.
+<span class="math display">\[
+E_1 \cap E_2 = \{HHHH, HHHT, HHTH, HHTT\}
+\]</span>
+So <span class="math inline">\(\textrm{P}(E_1 \cup E_2) = \textrm{P}(E_1) + \textrm{P}(E_2) - \textrm{P}(E_1 \cap E_2) = 8/16 + 8/16 - 4/16 = 12/16\)</span>.</li>
+<li><span class="math inline">\(\{X=3\} = \{HHHT, HHTH, HTHH, THHH\}\)</span> is the event that exactly 3 of the flips land on heads, so <span class="math inline">\(\textrm{P}(X=3) = 4/16\)</span>.</li>
+<li><span class="math inline">\(\{X=4\} = \{HHHH\}\)</span>, an event consisting of a single outcome, so <span class="math inline">\(\textrm{P}(X=4) = 1/16\)</span>.</li>
+<li>Directly, <span class="math inline">\(\{X \ge 3\} = \{HHHT, HHTH, HTHH, THHH, HHHH\}\)</span>, so <span class="math inline">\(\textrm{P}(X\ge 3) = 5/16\)</span>. Also <span class="math inline">\(\{X\ge 3\}=\{X=3\}\cup\{X=4\}\)</span>, a union of disjoint events, so <span class="math inline">\(\textrm{P}(X \ge 3) = \textrm{P}(X = 3) + \textrm{P}(X = 4) = 4/16 + 1/16 = 5/16\)</span>.</li>
+<li>No, the axioms do not require equally likely outcomes. If, for example, the coin were biased in favor of landing on Heads, we would want a different probability measure.</li>
+<li>No, <span class="math inline">\(\textrm{P}(X=3)\neq \textrm{P}(X = 4)\)</span>. Even though the underlying sample space outcomes are equally likely, the possible values of <span class="math inline">\(X\)</span> are not.</li>
+<li>Over many sets of 4 flips of a fair coin the number of H will be equal to 3 in about 25% of sets.</li>
+</ol>
+<p>Remember that events often involve random variables. Even if the sample space outcomes are equally likely, the possible values of related random variables might not be.</p>
+
+<div class="example">
+<p><span id="exm:matching-probspace" class="example"><strong>Example 2.37  (Matching problem)  </strong></span>Recall the “matching problem”. A geology museum in California has four different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order.</p>
+<p>Recall the sample space from Example <a href="samplespace.html#exm:matching-outcome">2.3</a>. Let the random variable <span class="math inline">\(Y\)</span> count the number of rocks that are put back in the correct spot. (Hint: recall Table <a href="rv.html#tab:matching-indicator-tab">2.6</a>.) Let <span class="math inline">\(\textrm{P}\)</span> denote the probability measure corresponding to the assumption that the janitor is equally likely to put any rock in any spot, so that the 24 possible placements are equally.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Find <span class="math inline">\(\textrm{P}(Y=0)\)</span>.</li>
+<li>What are the possible values of <span class="math inline">\(Y\)</span>? Make a table displaying <span class="math inline">\(\textrm{P}(Y=y)\)</span> for each possible value of <span class="math inline">\(y\)</span>.</li>
+<li>Let <span class="math inline">\(C\)</span> be the event that at least one rock is put in the correct spot. Find <span class="math inline">\(\textrm{P}(C)\)</span>.</li>
+<li>Let <span class="math inline">\(C_1\)</span> be the event that rock 1 (say the heaviest rock) is put correctly in spot 1. Find <span class="math inline">\(\textrm{P}(C_1)\)</span>.</li>
+<li>Let <span class="math inline">\(C_2\)</span> be the event that rock 2 (say the next heaviest rock) is put correctly in spot 2. Find <span class="math inline">\(\textrm{P}(C_2)\)</span>.</li>
+<li>Define <span class="math inline">\(C_3\)</span>, and <span class="math inline">\(C_4\)</span> similarly. Represent the event <span class="math inline">\(C\)</span> in terms of <span class="math inline">\(C_1, C_2, C_3, C_4\)</span>.</li>
+<li>Find and interpret <span class="math inline">\(\textrm{P}(C_1\cap C_2 \cap C_3 \cap C_4)\)</span>.</li>
+<li>Donny Don’t says: “the events are not disjoint so by the general addition rule <span class="math inline">\(\textrm{P}(C_1 \cup C_2 \cup C_3 \cup C_4)\)</span> is equal to <span class="math inline">\(\textrm{P}(C_1)+\textrm{P}(C_2)+\textrm{P}(C_3)+\textrm{P}(C_4)-\textrm{P}(C_1\cap C_2 \cap C_3 \cap C_4)\)</span>.” Explain to Donny his mistake.</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="probspace.html#exm:matching-probspace">2.37</a></p>
+</div>
+
+<ol style="list-style-type: decimal">
+<li><p>Each of the 24 outcomes in Table <a href="rv.html#tab:matching-indicator-tab">2.6</a> is equally likely. There are 9 outcomes for which <span class="math inline">\(Y=0\)</span>, so <span class="math inline">\(\textrm{P}(Y=0)=9/24=0.375\)</span>.</p></li>
+<li><p>The possible values of <span class="math inline">\(Y\)</span> are 0, 1, 2, 4. <span class="math inline">\(Y\)</span> cannot be 3, since if 3 rocks are in the correct spot, then the fourth must be too. <span class="math inline">\(\textrm{P}(Y=y)\)</span> for <span class="math inline">\(y=0, 1, 2, 4\)</span> can be found as in the previous part. See Table <a href="probspace.html#tab:matching-probspace-table">2.10</a>.</p>
+<table>
+<caption><span id="tab:matching-probspace-table">Table 2.10: </span>Probability of each possible value of the number of matches, <span class="math inline">\(Y\)</span>, in the matching problem in Example <a href="probspace.html#exm:matching-probspace">2.37</a>.</caption>
+<thead>
+<tr class="header">
+<th align="right">y</th>
+<th align="right">P(Y=y)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="right">0.3750</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">0.3333</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">0.2500</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0.0417</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><span class="math inline">\(C=\{Y\ge 1\}\)</span> is the event that at least one rock is put in the correct spot. <span class="math inline">\(\textrm{P}(Y \ge 1) = 1-\textrm{P}(Y=0)=1-9/24 = 15/24 = 0.625\)</span>.<br />
+</p></li>
+<li><p>Intuitively, <span class="math inline">\(\textrm{P}(C_1)=1/4\)</span> since rock 1 is equally likely to be put in any of the 4 spots. In terms of the sample space outcomes, <span class="math inline">\(C_1 =\{1234, 1234, 1243, 1324, 1342, 1423, 1432\}\)</span>, so <span class="math inline">\(\textrm{P}(C_1)=6/24=1/4\)</span>.</p></li>
+<li><p>Similar to the previous part, <span class="math inline">\(\textrm{P}(C_2)=1/4\)</span>. Also <span class="math inline">\(C_2=\{I_2=1\}\)</span>, and we see that there are 6 outcomes (rows) in Table <a href="rv.html#tab:matching-indicator-tab">2.6</a> corresponding to <span class="math inline">\(I_2=1\)</span>. Similarly, <span class="math inline">\(\textrm{P}(C_3)=\textrm{P}(C_4)=1/4\)</span>.</p></li>
+<li><p><span class="math inline">\(C = C_1\cup C_2\cup C_3\cup C_4\)</span>.</p></li>
+<li><p><span class="math inline">\(\textrm{P}(C_1\cap C_2 \cap C_3 \cap C_4) = \textrm{P}(\{1234\}) = 1/24\)</span> is the probability that all four rocks are put in their correct spots.</p></li>
+<li><p>As we mentioned previously, the general addition rule is complicated for more than two events. There are some terms missing from Donny’s calculation.</p></li>
+</ol>
+<p>There is one point about Example <a href="probspace.html#exm:matching-probspace">2.37</a> worth emphasizing.
+Probability problems often involve finding “the probability of at least one…,” which on the surface involves unions (OR). However, the general addition rule for multiple events is complicated. It is often more convenient to use the complement rule and compute “the probability of at least one…” as one minus “the probability of none…”; the latter probability involves intersections (AND). We will see more about probabilities of intersections in Chapter XXX.</p>
+</div>
+<div id="sec-uniform-prob" class="section level3" number="2.4.4">
+<h3><span class="header-section-number">2.4.4</span> Uniform probability measures</h3>
+<p>For a finite sample space with equally likely outcomes, computing the probability of an event reduces to counting the number of outcomes that satisfy the event. The continuous analog of equally likely outcomes is a <strong>uniform probability measure</strong>. When the sample space is uncountable, size is measured continuously (length, area, volume) rather that discretely (counting).</p>
+<p><span class="math display">\[
+\textrm{P}(A) = \frac{|A|}{|\Omega|} = \frac{\text{size of } A}{\text{size of } \Omega} \qquad \text{if $\textrm{P}$ is a uniform probability measure}
+\]</span></p>
+
+<div class="example">
+<p><span id="exm:meeting-probspace1" class="example"><strong>Example 2.38  </strong></span>Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times. We’ll consider only Regina’s arrival time for now. (We’ll get back to Cady in the next example.) Assume that Regina arrives at a time chosen uniformly at random between noon and 1. We can model Regina’s arrival with the sample space <span class="math inline">\([0, 1]\)</span> and a uniform probability measure.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Find the probability that Regina arrives before 12:15.</li>
+<li>Find the probability that Regina arrives after 12:45.</li>
+<li>Find the probability that Regina arrives between 12:15 and 12:45.</li>
+<li>Find the probability that Regina arrives between 12:15:00 and 12:16:00.</li>
+<li>Find the probability that Regina arrives between 12:15:00 and 12:15:01.</li>
+<li>Find the probability that Regina arrives at the exact time 12:15:00 (with infinite precision).</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="probspace.html#exm:meeting-probspace1">2.38</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Since the sample space is <span class="math inline">\([0, 1]\)</span>, a continuous (one-dimensional) interval, “size” is measured by length (which in this context represents fractions of an hour). Let <span class="math inline">\(\textrm{P}\)</span> be the uniform probability measure on <span class="math inline">\([0, 1]\)</span>. The interval from noon to 12:15 has length 0.25 hours and the sample space has length 1 hour, so the probability she arrives before 12:15 is <span class="math inline">\(0.25/1 = 0.25\)</span>; <span class="math inline">\(\textrm{P}([0, 0.25)) = 0.25\)</span>.</li>
+<li>Similar to the previous part, the probability she arrives after 12:45 is 0.25; <span class="math inline">\(\textrm{P}((0.75, 1]) = 0.25\)</span>.</li>
+<li>The probability that Regina arrives between 12:15 and 12:45, an interval of length 0.5 hours, is 0.5; <span class="math inline">\(\textrm{P}((0.25, 0.75)) = 0.5\)</span>.</li>
+<li>A one minute interval has length <span class="math inline">\(1/60 = 0.0167\)</span> hours, so the probability she arrives between 12:15 and 12:16 is 0.0167; <span class="math inline">\(\textrm{P}([0.25, 0.25+1/60]) = 1/60\)</span>.</li>
+<li>A one second interval has length <span class="math inline">\(1/3600 = 0.000278\)</span> hours, so the probability she arrives between 12:15:00 and 12:15:01 is 0.000278; <span class="math inline">\(\textrm{P}([0.25, 0.25+1/3600]) = 1/3600\)</span>.</li>
+<li>The exact time 12:15:00 represents a single point the sample space, an interval of length 0. The probability that Regina arrives at the exact time 12:15:00 (with infinite precision) is 0; <span class="math inline">\(\textrm{P}(\{0.25\}) = 0\)</span>.</li>
+</ol>
+<p>The last part in the previous example might seem counterintuitive at first. There was nothing special about 12:15; pick any time in the continuous interval from noon to 1:00, and the probability that Regina arrives at that exact time, with infinite precision, is 0. This idea can be understood as a limit. The probability that Regina arrives within one minute of the specified time is small, within one second of the specified time is even smaller, within one millisecond of the specified time is even smaller still; with infinite precision these time increments can get smaller and smaller indefinitely. Of course, infinite precision is not practical, but assuming the possible arrival times are represented by a continuous interval provides a reasonable mathematical model. Even though any particular time has probability 0 of being the exact arrival time, <em>intervals</em> of time still have positive probability of containing the arrival time. We will revisit this idea in more detail in Section XXX. This is one reason why probabilities are defined for events and not outcomes.</p>
+
+<div class="example">
+<p><span id="exm:meeting-probspace2" class="example"><strong>Example 2.39  </strong></span>
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times. Recall the sample space from Example <a href="samplespace.html#exm:meeting-outcome">2.6</a>. Assume that the (Regina, Cady) pair of arrival times is chosen uniformly at random from the sample space <span class="math inline">\([0, 1]\times[0, 1]\)</span>. We can model the pair of arrival times with the sample space <span class="math inline">\([0, 1]\times [0, 1]\)</span> and a uniform probability measure.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Find the probability that Regina arrives after Cady.</li>
+<li>Find the probability that either Regina or Cady arrives before 12:30.</li>
+<li>Find the probability that Regina arrives at most 15 minutes after Cady (and Cady arrives first).</li>
+<li>Find the probability that Regina arrives before 12:24.</li>
+<li>Find the probability that Regina arrives at most 1 minute after Cady (and Cady arrives first).</li>
+<li>Find the probability that Regina arrives at most 1 second after Cady (and Cady arrives first).</li>
+<li>Find the probability that Regina and Cady arrive at exactly the same time, with infinite precision.</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="probspace.html#exm:meeting-probspace2">2.39</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li>See Figure <a href="probspace.html#fig:meeting-probspace2-plot">2.9</a> for pictures. Since the sample space is <span class="math inline">\([0, 1]\times[0, 1]\)</span>, a continuous two-dimensional region, “size” is measured by area. Let <span class="math inline">\(\textrm{P}\)</span> be the uniform probability measure on <span class="math inline">\([0, 1]\times [0, 1]\)</span>. The sample space has area 1. The triangular region corresponding to the event that Regina arrives after Cady has area 0.5. So the probability that Regina arrives after Cady is <span class="math inline">\(0.5/1=0.5\)</span>.</li>
+<li>The L-shaped region corresponding to the event that Regina or Cady arrives before 12:30 has area 0.75, so the probability is 0.75.</li>
+<li>The trapezoidal region corresponding to the event that that Regina arrives at most 15 minutes after Cady (and Cady arrives first) has area <span class="math inline">\(7/32 = 0.21875\)</span>. (It’s easiest to find the area of the two unshaded triangles and subtract from the total area of 1; <span class="math inline">\(1 - 0.5 - (1-0.25)^2/2=7/32\)</span>.) So the probability that Regina arrives at most 15 minutes after Cady (and Cady arrives first) is 0.21875.</li>
+<li>The rectangular region corresponding to the event that that Regina arrives before 12:24 has area 0.4, so the probability is 0.4.</li>
+<li>Similar to part 3, the probability that Regina arrives at most 1 minute after Cady (and Cady arrives first) is <span class="math inline">\(1 - 0.5 - (1-1/60)^2/2=0.0165\)</span>.</li>
+<li>Similar to part 3, the probability that Regina arrives at most 1 second after Cady (and Cady arrives first) is <span class="math inline">\(1 - 0.5 - (1-1/3600)^2/2=0.000278\)</span>.</li>
+<li>The event that Regina and Cady arrive at exactly the same time, with infinite precision, corresponds to the line segment <span class="math inline">\(\{(\omega_1,\omega_2):\omega_1 = \omega_2\}\)</span>. The area of this line segment is 0, so the probability that Regina and Cady arrive at exactly the same time, with infinite precision, is 0.</li>
+</ol>
+
+<div class="figure"><span id="fig:meeting-probspace2-plot"></span>
+<img src="bookdown-demo_files/figure-html/meeting-probspace2-plot-1.png" alt="Illustration of the events in Exercise 2.39. The square represents the sample space \(\Omega=[0,1]\times[0,1]\)." width="672" />
+<p class="caption">
+Figure 2.9: Illustration of the events in Exercise <a href="probspace.html#exm:meeting-probspace2">2.39</a>. The square represents the sample space <span class="math inline">\(\Omega=[0,1]\times[0,1]\)</span>.
+</p>
+</div>
+<p>The latter parts of Example <a href="probspace.html#exm:meeting-probspace2">2.39</a> illustrate ideas similar to those discussed after Example <a href="probspace.html#exm:meeting-probspace1">2.38</a>. Regardless of the precise time in the continuous interval <span class="math inline">\([0, 1]\)</span> at which Regina arrives, the probability that Cady arrives at that exact time, with infinite precision, is 0.</p>
+
+<div class="example">
+<p><span id="exm:meeting-waiting-uniform" class="example"><strong>Example 2.40  </strong></span>
+Continuing Example <a href="probspace.html#exm:meeting-probspace2">2.39</a>, let <span class="math inline">\(R\)</span> be the random variable representing Regina’s arrival time in <span class="math inline">\([0, 1]\)</span>, and <span class="math inline">\(Y\)</span> for Cady. The random variable <span class="math inline">\(W = |R - Y|\)</span> represents the amount of time the first person to arrive waits for the second person to arrive.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Find and interpret <span class="math inline">\(\textrm{P}(W &lt; 0.25)\)</span>. (Hint: draw a picture representing the event in terms of the pairs of arrival times.)</li>
+<li>Find and interpret <span class="math inline">\(\textrm{P}(W &gt; 0.75)\)</span>.</li>
+<li>Are the values of <span class="math inline">\(W\)</span> uniformly distributed over <span class="math inline">\([0, 1]\)</span>?</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="probspace.html#exm:meeting-waiting-uniform">2.40</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li>The event corresponding to <span class="math inline">\(W&lt;0.25\)</span> is depicted on the left in Figure <a href="probspace.html#fig:meeting-waiting-uniform-plot">2.10</a>. If Cady arrives first (<span class="math inline">\(R&gt;Y\)</span>, below the diagonal in the plot) then <span class="math inline">\(W=R-Y\)</span> so <span class="math inline">\(W&lt;0.25\)</span> if <span class="math inline">\(R -0.25 &lt; Y\)</span>. If Regina arrives first (<span class="math inline">\(R&lt;Y\)</span>, above the diagonal in the plot) then <span class="math inline">\(W=Y-R\)</span> so <span class="math inline">\(W&lt;0.25\)</span> if <span class="math inline">\(Y &lt; R + 0.25\)</span>. Putting the two cases together <span class="math inline">\(W&lt;0.25\)</span> if <span class="math inline">\(R - 0.25 &lt; Y &lt; R + 0.25\)</span>; the corresponding region of <span class="math inline">\((R, Y)\)</span> pairs is shaded in the plot. According to the uniform probability measure on <span class="math inline">\([0, 1]\times[0,1]\)</span>, <span class="math inline">\(\textrm{P}(W &lt;0.25)\)</span> is the area of the shaded region (divided by the area of the sample space which is 1). The area of the shaded region is 0.4375. (It is easiest to find the areas of the unshaded triangles and subtract from 1, <span class="math inline">\(1 - 0.75^2/2 - 0.75^2/2\)</span>.) So <span class="math inline">\(\textrm{P}(W &lt; 0.25)=0.4375\)</span> is the probability that Regina and Cady arrive within 15 minutes of each other.</li>
+<li>The event corresponding to <span class="math inline">\(W&gt;0.75\)</span> is depicted on the right in Figure <a href="probspace.html#fig:meeting-waiting-uniform-plot">2.10</a>. The probability is the area of the shaded region. So <span class="math inline">\(\textrm{P}(W &gt; 0.75)=0.25^2/2 + 0.25^2/2=0.0625\)</span> is the probability that Regina and Cady arrive more than 45 minutes apart.</li>
+<li>The values of <span class="math inline">\(W\)</span> are not uniformly distributed over <span class="math inline">\([0, 1]\)</span>. For uniform probability measures, regions of the same size have the same probability. But the probability that <span class="math inline">\(W\)</span> lies in the interval <span class="math inline">\([0, 0.25]\)</span> is seven times greater than the probability that <span class="math inline">\(W\)</span> lies in the interval <span class="math inline">\([0.75, 1]\)</span>, even though these intervals have the same length.</li>
+</ol>
+
+<div class="figure"><span id="fig:meeting-waiting-uniform-plot"></span>
+<img src="bookdown-demo_files/figure-html/meeting-waiting-uniform-plot-1.png" alt="Illustration of the events in Example 2.40. The square represents the sample space \(\Omega=[0,1]\times[0,1]\)." width="50%" /><img src="bookdown-demo_files/figure-html/meeting-waiting-uniform-plot-2.png" alt="Illustration of the events in Example 2.40. The square represents the sample space \(\Omega=[0,1]\times[0,1]\)." width="50%" />
+<p class="caption">
+Figure 2.10: Illustration of the events in Example <a href="probspace.html#exm:meeting-waiting-uniform">2.40</a>. The square represents the sample space <span class="math inline">\(\Omega=[0,1]\times[0,1]\)</span>.
+</p>
+</div>
+<p>We saw in Example <a href="probspace.html#exm:matching-probspace">2.37</a> on the matching problem that even though the possible placements of the rocks were equally likely, the possible values of the number of correct matches were not. Example <a href="probspace.html#exm:meeting-waiting-uniform">2.40</a> illustrates a similar idea on a continuous scale. Even though the pairs of arrival times are uniformly distributed over <span class="math inline">\([0, 1]\times[0, 1]\)</span>, the values of the waiting time <span class="math inline">\(W\)</span> are not uniformly distributed over <span class="math inline">\([0, 1]\)</span>.</p>
+</div>
+<div id="non-uniform-probability-measures" class="section level3" number="2.4.5">
+<h3><span class="header-section-number">2.4.5</span> Non-uniform probability measures</h3>
+<p>Most random phenomenon do not involve equally likely outcomes or uniform probability measures. Even when the underlying outcomes are equally likely, the values of related random variables are usually not. Therefore, most interesting probability problems involve non-uniform probability measures.</p>
+<p>For countable sample spaces, a probability measure is often defined by specifying the probability of each individual outcome. The probability of any event can then be obtained (using countable additivity) by summing the probabilities of the outcomes which comprise the event. Such was the case in Example <a href="probspace.html#exm:dice-normalize">2.32</a>. We specified the relative likelihood of each outcome, and then we obtained probabilities of all the events in Table <a href="probspace.html#tab:die-events-weighted2">2.9</a> by adding the appropriate outcome probabilities. For example, the probability that the result of a single roll of the die in Example <a href="probspace.html#exm:dice-normalize">2.32</a> results in an even number is <span class="math inline">\(\tilde{\textrm{Q}}(\{2, 4\}) = \tilde{\textrm{Q}}(\{2\}) + \tilde{\textrm{Q}}(\{4\}) = 6/15 + 2/15 = 8/15\)</span>.</p>
+<p>For uncountable sample spaces, specifying probabilities for individual outcomes is not a feasible strategy. As illustrated by Example <a href="probspace.html#exm:meeting-probspace1">2.38</a> and the discussion following it, reasonable mathematical models for outcomes taking values on a continuous scale, with infinite precision, assign 0 probability to any exact outcome. Therefore, we specify a probability measure for uncountable sample spaces by assigning probabilities to intervals or regions of the sample space.</p>
+
+<div class="example">
+<p><span id="exm:meeting-nonuniform-probspace1" class="example"><strong>Example 2.41  </strong></span>Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times. We’ll consider only Regina’s arrival time for now. We will model Regina’s arrival time with the sample space <span class="math inline">\([0, 1]\)</span> and a non-uniform probability measure which reflects that she is more likely to arrive closer to 1 than to noon. In particular, we assume that the probability that Regina arrives before time <span class="math inline">\(x\in [0, 1]\)</span> is equal to <span class="math inline">\(x^2\)</span>; let <span class="math inline">\(\textrm{Q}\)</span> denote the corresponding probability measure. (We will see where such a probability measure might come from later. For now, we’ll just use it to compute probabilities and observe that it is a non-uniform measure.) In addition to computing probabilities below, compare your answers to the corresponding parts from Example <a href="probspace.html#exm:meeting-probspace1">2.38</a>.</p>
+</div>
+<!-- 1. Verify that $\IQ$ is a valid probability measure. -->
+<ol style="list-style-type: decimal">
+<li>Find the probability that Regina arrives before 12:15.</li>
+<li>Find the probability that Regina arrives after 12:45. How does this compare to the previous part? What does that say about Regina’s arrival time?</li>
+<li>Find the probability that Regina arrives between 12:15 and 12:45.</li>
+<li>Find the probability that Regina arrives between 12:15:00 and 12:16:00.</li>
+<li>Find the probability that Regina arrives between 12:15:00 and 12:15:01.</li>
+<li>Find the probability that Regina arrives at the exact time 12:15:00 (with infinite precision).</li>
+<li>Find the probability that Regina arrives between 12:59:00 and 1:00:00. How does this compare to the probability for 12:15:00 to 12:16:00? What does that say about Regina’s arrival time?</li>
+<li>Find the probability that Regina arrives between 12:59:59 and 1:00:00. How does this compare to the probability for 12:15:00 to 12:15:01? What does that say about Regina’s arrival time?</li>
+<li>Find the probability that Regina arrives at the exact time 1:00:00 (with infinite precision).</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="probspace.html#exm:meeting-nonuniform-probspace1">2.41</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Notice that <span class="math inline">\(\textrm{Q}([0, 1]) = 1^2 = 1\)</span>, so <span class="math inline">\(\textrm{Q}\)</span> is a valid probability measure. 12:15 corresponds to arriving at time <span class="math inline">\(0.25\)</span> in <span class="math inline">\([0, 1]\)</span>, so by assumption the probability she arrives before 12:15 is <span class="math inline">\(0.25^2 =0.0625\)</span>; <span class="math inline">\(\textrm{Q}([0, 0.25)) = 0.0625\)</span>. (She is now less likely to arrive with 15 minutes of noon than in the uniform case.)</li>
+<li>12:45 corresponds to arriving at time <span class="math inline">\(0.75\)</span> in <span class="math inline">\([0, 1]\)</span> and by assumption the probability she arrives before 12:45 is <span class="math inline">\(0.75^2 =0.5625\)</span>. Therefore, the probability that she arrives after 12:45, i.e., in the interval <span class="math inline">\([0.75, 1]\)</span> is <span class="math inline">\(\textrm{Q}([0.75, 1]) = 1 - 0.5625 = 0.4375\)</span>. So she is 7 times more likely to arrive within 15 minutes of 1:00 than within 15 minutes of noon. (She is now more likely to arrive with 15 minutes of 1:00 than in the uniform case.)</li>
+<li>The probability that Regina arrives between 12:15 and 12:45 is <span class="math inline">\(\textrm{Q}((0.25, 0.75)) = 1 - 0.0625 - 0.4375 = 0.5\)</span>. (This probability happens to be the same as in the uniform case.)</li>
+<li>The probability that she arrives before 12:16 is the sum of the probability that she arrives before 12:15 and the probability that she arrives between 12:15 and 12:16. Therefore,
+<span class="math display">\[\begin{align*}
+\textrm{Q}([0.25, 0.25+1/60]) &amp; = \textrm{Q}([0, 0.25+1/60]) - \textrm{Q}([0, 0.25])\\
+&amp; = (0.25 + 1/60)^2 - 0.25^2 = 0.0086.
+\end{align*}\]</span>
+(This probability is less than what it was in the uniform case.)</li>
+<li>Similar to the previous part, <span class="math inline">\(\textrm{Q}([0.25, 0.25+1/3600]) = (0.25 + 1/3600)^2 - 0.25^2 = 0.00014\)</span>. (This probability is less than what it was in the uniform case.)</li>
+<li>The exact time 12:15:00 represents a single point the sample space, an interval of length 0. The probability that Regina arrives at the exact time 12:15:00 (with infinite precision) is 0; <span class="math inline">\(\textrm{Q}(\{0.25\}) = 0\)</span>.</li>
+<li>12:59:00 is time <span class="math inline">\(1 - 1/60=0.9833\)</span> in [0, 1]. <span class="math inline">\(\textrm{Q}([1 - 1/60, 1]) = \textrm{Q}([0, 1]) - \textrm{Q}([0, 1-1/60]) = 1^2 - (1-1/60)^2 = 0.0331\)</span>. Notice that this one minute interval around 1:00 has higher probability that a one minute interval around 12:15. (This probability is more than what it was in the uniform case.)</li>
+<li>Similar to the previous part, <span class="math inline">\(\textrm{Q}([1-1/3600, 1]) = 1^2 - (1-1/3600)^2 = 0.00056\)</span>. Notice that this one second interval around 1:00 has higher probability that a one second interval around 12:15, though both probabilities are small. (This probability is more than what it was in the uniform case.)</li>
+<li>The exact time 1:00:00 represents a single point the sample space, an interval of length 0. The probability that Regina arrives at the exact time 1:00:00 (with infinite precision) is 0; <span class="math inline">\(\textrm{Q}(\{1\}) = 0\)</span>.</li>
+</ol>
+<p>In Example <a href="probspace.html#exm:meeting-nonuniform-probspace1">2.41</a>, the probability that Regina arrives at any exact time in <span class="math inline">\([0, 1]\)</span>, with infinite precision, is 0, just as in Example <a href="probspace.html#exm:meeting-probspace1">2.38</a>. But the values of the probabilities in Example <a href="probspace.html#exm:meeting-nonuniform-probspace1">2.41</a> illustrate the non-uniform probability assumption. Regina is much more likely to arrive between 12:45 and 1:00 than she is to arrive between 12:00 and 12:15, even though both these intervals have the same length. Also, while the probability that she arrives at any exact time with infinite precision is 0, the probability that she arrives “close to” 1:00 is larger than the probability that she arrives “close to” 12:15 (where “close to” might mean within a minute or within a second.) In some sense, some values in <span class="math inline">\([0, 1]\)</span> are “more likely” than others. We will explore this idea further in Section XXX, where we will see that integration plays the analogous role for uncountable sample spaces that summation plays for countable sample spaces.</p>
+<!-- ```{example, exponential-probspace} -->
+<!-- Consider the sample space $\Omega=[0,\infty)$ with a probability measure^[This defines the Exponential(1) distribution; see Section \@ref(exponential).] defined by  -->
+<!-- \[ -->
+<!--   \IP(A) = \int_A e^{-u}\, du, \qquad A \subseteq [0, \infty). -->
+<!-- \] -->
+<!-- ```  -->
+<!-- 1. Verify that $\IP(\Omega)=1$. -->
+<!-- 1. Compute $\IP(A)$ for $A=[0, 1]$. -->
+<!-- 1. Without integrating again, compute $\IP(B)$ for $B=(1, \infty)$. -->
+<!-- 1. Compute $\IP(C)$ for $C=[0, 1] \cup (2, 4)$. -->
+<!-- ```{solution exponential-probspace-sol} -->
+<!-- to Example \@ref(exm:exponential-probspace) -->
+<!-- ``` -->
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="25">
+<li id="fn25"><p>Technically, <span class="math inline">\(\mathcal{F}\)</span> is a <em><span class="math inline">\(\sigma\)</span>-field</em> of subsets of <span class="math inline">\(\Omega\)</span>: <span class="math inline">\(\mathcal{F}\)</span> contains <span class="math inline">\(\Omega\)</span> and is closed under countably many elementary set operations (complements, unions, intersections). While this level of technical detail is not needed, we prefer to refer to a probability space as a triple to emphasize that probabilities are assigned directly to <em>events</em> rather than just outcomes.<a href="probspace.html#fnref25" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p>It’s the <em>number of events</em> that must be countable. The events themselves can be uncountable sets like intervals.<a href="probspace.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<li id="fn27"><p>That the probability of each outcome must be 1/4 when there are four <em>equally likely</em> outcomes follows from the axioms, by writing <span class="math inline">\(\{1, 2, 3, 4\} = \{1\}\cup\{2\}\cup \{3\}\cup \{4\}\)</span>, a union of disjoint sets, and applying countable additivity and <span class="math inline">\(\textrm{P}(\Omega)=1\)</span>.<a href="probspace.html#fnref27" class="footnote-back">↩︎</a></p></li>
+<li id="fn28"><p>Probabilities are always defined for events (sets). When we say loosely "the probability of an outcome <span class="math inline">\(\omega\)</span>’’ we really mean the probability of the event consisting of the single outcome <span class="math inline">\(\{\omega\}\)</span>. In this example <span class="math inline">\(\textrm{P}(\{1\})=\textrm{P}(\{2\})=\textrm{P}(\{3\})=\textrm{P}(\{4\})=1/4\)</span>.<a href="probspace.html#fnref28" class="footnote-back">↩︎</a></p></li>
+<li id="fn29"><p>Proof: Since <span class="math inline">\(\Omega = A \cup A^c\)</span> and <span class="math inline">\(A\)</span> and <span class="math inline">\(A^c\)</span> are disjoint the axioms imply that <span class="math inline">\(1=\textrm{P}(\Omega) = \textrm{P}(A \cup A^c) = \textrm{P}(A) + \textrm{P}(A^c)\)</span>.<a href="probspace.html#fnref29" class="footnote-back">↩︎</a></p></li>
+<li id="fn30"><p>Proof. If <span class="math inline">\(A \subseteq B\)</span> then <span class="math inline">\(B = A \cup (B \cap A^c)\)</span>. Since <span class="math inline">\(A\)</span> and <span class="math inline">\((B \cap A^c)\)</span> are disjoint, <span class="math inline">\(\textrm{P}(B) = \textrm{P}(A) + \textrm{P}(B \cap A^c) \ge \textrm{P}(A)\)</span>.<a href="probspace.html#fnref30" class="footnote-back">↩︎</a></p></li>
+<li id="fn31"><p>The proof is easiest to see by considering a picture like the one in Figure <a href="probspace.html#fig:venn-disjoint">2.7</a> .<a href="probspace.html#fnref31" class="footnote-back">↩︎</a></p></li>
+<li id="fn32"><p>For three events,
+<span class="math display">\[\begin{align*}
+\textrm{P}(A\cup B\cup C) &amp; = \textrm{P}(A) + \textrm{P}(B) + \textrm{P}(C)\\
+&amp; \qquad - \textrm{P}(A\cap B) - \textrm{P}(A \cap C) - \textrm{P}(B \cap C)\\
+&amp; \qquad + \textrm{P}(A \cap B \cap C).
+\end{align*}\]</span><a href="probspace.html#fnref32" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="rv.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="probability-distributions-a-brief-introduction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

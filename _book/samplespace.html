@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.1 Sample space of outcomes | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.1 Sample space of outcomes | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.1 Sample space of outcomes | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="probmath.html"/>
+<link rel="next" href="events.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="samplespace" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Sample space of outcomes</h2>
+<p>Probability models can be applied to any situation in which there are multiple potential
+outcomes and there is uncertainty about which outcome will occur. Due to the wide variety of types of random phenomena, an <strong>outcome</strong> can be virtually anything:</p>
+<ul>
+<li>the result of a coin flip</li>
+<li>the results of a sequence of coin flips</li>
+<li>a shuffle of a deck of cards</li>
+<li>the weather conditions tomorrow in your city</li>
+<li>the path of a particular Atlantic hurricane</li>
+<li>the closing price of a certain stock tomorrow</li>
+<li>the result of a diagnostic medical test</li>
+<li>a sample of car insurance polices</li>
+<li>a sample of registered voters</li>
+<li>the result of an election</li>
+<li>the next World Series champion</li>
+<li>a play in a basketball game</li>
+</ul>
+<p>And on and on. In particular, an outcome does <em>not</em> have to be a number.</p>
+<p>Before the random phenomenon occurs it is unknown which outcome will be the result. When the phenomenon takes place, a particular outcome is observed. The first step in defining a probability model for a random phenomenon is to describe the possible outcomes.</p>
+
+<div class="definition">
+<p><span id="def:sample-space" class="definition"><strong>Definition 2.1  </strong></span>
+The <strong>sample space</strong>, denoted<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> <span class="math inline">\(\Omega\)</span> (the uppercase Greek letter “omega”), is the set of all possible
+outcomes of a random phenomenon. An <strong>outcome</strong>, denoted <span class="math inline">\(\omega\)</span> (the lowercase Greek letter “omega”), is an element of the sample space: <span class="math inline">\(\omega\in\Omega\)</span>.</p>
+</div>
+<p>Mathematically, the sample space <span class="math inline">\(\Omega\)</span> is a <em>set</em> containing all possible outcomes, while an individual outcome <span class="math inline">\(\omega\)</span> is a <em>point</em> or <em>element</em> in <span class="math inline">\(\Omega\)</span>. The symbol <span class="math inline">\(\omega\)</span> denotes a generic outcome, much like the symbol <span class="math inline">\(u\)</span> in <span class="math inline">\(\sqrt{u}\)</span> denotes a generic input to the square root function.</p>
+<p>For example, the simplest random phenomena have just two distinct outcomes, in which case the sample space is just a set with two elements, e.g. <span class="math inline">\(\Omega=\{\text{no}, \text{yes}\}\)</span>, <span class="math inline">\(\Omega=\{\text{off}, \text{on}\}\)</span>, <span class="math inline">\(\Omega=\{0, 1\}\)</span>, <span class="math inline">\(\Omega=\{-1, 1\}\)</span>. For example, the sample space for a single coin flip could be <span class="math inline">\(\Omega = \{H, T\}\)</span>. If the coin lands on heads, we observe the outcome <span class="math inline">\(\omega = H\)</span>; if tails we observe <span class="math inline">\(\omega=T\)</span>.</p>
+<p>A random phenomenon is modeled by a <em>single</em> sample space, upon which all objects are defined. These objects, which we will encounter later, include events and random variables. Whenever possible, a sample space outcome should be defined to provide the maximum amount of information about the outcome of random phenomenon.</p>
+<p>In the following examples we will describe the sample space by listing all possible outcomes. However, constructing a list of all possible outcomes is rarely done in practice. We do so here only to provide some concrete examples of sample spaces. While a random phenomenon always has a corresponding sample space, in many situations the sample space of outcomes is at best only vaguely specified and can not be feasibly enumerated.</p>
+
+<div class="example">
+<p><span id="exm:dice-outcome" class="example"><strong>Example 2.1  </strong></span>
+Roll a four-sided die<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> twice, and record the result of each roll in sequence as an ordered pair. For example, the outcome <span class="math inline">\((3, 1)\)</span> represents a 3 on the first roll and a 1 on the second; this is not the same outcome as <span class="math inline">\((1, 3)\)</span>.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Identify the sample space.</li>
+<li>We might be interested in the sum of the two dice. Explain why it is still advantageous to define the sample space as in the previous part, rather than as <span class="math inline">\(\Omega=\{2, \ldots, 8\}\)</span>.</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="samplespace.html#exm:dice-outcome">2.1</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li><p>The sample space consists of 16 possible ordered pairs of rolls
+<span class="math display">\[\begin{align*}
+\Omega &amp; = \{(1, 1), (1, 2), (1, 3), (1, 4),\\
+&amp; \qquad (2, 1), (2, 2), (2, 3), (2, 4),\\
+&amp; \qquad (3, 1), (3, 2), (3, 3), (3, 4),\\
+&amp; \qquad (4, 1), (4, 2), (4, 3), (4, 4)\}
+\end{align*}\]</span>
+Any element of this set is a possible outcome <span class="math inline">\(\omega\)</span>. For example, the outcome <span class="math inline">\(\omega = (4, 2)\)</span> occurs when the first roll is a 4 and the second roll is a 2. The notation above makes it clear that the sample space is a set. But it is often helpful to conceptualize or visualizing the sample space as a list or table like the following.</p>
+<table>
+<caption><span id="tab:dice-outcome-sol-table">Table 2.1: </span>Table representing the sample space of two rolls of a four-sided die</caption>
+<thead>
+<tr class="header">
+<th align="right">First roll</th>
+<th align="right">Second roll</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>Yes, we might be interested in the sum of the two dice. But we might also be interested in other things, like the larger of the two rolls, or if at least one 3 was rolled, or the result of the first roll. Knowing just the sum of the dice does not provide as much information about the outcome of the random phenomenon as the sequence of individual rolls does.</p></li>
+</ol>
+<p><strong>Note:</strong> In the previous example, there was a single sample space whose outcomes represented the result of the pair of rolls. In particular, there was not a separate sample space for each of the individual rolls. Now, we could have written the sample space as the Cartesian product <span class="math inline">\(\Omega = \{1, 2, 3, 4\} \times\{1, 2, 3, 4\}\)</span>, where the first <span class="math inline">\(\{1, 2, 3, 4\}\)</span> set in the product represents the result of the first roll (and similarly for the second.) But this Cartesian product represents a single set of ordered pairs, and it is that single set which is the sample space corresponding to outcomes of the pair of rolls.</p>
+
+<div class="example">
+<p><span id="exm:coin-outcome" class="example"><strong>Example 2.2  </strong></span>
+Consider the outcome of a sequence of 4 flips of a coin.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Identify an appropriate sample space.</li>
+<li>We might be interested in the number of heads flipped. Explain why it is still advantageous to define the sample space as in the previous part, rather than as <span class="math inline">\(\Omega=\{0, 1, 2, 3, 4\}\)</span>.</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="samplespace.html#exm:coin-outcome">2.2</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li>We can record the outcome as an ordered sequence representing the results of the four flips. For example, HTHT means heads on the first on third flips and tails on the second and fourth; this is not the same outcome as HHTT or THTH. (We could also write (H, T, H, T) but the HTHT notation is simpler.) The sample space is the following set composed of 16 distinct outcomes
+<span class="math display">\[\begin{align*}
+\Omega &amp; = \{HHHH, HHHT, HHTH, HTHH, THHH, HHTT, HTHT, HTTH,\\ 
+&amp; \qquad THHT, THTH, TTHH, HTTT, THTT, TTHT, TTTH, TTTT\}
+\end{align*}\]</span>
+Again, it is helpful to conceptualize and visualize the sample space as a list or a table (which we will do later when we encounter this scenario again).</li>
+<li>Yes, we might be interested in the number of heads flipped, but we might also be interested in other things, such as whether the first flip was heads, the length of the longest streak of heads in a row, or the proportion of flips following H that resulted in H. Knowing just the number of heads flipped does not provide as much information about the outcome of the random phenomenon as the sequence of individual flips does.</li>
+</ol>
+<p><strong>Note:</strong> We reiterate what we said after Example <a href="samplespace.html#exm:dice-outcome">2.1</a>. In the previous example, there was a single sample space whose outcomes were sequences of coin flips. In particular, there was not a separate sample space for each of the individual flips. We could have written the sample space as the Cartesian product <span class="math inline">\(\Omega = \{H, T\}\times \{H, T\}\times \{H, T\}\times \{H, T\} = \{H, T\}^4\)</span>. But this Cartesian product represents a single set of sequences of 4 flips, and it is this single set which is the sample space.</p>
+<p>We’ll present a few more concrete examples where we list all the outcomes in the sample space. However, keep in mind that enumerating the sample space is rarely done in practice.</p>
+
+<div class="example">
+<p><span id="exm:matching-outcome" class="example"><strong>Example 2.3  (Matching problem)  </strong></span>
+The “matching problem” is one well known probability problem. The following version is from <a href="https://fivethirtyeight.com/features/everythings-mixed-up-can-you-sort-it-all-out/">FiveThirtyEight</a>.</p>
+<p>A geology museum in California has four different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order. We might be interested in things like whether all the rocks are put back in the correct spot, or none are, or if the heaviest rock is put back in the correct spot.</p>
+<p>Label the rocks 1, 2, 3, 4, and also label the spots 1, 2, 3, 4, with spot 1 the correct spot for rock 1, etc. Identify an appropriate sample space.</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="samplespace.html#exm:matching-outcome">2.3</a></p>
+</div>
+<p>We can consider each outcome to be a particular placement of rocks in the spots. For example, the outcome 3214 (or <span class="math inline">\((3, 2, 1, 4)\)</span>) represents that rock 3 is placed in spot 1, rock 2 in spot 2, rock 1 in spot 3, and rock 4 in spot 4. (We say that an outcome is a <em>permutation</em> (or reordering) of the numbers 1, 2, 3, 4.) So the sample space consists of the following 24 outcomes<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>.</p>
+<p><span class="math display">\[\begin{align*}
+\Omega &amp; = \{1234, 1243, 1324, 1342, 1423, 1432 \\
+  &amp; \qquad 2134, 2143, 2314, 2341, 2413, 2431 \\
+  &amp; \qquad 3124, 3142, 3214, 3241, 3412, 3421 \\
+  &amp; \qquad 4123, 4132, 4213, 4231, 4312, 4321\}
+\end{align*}\]</span></p>
+<p>Recording outcomes in this way provides more information than if we had chosen the sample space to correspond to, for example, the number of rocks that were placed in the correct spot.</p>
+
+<div class="example">
+<p><span id="exm:collector-outcome" class="example"><strong>Example 2.4  (Collector problem)  </strong></span>
+The “collector problem” is one well known probability problem. Here is one version of it.</p>
+<p>The latest series of collectible Lego Minifigures contains 3 different Minifigures. Each package contains a single unknown Minifigure. We buy packages one at a time until we have a complete collection. We might be interested in things like how many packages we needed to buy to complete the collection, or which Minifigure we have the most of.</p>
+<p>Label the different Minifigures 1, 2, and 3. Identify an appropriate sample space. Is it possible to identify a sample space in which all outcomes have the same “length”?</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="samplespace.html#exm:collector-outcome">2.4</a></p>
+</div>
+<p>An outcome could represent the sequence of Minifigures we obtain in order. For example, (2, 3, 3, 2, 2, 2, 3, 1) represents figure 2 in the first package, figure 3 in the second and third packages, figure 2 in the fourth, and so on, completing the collection with figure 1 in the eighth package. Outcomes recorded in this way can have different lengths if we only record the packages we buy; for example (2, 3, 1) versus (2, 3, 3, 1) versus (2, 3, 3, 2, 1). However, it is often convenient for sample space outcomes to have the same length, as in the previous examples (two die rolls, four coin flips, four rocks in spots).</p>
+<p>We can define outcomes with the same “length” if we assume the process continues indefinitely, that is, if we continue to buy packages even after we complete a set. Now an outcome is an <em>infinite</em> sequence, with each component of the sequence taking a value of 1, 2, or 3; for example, (2, 3, 3, 2, 2, 2, 3, 1, 2, 1, 1, 3, <span class="math inline">\(\ldots\)</span>). Thus the sample space is the set of all infinite sequences whose components take values in <span class="math inline">\(\{1, 2, 3\}\)</span>, which can be written as <span class="math inline">\(\Omega=\{1, 2, 3\}^\infty\)</span>. Outcomes of this sample space all have the same “length” (infinite). Moreover, this sample space allows for a broader range of questions to be investigated. For example, we might be interested in the number of packages needed to obtain 5 complete collections (which might be relevant if you have 5 kids and they all want their own collection).</p>
+
+<div class="example">
+<p><span id="exm:sampling-outcome" class="example"><strong>Example 2.5  </strong></span>Many statistical applications involve <em>random sampling</em>. For example, polling organizations often select random samples of Americans. Typically the selection involves random digit dialing: a sample of say 1000 phone numbers are randomly selected from some large bank (hundreds of millions) of phone numbers; this is the <em>population</em><a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>. An outcome would consist of the 1000 phone numbers selected; this is the <em>sample</em>.</p>
+<p>As an extraordinarily unrealistic, oversimplified, but concrete example, suppose the bank only contains 5 phone numbers, labeled {1, 2, 3, 4, 5}, from which 3 are selected. Describe an appropriate sample space. Note: the order in which the numbers are selected does not matter; we only care which numbers are selected.</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="samplespace.html#exm:sampling-outcome">2.5</a></p>
+</div>
+<p>An outcome consists of a <em>subset</em> of size 3 from the set <span class="math inline">\(\{1, 2, 3, 4, 5\}\)</span>, representing the list of the 3 phone numbers selected. For example, outcome <span class="math inline">\(\{1, 4, 5\}\)</span> occurs if phone numbers 1, 4, and 5 are selected. There are 10 distinct outcomes
+<span class="math display">\[
+\Omega = \{\{1, 2, 3\}, \{1, 2, 4\}, \{1, 2, 5\}, \{1, 3, 4\}, \{1, 3, 5\},\\
+\qquad\quad  \{1, 4, 5\}, \{2, 3, 4\},\{2, 3, 5\},\{2, 4, 5\},\{3, 4, 5\}\}
+\]</span>
+Note that the sample space is a set whose elements are sets. Also note the difference between <span class="math inline">\(\{1, 2, 3\}\)</span> and <span class="math inline">\((1, 2, 3)\)</span>; <span class="math inline">\((1, 2, 3)\)</span> represents an <em>ordered</em> sequence. There is only one set containing the elements 1, 2, and 3, the set <span class="math inline">\(\{1, 2, 3\}\)</span>, but there are six different ordered sequences containing the values 1, 2, and 3: <span class="math inline">\((1, 2, 3), (1, 3, 2), (2, 1, 3), (2, 3, 1), (3, 1, 2), (3, 2, 1)\)</span>.</p>
+<p>In a more realistic setting, the population would consist of hundreds of millions of phone numbers, and the sample space would be composed of all possible subsets (samples) of 1000 phone numbers. Even if the order in which the numbers are selected is irrelevant, the sample space is enormous and could never be feasibly enumerated as in this oversimplified example. But the idea is the same: an outcome consists of a <em>subset</em> of numbers, and the sample space is a collection of possible subsets. (That is, the sample space is a set of sets.)</p>
+
+<div class="example">
+<p><span id="exm:meeting-outcome" class="example"><strong>Example 2.6  </strong></span>
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times. We might be interested in questions involving whether they arrive within 15 minutes of one another, who arrives first, or how long the first person to arrive needs to wait for the second.</p>
+<p>Describe an appropriate sample space. Note: rather than dealing with clock time, it is helpful to represent noon as time 0 and measure time as fraction of the hour after noon, so that times take values in the continuous interval [0, 1]. For example, 12:15 corresponds to a time of 0.25, 12:30 to 0.5, 12:42 to 0.7.</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="samplespace.html#exm:meeting-outcome">2.6</a></p>
+</div>
+<p>An outcome is a pair of values <span class="math inline">\(\omega = (\omega_1, \omega_2)\)</span> corresponding to the arrival times of (Regina, Cady). For example, the outcome (0.5, 0.7) represents Regina arriving at time 0.5 (12:30) and Cady at time 0.7 (12:42), while (0.7, 0) represents Regina arriving at time 0.7 (12:42) and Cady at time 0 (noon). The sample space is <span class="math inline">\(\Omega = [0,1]\times [0,1]=[0,1]^2\)</span>, the Cartesian product <span class="math inline">\(\{(\omega_1, \omega_2): \omega_1 \in [0, 1], \omega_2 \in [0, 1]\}\)</span>, the set of ordered pairs whose components take values in <span class="math inline">\([0, 1]\)</span>. This sample space is an <em>uncountable</em> set, and it is impossible to enumerate outcomes like in the previous examples. (The sample space of infinite sequences in Example <a href="samplespace.html#exm:collector-outcome">2.4</a> is also an uncountable set.) We can visualize the sample space as the set of points within the blue square in Figure <a href="samplespace.html#fig:meeting-outcome-plot">2.1</a>.</p>
+
+<div class="figure"><span id="fig:meeting-outcome-plot"></span>
+<img src="bookdown-demo_files/figure-html/meeting-outcome-plot-1.png" alt="The square represents the sample space \(\Omega=[0,1]\times[0,1]\) in Example 2.6. Each point within the blue square is a pair of values \(\omega = (\omega_1, \omega_2)\) corresponding to the arrival times of (Regina, Cady)." width="672" />
+<p class="caption">
+Figure 2.1: The square represents the sample space <span class="math inline">\(\Omega=[0,1]\times[0,1]\)</span> in Example <a href="samplespace.html#exm:meeting-outcome">2.6</a>. Each point within the blue square is a pair of values <span class="math inline">\(\omega = (\omega_1, \omega_2)\)</span> corresponding to the arrival times of (Regina, Cady).
+</p>
+</div>
+<p>A value in <span class="math inline">\([0, 1]\)</span> can be visualized with a circular spinner like the one in Figure <a href="samplespace.html#fig:uniform-spinner">2.2</a> which returns values between 0 and 1. Such a spinner can be thought of as a continuous analog of a die roll. Imagine a needle anchored at the center of the circle which is spun and eventually lands pointing at a number on the outside of the circle (like a spinner in a kids game). The values in the picture are rounded to two decimal places, but consider an idealized model where the spinner is infinitely precise and the needle infinitely fine so that any real number between 0 and 1 is a possible outcome. Under certain assumptions in the meeting time problem, we can think of Regina and Cady each spinning the spinner, with the results of the pair of spins representing the outcome <span class="math inline">\(\omega\)</span>. (But under other assumptions the spinner in Figure <a href="samplespace.html#fig:uniform-spinner">2.2</a> might not be appropriate, if for example, Regina is more likely to arrive later in the hour and Cady is more likely to arrive earlier in the hour.)</p>
+
+<div class="figure"><span id="fig:uniform-spinner"></span>
+<img src="_graphics/uniform-spinner.png" alt="A Uniform(0, 1) spinner. The values in the picture are rounded to two decimal places, but in the idealized model the spinner is infinitely precise so that any real number between 0 and 1 is a possible outcome." width="205" />
+<p class="caption">
+Figure 2.2: A Uniform(0, 1) spinner. The values in the picture are rounded to two decimal places, but in the idealized model the spinner is infinitely precise so that any real number between 0 and 1 is a possible outcome.
+</p>
+</div>
+<p>In the previous example, outcomes were measured on a continuous scale; any real number between 0 and 1 was a possible arrival time (or a possible result of a spin). In practice we might round the arrival time to the nearest minute or second, but in principle and with infinite precision any real number in the continuous interval <span class="math inline">\([0, 1]\)</span> is possible.</p>
+<p>Furthermore, even in situations where outcomes are inherently discrete, it is often more convenient to model them as continuous. For example, if an outcome represents the annual salary in dollars of a randomly selected U.S. household, it would be more convenient to model the sample space as the continuous interval<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> <span class="math inline">\([0, \infty)\)</span> rather than <span class="math inline">\(\{0, 1, 2, \ldots\}\)</span> or <span class="math inline">\(\{0, 0.01, 0.02, \ldots\}\)</span>.</p>
+
+<div class="example">
+<p><span id="exm:SAT-outcome" class="example"><strong>Example 2.7  </strong></span>Select a U.S. high school student and record the student’s SAT Math and Reading scores. Identify an appropriate sample space.</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="samplespace.html#exm:SAT-outcome">2.7</a></p>
+</div>
+<p>An outcome will be an ordered pair representing (Math, Reading) score. Technically, possible scores are 200 through 800 in increments of 10. So we could consider the sample space to be <span class="math inline">\(\{200, 210, 220, \ldots, 790, 800\}\times \{200, 210, 220, \ldots, 790, 800\}\)</span>.</p>
+<p>However, we could also model scores on a continuous scale, taking any value in the interval from 200 to 800. In this case, the sample space would be <span class="math inline">\(\Omega = [200, 800] \times [200, 800]\)</span>. This sample space could be represented in a square like the one in Figure <a href="samplespace.html#fig:meeting-outcome-plot">2.1</a>, but with Math score on the horizonal axis, Reading score on the vertical, and axis limits of <span class="math inline">\([200, 800\)</span> instead of <span class="math inline">\([0, 1]\)</span>. A continuous specification of a sample space is often more convenient mathematically than a discrete one.</p>
+<p>In the previous examples, the sample space could be defined rather explicitly, either by direct enumeration or using set notation (like a Cartesian product). However, explicitly defining a sample space in a compact way is often not possible, as in the following example.</p>
+
+<div class="example">
+<p><span id="exm:PP-outcome" class="example"><strong>Example 2.8  </strong></span>Customers enter a deli and take a number to mark their place in line. When the deli opens the counter starts 0; the first customer to arrive takes number 1, the second 2, etc. We record the counter over time, continuously, as it changes as customers arrive. Time is measured in minutes after the deli opens (time 0).</p>
+<p>A sample space outcome could be represented as a path of the value of the counter over time; a few such paths are illustrated in Figure <a href="interpretations.html#fig:coin-sim2">1.2</a>. Notice the stairstep feature: a customer arrives and takes a number then the counter stays on that number for some time (the flat spots) until another customer arrives and the counter increases by one (the jumps). In other words, an outcome is a nondecreasing <em>function</em> mapping the time interval <span class="math inline">\([0, \infty)\)</span> to nonnegative integers <span class="math inline">\(\{0, 1, 2, \ldots\}\)</span>, that only jumps by one unit at a time. The sample space consists of all possible <em>functions</em> of this form.</p>
+</div>
+
+<div class="figure"><span id="fig:PP-outcome-plot"></span>
+<img src="_graphics/PP-path-one.PNG" alt="Sample space outcomes for Example 2.8. Left: a single sample path of the number of customer arrivals over time. Right: several possible paths." width="50%" /><img src="_graphics/PP-path-several.PNG" alt="Sample space outcomes for Example 2.8. Left: a single sample path of the number of customer arrivals over time. Right: several possible paths." width="50%" />
+<p class="caption">
+Figure 2.3: Sample space outcomes for Example <a href="samplespace.html#exm:PP-outcome">2.8</a>. Left: a single sample path of the number of customer arrivals over time. Right: several possible paths.
+</p>
+</div>
+<p>Any random phenomenon has a corresponding sample space but in some situations explicitly defining a outcome is not feasible. For example, consider a single play in a basketball game. The <a href="https://www.stats.com/sportvu-basketball/">SportsVU system</a> uses cameras in arenas to record NBA games. The outcome of a single play might look like the following video.</p>
+<p><a href="https://youtu.be/5Sq_Z6Um3UM"><img src="https://grantland.com/wp-content/uploads/2013/03/gl_rapskts_57611.jpg" alt="SportsVU" /></a></p>
+<p>In order to describe such an outcome, we need to specify (among other things): the location of each player and the ball, the passer and receiver of each pass, the defensive assignments, the location and shooter of each shot attempt and its result, and how it all evolves over time. Representing all of this information in a compact way to define an outcome is virtually impossible. Regardless, the sample space is still there in the background, whether we specify it or not. Without a sample space representing what is possible, we would not be able to assess the relative likelihood of, say, a play resulting in a made three point field goal.</p>
+<div id="summary" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Summary</h3>
+<ul>
+<li>The sample space is the set of all possible outcomes of a random phenomenon.</li>
+<li>Outcomes can take a wide variety of forms. In particular, outcomes do not need to be numbers.</li>
+<li>Whenever possible, a sample space outcome should be defined to provide the maximum amount of information about the outcome of random phenomenon.</li>
+</ul>
+<p>In practice we rarely enumerate the sample space as we did for some of the examples in this section. Nonetheless, there is always some underlying sample space corresponding to all possible outcomes of the random phenomenon. Even though the sample space often plays a background role, it is important to first consider what is <em>possible</em> before determining what is <em>probable</em>. The sample space essentially defines the denominator in probability calculations. Considering the sample space can help distinguish between “what is the probability this happens to me?” and “what is the probability this happens to someone somewhere sometime?” (as discussed in Section XXX.)</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="12">
+<li id="fn12"><p>There is no one set of universally agreed on notation, but <span class="math inline">\(\Omega\)</span> is commonly used to represent a sample space. It is also common practice to use uppercase and lowercase letters to denote different objects.<a href="samplespace.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>Why four-sided? Simply to make the number of possibilities a little more manageable (e.g., for in-class simulation activities). Rolling a four-sided die twice yields 16 possible pairs, while rolling a six-sided die yields 36 possible pairs.<a href="samplespace.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>There are 4 rocks that could potentially go in spot 1, then 3 rocks that could potentially go in spot 2, 2 to spot 3, and 1 left for spot 4. This results in <span class="math inline">\(4\times3\times2\times1=4! = 24\)</span> possible outcomes. We will see more counting rules in XXXX.<a href="samplespace.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>Technically, the bank of phone numbers is the <em>sampling frame</em> while the population is all Americans. The population and the sampling frame need not be the same.<a href="samplespace.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>We could also try <span class="math inline">\((0, m)\)</span> where <span class="math inline">\(m\)</span> is some large dollar amount providing an upper bound on the maximum possible salary. But we would need to be sure that <span class="math inline">\(m\)</span> is large enough so that all possible outcomes are in the sample space <span class="math inline">\((0, m)\)</span>. Without knowing this bound in advance, it is convenient to just choose the unbounded interval <span class="math inline">\((0, \infty)\)</span>. There is really no harm in making the sample space bigger than it needs to be, but you can run into problems if you make it too small.<a href="samplespace.html#fnref16" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="probmath.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="events.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

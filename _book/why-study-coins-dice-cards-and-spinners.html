@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1.8 Why study coins, dice, cards, and spinners? | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1.8 Why study coins, dice, cards, and spinners? | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1.8 Why study coins, dice, cards, and spinners? | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"/>
+<link rel="next" href="list-of-recurring-examples.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="why-study-coins-dice-cards-and-spinners" class="section level2" number="1.8">
+<h2><span class="header-section-number">1.8</span> Why study coins, dice, cards, and spinners?</h2>
+<p>Many probability problems involve “toy” situations like flipping coins, rolling dice, shuffling cards, or spinning spinners. These situations might seem unexciting, or at least not very practically meaningful. However, coins and spinners and the like provide familiar, concrete situations which facilitate understanding of probability concepts. Furthermore, simple situations often provide insight into real and complex problems. The following is just one illustration.</p>
+<p>Many basketball players and fans alike believe in the “hot hand”
+phenomenon: the idea that making several shots in a row increases a
+player’s chances of making the next shot. However, the consensus
+conclusion of thirty years of studies on the hot hand, beginning with
+the seminal study <span class="citation">Gilovich, Vallone, and Tversky (<a href="#ref-GVT" role="doc-biblioref">1985</a>)</span>, had been that there is
+no statistical evidence that the hot hand in basketball is real. As a
+result, many statisticians regularly caution against the “hot hand
+fallacy”: the belief that the hot hand exists when, in reality, the
+degree of streaky behavior typically observed in sequential data is
+consistent with what would be expected simply by chance in independent
+trials.</p>
+<p>The idea behind studies like <span class="citation">Gilovich, Vallone, and Tversky (<a href="#ref-GVT" role="doc-biblioref">1985</a>)</span> is essentially the
+following. Consider a player who attempts 100 shots and makes 50%. If
+there is no hot hand, then we might expect the player to make 50% of
+shots both on attempts that follow hit streaks — usually considered
+three (or more) made attempts in a row — and on other attempts.
+Therefore, a success rate of 50% on both sets of attempts provides no
+evidence of the hot hand.</p>
+<p>However, recent research of <span class="citation">Miller and Sanjurjo (<a href="#ref-MStruth" role="doc-biblioref">2018</a><a href="#ref-MStruth" role="doc-biblioref">a</a>)</span>, <span class="citation">Miller and Sanjurjo (<a href="#ref-MSthree" role="doc-biblioref">2018</a><a href="#ref-MSthree" role="doc-biblioref">c</a>)</span>, <span class="citation">Miller and Sanjurjo (<a href="#ref-MScold" role="doc-biblioref">2018</a><a href="#ref-MScold" role="doc-biblioref">b</a>)</span> concludes that previous studies on the hot hand in basketball,
+starting with <span class="citation">Gilovich, Vallone, and Tversky (<a href="#ref-GVT" role="doc-biblioref">1985</a>)</span>, have been subject to a bias. After
+correcting for the bias, the authors find strong evidence in favor of
+the hot hand effect in basketball shooting, suggesting the hot hand
+fallacy is not a fallacy after all. One interesting aspect of these
+studies is that Miller and Sanjurjo’s methods are simulation-based.</p>
+<p><span class="citation">Miller and Sanjurjo (<a href="#ref-MStruth" role="doc-biblioref">2018</a><a href="#ref-MStruth" role="doc-biblioref">a</a>)</span> introduced the coin flipping problem in Section <a href="sim.html#sim">1.5</a> to illustrate the idea behind their research and the
+bias in previous studies. Consider again a player who attempts 100 shots
+and makes 50%. Even if there is no hot hand, Miller and Sanjurjo show that we would actually expect the player to have a shooting percentage of <em>strictly less than</em> 50% on the attempts which followed streaks, and strictly greater than 50% on the other attempts. The reason is the same as for the coin flipping problem in Section <a href="sim.html#sim">1.5</a>: in a fixed number of trials, the proportion of H on trials following H is expected to be less than the true probability of H, even though the trials are independent. Therefore, for the example player a success rate of 50% on both sets of attempts actually provides directional evidence in favor of the hot hand. Properly acccounting for this bias leads to substantially different statistical analyses (i.e., p-values) and conclusions.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-GVT">
+<p>Gilovich, Thomas D., Robert P. Vallone, and Amos Tversky. 1985. “The Hot Hand in Basketball: On the Misperception of Random Sequences.” <em>Cognitive Psychology</em> 17 (3): 295–314. <a href="https://doi.org/https://doi.org/10.1016/0010-0285(85)90010-6">https://doi.org/https://doi.org/10.1016/0010-0285(85)90010-6</a>.</p>
+</div>
+<div id="ref-MStruth">
+<p>Miller, Joshua B., and Adam Sanjurjo. 2018a. “Surprised by the Hot Hand Fallacy? A Truth in the Law of Small Numbers.” <em>Econometrica</em> 86 (6): 2019–47. <a href="https://doi.org/10.3982/ECTA14943">https://doi.org/10.3982/ECTA14943</a>.</p>
+</div>
+<div id="ref-MScold">
+<p>Miller, Joshua B., and Adam Sanjurjo. 2018a. “Surprised by the Hot Hand Fallacy? A Truth in the Law of Small Numbers.” <em>Econometrica</em> 86 (6): 2019–47. <a href="https://doi.org/10.3982/ECTA14943">https://doi.org/10.3982/ECTA14943</a>.</p> 2018b. “A Cold Shower for the Hot Hand Fallacy: Robust Evidence That Belief in the Hot Hand Is Justified.” OSF Preprints. <a href="https://doi.org/10.31219/osf.io/pj79r">https://doi.org/10.31219/osf.io/pj79r</a>.</p>
+</div>
+<div id="ref-MSthree">
+<p>Miller, Joshua B., and Adam Sanjurjo. 2018a. “Surprised by the Hot Hand Fallacy? A Truth in the Law of Small Numbers.” <em>Econometrica</em> 86 (6): 2019–47. <a href="https://doi.org/10.3982/ECTA14943">https://doi.org/10.3982/ECTA14943</a>.</p> 2018b. “A Cold Shower for the Hot Hand Fallacy: Robust Evidence That Belief in the Hot Hand Is Justified.” OSF Preprints. <a href="https://doi.org/10.31219/osf.io/pj79r">https://doi.org/10.31219/osf.io/pj79r</a>.</p> 2018c. “Is It a Fallacy to Believe in the Hot Hand in the Nba Three-Point Contest?” OSF Preprints. <a href="https://doi.org/10.31219/osf.io/dmksp">https://doi.org/10.31219/osf.io/dmksp</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="list-of-recurring-examples.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.8 Outcomes on a continuous scale: Meeting times | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.8 Outcomes on a continuous scale: Meeting times | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.8 Outcomes on a continuous scale: Meeting times | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="changing-parameters-matching-problem.html"/>
+<link rel="next" href="appendix-distributions.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec-linear-rescaling" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Outcomes on a continuous scale: Meeting times</h2>
+<p>Uniform distributions are the continuous analog of equally likely outcomes. The standard uniform distribution is the Uniform(0, 1) distribution corresponding to the spinner in Figure <a href="samplespace.html#fig:uniform-spinner">2.2</a> which returns values between<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a> 0 and 1. Recall that the values in the picture are rounded to two decimal places, but the spinner represents an idealized model where the spinner is infinitely precise so that any real number between 0 and 1 is a possible value. We assume that the (infinitely fine) needle is “equally likely” to land on any value between 0 and 1.</p>
+<p>The following Symbulate code defines a probability space representing the Uniform(0, 1) model, and a random variable equal to the result of a single spin: <span class="math inline">\(U(\omega)=\omega\)</span>. Recall that the default function used to define a Symbulate <code>RV</code> is the identity. The plot displays 100 simulated values. Note that the values seem to be “evenly spread” between 0 and 1.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb98-1"><a href="sec-linear-rescaling.html#cb98-1"></a></span>
+<span id="cb98-2"><a href="sec-linear-rescaling.html#cb98-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb98-3"><a href="sec-linear-rescaling.html#cb98-3"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb98-4"><a href="sec-linear-rescaling.html#cb98-4"></a></span>
+<span id="cb98-5"><a href="sec-linear-rescaling.html#cb98-5"></a>plt.figure()</span>
+<span id="cb98-6"><a href="sec-linear-rescaling.html#cb98-6"></a>U.sim(<span class="dv">100</span>).plot(<span class="st">&#39;rug&#39;</span>)</span>
+<span id="cb98-7"><a href="sec-linear-rescaling.html#cb98-7"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p>The usual plot, and the Symbulate default, for summarizing values on a continuous scale is a histogram. A <strong>histogram</strong> groups the observed values into “bins” and plots relative frequencies for each bin<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a>. Typically, in a histogram <em>areas</em> of bars represent relative frequencies; in which case the axis which represents the length of the bars is called “density”. It is recommended that the bins all have the same width so that area and length of the bars are equivalent, with the only difference being the scale on the axis (that is, with equal bin widths, density is a linear rescaling of height and bars with the same height represent the same area/relative frequency.)</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb99-1"><a href="sec-linear-rescaling.html#cb99-1"></a></span>
+<span id="cb99-2"><a href="sec-linear-rescaling.html#cb99-2"></a>plt.figure()</span>
+<span id="cb99-3"><a href="sec-linear-rescaling.html#cb99-3"></a>U.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb99-4"><a href="sec-linear-rescaling.html#cb99-4"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p>The standard uniform distribution, Uniform(0, 1), is a distribution on the interval <span class="math inline">\([0, 1]\)</span>. The uniform distribution on the interval <span class="math inline">\([a, b]\)</span>, for <span class="math inline">\(a&lt;b\)</span>, is called the Uniform(<span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>) distribution. Uniform distributions on other intervals can be obtained from the Uniform(0, 1) distribution via a <em>linear rescaling</em>.</p>
+<ul>
+<li>A <strong>linear rescaling</strong> is a transformation of the form <span class="math inline">\(g(u) = a +bu\)</span>. For example, converting temperature from Celsius to Fahrenheit using <span class="math inline">\(g(u) = 32 + 1.8u\)</span> is a linear rescaling.</li>
+<li>A linear rescaling “preserves relative interval length” in the following sense.
+<ul>
+<li>If interval A and interval B have the same length in the original measurement units, then the rescaled intervals A and B will have the same length in the rescaled units. For example, [0, 10] and [10, 20] Celsius, both length 10 degrees Celsius, correspond to [32, 50] and [50, 68] Fahrenheit, both length 18 degrees Fahrenheit.</li>
+<li>If the ratio of the lengths of interval A and B is <span class="math inline">\(r\)</span> in the original measurement units, then the ratio of the lengths in the rescaled units is also <span class="math inline">\(r\)</span>. For example, [10, 30] is twice as long as [0, 10] in Celsius; for the corresponding Fahrenheit intervals, [50, 86] is twice as long as [32, 50].</li>
+</ul></li>
+</ul>
+<p>Suppose <span class="math inline">\(U\)</span> has a Uniform(0, 1) distribution. Then for any <span class="math inline">\(a&lt;b\)</span>, the linear rescaling <span class="math inline">\(X = a + (b-a)U\)</span> has a Uniform(<span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>) distribution. (This rescaling maps 0 to <span class="math inline">\(a\)</span> and 1 to <span class="math inline">\(b\)</span>, which corresponds to a line with y-intercept <span class="math inline">\(a\)</span> and slope <span class="math inline">\((b-a)/(1-0)\)</span>.)</p>
+<p>For example, suppose that SAT Math scores have a uniform distribution on the interval <span class="math inline">\([200, 800]\)</span>. (This is certainly NOT true, and we will consider a more realistic distribution in Section <a href="#sec-example-sat-both"><strong>??</strong></a>.) If <span class="math inline">\(X\)</span> denotes Math score, then we can simulate values of <span class="math inline">\(X\)</span> by spinning the Uniform(0, 1) spinner to obtain <span class="math inline">\(U\)</span> and set <span class="math inline">\(X = 200 + 600 U\)</span>.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb100-1"><a href="sec-linear-rescaling.html#cb100-1"></a></span>
+<span id="cb100-2"><a href="sec-linear-rescaling.html#cb100-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb100-3"><a href="sec-linear-rescaling.html#cb100-3"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb100-4"><a href="sec-linear-rescaling.html#cb100-4"></a>X <span class="op">=</span> <span class="dv">200</span> <span class="op">+</span> <span class="dv">600</span> <span class="op">*</span> U</span>
+<span id="cb100-5"><a href="sec-linear-rescaling.html#cb100-5"></a></span>
+<span id="cb100-6"><a href="sec-linear-rescaling.html#cb100-6"></a>plt.figure()</span>
+<span id="cb100-7"><a href="sec-linear-rescaling.html#cb100-7"></a>X.sim(<span class="dv">100</span>).plot(<span class="st">&#39;rug&#39;</span>)</span>
+<span id="cb100-8"><a href="sec-linear-rescaling.html#cb100-8"></a></span>
+<span id="cb100-9"><a href="sec-linear-rescaling.html#cb100-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb101-1"><a href="sec-linear-rescaling.html#cb101-1"></a></span>
+<span id="cb101-2"><a href="sec-linear-rescaling.html#cb101-2"></a>plt.figure()</span>
+<span id="cb101-3"><a href="sec-linear-rescaling.html#cb101-3"></a>x<span class="op">=</span> X.sim(<span class="dv">10000</span>)</span>
+<span id="cb101-4"><a href="sec-linear-rescaling.html#cb101-4"></a>x.plot()</span>
+<span id="cb101-5"><a href="sec-linear-rescaling.html#cb101-5"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb102-1"><a href="sec-linear-rescaling.html#cb102-1"></a><span class="bu">print</span>(x.count_lt(<span class="dv">300</span>) <span class="op">/</span> <span class="dv">10000</span>, x.count_lt(<span class="dv">400</span>) <span class="op">/</span> <span class="dv">10000</span>, x.count_lt(<span class="dv">500</span>) <span class="op">/</span> <span class="dv">10000</span>)</span></code></pre></div>
+<pre><code>## 0.1664 0.3287 0.4922</code></pre>
+<p>The plots show that the values are roughly uniformly distributed between 200 and 800: about 17% of values are between 200 and 300, about 17% between 300 and 400, about 17% between 400 and 500. Recall from Section <a href="probspace.html#sec-uniform-prob">2.4.4</a> that for a continuous uniform distribution, probability is a ratio of lengths. Each of these intervals is length 100, and the total length of the interval of possible values is 600, so the theoretical probability for each interval is <span class="math inline">\(100/600\approx 0.167\)</span>.</p>
+<p>Note that the shape of the histogram for the SAT scores is similar to that of the Uniform(0, 1) values. the only difference is the labeling on the horizontal axis. Because a linear rescaling preserves relative interval length, it will not change the shape of the histogram. That is, a linear rescaling does not change the shape of the distribution, only the range of possible values.</p>
+<p>For example, on the original [0, 1] scale, the intervals (0.1, 0.2) and (0.5, 0.6) both are of length 0.1 and so they each have probability 0.1/1. On the [200, 800] scale, these intervals correspond, respectively, to (260, 320) and (500, 560), each an interval of length 60 with probability <span class="math inline">\(60/600=0.1\)</span>. Roughly, all the values in the (0.1, 0.2) bin in the original scale map to the (260, 320) bin in the new scale, similarly for (0.5, 0.6) to (500, 560). Therefore, the shape of the histogram is preserved.</p>
+
+<div class="example">
+<p><span id="exm:uniform-linear" class="example"><strong>Example 3.7  </strong></span>
+Let <span class="math inline">\(\IP\)</span> be the probabilty space corresponding to the Uniform(0, 1) spinner and let <span class="math inline">\(U\)</span> represent the result of a single spin. Define <span class="math inline">\(V=1-U\)</span>.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Does <span class="math inline">\(V\)</span> result from a linear rescaling of <span class="math inline">\(U\)</span>?</li>
+<li>What are the possible values of <span class="math inline">\(V\)</span>?</li>
+<li>Is <span class="math inline">\(V\)</span> the same random variable as <span class="math inline">\(U\)</span>?</li>
+<li>Find <span class="math inline">\(\IP(U \le 0.1)\)</span> and <span class="math inline">\(\IP(V \le 0.1)\)</span>.</li>
+<li>Sketch a plot of what the histogram of many simulated values of <span class="math inline">\(V\)</span> would look like.</li>
+<li>Does <span class="math inline">\(V\)</span> have the same distribution as <span class="math inline">\(U\)</span>?</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="sec-linear-rescaling.html#exm:uniform-linear">3.7</a>
+</div>
+<ol style="list-style-type: decimal">
+<li>Yes, <span class="math inline">\(V\)</span> result from the linear rescaling <span class="math inline">\(u\mapsto 1-u\)</span> (intercept of 1 and slope of <span class="math inline">\(-1\)</span>.)</li>
+<li><span class="math inline">\(V\)</span> takes values in the interval [0,1]. (Basically, this transformation just changes the direction of the spinner from clockwise to counterclockwise. The axis on the usual spinner has values <span class="math inline">\(u\)</span> increasing clockwise from 0 to 1. Applying the transformation <span class="math inline">\(1-u\)</span>, the values would decrease clockwise from 1 to 0.)</li>
+<li>No. <span class="math inline">\(V\)</span> and <span class="math inline">\(U\)</span> are different random variables. If the spin lands on <span class="math inline">\(\omega=0.1\)</span>, then <span class="math inline">\(U(\omega)=0.1\)</span> but <span class="math inline">\(V(\omega)=0.9\)</span>. <span class="math inline">\(V\)</span> and <span class="math inline">\(U\)</span> return different values for the same outcome; they are measuring different things.</li>
+<li><span class="math inline">\(\IP(U \le 0.1) = 0.1\)</span> and <span class="math inline">\(\IP(V \le 0.1)=\IP(1-U \le 0.1) = \IP(U\ge 0.9) = 0.1\)</span>. Note, however, that these are different events: <span class="math inline">\(\{U \le 0.1\}=\{0 \le \omega \le 0.1\}\)</span> while <span class="math inline">\(\{V \le 0.1\}=\{0.9 \le \omega \le 1\}\)</span>. But each is an interval of length 0.1 so they have the same probability according to the uniform probability measure.</li>
+<li>Since <span class="math inline">\(V\)</span> is a linear rescaling of <span class="math inline">\(U\)</span>, the shape of the histogram of simulated values of <span class="math inline">\(V\)</span> should be the same as that for <span class="math inline">\(U\)</span>. Also, the possible values of <span class="math inline">\(V\)</span> are the same as those for <span class="math inline">\(U\)</span>. So the histograms should look identical (aside from natural simulation variability).</li>
+<li>Yes, <span class="math inline">\(V\)</span> has the same distribution as <span class="math inline">\(U\)</span>. While for any single outcome (spin), the values of <span class="math inline">\(V\)</span> and <span class="math inline">\(U\)</span> will be different, over many repetitions (spins) the pattern of variation of the <span class="math inline">\(V\)</span> values, as depicted in a histogram, will be identical to that of <span class="math inline">\(U\)</span>.</li>
+</ol>
+<div class="sourceCode" id="cb104"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb104-1"><a href="sec-linear-rescaling.html#cb104-1"></a></span>
+<span id="cb104-2"><a href="sec-linear-rescaling.html#cb104-2"></a>P <span class="op">=</span> Uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb104-3"><a href="sec-linear-rescaling.html#cb104-3"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb104-4"><a href="sec-linear-rescaling.html#cb104-4"></a></span>
+<span id="cb104-5"><a href="sec-linear-rescaling.html#cb104-5"></a>V <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> U</span>
+<span id="cb104-6"><a href="sec-linear-rescaling.html#cb104-6"></a></span>
+<span id="cb104-7"><a href="sec-linear-rescaling.html#cb104-7"></a>plt.figure()</span>
+<span id="cb104-8"><a href="sec-linear-rescaling.html#cb104-8"></a>V.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb104-9"><a href="sec-linear-rescaling.html#cb104-9"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>A histogram can be used to summarize the distribution of a random variable that takes values on a continuous scale.</li>
+<li>When plotting values on a continuous scale in a histogram, relative frequencies are represented by areas.</li>
+<li>A linear rescaling of a random variable does not change the basic shape of its distribution, just the range of possible values.</li>
+<li>Do NOT confuse a random variable with its distribution.
+<ul>
+<li>The RV is the numerical quantity being measured</li>
+<li>The distribution is the long run pattern of variation of many observed values of the RV</li>
+</ul></li>
+<li>Two random variables can have the same (long run) distribution, even if the values of the two random variables are never equal on any particular repetition (outcome).</li>
+</ul>
+<!-- ### A logarithmic transformation {#sec-log-uniform} -->
+<!-- The preceding section illustrated that a linear rescaling does not change the shape of a distribution, only the range of possible values.  But what about a non-linear rescaling, like a logarithmic or square root transformation?  In contrast to a linear rescaling, a non-linear rescaling does *not* preserve relative interval length, so we might expect that a non-linear rescaling can change the shape of a distribution.  We'll investigate by considering the Uniform(0, 1) spinner and a logarithmic^[As in many other contexts and programming languages, in this text any reference to logarithms or $\log$ refers to natural (base $e$) logarithms.  In the instances we need to consider another base, we'll make that explicit.] transformation. -->
+<!-- Let $\IP$ be the probabilty space corresponding to the Uniform(0, 1) spinner and let $U$ represent the result of a single spin.  Attempting the transformation $\log(U)$ leads to two minor technicalities. -->
+<!-- - Since $U\in[0, 1]$, $\log(U)<0$.  To obtain positive values we consider $-\log(U)$, which takes values in $[0,\infty)$. -->
+<!-- - Technically, applying $-\log(u)$ to the values on the axis of the Uniform(0, 1) spinner, the resulting values would decrease from $\infty$ to 0 clockwise.  To make the values start at 0 and increase to $\infty$ clockwise, we consider $-\log(1-U)$. (We saw in the previous section the transformation $u \to 1-u$ basically just changes direction from clockwise to counterclockwise.) -->
+<!-- Therefore, it's a little more convenient to consider the random variable $X=-\log(1-U)$ which takes values in $[0,\infty)$.  Remember: a transformation of a random variable is a random variable.  Also, always be sure to identify the possible values that a random variable can take. -->
+<!-- The following code defines $X$ and plots a few simulated values.  Notice that values near 0 occur with higher frequency than larger values.  For example, there are many more simulated values of $X$ that lie in the interval $[0, 1]$ than in the interval $[3, 4]$, even though these intervals both have length 1. -->
+<!-- ```{python} -->
+<!-- P = Uniform(0, 1) -->
+<!-- U = RV(P) -->
+<!-- X = -log(1 - U) -->
+<!-- x = X.sim(100) -->
+<!-- plt.figure()  -->
+<!-- x.plot('rug') -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- Now we simulate many values of $X$ and summarize the results in a histogram. -->
+<!-- ```{python} -->
+<!-- x = X.sim(10000) -->
+<!-- plt.figure()  -->
+<!-- x.plot() -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- It should be clear that the simulated values of $X$ do not follow a uniform distribution.  Values near 0 occur with greater frequency than larger values.  The non-linear log transformation changed the shape of the distribution. -->
+<!-- To get some intuition behind why the shape changes, consider the following illustration. Consider intervals in increments of 0.1, starting from 0, on the original [0, 1] scale.  These intervals each have length 0.1 and so each have probability 0.1 according to the uniform probability measure.  Now consider the corresponding transformed intervals. -->
+<!-- - [0, 0.1] maps to^[Each of these values is obtained from the transformation $u\mapsto-\log(1-u)$, e.g. $-\log(1-0.1)\approx 0.105$.] [0, 0.105], an interval of length 0.105. -->
+<!-- - [0.1, 0.2] maps to [0.105, 0.223], an interval of length 0.118. -->
+<!-- - [0.2, 0.3] maps to [0.223, 0.357], an interval of length 0.134. -->
+<!-- - [0.3, 0.4] maps to [0.357, 0.511], an interval of length 0.154. -->
+<!-- - [0.4, 0.5] maps to [0.511, 0.693], an interval of length 0.182, and so on. -->
+<!-- We see that the logarithmic transformation does not preserve relative interval length, rather it "stretches out" the intervals.  However, each of the above intervals has a probability of 0.1.  As the transformation stretches the intervals, the 0.1 probability gets "spread" over different lengths of values.  Since probability/relative frequency is represented by area in the histogram, if two regions of differing length have the same area, then they must have different heights. -->
+<!-- Here's a similar illustration, but from the reverse perspective. In the transformed scale, consider the intervals [0,1], [1, 2], [2, 3].  Each of these intervals has length 1, but they correspond to intervals of differing length in the original scale, and hence intervals of different probability. -->
+<!-- - [0, 1] corresponds to^[Each of these values is obtained by applying the inverse transformation $u\mapsto 1-e^{-u}$, e.g. $1-e^{-1}\approx 0.632$] [0, 0.632], and interval with probability 0.632.  -->
+<!-- - [1, 2] corresponds to [0.632, 0.865], and interval with probability 0.233. -->
+<!-- - [2, 3] corresponds to [0.865, 0.950], and interval with probability 0.086. -->
+<!-- Notice that the shape of the histogram depicting the simulated values of $X$ appears that it can be approximated by a smooth curve.  This smooth curve is an idealized model of what would happen in the long run if -->
+<!--   - we kept simulating more and more values, and -->
+<!--   - made the histogram bin widths smaller and smaller. -->
+<!-- The following plot illustrates the results of 100,000 simulated values of $X$ summarized in a histogram with 1000 bins.  The command `Exponential(1).plot()` overlays the smooth solid curve modeling the theoretical shape of the distribution of $X$ (called the "Exponential(1)" distribution). -->
+<!-- (ref:cap-log-uniform-density) Histogram representing the approximate distribution of $X=-\log(1-U)$, where $U$ has a Uniform(0, 1) distribution.  The smooth solid curve models the theoretical shape of the distribution of $X$ (called the "Exponential(1)" distribution).  -->
+<!-- ```{python log-uniform-density, fig.cap="(ref:cap-log-uniform-density)"} -->
+<!-- plt.figure() -->
+<!-- X.sim(100000).plot(bins=1000) -->
+<!-- Exponential(1).plot() # overlays the smooth curve -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- What about a spinner which generates values according to the distribution in Figure \@ref(fig:log-uniform-density)?  The "simulate from the probability space" method for simulating of $X$ values entailed -->
+<!-- - Spinning the Uniform(0, 1) spinner to get a value $U$ -->
+<!-- - Setting $X=-\log(1-U)$ -->
+<!-- These two steps can be combined by relabeling the values on the axis of the spinner according to the transformation $u\mapsto -\log(1-u)$.  For example, replace 0.1 by $-\log(1-0.1)\approx 0.105$; replace 0.9 by $-\log(1-0.9)\approx 2.30$.  This transformation results in the spinner in Figure \@ref(fig:exponential-spinner). -->
+<!-- (ref:cap-exponential-spinner) A spinner representing the distribution in Figure \@ref(fig:log-uniform-density) (the "Exponential(1)" distribution.).  The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities. -->
+<!-- ```{r exponential-spinner, echo=FALSE, fig.cap="(ref:cap-exponential-spinner)", out.width='50%', fig.show='hold'} -->
+<!-- knitr::include_graphics(c("_graphics/exponential-spinner.png", "_graphics/exponential-spinner-sectors.png")) -->
+<!-- ``` -->
+<!-- Pay special attention to the values on the axis; they do not increase in equal increments.  (As with the Uniform(0, 1) spinner, while only certain values are marked on the axis, we consider an idealized model in which any value in the continuous interval $[0, \infty)$ is a possible result of the spin.) The spinner on the right in Figure \@ref(fig:exponential-spinner) is the same as the one on the left, with the intervals [0, 1], [1, 2], and [2, 3] highlighted with their respective probabilities.  Putting a needle on this spinner that is "equally likely" to land anywhere on the axis, the needle will land in the interval [0, 1] with probability 0.632, in the interval [1, 2] with probability 0.233, etc.  Therefore, values generated using this spinner, which represents the "Exponential(1)" distribution, will follow the pattern in Figure \@ref(fig:log-uniform-density).  Figure \@ref(fig:exponential-simulation) illustrations this "simulate from a distribution" method; values of $X$ are generated directly from an Exponential(1) distribution, rather than first generating $U$ and then transforming. -->
+<!-- (ref:cap-exponential-simulation) Simulated values from an Exponential(1) distribution, correspoding to the results of many spins of the spinner in Figure \@ref(fig:log-uniform-density). -->
+<!-- ```{python exponential-simulation, fig.cap="(ref:cap-exponential-simulation)"} -->
+<!-- X = RV(Exponential(1))  -->
+<!-- plt.figure() -->
+<!-- X.sim(100000).plot(bins=1000) -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- **Some lessons from this example.** -->
+<!-- - Remember: a transformation of a random variable, both mathematically and in Symbulate. -->
+<!-- - Be sure to always specify the possible values a random variable can take. -->
+<!-- - A nonlinear transformation of a random variable changes the shape of its distribution. -->
+<!-- - The shape of the histogram of simulated continuous values can be approximated by a smooth curve. -->
+<!-- - Spinners can be used to generate values from non-uniform distributions by applying non-linear transformations to values on the spinner axis. -->
+<!-- ### Continuous analog of rolling two dice {#uniform-sum-max} -->
+<!-- In Section \@ref(technology-intro) we studied the joint distribution of the sum and max of two fair-four sided dice rolls.  Now we consider a continuous analog.  Let $\IP$ be the probability space corresponding to two spins of the Uniform(0, 1) spinner, and let $X$ be the sum of the two spins, and $Y$ the larger spin (or the common value if a tie).  We saw that in Section \@ref(technology-intro), we could model a two rolls of a fair-four sided die using `DiscreteUniform(1, 4) ** 2`.  Similarly, we can model two spins of the Uniform(0, 1) spinner with `Uniform(0, 1) ** 2`. -->
+<!-- We start by looking at the joint distribution of the two spins,  $(U_1, U_2)$, which take values in $[0, 1]\times[0, 1]$. -->
+<!-- ```{python} -->
+<!-- P = Uniform(0, 1) ** 2 -->
+<!-- U1, U2 = RV(P) -->
+<!-- plt.figure() -->
+<!-- u1u2 = (U1 & U2).sim(100).plot() -->
+<!-- plt.show() -->
+<!-- print(u1u2) -->
+<!-- ``` -->
+<!-- We see that the $(U_1, U_2)$ pairs are roughly "evenly spread" throughout $[0, 1]\times [0, 1]$.  The scatterplot displays each individual pair.  We can summarize the distribution  of many pairs with a two-dimensional histogram.  To construct the histogram, the space of values $[0, 1]\times[0, 1]$ is chopped into rectangular bins and the relative frequency of pairs which fall within each bin is computed. While for a one-dimensional histogram area represents relative frequency, volume represents relative frequency in a two-dimensional histogram, with the height of each rectangular bin on a "density" scale represented by its color intensity. -->
+<!-- ```{python, warning = FALSE, error = TRUE, message = FALSE} -->
+<!-- plt.figure() -->
+<!-- (U1 & U2).sim(10000).plot('hist') -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- Now we let $X$ be the sum and $Y$ the max of the two rolls^[Remember that a probability space outcome corresponds to the pair of rolls, so we can define random variables on this space as we have done.  We could also first define random variables `U1, U2 = RV(P)` corresponding to the individual spins, and then define the sum as `X = U1 + U2`.  For technical reasons the syntax for `max` is a little different: `Y = (U1 & U2).apply(max)`.].  First consider the possible values of $(X, Y)$. Marginally, $X$ takes values in $[0, 2]$ and $Y$ takes values in $[0, 1]$.  However, not every value in $[0, 2]\times [0, 1]$ is possible. -->
+<!-- - We must have  $Y \ge 0.5 X$. For example, if $X=1.5$ then $Y$ must at least 0.75, because if the larger of the two spins were less than 0.75, then the sum must be less than 1.5.  -->
+<!-- - We must have $Y \le X$. For example, if $Y=0.5$, then one of the spins is 0.5 and the other one is at least 0, so the sum must be at least 0.5.   -->
+<!-- Therefore, the possible values of $(X, Y)$ lie in the set $\{(x, y): 0\le x\le 2, 0 \le y\le 1, 0.5x \le y, y\le x\}$, which can be simplified slightly as $\{(x, y): 0\le x \le 2, 0.5 x\le y \le \min(1, x)\}$.  This set is represented by the triangular region in the plots below. -->
+<!-- ```{python} -->
+<!-- P = Uniform(0, 1) ** 2 -->
+<!-- X = RV(P, sum) -->
+<!-- Y = RV(P, max) -->
+<!-- xy = (X & Y).sim(100) -->
+<!-- plt.figure() -->
+<!-- xy.plot() -->
+<!-- plt.show() -->
+<!-- print(xy) -->
+<!-- ``` -->
+<!-- ```{python, warning = FALSE, error = TRUE, message = FALSE} -->
+<!-- plt.figure() -->
+<!-- (X & Y).sim(10000).plot('hist') -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- We see that $(X, Y)$ pairs are roughly uniformly distributed within the triangular region of possible values.  Consider a single $(X, Y)$ pair, say (0.8, 0.5).  There are two outcomes --- that is, pairs of spins --- that for which $X=0.8, Y=0.5$, namely (0.5, 0.3) and (0.3, 0.5).  Like (0.8, 0.5), most of the possible $(X, Y)$ values correspond to exactly two outcomes.  The only ones that do not are the values with $X = Y/2$ that lie along the western border of the triangular region. The pairs $(X, 2X)$ only correspond to exactly one outcome.  For example, the only outcome corresponding to (1, 0.5) is (0.5, 0.5) (that is, spin 0.5 on both spins).  However, we will see that the probability that a continuous pair of values $(X, Y)$ lies along a line like $Y=2X$ is 0.  Therefore, roughly each pair in the triangular region corresponds to exactly two outcomes, and since the outcomes are uniformly distributed (over $[0, 1]\times[0, 1]$) then the $(X, Y)$ pairs are uniformly distributed (over the triangular region of possible values).   -->
+<!-- We now consider the marginal distributions of $X$ and $Y$. -->
+<!-- ```{python, warning = FALSE, error = TRUE, message = FALSE} -->
+<!-- plt.figure() -->
+<!-- (X & Y).sim(10000).plot(['hist', 'marginal']) -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- The marginal distribution of $X$ has highest density near 1 and lowest density near 0 and 2.  Intuitively, there is only one pair of spins (0, 0) for which the sum is 0; similarly for a sum of 2.  But there are many pairs for which the sum is 1: (0, 1), (1, 0), (0.2, 0.8), (0.5, 0.5), etc.  Recall that for the dice rolls, we could obtain the marginal distribution of $X$ by summing the joint distribution over all $Y$ values.  Similarly, we can find the marginal density of $X$ by aggregating over all possible values of $Y$.  For each possible value of $X$, "collapse" the joint histogram vertically over all possible values of $Y$.  Imagine the joint histogram is composed of stacks of blocks, one for each bin, each stack of the same height (because the values are uniformly distributed over the triangular region).  To get the marginal density for a particular $x$, take all the stacks corresponding to that $x$, for different values of $y$, and stack them on top of one another.  There will be the most stacks for $x$ values near 1  and the fewest stacks for $x$ values near 0 or 2.  In other words, the aggregated density along "vertical strips" is largest for the vertical strip for $x=1$. -->
+<!-- Similarly reasoning applies to find the marginal distribution of $Y$.  The density increases with $y$.  Intuitively, there is only one pair of spins, (0, 0), for which $Y=0$, but many pairs of spins for which $Y=1$, e.g., (0, 1), (1, 0), (1, 0.5), (0.7, 1), etc. -->
+<!-- ```{python} -->
+<!-- plt.figure() -->
+<!-- Y.sim(10000).plot() -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- Finally, observe that the plots in this section look like continuous versions of the plots in Section \@ref(technology-intro) (aside from the scale; the dice rolls take values in $\{1, 2, 3, 4\}$ while the spins take values in $[0, 4]$.)  However, it took a little more work in this section to think about what the joint or marginal distributions might look like.  When studying continuous random variables, it is often helpful to think about how a discrete analog behaves. -->
+<!-- **Some lessons from this example.** -->
+<!-- - The joint distribution of values on a continuous scale can be visualized in a two-dimensional histogram. -->
+<!-- - Remember to always identify possible values of random variables, including possible pairs in a joint distribution. -->
+<!-- - The marginal distribution of a single random variable can be obtained from a joint distribution by aggregating or "collapsing" over the values of the other random variables. -->
+<!-- - When studying continuous random variables, it is often helpful to think about how a discrete analog behaves. -->
+<!-- ### SAT Math scores {#sec-example-sat-math} -->
+<!-- Now suppose we want to simulate the SAT Math score of a single randomly selected student.  Our spinner would now be labeled with values from 200 to 800 (instead of 0 to 1).  However, if the values were equally spaced from 200 to 800, like in the Uniform -->
+<!-- spinner, this would not lead to very realistic SAT scores.  The average SAT Math score is around 500, and a much higher percentage of students score closer to average (500) than to the extreme scores of 200 or 800. -->
+<!-- For SAT Math scores, we might use a spinner like the following.  Notice that the values on the spinner axis are *not* equally spaced.  Even though only some values are displayed on the spinner axis, imagine this spinner represents an infinitely fine model where any value between 200 and 800 is possible^[Technically, for a Normal distribution, *any* real value is possible.  But values that are more than 3 or 4 standard deviations occur with small probability.]. -->
+<!-- (ref:cap-sat-normal-spinner) A spinner representing the "Normal(500, 100)" distribution.  The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities. -->
+<!-- ```{r sat-normal-spinner, echo=FALSE, fig.cap="(ref:cap-sat-normal-spinner)", out.width='50%', fig.show='hold'} -->
+<!-- knitr::include_graphics(c("_graphics/spinner-normal-sat.png", "_graphics/spinner-normal-sat-sectors.png")) -->
+<!-- ``` -->
+<!-- Since the axis values are not evenly spaced, different intervals of the same length will have different probabilities.  For example, the probability that this spinner lands on a value in the interval [400, 500] is about 0.341, but it is about 0.136 for the interval [300, 400].  -->
+<!-- Consider what the distribution of values simulated using this spinner would look like. -->
+<!-- - About half of values would be below 500 and half above -->
+<!-- - Because axis values near 500 are stretched out, values near 500 would occur with higher frequency than those near 200 or 800. -->
+<!-- - The shape would be symmetric since the spacing below 500 mirrors that above.  For example, about 34% of values would be between 400 and 500, and also 34% between 500 and 600. -->
+<!-- - About 68% of values would be between 400 and 600. -->
+<!-- - About 95% of values would be between 300 and 700. -->
+<!-- And so on.  We could compute percentages for other intervals by measuring the areas of corresponding sectors on the circle to complete the pattern of variability that values resulting from this spinner would follow.  This particular pattern is called a "Normal(500, 100)" distribution^[Note that the arguments for a Normal distribution play a different role than those for a Uniform distribution.  In a Uniform($a, b$) distribution, $a$ represents the minimum possible value and $b$ the maximum.  In a Normal($\mu$, $\sigma$) distribution, $\mu$ represents the *mean* (a.k.a. average) and $\sigma$ the *standard deviation*.], and it is illustrated in the following plots.   -->
+<!-- ```{python} -->
+<!-- P = Normal(500, 100) -->
+<!-- X = RV(P) -->
+<!-- x = X.sim(100) -->
+<!-- plt.figure() -->
+<!-- x.plot('rug') -->
+<!-- plt.show() -->
+<!-- print(x) -->
+<!-- ``` -->
+<!-- Simulating lots of values, we see that the histogram appears like it can be approximated by a smooth, "bell-shaped" curve, called a *Normal density*. -->
+<!-- (ref:cap-normal-sat-density) Histogram representing the approximate distribution of values simulated using the spinner in Figure \@ref(fig:sat-normal-spinner).  The smooth solid curve models the theoretical shape of the distribution of $X$, called the "Normal(500, 100)" distribution).  -->
+<!-- ```{python normal-sat-density, fig.cap="(ref:cap-normal-sat-density)"} -->
+<!-- x = X.sim(10000) -->
+<!-- plt.figure() -->
+<!-- x.plot() # plot the simulated values -->
+<!-- Normal(500, 100).plot() # plot the density -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- The parameter 500 represents the long run average (a.k.a. mean) value.  Calling `x.mean()` will compute an average as usual: sum the 10000 simulated values and divide by 10000.  This average should be close to 500.  The more simulated values included in the average, the closer we would expect the simulated average value to be to 500. -->
+<!-- ```{python} -->
+<!-- print(x.mean()) -->
+<!-- ``` -->
+<!-- The parameter 100 represents the standard deviation, which is a measure of degree of variability.  While the average is 500, the values vary about that average.  Many values are close to the average, but some are farther away.  The standard deviation measures, roughly, the average distance of the values from their mean.  Calling `x.sd()` will compute the distance of each of the 10000 simulated from the mean and then average these distances. -->
+<!-- ```{python} -->
+<!-- print(x.sd()) -->
+<!-- ``` -->
+<!-- Technically, to compute the standard deviation you must first square all the distances, then average, then take the square root.  (We will see more on standard deviation in Section XX.) -->
+<!-- ```{python} -->
+<!-- print( sqrt( ( (x - x.mean()) ** 2 ).mean() ) ) -->
+<!-- ``` -->
+<!-- For comparison, consider values from the Uniform(200, 800) distribution.  While the Uniform(200, 800) and Normal(500, 100) distributions have the same mean, the Uniform(200, 800) has a larger standard deviation than the Normal(500, 100) distribution.  In comparison to a Normal(500, 100) distribution, a Uniform(200, 800) distribution will give higher probability to ranges of values near the extremes of 200 and 800, as well as lower probability to ranges of values near 500.  Thus, there will be more values far from the mean of 500 and fewer values close, and so the average distance from the mean and hence standard deviation will be larger.  The standard deviation of values from a Uniform(200, 800) distribution is about 173. -->
+<!-- ```{python} -->
+<!-- plt.figure() -->
+<!-- RV(Normal(500, 100)).sim(10000).plot() -->
+<!-- RV(Uniform(200, 800)).sim(10000).plot() -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- **Some lessons from this example.** -->
+<!-- - Spinners can be used to generate values from non-uniform distributions by applying non-linear transformations to values on the spinner axis. -->
+<!-- - Normal distributions are common models of situations where the pattern of variability follows a bell-shaped curve centered at the average value. -->
+<!-- - Variability is an essential feature of a distribution.  Standard deviation measures degree of variability in terms of the average distance from the mean. -->
+<!-- ### SAT Math and Reading scores {#sec-example-sat-both} -->
+<!-- Now consider randomly selecting an SAT taker and recording both their Math and Reading score.  Suppose we want to conduct an appropriate simulation. -->
+<!-- Donny Don't says: "That's easy; just spin the SAT spinner twice, once for Math and once for Reading."  Do you agree? -->
+<!-- You should not agree with Donny, for two reasons. -->
+<!-- - It's possible that the distribution of SAT Math scores follow a different pattern than SAT Reading scores.  So we might need one spinner to simulate a Math score, and a second spinner to simulate the Reading score.  (In reality, SAT Math and Reading scores do follow pretty similar distributions.  But it's possible that they could follow different distributions.) -->
+<!-- - Furthermore, there is probably some relationship between scores.  It is plausible that students who do well on one test tend to do well on the other.  For example, students who score over 700 on Math are probably more likely to score above than below average on Reading.  If we simulate a pair of scores by spinning one spinner for Math and a separate spinner for Reading, then there will be no relationship between the scores because the spins are physically independent. -->
+<!-- What we really need is a spinner that generates a pair of scores simultaneously to reflect their association.  This is a little harder to visualize, but we could imagine spinning a "globe" with lines of latitude corresponding to SAT Math score and lines of longitutde to SAT Reading score.  But this would not be a typical globe: -->
+<!-- - The lines of latitude would not be equally spaced, since SAT Math scores are not equally likely.  (Remember the spacing of the axis values on the spinner in Figure \@ref(fig:sat-normal-spinner.) Similary for lines of longitude. -->
+<!-- - The scale of the lines of latitude would not necessarily match the scale of the lines of longitude, since Math and Reading scores could follow difference distributions.  For example, the equator (average Math) might be 500 while the prime meridian (average Reading) might be 520. -->
+<!-- - The "lines" would be tilted or squiggled to reflect the relationship between the scores.  For example, the region corresponding to Math scores near 700 and Reading scores near 700 would be larger than the region corresponding to Math scores near 700 but Reading scores near 200.  -->
+<!-- So we would like a model that -->
+<!-- - Simulates Math scores that follow a Normal distribution pattern, with some mean and some standard deviation. -->
+<!-- - Simulates Reading scores that follow a Normal distribution pattern, with possibly a different mean and standard deviation. -->
+<!-- - Reflects how strongly the scores are associated. -->
+<!-- Such a model is called a "Bivariate Normal" distribution.  There are five parameters: the two means, the two standard deviations, and the *correlation* which reflects the strength of the association between the two scores.  Correlation is a number between $-1$ and $1$ that measures the degree of association, with correlation values closer to 1 or $-1$ denoting the strongest association.  We will study correlation in more detail in Section XX. -->
+<!-- In Symbulate, a `BivariateNormal' probability space returns a pair of values; we let $X$ be the first coordinate (Math) and $Y$ the second (Reading).  We'll assume, as [suggested by this site](https://blog.prepscholar.com/sat-standard-deviation#targetText=Standard%20deviation%20tells%20you%2C%20on,either%20above%20or%20below%20it).), that Math scores have mean 527 and standard deviation 107, Reading scores have mean 533 and standard deviation 100, and the pairs of scores have correlation 0.77. -->
+<!-- ```{python} -->
+<!-- P = BivariateNormal(mean1=527, mean2=533, sd1=107, sd2=100, corr=0.77) -->
+<!-- X, Y = RV(P) -->
+<!-- xy = (X & Y).sim(100) -->
+<!-- plt.figure() -->
+<!-- xy.plot() -->
+<!-- plt.show() -->
+<!-- print(xy) -->
+<!-- ``` -->
+<!-- Notice the strong positive association; students who have high scores on one exam tend to have high scores on the other.  We can simulate lots of values and construct a two-dimensional histogram. -->
+<!-- ```{python, warning = FALSE, error = TRUE, message = FALSE} -->
+<!-- plt.figure() -->
+<!-- (X & Y).sim(10000).plot('hist') -->
+<!-- plt.show()  -->
+<!-- ``` -->
+<!-- Recall that in some of the previous examples the shapes of one-dimensional histograms could be approximated with a smooth density curve.   Similarly, a two-dimensional histogram can sometimes be approximated with a smooth density surface.  Like with histograms, the height of the density surface at a particular $(X, Y)$ pair of values can be represented by color intensity.  Like a Normal distribution is a bell-shaped curve, a Bivariate Normal distribution is a "mound-shaped" curve; imagine a pile of sand.  (Symbulate does not yet have the capability to display densities in a three-dimensional-like plot such as [this plot](https://en.wikipedia.org/wiki/Multivariate_normal_distribution#/media/File:Multivariate_Gaussian.png).) -->
+<!-- ```{python} -->
+<!-- plt.figure() -->
+<!-- (X & Y).sim(10000).plot('density') -->
+<!-- plt.show()  -->
+<!-- ``` -->
+<!-- We can find marginal distributions by "aggregating/stacking/collapsing" as in Section \@ref(uniform-sum-max).  The SAT Math scores follow a Normal distribution with mean 527 and standard deviation 107, similarly for Reading. -->
+<!-- ```{python} -->
+<!-- plt.figure() -->
+<!-- X.sim(10000).plot() -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- The value of correlation measures the strength of the association.  For example, with a correlation of 0.4 the association would not be nearly as strong. -->
+<!-- ```{python} -->
+<!-- P = BivariateNormal(mean1=527, mean2=533, sd1=107, sd2=100, corr=0.40) -->
+<!-- X, Y = RV(P) -->
+<!-- xy = (X & Y).sim(10000) -->
+<!-- plt.figure() -->
+<!-- xy.plot() -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- A negative correlation represents a negative association: large values of one variable tend to be associated with small values of the other.  (This would not be realistic for SAT scores.) -->
+<!-- ```{python} -->
+<!-- P = BivariateNormal(mean1=527, mean2=533, sd1=107, sd2=100, corr=-0.77) -->
+<!-- X, Y = RV(P) -->
+<!-- xy = (X & Y).sim(10000) -->
+<!-- plt.figure() -->
+<!-- xy.plot() -->
+<!-- plt.show() -->
+<!-- ``` -->
+<!-- Note that in all of the above cases, the marginal distribution of Math scores is the same, similarly for Reading scores.  But different correlations lead to different joint distributions.  Remember: it is not possible to simulate $(X, Y)$ pairs simply for the marginal distributions. -->
+<!-- **Some lessons from this example.** -->
+<!-- - "Mound-shaped" Bivariate Normal distributions are the two-dimensional analogs of Normal distributions. -->
+<!-- - Correlation is a measure of the strength of the association between two random variables. -->
+<!-- - Remember: it is not possible to simulate $(X, Y)$ pairs simply for the marginal distributions. -->
+<!-- ## One spinner to rule them all? {#univeral-spinner} -->
+<!-- In the examples in this section we used different spinners to represent different distributions.  However, all of the examples assumed the same generic spinner: the needle was infinitely precise and "equally likely" to land on any value on the axis around the spinner. We modeled different distributions simply by changing the values on the axis. -->
+<!-- Consider the standard continuous spinner in Figure \@ref(fig:uniform-spinner), corresponding to a Uniform(0, 1) distribution.  By relabeling the axes on this spinner, we could have constructed the spinners for any of the other examples. -->
+<!-- For example, to obtain the spinner in Figure \@ref(fig:spinner-die-weighted), start with the Uniform(0, 1) spinner and map -->
+<!-- - The range (0, 0.1] to 1, -->
+<!-- - The range (0.1, 0.3] to 2, -->
+<!-- - The range (0.3, 0.6] to 3, -->
+<!-- - The range (0.6, 1] to 4 -->
+<!-- Then the probability that the Uniform(0, 1) spinner lands in the range (0.3, 0.6] is 0.3, so the spinner resulting from this mapping would return a value of 3 with probability 0.3.  (The probability of the infinitely precise needle landing on a specific value like 0.3 (that is, $0.300000000\ldots$) is 0, so it doesn't really matter what we do with the endpoints of the intervals.) -->
+<!-- Add side-by-side figure here of the Uniform (0, 1) spinner with sectors marked on left and the weighted die spinner on the right. -->
+<!-- For non-uniform values on a continuous scale, we could construct a spinner according to the distribution of interest by rescaling and stretching/shrinking the axis of the Uniform(0, 1) spinner to correspond to intervals of larger/smaller probability.  For example, if we want to simulate values according to the distribution illustrated in Figure \@ref(fig:log-uniform-density) we could start with the Uniform(0, 1) spinner and then transform the axis values $u \mapsto -\log(1-u)$ to obtain the spinner in Figure \@ref(fig:exponential-spinner).  As discussed in Section \@ref(sec-log-uniform), the spinner in Figure \@ref(fig:exponential-spinner) generates values which follow the distribution is Figure \@ref(fig:log-uniform-density). -->
+<!-- In Section \@ref(sec-log-uniform) we started with the transformation $u\mapsto -\log(1-u)$ of the Uniform(0, 1) spinner and saw what distribution the transformed values followed via simulation.  But what about the reverse question: given a particular distribution, how do we find the transformation of Uniform(0, 1) that will generate values according to the specified distribution?  We will return to this question in Section XX. -->
+<!-- The only example in this section where a Uniform(0, 1) spinner could not be used was the SAT example in Section \@ref(sec-example-sat-both), where we described a "globe" for simulating values.  However, we will see in Section XX that we actually can use a Uniform(0, 1) to generate a pair of SAT scores, but we will need to suitably transform the results of *two* spins.  -->
+<!-- Through the examples in this chapter we have seen that, in principle, we can start with a Uniform(0, 1) spinner and via a suitable transformation of the axis (and possibly multiple spins) generate values according to any distribution of interest.  This is the idea behind what is sometimes referred to as "universality of the uniform", and we will explore it further in Section XX. -->
+
+</div>
+<!-- </div> -->
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="52">
+<li id="fn52"><p>Why is the interval <span class="math inline">\([0, 1]\)</span> the standard instead of some other range of values? Because probabilities take values in <span class="math inline">\([0, 1]\)</span>. We will see why this is useful in more detail later, but for a preview see <a href="#univeral-spinner"><strong>??</strong></a>.<a href="sec-linear-rescaling.html#fnref52" class="footnote-back">↩︎</a></p></li>
+<li id="fn53"><p>Symbulate chooses the number of bins automatically, but you can set the number of bins using the <code>bins</code> option, e.g., <code>.plot(bins=100)</code><a href="sec-linear-rescaling.html#fnref53" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="changing-parameters-matching-problem.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

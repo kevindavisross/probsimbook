@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.6 Customizing random variables: Heads following Heads | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.6 Customizing random variables: Heads following Heads | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.6 Customizing random variables: Heads following Heads | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="joint-distributions-rolling-dice-yet-again.html"/>
+<link rel="next" href="changing-parameters-matching-problem.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec-mscoin-sim" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Customizing random variables: Heads following Heads</h2>
+<p>Recall the coin flipping problem in Section <a href="sim.html#sim">1.5</a>. Flip a fair coin four times and record the results in order. For the recorded sequence, compute <em>the proportion of the flips which immediately follow a H that result in H</em>. What value do you expect for this proportion? (If there are no flips which immediately follow a H, i.e. the outcome is either TTTT or TTTH, discard the sequence and try again with four more flips.)</p>
+<p>For example, the sequence HHTT means the the first and second flips are heads and the third and fourth flips are tails. For this sequence there are two flips which immediately followed heads, the second and the third, of which one (the second) was heads. So the proportion in question for this sequence is 1/2.</p>
+<p>We saw in Example <a href="rv.html#exm:mscoin-rv">2.26</a> that the quantity of interest, the proportion
+Proportion of H following H, is a <em>random variable</em>. We define the random variables</p>
+<ul>
+<li><span class="math inline">\(Z\)</span>, the number of flips immediately following H.</li>
+<li><span class="math inline">\(Y\)</span>, the number of flips immediately following H that result in H.</li>
+<li><span class="math inline">\(X=Y/Z\)</span>, the proportion of flips immediately following H that result in H.</li>
+</ul>
+<p>Table <a href="rv.html#tab:mscoin">2.4</a> displays the 16 possible outcomes in the sample space along with the value of <span class="math inline">\(X, Y, Z\)</span> for each outcome. Note that <span class="math inline">\(X\)</span> takes values in <span class="math inline">\(\{0, 1/2, 2/3, 1\}\)</span>.</p>
+<p>Now let’s assume the 16 outcomes are equally likely. This corresponds to assuming (1) the coin is fair (that is, any flip is equally likely to land on H or T), and (2) the result of one flip has no bearing on the others (that is, the flips are <em>independent</em>). One technicality is that <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are not defined for the outcomes TTTH and TTTT and we assume that these outcomes are discarded. One way to model this scenario is with a probability measure <span class="math inline">\(\IP\)</span> that assigns probability 0 to the event <span class="math inline">\(\{TTTH, TTTT\}\)</span> and probability 1/14 to each of the remaining outcomes. Using Table <a href="rv.html#tab:mscoin">2.4</a> we can summarize the behavior of <span class="math inline">\(X\)</span> according to the probability measure <span class="math inline">\(\IP\)</span>. Namely, we compute <span class="math inline">\(\IP(X=x)\)</span> for each possible value of <span class="math inline">\(x\)</span>. These values, reported in <a href="sec-mscoin-sim.html#tab:mscoin-dist">3.3</a>, describe the distribution of the random variable <span class="math inline">\(X\)</span>, which is depicted in the spinner in Figure</p>
+<table>
+<caption><span id="tab:mscoin-dist">Table 3.3: </span> Distribution of <span class="math inline">\(X\)</span>, the proportion of flips immediately following H that result in H, for four flips of a fair coin.</caption>
+<thead>
+<tr class="header">
+<th align="right"><span class="math inline">\(x\)</span> |</th>
+<th align="right"><span class="math inline">\(\IP(X=x)\)</span> |</th>
+<th align="right">(Corresponding outcomes) |</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0 |</td>
+<td align="right">6/14 |</td>
+<td align="right"><span class="math inline">\(\{HTHT, HTTH, HTTT, THTT, THTH, TTHT\}\)</span> |</td>
+</tr>
+<tr class="even">
+<td align="right">1/2 |</td>
+<td align="right">4/14 |</td>
+<td align="right"><span class="math inline">\(\{HHTH, HTHH, HHTT, THHT\}\)</span> |</td>
+</tr>
+<tr class="odd">
+<td align="right">2/3 |</td>
+<td align="right">1/14 |</td>
+<td align="right"><span class="math inline">\(\{HHHT\}\)</span> |</td>
+</tr>
+<tr class="even">
+<td align="right">1 |</td>
+<td align="right">3/14 |</td>
+<td align="right"><span class="math inline">\(\{HHHH, THHH, TTHH\}\)</span> |</td>
+</tr>
+</tbody>
+</table>
+
+<div class="figure"><span id="fig:spinner-mscoin"></span>
+<img src="_graphics/spinner-mscoin.PNG" alt="Spinner corresponding to the distribution of the proportion of flips immediately following H that result in H, for four flips of a fair coin." width="200" />
+<p class="caption">
+Figure 3.7: Spinner corresponding to the distribution of the proportion of flips immediately following H that result in H, for four flips of a fair coin.
+</p>
+</div>
+<p>We now use Symbulate to conduct a simulation. We first define the probability space of 16 equally likely outcomes, but when we run the simulation we’ll discard TTTH and TTTT, keeping only those repetitions which result in one of the other 14 outcomes.</p>
+<p>We define the probability space of 16 equally likely outcomes via a box model: <code>P = BoxModel([0, 1], size = 4)</code>. When dealing with sequences of binary outcomes it is useful to define the outcome of interest as 1 and the other outcome as 0. In coin flips, we can define H as 1 and T as 0. For example, HHTT would be (1,1,0,0). With this formulation we can count the number of heads in a sequence by summing the 0/1 values in the sequence. If we sum the elements in the outcome sequence, we add 1 every time we see a H and 0 every time we see a T, resulting in the total number of H. For example (1, 1, 0, 0) leads to 1+1+0+0=2 H.</p>
+<p>We will define the random variables <span class="math inline">\(X, Y, Z\)</span> in Symbulate. Remember that a random variable is a function defined on the probability space. In Section <a href="#symbulate-intro"><strong>??</strong></a>, simple built-in functions like <code>sum</code> and <code>max</code> were used to define <code>RV</code>s. For example, the random variable which counts the total number of H in the sequence of flips (using the 0/1 formulation) would be <code>RV(P, sum)</code>. However, it is also possible to program custom functions to use in defining Symbulate random variables, e.g., <code>X=RV(P, custom_function)</code>. You just need to make sure that the custom function takes as an input an object corresponding to the output of the probability space <code>P</code>.</p>
+<p>The custom function <code>count_flips_following_H</code>, defined using Python code below, takes as an input a sequence of coin flips and returns the number of flips in the sequence which immediately followed H; this will be used to define <span class="math inline">\(Z\)</span>. Similarly, the custom function <code>count_H_following_H</code> counts the number of flips immediately following H that result in H; this will be used to define <span class="math inline">\(Y\)</span>. For now, you don’t need to worry too much about the Python code. Just know that the functions do what they’re supposed to do. (And note that with the 0/1 formulation, we are counting H using <code>sum</code>.)</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb89-1"><a href="sec-mscoin-sim.html#cb89-1"></a></span>
+<span id="cb89-2"><a href="sec-mscoin-sim.html#cb89-2"></a><span class="kw">def</span> count_flips_following_H(omega):</span>
+<span id="cb89-3"><a href="sec-mscoin-sim.html#cb89-3"></a>    <span class="cf">return</span> <span class="bu">sum</span>(omega[<span class="dv">0</span>:(<span class="bu">len</span>(omega) <span class="op">-</span> <span class="dv">1</span>)])</span>
+<span id="cb89-4"><a href="sec-mscoin-sim.html#cb89-4"></a></span>
+<span id="cb89-5"><a href="sec-mscoin-sim.html#cb89-5"></a><span class="kw">def</span> count_H_following_H(omega):</span>
+<span id="cb89-6"><a href="sec-mscoin-sim.html#cb89-6"></a>    <span class="cf">return</span> <span class="bu">sum</span>(a <span class="op">*</span> b <span class="cf">for</span> a, b <span class="kw">in</span> <span class="bu">zip</span>(omega[<span class="dv">1</span>:<span class="bu">len</span>(omega)], omega[<span class="dv">0</span>:<span class="bu">len</span>(omega) <span class="op">-</span> <span class="dv">1</span>]))</span>
+<span id="cb89-7"><a href="sec-mscoin-sim.html#cb89-7"></a></span>
+<span id="cb89-8"><a href="sec-mscoin-sim.html#cb89-8"></a><span class="co"># An example outcome</span></span>
+<span id="cb89-9"><a href="sec-mscoin-sim.html#cb89-9"></a>outcome <span class="op">=</span> (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb89-10"><a href="sec-mscoin-sim.html#cb89-10"></a><span class="bu">print</span>(count_flips_following_H(outcome), count_H_following_H(outcome))</span></code></pre></div>
+<pre><code>## 2 1</code></pre>
+<p>Now we have everything we need to set up the probability space and random variables in Symbulate. Remember that <em>transformations of random variables defined on the sample probability space are random variables</em>. The same is true in Symbulate. Once we have defined Symbulate <code>RV</code>s <code>Z</code> and <code>Y</code>, we can define <code>X = Y / Z</code>, which will also be a Symbulate <code>RV</code>.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb91-1"><a href="sec-mscoin-sim.html#cb91-1"></a></span>
+<span id="cb91-2"><a href="sec-mscoin-sim.html#cb91-2"></a>P <span class="op">=</span> BoxModel([<span class="dv">1</span>, <span class="dv">0</span>], size <span class="op">=</span> <span class="dv">4</span>)</span>
+<span id="cb91-3"><a href="sec-mscoin-sim.html#cb91-3"></a></span>
+<span id="cb91-4"><a href="sec-mscoin-sim.html#cb91-4"></a>Z <span class="op">=</span> RV(P, count_flips_following_H)</span>
+<span id="cb91-5"><a href="sec-mscoin-sim.html#cb91-5"></a>Y <span class="op">=</span> RV(P, count_H_following_H)</span>
+<span id="cb91-6"><a href="sec-mscoin-sim.html#cb91-6"></a>X <span class="op">=</span> Y <span class="op">/</span> Z</span>
+<span id="cb91-7"><a href="sec-mscoin-sim.html#cb91-7"></a></span>
+<span id="cb91-8"><a href="sec-mscoin-sim.html#cb91-8"></a><span class="co"># An example outcome</span></span>
+<span id="cb91-9"><a href="sec-mscoin-sim.html#cb91-9"></a>outcome <span class="op">=</span> (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb91-10"><a href="sec-mscoin-sim.html#cb91-10"></a><span class="bu">print</span>(Z(outcome), Y(outcome), X(outcome))</span></code></pre></div>
+<pre><code>## Warning: Calling an RV as a function simply applies the function that defines the RV to the input, regardless of whether that input is a possible outcome in the underlying probability space.
+## Warning: Calling an RV as a function simply applies the function that defines the RV to the input, regardless of whether that input is a possible outcome in the underlying probability space.
+## Warning: Calling an RV as a function simply applies the function that defines the RV to the input, regardless of whether that input is a possible outcome in the underlying probability space.
+## 2 1 0.5</code></pre>
+<p>Now we run the simulation. Recall that the probability space corresponds to the 16 equally likely outcomes, but we want to discard TTTH and TTTT, the outcomes for which <span class="math inline">\(Z=0\)</span>. We do this by <em>conditioning</em> on the event <span class="math inline">\(\{Z&gt;0\}\)</span> (coded in Symbulate as <code>(Z&gt;0)</code>). We will cover conditioning in much more detail starting in Chapter <a href="#cond"><strong>??</strong></a>. For now, just read the code <code>(X | (Z &gt; 0) )</code> as “keep values of <code>X</code> only for simulated repetitions for which <span class="math inline">\(Z&gt;0\)</span> (and discard the rest)”. In the presence of conditioning, <code>sim</code> doesn’t count the values it discards, so the simulation below will continue to run until 14000 repetitions that satisfy <code>(Z&gt;0)</code> are obtained.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb93-1"><a href="sec-mscoin-sim.html#cb93-1"></a></span>
+<span id="cb93-2"><a href="sec-mscoin-sim.html#cb93-2"></a>x <span class="op">=</span> (X <span class="op">|</span> (Z <span class="op">&gt;</span> <span class="dv">0</span>) ).sim(<span class="dv">14000</span>)</span>
+<span id="cb93-3"><a href="sec-mscoin-sim.html#cb93-3"></a>plt.figure()</span>
+<span id="cb93-4"><a href="sec-mscoin-sim.html#cb93-4"></a>x.plot()</span>
+<span id="cb93-5"><a href="sec-mscoin-sim.html#cb93-5"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb94-1"><a href="sec-mscoin-sim.html#cb94-1"></a>x.tabulate()</span></code></pre></div>
+<pre><code>## {0.5: 3952, 0.0: 5977, 1.0: 3027, 0.6666666666666666: 1044}</code></pre>
+<p>We see that the results of the simulation are consistent with the theoretical values in Table <a href="sec-mscoin-sim.html#tab:mscoin-dist">3.3</a>. That is, the simulated (long run) relative frequencies are close to the theoretical probabilities.</p>
+<p>As discussed in Section <a href="sim.html#sim">1.5</a>, one quantity of interest is the long run average of <span class="math inline">\(X\)</span>, which we can approximate by computing the mean (average) of the 14000 simulated values.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb96-1"><a href="sec-mscoin-sim.html#cb96-1"></a></span>
+<span id="cb96-2"><a href="sec-mscoin-sim.html#cb96-2"></a><span class="bu">print</span>(x.mean())</span></code></pre></div>
+<pre><code>## 0.4070714285714286</code></pre>
+<p>We see the average of simulated values of <span class="math inline">\(X\)</span> is close to 0.4. That is, 0.4 (roughly) is the <em>average value of the proportion of H following H that we would expect to see in the long run over many sets of four fair coin flips</em>. This is decidely less than 1/2; we think most people would find this surprising. The distribution of <span class="math inline">\(X\)</span> is not centered at 0; it is more likely for <span class="math inline">\(X\)</span> to be 0 than to be either 2/3 or 1. This imbalance pulls the long run average down below 0.5. We will return to this idea later.</p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>The <em>proportion of flips that immediately follow H that result in H</em> is a <em>random variable</em>, and not a single number. This random variable has a distribution that is not centered at 1/2; the proportion of interest is more likely to be below 1/2 than above 1/2.</li>
+<li>A random variable is a function defined on a problem space. In Symbulate, custom functions can be used to define <code>RV</code>s.</li>
+<li>Both mathematically and in Symbulate, transformations of random variables defined on the same probability space are random variables.</li>
+<li>When dealing with sequences of binary outcomes it is useful to define the outcome of interest as 1 and the other outcome as 0. With this formulation, counting the 1s is equivalent to summing.</li>
+<li>We saw a brief introduction to how conditioning on event, with the vertical bar <code>|</code>, can be used to keep only those simulated repetitions that satisfy some criteria.</li>
+</ul>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="joint-distributions-rolling-dice-yet-again.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="changing-parameters-matching-problem.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

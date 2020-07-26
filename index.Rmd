@@ -1,0 +1,244 @@
+--- 
+title: "An Introduction to Probability and Simulation"
+author: "Kevin Ross"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: 
+  bookdown::gitbook:
+    split_by: section
+    config:
+      toc:
+        collapse: section
+        scroll_highlight: yes
+        before: null
+        after: null
+      toolbar:
+        position: fixed
+      edit : null
+      download: null
+      search: yes
+      fontsettings:
+        theme: white
+        family: sans
+        size: 2
+      sharing:
+        facebook: no
+        twitter: no
+        google: no
+        linkedin: no
+        weibo: no
+        instapper: no
+        vk: no
+        all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "This textbook presents a simulation-based approach to probability, using the Symbulate package."
+---
+
+# Preface{-}
+
+```{r include=FALSE}
+
+library(knitr)
+# library(learnr)
+library(bookdown)
+library(tidyverse)
+library(reticulate)
+library(ggplot2)
+library(scales)
+
+blank_theme <- theme_minimal()+
+  theme(
+  axis.title.x = element_blank(),
+  axis.title.y = element_blank(),
+  panel.border = element_blank(),
+  panel.grid=element_blank(),
+  axis.ticks = element_blank(),
+  plot.title=element_text(size=14, face="bold", hjust = 0.5)
+  )
+
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+
+knitr::opts_chunk$set(echo = TRUE)
+
+hooks = knitr::knit_hooks$get()
+hook_foldable = function(type) {
+  force(type)
+  function(x, options) {
+    fold <- options[[paste0("fold.", type)]]
+    part = hooks[[type]](x, options)
+    
+    # If fold is FALSE, don't fold
+    if (isFALSE(fold)) return(paste0(part))
+
+    # If fold is TRUE, fold
+    else if (isTRUE(fold)) return(paste0(
+      "<details><summary>", paste("Expand", options$engine, " "), "</summary>\n\n",
+      part,
+      "\n\n</details>"
+    ))
+    
+    # If fold is not specified, don't fold
+    else return (paste0(part))
+
+  }
+}
+knitr::knit_hooks$set(
+  chunk = hook_foldable("chunk")
+)
+
+
+```
+
+
+```{python, include = FALSE}
+# These lines needed to show plots because of
+# reticulate issue with matplotlib
+# https://github.com/rstudio/rstudio/issues/4182
+
+import os
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'C:/Users/kjross/Anaconda3/Library/plugins/platforms'
+
+from symbulate import *
+import matplotlib
+import matplotlib.pyplot as plt
+# from IPython.display import Markdown, display, HTML
+
+```
+
+\newcommand{\IP}{\textrm{P}}
+\newcommand{\IQ}{\textrm{Q}}
+\newcommand{\E}{\textrm{E}}
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\SD}{\textrm{SD}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\Corr}{\textrm{Corr}}
+\newcommand{\Xbar}{\bar{X}}
+\newcommand{\Ybar}{\bar{X}}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\ybar}{\bar{y}}
+\newcommand{\ind}{\textrm{I}}
+\newcommand{\dd}{\text{DDWDDD}}
+\newcommand{\ep}{\epsilon}
+\newcommand{\reals}{\mathbb{R}}
+
+
+(ref:ddwddd) Don't do what Donny Don't does.
+
+
+### Why study probability *and simulation*? {-}
+
+
+Why study probability?
+
+- Probability is the study of uncertainty, and life is uncertain
+- Probability is used in a wide variety of fields, including: [statistics](https://fivethirtyeight.com/features/not-even-scientists-can-easily-explain-p-values/), [physics](https://www.ucdavis.edu/news/does-probability-come-quantum-physics/), [engineering](https://en.wikipedia.org/wiki/Signal_processing), [biology](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3843941/), [medicine](https://cvi.asm.org/content/cdli/23/4/249.full.pdf), [finance](https://www.marketwatch.com/story/the-4-called-the-last-financial-crisis-heres-what-they-see-causing-the-next-one-2018-09-13), [actuarial science](https://www.ssa.gov/oact/STATS/table4c6.html), [political science](https://projects.fivethirtyeight.com/2016-election-forecast/), [law](https://en.wikipedia.org/wiki/Prosecutor%27s_fallacy), [sports](https://www.numberfire.com/nfl/lists/18685/the-10-biggest-plays-of-super-bowl-lii) , ...
+- Many topics and problems in probability are frequently misunderstood and sometimes counter intuitive, so it's worthwhile to take a careful study
+- "Probabilistic thinking" is an important component of statistical literacy (e.g. how to assess risk when making decisions)
+- Probability provides the foundation for many important statistical concepts and methods such as p-values and confidence intervals
+
+
+Why use **simulation** to study probability?
+
+- Many concepts encountered in probability can seem esoteric; simulation helps make them more concrete.
+- Simulation provides an effective tool for analyzing probability models and for exploring effects of changing assumptions
+- Simulation can be used to check analytical solutions
+- Simulation is often the best or only method for investigating many problems which are too complex to solve analytically
+- Simulation-based reasoning is an important component of statistical literacy (e.g. understanding a p-value via simulation)
+- Many statistical procedures employ simulation-based methods (e.g. bootstrapping)
+
+### Learning Objectives/Goals/Style??? (Better title)
+
+- Don't skimp on rigorous definitions (RV is function defined on probspace) but deemphasize mathematical computation (counting and calculus)
+- Emphasize simulation
+- Visualize in lots of plots
+- Start multivariate relationships early
+- Rely on statistical literacy
+- Active learning, workbook style
+
+### Symbulate {-}
+
+This book uses the Python package Symbulate
+(https://github.com/dlsun/symbulate) which provides a user friendly framework for conducting simulations involving probability models. The
+syntax of Symbulate reflects the "language of probability" and makes it
+intuitive to specify, run, analyze, and visualize the results of a
+simulation. In Symbulate, probability spaces, events, random variables, and random processes are symbolic objects which can be manipulated, independently of their simulated realizations. Symbulate's consistency with the mathematics of
+probability reinforces understanding of probabilistic concepts. The article @symbulateJSE discusses Symbulate and its features in more detail.
+
+To install Symbulate, it is recommended that you first install the [Anaconda distribution](https://www.anaconda.com/distribution/), which is a Python environment with many scientific packages installed (including all of the packages that Symbulate is built on).  After installing Anaconda, the recommended way to installing Symbulate is run the command
+
+```
+!pip install symbulate
+```
+
+from inside a notebook. (The Symbulate package can also be downloaded and installed manually from the [Symbulate Github repository](\href{https://github.com/dlsun/symbulate}) following these [instructions](https://web.calpoly.edu/~dsun09/python.html).)
+
+The following command imports Symbulate during a Python session.
+
+```{python}
+from symbulate import *
+```
+
+The Symbulate command `plot()` produces graphics.  These graphics can be customized (by changing axis limits, adding titles, legends, etc) using Matplotlib, and in particular the `pyplot` method, which can be imported with
+
+```
+import matplotlib
+import matplotlib.pyplot as plt
+```
+
+[Jupyter](http://jupyter.org/) or [Google Colab](https://colab.research.google.com/notebooks/intro.ipynb#) notebooks provide a natural interface for Symbulate.  The code in this book matches as closely as possible the commands that would be entered into cells in a notebook.  However, certain commands that appear throughout the book are needed only to properly produce the output in this book, and not if working directly in notebooks.  In particular, `plt.figure()` and `plt.show()` are not needed to produce graphics in Jupyter (with the use of the `%matplotlib inline` "magic").  In addition, Jupyter automatically displays the result of the last line in a cell; `print()` is generally not needed to display output (unless you wish to format it, or it is not the last line in the cell).
+
+For example, a code snippet that appears in this book as
+
+```{python, eval=FALSE}
+x = RV(Binomial(4, 0.5)).sim(10000)
+plt.figure()
+x.plot()
+plt.show()
+print(x)
+```
+
+```{python}
+x = RV(Binomial(4, 0.5)).sim(10000)
+# plt.figure()
+x.plot()
+plt.show()
+print(x)
+```
+
+
+```{python}
+x = RV(Binomial(4, 0.5)).sim(10000)
+plt.figure()
+x.plot()
+plt.show()
+print(x)
+```
+
+would be entered in a Jupyter notebook as
+
+```{python, eval=FALSE}
+x = RV(Binomial(4, 0.5)).sim(10000)
+x.plot()
+x
+```
+
+
+
+
+### Don't do what Donny Don't does {-}
+
+Some of the examples and exercises in this book are labeled "Don't do what Donny Don't does". This is a [Simpson's](https://frinkiac.com/video/S05E08/0nvMY69o6o_U7BqeIzQ314al-SQ=.gif) [reference](https://www.youtube.com/watch?v=pbwxlyUunL8). In this text, Donny represents a student who makes many of the mistakes commonly made by students studying probability.  The idea of these problems is for you to learn from the common mistakes that Donny makes, by identifying why he is wrong and by helping him understand and correct his mistakes.  (But be careful: sometimes Donny is right!)
+
+### About this book {-}
+
+This book was written using the **bookdown** package [@R-bookdown], which was built on top of R Markdown and **knitr** [@xie2015].  Python code was run in RStudio using the `reticulate` package.
+
+
+

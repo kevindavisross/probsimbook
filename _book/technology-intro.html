@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.2 Computer simulation: Symbulate | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.2 Computer simulation: Symbulate | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.2 Computer simulation: Symbulate | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tactile.html"/>
+<link rel="next" href="moe.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="technology-intro" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Computer simulation: Symbulate</h2>
+<p><strong>Note: some of the plots and tables in this and the following sections are not displayed properly in the text. See the accompanying Jupyter notebooks for a better representation of Symbulate output.</strong></p>
+<p>We will perform computer simulations using the Python package Symbulate. The syntax of Symbulate mirrors the language of probability in that the primary objects in
+Symbulate are the same as the primary components of a probability model: probability spaces, random variables, events. Once these components are specified, Symbulate allows users to simulate many times from the
+probability model and summarize the results.</p>
+<p>This section contains a brief introduction to Symbulate; many more examples can be found throughout the text or in the <a href="https://dlsun.github.io/symbulate/index.html">Symbulate documentation</a>. Remember to first import Symbulate during a Python session using the command</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="technology-intro.html#cb12-1"></a><span class="im">from</span> symbulate <span class="im">import</span> <span class="op">*</span></span></code></pre></div>
+<div id="simulating-outcomes" class="section level3" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Simulating outcomes</h3>
+<p>We continue Example <a href="tactile.html#exm:dice-sim">3.1</a> from Section <a href="tactile.html#tactile">3.1</a> where <span class="math inline">\(X\)</span> is the sum of two rolls of a fair four-sided die, and <span class="math inline">\(Y\)</span> is the larger of the two rolls (or the common value if a tie). The following Symbulate code defines a probability space<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a> <code>P</code> for simulating the 16 equally likely ordered pairs of rolls via a box model.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="technology-intro.html#cb13-1"></a></span>
+<span id="cb13-2"><a href="technology-intro.html#cb13-2"></a>P <span class="op">=</span> BoxModel([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], size <span class="op">=</span> <span class="dv">2</span>, replace <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div>
+<p>The above code tells Symbulate to draw 2 tickets (<code>size = 2</code>), with replacement<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a>, from a box with tickets labeled
+1, 2, 3, and 4 (entered as the Python list <code>[1, 2, 3, 4]</code>). Each simulated outcome consists of an ordered<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a> pair of rolls. The <code>sim(n)</code> command simulates <code>n</code> realizations of probability space outcomes (or events or random variables).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="technology-intro.html#cb14-1"></a></span>
+<span id="cb14-2"><a href="technology-intro.html#cb14-2"></a><span class="bu">print</span>(P.sim(<span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.Results object at 0x00000000207D6F48&gt;</code></pre>
+</div>
+<div id="simulating-random-variables" class="section level3" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Simulating random variables</h3>
+<p>A Symbulate <code>RV</code> is specified by the probability space on which it is defined and the mapping function which defines it. Recall that <span class="math inline">\(X\)</span> is the sum of the two dice rolls and <span class="math inline">\(Y\)</span> is the larger (max).</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="technology-intro.html#cb16-1"></a>X <span class="op">=</span> RV(P, <span class="bu">sum</span>)</span>
+<span id="cb16-2"><a href="technology-intro.html#cb16-2"></a>Y <span class="op">=</span> RV(P, <span class="bu">max</span>)</span></code></pre></div>
+<p>The above code simply defines the random variables. Since a random variable <span class="math inline">\(X\)</span> is a function, any <code>RV</code> can be called as a function<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a> to return its value <span class="math inline">\(X(\omega)\)</span> for a particular outcome <span class="math inline">\(\omega\)</span> in the probability space.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="technology-intro.html#cb17-1"></a>omega <span class="op">=</span> (<span class="dv">3</span>, <span class="dv">2</span>)  <span class="co"># a pair of rolls</span></span>
+<span id="cb17-2"><a href="technology-intro.html#cb17-2"></a><span class="bu">print</span>(X(omega), Y(omega))</span></code></pre></div>
+<pre><code>## Warning: Calling an RV as a function simply applies the function that defines the RV to the input, regardless of whether that input is a possible outcome in the underlying probability space.
+## Warning: Calling an RV as a function simply applies the function that defines the RV to the input, regardless of whether that input is a possible outcome in the underlying probability space.
+## 5 3</code></pre>
+<p>The following commands simulate 100 values of the random variable <code>Y</code> and store the results as <code>y</code>. For consistency with standard notation, the random variable itself is denoted with an uppercase letter <code>Y</code>, while the realized values of it are denoted with a lowercase letter <code>y</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="technology-intro.html#cb19-1"></a>y <span class="op">=</span> Y.sim(<span class="dv">100</span>)</span>
+<span id="cb19-2"><a href="technology-intro.html#cb19-2"></a><span class="bu">print</span>(y)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000001FA99748&gt;</code></pre>
+<p>Values and their frequencies can be summarized using <code>tabulate</code>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="technology-intro.html#cb21-1"></a><span class="bu">print</span>(y.tabulate())</span></code></pre></div>
+<pre><code>## {2: 16, 4: 43, 1: 6, 3: 35}</code></pre>
+<p>By default, <code>tabulate</code> returns frequencies (counts). Adding the argument <code>normalize = True</code> returns relative frequencies (proportions).</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="technology-intro.html#cb23-1"></a><span class="bu">print</span>(y.tabulate(normalize <span class="op">=</span> <span class="va">True</span>))</span></code></pre></div>
+<pre><code>## {2: 0.16, 4: 0.43, 1: 0.06, 3: 0.35}</code></pre>
+<p>Methods like <code>sim</code> and <code>tabulate</code> can be chained together in a single line of code.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="technology-intro.html#cb25-1"></a>Y.sim(<span class="dv">100</span>).tabulate(normalize <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div>
+<pre><code>## {2: 0.17, 4: 0.44, 1: 0.09, 3: 0.3}</code></pre>
+<p>Each call to <code>sim</code> reruns the simulation to generate a new set of simulated values. To perform multiple operations on a single set of simulated values, store the simulation results as a variable (like <code>y</code> above). When running <code>Y.sim(100)</code> Symbulate simulates, in the background, outcomes from the probability space <code>P</code> and then computes <code>Y</code> for these outcomes; however, the outcomes themselves are not saved. (We will soon see how to simulate multiple quantities simultaneously.)</p>
+<p>We can plot the 100 individual simulated values of <span class="math inline">\(Y\)</span> in a rug plot.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="technology-intro.html#cb27-1"></a>y.plot(<span class="st">&#39;rug&#39;</span>)</span>
+<span id="cb27-2"><a href="technology-intro.html#cb27-2"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>The rug plot emphasizes that realizations of the random varible <span class="math inline">\(Y\)</span> are numbers along a number line. However, the rug plot does not adequately summarize the relative frequencies. Instead, calling <code>.plot()</code> produces<a href="#fn39" class="footnote-ref" id="fnref39"><sup>39</sup></a> an <em>impulse plot</em> which displays the simulated values and their relative frequencies.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="technology-intro.html#cb28-1"></a>y.plot()</span>
+<span id="cb28-2"><a href="technology-intro.html#cb28-2"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="approximating-distributions" class="section level3" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Approximating distributions</h3>
+<p>The true distribution of <span class="math inline">\(Y\)</span> is displayed in Figure XXX. The plot above, based on only 100 simulated values, provides a poor approximation to the distribution of <span class="math inline">\(Y\)</span>.
+We often initially simulate a small number of repetitions to see what the simulation is doing and check that it is working properly. However, in order to accurately approximate probabilities or distribution we simulate a large number of repetitions (usually thousands for our purposes).</p>
+<p>Now we simulate 10,000 values of the random variable <code>Y</code> and summarize the simulation output to approximate the distribution of <span class="math inline">\(Y\)</span>. Since the simulation results below are stored as <code>y</code>, the same set of results is used to produce the table and the plot. Compare the simulation results with Table XXX and Figure XXX. The results of 10000 repetitions provide a much better approximation to the true distribution of <span class="math inline">\(Y\)</span> than the results of just 100 repetitions.</p>
+
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="technology-intro.html#cb29-1"></a>y <span class="op">=</span> Y.sim(<span class="dv">10000</span>)</span>
+<span id="cb29-2"><a href="technology-intro.html#cb29-2"></a><span class="bu">print</span>(y.tabulate())</span></code></pre></div>
+<pre><code>## {4: 4412, 1: 611, 3: 3162, 2: 1815}</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="technology-intro.html#cb31-1"></a>y.plot()</span>
+<span id="cb31-2"><a href="technology-intro.html#cb31-2"></a>plt.show()</span></code></pre></div>
+<pre><code>## Traceback (most recent call last):
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\backends\backend_qt5.py&quot;, line 508, in _draw_idle
+##     self.draw()
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\backends\backend_agg.py&quot;, line 388, in draw
+##     self.figure.draw(self.renderer)
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\artist.py&quot;, line 38, in draw_wrapper
+##     return draw(artist, renderer, *args, **kwargs)
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\figure.py&quot;, line 1709, in draw
+##     renderer, self, artists, self.suppressComposite)
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\image.py&quot;, line 135, in _draw_list_compositing_images
+##     a.draw(renderer)
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\artist.py&quot;, line 38, in draw_wrapper
+##     return draw(artist, renderer, *args, **kwargs)
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\axes\_base.py&quot;, line 2607, in draw
+##     self._update_title_position(renderer)
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\axes\_base.py&quot;, line 2548, in _update_title_position
+##     ax.xaxis.get_ticks_position() in choices):
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\axis.py&quot;, line 2146, in get_ticks_position
+##     self._get_ticks_position()]
+##   File &quot;C:\Users\kjross\Anaconda3\lib\site-packages\matplotlib\axis.py&quot;, line 1833, in _get_ticks_position
+##     minor = self.minorTicks[0]
+## IndexError: list index out of range</code></pre>
+<div class="figure"><span id="fig:dice-max-marginal-sim"></span>
+<img src="bookdown-demo_files/figure-html/dice-max-marginal-sim-1.png" alt="Simulation-based approximate distribution of \(Y\), the larger (or common value if a tie) of two rolls of a fair four-sided die." width="672" />
+<p class="caption">
+Figure 3.3: Simulation-based approximate distribution of <span class="math inline">\(Y\)</span>, the larger (or common value if a tie) of two rolls of a fair four-sided die.
+</p>
+</div>
+<p>The following is a summary of a simulation of <span class="math inline">\(X\)</span> values. Compare with XXX</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="technology-intro.html#cb33-1"></a>x <span class="op">=</span> X.sim(<span class="dv">10000</span>)</span>
+<span id="cb33-2"><a href="technology-intro.html#cb33-2"></a><span class="bu">print</span>(x.tabulate())</span></code></pre></div>
+<pre><code>## {8: 618, 7: 1200, 4: 1832, 6: 1940, 5: 2446, 3: 1287, 2: 677}</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="technology-intro.html#cb35-1"></a>x.plot()</span>
+<span id="cb35-2"><a href="technology-intro.html#cb35-2"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div id="simulating-events" class="section level3" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Simulating events</h3>
+<p>Events can also be defined and simulated. For programming reasons, events are enclosed in parentheses <code>()</code> rather than braces <span class="math inline">\(\{\}\)</span>.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="technology-intro.html#cb36-1"></a>A <span class="op">=</span> (Y <span class="op">&lt;</span> <span class="dv">3</span>) <span class="co"># an event</span></span></code></pre></div>
+<p>A realization of an event is <code>True</code> if the event occurs for the simulated outcome, or <code>False</code> if not.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="technology-intro.html#cb37-1"></a><span class="bu">print</span>(A.sim(<span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.Results object at 0x000000002B49C808&gt;</code></pre>
+<p>For logical equality use a double equal sign <code>==</code>. For example, <code>(Y == 3)</code> represents the event <span class="math inline">\(\{Y=3\}\)</span>.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="technology-intro.html#cb39-1"></a>B <span class="op">=</span> (Y <span class="op">==</span> <span class="dv">3</span>) <span class="co"># an event</span></span>
+<span id="cb39-2"><a href="technology-intro.html#cb39-2"></a><span class="bu">print</span>(B.sim(<span class="dv">10000</span>).tabulate())</span></code></pre></div>
+<pre><code>## {True: 3237, False: 6763}</code></pre>
+</div>
+<div id="simulating-multiple-random-variables" class="section level3" number="3.2.5">
+<h3><span class="header-section-number">3.2.5</span> Simulating multiple random variables</h3>
+<p>We can simulate <span class="math inline">\((X, Y)\)</span> pairs using<a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a> <code>&amp;</code>. We store the simulation output as <code>xy</code> to emphasize that <code>xy</code> contains pairs of values.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="technology-intro.html#cb41-1"></a>xy <span class="op">=</span> (X <span class="op">&amp;</span> Y).sim(<span class="dv">100</span>)</span>
+<span id="cb41-2"><a href="technology-intro.html#cb41-2"></a><span class="bu">print</span>(xy)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000002B4A0AC8&gt;</code></pre>
+<p>Pairs of values can also be tabulated.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="technology-intro.html#cb43-1"></a><span class="bu">print</span>(xy.tabulate())</span></code></pre></div>
+<pre><code>## {(3, 2): 15, (6, 4): 15, (4, 3): 10, (5, 4): 9, (7, 4): 16, (8, 4): 6, (4, 2): 7, (2, 1): 5, (5, 3): 16, (6, 3): 1}</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="technology-intro.html#cb45-1"></a><span class="bu">print</span>(xy.tabulate(normalize <span class="op">=</span> <span class="va">True</span>))</span></code></pre></div>
+<pre><code>## {(3, 2): 0.15, (6, 4): 0.15, (4, 3): 0.1, (5, 4): 0.09, (7, 4): 0.16, (8, 4): 0.06, (4, 2): 0.07, (2, 1): 0.05, (5, 3): 0.16, (6, 3): 0.01}</code></pre>
+<p>Individual pairs can be plotting in a scatter plot, which is a two-dimensional analog of a rug plot.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="technology-intro.html#cb47-1"></a>xy.plot()</span>
+<span id="cb47-2"><a href="technology-intro.html#cb47-2"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>The values can be “jittered” slightly, as in Figure <a href="#dice-sim-tactile-results-plot"><strong>??</strong></a>, so that points do not coincide.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="technology-intro.html#cb48-1"></a>xy.plot(jitter <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb48-2"><a href="technology-intro.html#cb48-2"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>The two-dimensional analog of an impulse plot is a <em>tile plot</em>. For two discrete variables, the <code>'tile'</code> plot type produces a tile plot (a.k.a. heat map) where rectangles represent the simulated pairs with their relative frequencies visualized on a color scale.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="technology-intro.html#cb49-1"></a>xy.plot(<span class="st">&#39;tile&#39;</span>)</span>
+<span id="cb49-2"><a href="technology-intro.html#cb49-2"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>We can add the impulse plot for each of each <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> in the margins of the tile plot using the <code>'marginals'</code> argument.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="technology-intro.html#cb50-1"></a>xy.plot([<span class="st">&#39;tile&#39;</span>, <span class="st">&#39;marginals&#39;</span>])</span>
+<span id="cb50-2"><a href="technology-intro.html#cb50-2"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="simulating-outcomes-and-random-variables" class="section level3" number="3.2.6">
+<h3><span class="header-section-number">3.2.6</span> Simulating outcomes and random variables</h3>
+<p>Recall Table <a href="tactile.html#tab:dice-sim-tactile-results">3.1</a> which displays both the outcomes of the two rolls and the corresponding values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> for 10 repetitions. Calling <code>(X &amp; Y).sim(10)</code> as in the previous section produces results like those in the table, but only the values of <code>(X &amp; Y)</code> are saved and displayed. The outcomes of the rolls are generated in the background but not saved.</p>
+<p>We can create a <code>RV</code> which returns the outcomes of the probability space<a href="#fn41" class="footnote-ref" id="fnref41"><sup>41</sup></a>. The default mapping function for <code>RV</code> is the identity function, <span class="math inline">\(g(u) = u\)</span>, so simulating values of <code>U=RV(P)</code> below returns the outcomes of the BoxModel <code>P</code> representing the outcome of the two rolls.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="technology-intro.html#cb51-1"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb51-2"><a href="technology-intro.html#cb51-2"></a>U.sim(<span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000002E664188&gt;</code></pre>
+<p>Now we can simulate and display the outcomes along with the values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> using <code>&amp;</code>.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="technology-intro.html#cb53-1"></a>(U <span class="op">&amp;</span> X <span class="op">&amp;</span> Y).sim(<span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000002B537C88&gt;</code></pre>
+<p>Because the probability space <code>P</code> returns pairs of values, <code>U=RV(P)</code> abve defines a random vector. The individual components^[The components can also be accessed using brackets. <code>U1, U2 = RV(P)</code> is shorthand for</p>
+<pre><code>U = RV(P)  
+U1 = U[0]  
+U2 = U[1]  </code></pre>
+<p>Python uses zero-based indexing, so 0 refers to the first components, 1 to the second, and so on.] of <code>U</code> can be “unpacked” as <code>U1, U2</code> in the following. Here <code>U1</code> represents the result of the first roll and <code>U2</code> the second.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="technology-intro.html#cb56-1"></a>U1, U2 <span class="op">=</span> RV(P)</span>
+<span id="cb56-2"><a href="technology-intro.html#cb56-2"></a>(U1 <span class="op">&amp;</span> U2 <span class="op">&amp;</span> X <span class="op">&amp;</span> Y).sim(<span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000002B57F248&gt;</code></pre>
+</div>
+<div id="simulating-equally-likely-outcomes" class="section level3" number="3.2.7">
+<h3><span class="header-section-number">3.2.7</span> Simulating equally likely outcomes</h3>
+<p>In the code above we used a box model to specify the probability space correspoding to pairs of rolls of a four-sided die. When tickets are equally likely and sampled with replacement, a Discrete Uniform model can also be used. Think of a <code>DiscreteUniform(a, b)</code> probability space corresponding to a spinner with sectors of equal area labeled with integer values from <code>a</code> to <code>b</code> (inclusive). For example, the spinner in Figure <a href="tactile.html#fig:spinner-die">3.1</a> corresponds to <code>DiscreteUniform(1, 4)</code>.</p>
+<p>In the following, <span class="math inline">\(U\)</span> represents the result of a single roll of a fair four-sided die. The default mapping function in <code>RV</code> is the identity, so <code>U = RV(P)</code> represents<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a> <span class="math inline">\(U(\omega) = \omega\)</span>.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="technology-intro.html#cb58-1"></a>P <span class="op">=</span> DiscreteUniform(a <span class="op">=</span> <span class="dv">1</span>, b <span class="op">=</span> <span class="dv">4</span>)</span>
+<span id="cb58-2"><a href="technology-intro.html#cb58-2"></a>U <span class="op">=</span> RV(P)</span>
+<span id="cb58-3"><a href="technology-intro.html#cb58-3"></a>plt.figure()</span>
+<span id="cb58-4"><a href="technology-intro.html#cb58-4"></a>U.sim(<span class="dv">10000</span>).plot()</span>
+<span id="cb58-5"><a href="technology-intro.html#cb58-5"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p>For two rolls the probability space corresponds to spinning the DiscreteUniform spinner two times, which is coded<a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a> as <code>DiscreteUniform(a = 1, b = 4) ** 2</code>. The first line below has the same effect<a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a> as <code>BoxModel([1, 2, 3, 4], size = 2, replace = True)</code>.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a href="technology-intro.html#cb59-1"></a>P <span class="op">=</span> DiscreteUniform(a <span class="op">=</span> <span class="dv">1</span>, b <span class="op">=</span> <span class="dv">4</span>) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb59-2"><a href="technology-intro.html#cb59-2"></a>X <span class="op">=</span> RV(P, <span class="bu">sum</span>)</span>
+<span id="cb59-3"><a href="technology-intro.html#cb59-3"></a>Y <span class="op">=</span> RV(P, <span class="bu">max</span>)</span>
+<span id="cb59-4"><a href="technology-intro.html#cb59-4"></a>plt.figure()</span>
+<span id="cb59-5"><a href="technology-intro.html#cb59-5"></a>(X <span class="op">&amp;</span> Y).sim(<span class="dv">10000</span>).plot([<span class="st">&#39;tile&#39;</span>, <span class="st">&#39;marginals&#39;</span>])</span>
+<span id="cb59-6"><a href="technology-intro.html#cb59-6"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+</div>
+<div id="brief-summary-of-symbulate-commands" class="section level3" number="3.2.8">
+<h3><span class="header-section-number">3.2.8</span> Brief summary of Symbulate commands</h3>
+<p>Many
+scenarios require only a few lines of Symbulate code to set up, run,
+analyze, and visualize. Table comprises the
+requisite Symbulate commands for a wide variety of situations.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Command</th>
+<th align="left">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>BoxModel</code></td>
+<td align="left">Define a box model</td>
+</tr>
+<tr class="even">
+<td align="left"><code>ProbabilitySpace</code></td>
+<td align="left">Define a custom probability space</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>RV</code></td>
+<td align="left">Define random variables, vectors, or processes</td>
+</tr>
+<tr class="even">
+<td align="left"><code>RandomProcess</code></td>
+<td align="left">Define a discrete or continuous time stochastic process</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>apply</code></td>
+<td align="left">Apply transformations</td>
+</tr>
+<tr class="even">
+<td align="left"><code>[]</code> (brackets)</td>
+<td align="left">Access a component of a random vector, or a random process at a particular time</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>*</code> (and <code>**</code>)</td>
+<td align="left">Define independent probability spaces or distributions</td>
+</tr>
+<tr class="even">
+<td align="left"><code>AssumeIndependent</code></td>
+<td align="left">Assume random variables or processes are independent</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>|</code> (vertical bar)</td>
+<td align="left">Condition on events</td>
+</tr>
+<tr class="even">
+<td align="left"><code>&amp;</code></td>
+<td align="left">Join multiple random variables into a random vector</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>sim</code></td>
+<td align="left">Simulate outcomes, events, and random variables, vectors, and processes</td>
+</tr>
+<tr class="even">
+<td align="left"><code>tabulate</code></td>
+<td align="left">Tabulate simulated values</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>plot</code></td>
+<td align="left">Plot simulated values</td>
+</tr>
+<tr class="even">
+<td align="left"><code>filter</code> (and relatives)</td>
+<td align="left">Create subsets of simulated values (<code>filter_eq</code>, <code>filter_lt</code>, etc)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>count</code> (and relatives)</td>
+<td align="left">Count simulated values which satisfy some critera (<code>count_eq</code>, <code>count_lt</code>, etc)</td>
+</tr>
+<tr class="even">
+<td align="left">Statistical summaries</td>
+<td align="left"><code>mean</code>, <code>median</code>, <code>sd</code>, <code>var</code>, <code>quantile</code>, <code>corr</code>, <code>cov</code>, etc.</td>
+</tr>
+<tr class="odd">
+<td align="left">Common models</td>
+<td align="left">See Chapters <a href="#discrete"><strong>??</strong></a> and <a href="#continuous"><strong>??</strong></a></td>
+</tr>
+</tbody>
+</table>
+<p>While no previous experience with Python is required, it is also possible to incorporate Python programming with Symbulate code. In particular, Python functions or loops can be used: to define or transform random variables or stochastic processes, or to investigate the effects of changing parameter values. Also, while many common plots are built in with the Symbulate <code>plot</code> function, the Matplotlib package can be used to create or customize plots. Some of these features will be illustrated in the next section and more examples are found throughout the text.</p>
+</div>
+<div id="exercises" class="section level3" number="3.2.9">
+<h3><span class="header-section-number">3.2.9</span> Exercises</h3>
+
+<div class="example">
+<p><span id="exm:coin-heads-sym" class="example"><strong>Example 3.4  </strong></span>Flip a coin 4 times and let <span class="math inline">\(X\)</span> be the number of H.</p>
+<ol style="list-style-type: decimal">
+<li>Write the Symbulate code to define X using a box model with tickets labeled H and T. Simulate a few outcomes and a few values of X.</li>
+<li>Write the Symbulate code to define X using a box model with tickets labeled 1 and 0 and without counting. Simulate a few outcomes and a few values of X.</li>
+<li>Write the Symbulate code to conduct a simulation and use the results to approximate <span class="math inline">\(\IP(X = 3)\)</span>.</li>
+</ol>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="tactile.html#exm:coin-heads-tactile">3.3</a>. See code below. Note the use of <code>count_eq</code> with the H/T labels and <code>sum</code> with the 1/0 labels. (It is also possible to use <code>count_eq(1)</code> with the 1/0 labels, but the point of indicators is that they turn counting into summing.)</p>
+</div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="technology-intro.html#cb60-1"></a></span>
+<span id="cb60-2"><a href="technology-intro.html#cb60-2"></a>P <span class="op">=</span> BoxModel([<span class="st">&#39;H&#39;</span>, <span class="st">&#39;T&#39;</span>], size <span class="op">=</span> <span class="dv">4</span>)</span>
+<span id="cb60-3"><a href="technology-intro.html#cb60-3"></a>P.sim(<span class="dv">5</span>) <span class="co"># a few outcomes</span></span></code></pre></div>
+<pre><code>## &lt;symbulate.results.Results object at 0x000000002EB49048&gt;</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="technology-intro.html#cb62-1"></a>X <span class="op">=</span> RV(P, count_eq(<span class="st">&#39;H&#39;</span>))</span>
+<span id="cb62-2"><a href="technology-intro.html#cb62-2"></a>X.sim(<span class="dv">5</span>) <span class="co"># a few values of X</span></span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000002EB492C8&gt;</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="technology-intro.html#cb64-1"></a>X.sim(<span class="dv">10000</span>).count_eq(<span class="dv">3</span>) <span class="op">/</span> <span class="dv">10000</span></span></code></pre></div>
+<pre><code>## 0.2443</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb66-1"><a href="technology-intro.html#cb66-1"></a></span>
+<span id="cb66-2"><a href="technology-intro.html#cb66-2"></a>P <span class="op">=</span> BoxModel([<span class="st">&#39;H&#39;</span>, <span class="st">&#39;T&#39;</span>], size <span class="op">=</span> <span class="dv">4</span>)</span>
+<span id="cb66-3"><a href="technology-intro.html#cb66-3"></a>P.sim(<span class="dv">5</span>) <span class="co"># a few outcomes</span></span></code></pre></div>
+<pre><code>## &lt;symbulate.results.Results object at 0x000000002EB49508&gt;</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb68-1"><a href="technology-intro.html#cb68-1"></a>X <span class="op">=</span> RV(P, count_eq(<span class="st">&#39;H&#39;</span>))</span>
+<span id="cb68-2"><a href="technology-intro.html#cb68-2"></a>X.sim(<span class="dv">5</span>) <span class="co"># a few values of X</span></span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000002E4BB1C8&gt;</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href="technology-intro.html#cb70-1"></a>X.sim(<span class="dv">10000</span>).count_eq(<span class="dv">3</span>) <span class="op">/</span> <span class="dv">10000</span></span></code></pre></div>
+<pre><code>## 0.2545</code></pre>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="35">
+<li id="fn35"><p>Technically, a probability space is a triple <span class="math inline">\((\Omega, \mathcal{F}, \IP)\)</span>. We primarily view a Symbulate probability space as a description of the probability model rather than an explicit specification of <span class="math inline">\(\Omega\)</span>. For example, we define a <code>BoxModel</code> instead of creating a set with all possible outcomes. We tend to represent a probability space with <code>P</code>, even though this is a slight abuse of notation.<a href="technology-intro.html#fnref35" class="footnote-back">↩︎</a></p></li>
+<li id="fn36"><p>The default argument for <code>replace</code> is <code>True</code>, so we could have just written <code>BoxModel([1, 2, 3, 4], size = 2)</code>.<a href="technology-intro.html#fnref36" class="footnote-back">↩︎</a></p></li>
+<li id="fn37"><p>There is an additional argument <code>order_matters</code> which defaults to <code>True</code>, but we could set it to false for unordered pairs.<a href="technology-intro.html#fnref37" class="footnote-back">↩︎</a></p></li>
+<li id="fn38"><p>The warning you get when you call a <code>RV</code> as a function just means that Symbulate is not going to check for you that the inputs to the function you used to define the <code>RV</code> actually match up with the outcomes of the probability space <code>P</code>.<a href="technology-intro.html#fnref38" class="footnote-back">↩︎</a></p></li>
+<li id="fn39"><p>For discrete random variables <code>'impulse'</code> is the default plot type. Like <code>.tabulate()</code>, the <code>.plot()</code> method also has a <code>normalize</code> argument; the default is <code>normalize=True</code>.<a href="technology-intro.html#fnref39" class="footnote-back">↩︎</a></p></li>
+<li id="fn40"><p>Technically <code>&amp;</code> joins two <code>RV</code>s together to form a random <em>vector</em>. While we often intepret Symbulate <code>RV</code> as random variable, it really functions as random vector.<a href="technology-intro.html#fnref40" class="footnote-back">↩︎</a></p></li>
+<li id="fn41"><p>You might try <code>(P &amp; X ).sim(10)</code>. But <code>P</code> is a probability space object, and <code>X</code> is an <code>RV</code> object, and <code>&amp;</code> can only be used to join like objects together. Much like in probability theory in generality, in Symbulate the probability space plays a background role, and it is usually random variables we are interested in.<a href="technology-intro.html#fnref41" class="footnote-back">↩︎</a></p></li>
+<li id="fn42"><p>For technical reasons, Symbulate will not plot simulated outcomes from a <code>ProbabilitySpace</code>, only simulated realizations of an <code>RV</code>. Essentially, as mentioned in earlier sections, probability space outcomes can be <em>anything</em> — not necessarily numbers — and so there are too many potential situations and plots for Symbulate to handle with a single <code>plot</code> command. In contrast, simulated realizations of <code>RV</code> are numbers (or vectors of numbers) which facilitates plotting. Plotting simulated outcomes from a probability space <code>P</code> with numerical outcomes can be achieved by first defining <code>X = RV(P)</code> and then simulating and plotting values of <code>X</code>. That is, replace <code>P.sim(1000).plot()</code> with <code>RV(P).sim(1000).plot()</code>. However, this only works if the outcomes of <code>P</code> are numerical.<a href="technology-intro.html#fnref42" class="footnote-back">↩︎</a></p></li>
+<li id="fn43"><p>For now you can interpret<code>DiscreteUniform(a = 1, b = 4)</code> as a spinner with four quarters labeled 1, 2, 3, 4, and <code>** 2</code> as “spin the spinner twice”. In Python, <code>**</code> represents exponentiation; e.g., <code>2 ** 5 = 32</code>. So <code>DiscreteUniform(a = 1, b = 4) ** 2</code> is equivalent to <code>DiscreteUniform(a = 1, b = 4) * DiscreteUniform(a = 1, b = 4)</code>. Future sections will reveal why the product <code>*</code> notation is natural for independent spins of spinners.<a href="technology-intro.html#fnref43" class="footnote-back">↩︎</a></p></li>
+<li id="fn44"><p><code>BoxModel</code> assumes equally likely tickets by default, but there are <a href="https://dlsun.github.io/symbulate/probspace.html#boxmodel">options for non-equally likely cases</a>.<a href="technology-intro.html#fnref44" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tactile.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="moe.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

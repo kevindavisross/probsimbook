@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.3 Random variables | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.3 Random variables | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.3 Random variables | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="events.html"/>
+<link rel="next" href="probspace.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="rv" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Random variables</h2>
+<p>Statisticians use the terms <em>observational unit</em> and <em>variable</em>. Observational units are the people, places, things, etc., for which data are observed. Variables are the measurements made on the observational units. For example, the observational units in a study could be college students, while variables could be age, high school GPA, college GPA, SAT score, years in college, number of Statistics courses taken, etc.</p>
+<p>In probability, an <em>outcome</em> of a random phenomenon plays a role analogous to an observational unit in statistics. The sample space of outcomes is often only vaguely defined. In many situations we are less interested in detailing the outcomes themselves and more interested in whether or not certain events occur, or with measurements that we can make for the outcomes. For example, if the random phenomenon corresponds to randomly selecting a sample of students at a college, an outcome could be the list of students selected for the sample. But we are less interested in who the students are, and more interested in questions which involve variables, such as: what is the distribution of SAT scores? What is the relationship between high school GPA and college GPA? What is the average number of years before graduation? In probability, <em>random variables</em> play a role analogous to variables in statistics.</p>
+<p>Roughly, a random variable assigns a number measuring some quantity of interest to each outcome of a random phenomenon. For example, if we’re interested in the weather conditions in our city tomorrow, random variables include</p>
+<ul>
+<li>high temperature (°F)</li>
+<li>amount of precipitation (inches)</li>
+<li>Humidity (%)</li>
+<li>Maximum wind speed (mph)</li>
+</ul>
+
+<div class="definition">
+<p><span id="def:rv" class="definition"><strong>Definition 2.4  </strong></span>
+A <strong>random variable (RV)</strong> <span class="math inline">\(X\)</span> is a <em>function</em> that takes an outcome in the sample space as input and returns a real number as output; that is, <span class="math inline">\(X:\Omega \mapsto \mathbb{R}\)</span>. The value that the random variable <span class="math inline">\(X\)</span> assigns to the outcome <span class="math inline">\(\omega\)</span> is denoted <span class="math inline">\(X(\omega)\)</span>.</p>
+</div>
+
+<div class="example">
+<p><span id="exm:coin-rv" class="example"><strong>Example 2.16  </strong></span>
+Consider the outcome of a sequence of 4 flips of a coin. One random variable is <span class="math inline">\(X\)</span>, the number of heads flipped. Use the sample space from Example <a href="samplespace.html#exm:coin-outcome">2.2</a> to answer the following.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Explain why <span class="math inline">\(X\)</span> is a random variable.</li>
+<li>Evaluate each of the following: <span class="math inline">\(X(HHHH), X(HTHT), X(TTHH)\)</span>.</li>
+<li>Identify the possible values of <span class="math inline">\(X\)</span>. Why not let the sample space just consist of this set of possible values?</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="rv.html#exm:coin-rv">2.16</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(X\)</span> maps each outcome to a number via the function “count the number of heads”.</li>
+<li><span class="math inline">\(X(HHHH) = 4, X(HTHT) = 2, X(TTHH) = 2\)</span>.</li>
+<li>The possible values of <span class="math inline">\(X\)</span> are <span class="math inline">\(0, 1, 2, 3, 4\)</span>. (Don’t forget 0.) You might ask: if we only care about the number of heads, why bother with the coin flip sequence at all? That is, why not define the sample space as <span class="math inline">\(\{0, 1, 2, 3, 4\}\)</span> rather than <span class="math inline">\(\{HHHH, HHHT, HHTH, \ldots\}\)</span>. The main reason<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> is that recording only the number of heads would not allow us to investigate other random variables like the longest number of heads in a row, or the proportion of heads on trials that follow heads.</li>
+</ol>
+<p>The main reason for modeling a sample space as the set of possible outcomes rather than the set of all possible values of some random variable is that <strong>we often want to define many random variables on the same sample space, and study relationships between them</strong>. As a statistics analogy, you would not be able to study the relationship between SAT scores and college GPA unless you measured both variables for the same set of observational units.</p>
+<p>In statistics, data is often stored in a spreadsheet (or flat file) with rows corresponding to observational units and columns to variables. Likewise, in probability it helps to conceptualize or visualize a table with rows corresponding to outcomes and columns to random variables.</p>
+
+<div class="example">
+<p><span id="exm:dice-rv" class="example"><strong>Example 2.17  </strong></span>Roll a four-sided die <em>twice</em>, and record the result of each roll in sequence. Recall the sample space from Example <a href="samplespace.html#exm:dice-outcome">2.1</a>. Let <span class="math inline">\(X\)</span> be the sum of the two dice, and let <span class="math inline">\(Y\)</span> be the larger of the two rolls (or the common value if both rolls are the same).</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Evaluate <span class="math inline">\(X((1, 3))\)</span>, <span class="math inline">\(X((4, 3))\)</span>, and <span class="math inline">\(X((2,2))\)</span>.</li>
+<li>Evaluate <span class="math inline">\(Y((1, 3))\)</span>, <span class="math inline">\(Y((4, 3))\)</span>, and <span class="math inline">\(Y((2,2))\)</span>.</li>
+<li>Construct a table identifying the values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> for each outcome in the sample space.</li>
+<li>Identify the possible values of <span class="math inline">\(X\)</span>.</li>
+<li>Identify the possible values of <span class="math inline">\(Y\)</span>.</li>
+<li>Identify the possible values of the pair <span class="math inline">\((X, Y)\)</span>.</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="rv.html#exm:dice-rv">2.17</a>
+</div>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(X\)</span> is the sum of the two rolls, so <span class="math inline">\(X((1, 3))=4\)</span>, <span class="math inline">\(X((4, 3))=7\)</span>, and <span class="math inline">\(X((2,2))=4\)</span>.</p></li>
+<li><p><span class="math inline">\(Y\)</span> is the larger of the two rolls (or the common value if a tie) so <span class="math inline">\(Y((1, 3))=3\)</span>, <span class="math inline">\(Y((4, 3))=4\)</span>, and <span class="math inline">\(Y((2,2))=2\)</span>.</p></li>
+<li><p>See Table <a href="rv.html#tab:dice-rv-sol-table">2.2</a>. The first column corresponds to sample space outcomes, and there is a column for each random variable.</p>
+<table>
+<caption><span id="tab:dice-rv-sol-table">Table 2.2: </span>Table representing the sum (<span class="math inline">\(X\)</span>) and larger (<span class="math inline">\(Y\)</span>) of two rolls of a four-sided die</caption>
+<thead>
+<tr class="header">
+<th align="left">Outcome (First roll, second roll)</th>
+<th align="right">X (sum)</th>
+<th align="right">Y (max)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(1, 1)</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">(1, 2)</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">(1, 3)</td>
+<td align="right">4</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">(1, 4)</td>
+<td align="right">5</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">(2, 1)</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">(2, 2)</td>
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">(2, 3)</td>
+<td align="right">5</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">(2, 4)</td>
+<td align="right">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">(3, 1)</td>
+<td align="right">4</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">(3, 2)</td>
+<td align="right">5</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">(3, 3)</td>
+<td align="right">6</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">(3, 4)</td>
+<td align="right">7</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">(4, 1)</td>
+<td align="right">5</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">(4, 2)</td>
+<td align="right">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">(4, 3)</td>
+<td align="right">7</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">(4, 4)</td>
+<td align="right">8</td>
+<td align="right">4</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>The possible values of <span class="math inline">\(X\)</span> are <span class="math inline">\(\{2, 3, 4,5,6,7, 8\}\)</span></p></li>
+<li><p>The possible values of <span class="math inline">\(Y\)</span> are <span class="math inline">\(\{1, 2, 3, 4\}\)</span></p></li>
+<li><p>The possible values of the pair <span class="math inline">\((X, Y)\)</span> are <span class="math inline">\(\{(2, 1), (3, 2), (4, 2), (4, 3), (5, 3), (5, 4), (6, 3), (6, 4), (7, 4), (8,4)\}\)</span>. Notice that while, for example, 8 is a possible value of <span class="math inline">\(X\)</span> and 1 is a possible value of <span class="math inline">\(Y\)</span>, (8, 1) is not a possible value of the pair <span class="math inline">\((X, Y)\)</span>; it’s not possible for the larger of the two dice to be 1 but their sum to be 8.</p></li>
+</ol>
+<p>Random variables are typically denoted by capital letters near the end
+of the alphabet, with or without subscripts: e.g. <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, <span class="math inline">\(Z\)</span>, or <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span>, <span class="math inline">\(X_3\)</span>, etc. The random variable itself is typically denoted with a capital letter (<span class="math inline">\(X\)</span>); possible values of that
+random variable are denoted with lower case letters (<span class="math inline">\(x\)</span>). Think of the capital letter <span class="math inline">\(X\)</span> as a label standing in for a formula like “the number of heads in 4 flips of a coin” and <span class="math inline">\(x\)</span> as a dummy variable
+standing in for a particular value like 3.</p>
+<p>In the previous example, the pair <span class="math inline">\(V=(X, Y)\)</span> is a random vector. The output of each of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is a number; the output of <span class="math inline">\(V\)</span> is an ordered pair of numbers. A <span class="math inline">\(d\)</span>-dimensional <strong>random vector</strong> <span class="math inline">\(V\)</span> maps sample space outcomes to <span class="math inline">\(d\)</span>-dimensional vectors, <span class="math inline">\(V:\Omega \mapsto \mathbb{R}^d\)</span>. The output of a random vector is a vector (or tuple) of numbers. More simply, <em>a random vector is a vector of random variables</em>. We introduce the notion of a random vector mainly to emphasize that there are often multiple random variables of interest in a problem. For example, considering tomorrow’s weather conditions, we might measure all of (high temperature, precipitation, humidity, max wind speed).</p>
+<p>There are two main types of random variables.</p>
+<ul>
+<li><strong>Discrete random variables</strong> take at most countably many possible values (e.g., <span class="math inline">\(0, 1, 2, \ldots\)</span>). They are often counting variables (e.g., the number of Heads in 10 coin flips).</li>
+<li><strong>Continuous random variables</strong> can take any real value in some interval (e.g., <span class="math inline">\([0, 1]\)</span>, <span class="math inline">\([0,\infty)\)</span>, <span class="math inline">\((-\infty, \infty)\)</span>.). That is, continuous random variables can take uncountably many different values. Continuous random variables are often measurement variables (e.g., height, weight, income).</li>
+</ul>
+<p>In some problems, there are <em>many</em> random variables of interest, as in the following example.</p>
+
+<div class="example">
+<p><span id="exm:PP-rv" class="example"><strong>Example 2.18  </strong></span>
+Customers enter a deli and take a number to mark their place in line. When the deli opens the counter starts 0; the first customer to arrive takes number 1, the second 2, etc. We record the counter over time, continuously, as it changes as customers arrive. Time is measured in minutes after the deli opens (time 0). A sample space outcome could be represented as a path of the number of customers over time; a few such paths are illustrated in Figure <a href="interpretations.html#fig:coin-sim2">1.2</a>. Notice the stairstep feature: a customer arrives and takes a number then the counter stays on that number for some time (the flat spots) until another customer arrives and the counter increases by one (the jumps).</p>
+<p>There are many random variables that could be of interest, including</p>
+<ul>
+<li><span class="math inline">\(N_t\)</span>, the number of customers that have arrived by time <span class="math inline">\(t\)</span>, where <span class="math inline">\(t\ge0\)</span> is minutes after time 0</li>
+<li><span class="math inline">\(T_j\)</span>, the time (in minutes after time 0) at which the <span class="math inline">\(j\)</span>th customer arrives, for <span class="math inline">\(j=1, 2, \ldots\)</span></li>
+<li><span class="math inline">\(W_j\)</span>, the “waiting” time (in minutes) between the arrival of the <span class="math inline">\(j\)</span>th and the <span class="math inline">\((j-1)\)</span>th customer.</li>
+</ul>
+</div>
+
+<div class="figure"><span id="fig:PP-rv-plot"></span>
+<img src="_graphics/PP-path-one.PNG" alt="Sample space outcomes for Example 2.18. Left: a single sample path of the number of customer arrivals over time. Right: several possible paths." width="50%" /><img src="_graphics/PP-path-several.PNG" alt="Sample space outcomes for Example 2.18. Left: a single sample path of the number of customer arrivals over time. Right: several possible paths." width="50%" />
+<p class="caption">
+Figure 2.5: Sample space outcomes for Example <a href="rv.html#exm:PP-rv">2.18</a>. Left: a single sample path of the number of customer arrivals over time. Right: several possible paths.
+</p>
+</div>
+<p>Classify each of the following random variables as discrete or continuous. Then for the outcome represented by the path in the plot on the left in Figure <a href="rv.html#fig:PP-rv-plot">2.5</a>, identify (as best as you can from the plot) the value of the following random variables.</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(N_4\)</span></li>
+<li><span class="math inline">\(N_{6.5}\)</span></li>
+<li><span class="math inline">\(T_4\)</span></li>
+<li><span class="math inline">\(T_5\)</span></li>
+<li><span class="math inline">\(W_1\)</span></li>
+<li><span class="math inline">\(W_5\)</span></li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="rv.html#exm:PP-rv">2.18</a>
+</div>
+<ol style="list-style-type: decimal">
+<li>The random variables <span class="math inline">\(N_4\)</span> and <span class="math inline">\(N_{6.5}\)</span> count the number of customers who have arrived so far at different times; these are discrete random variables each taking values in the countable set <span class="math inline">\(\{0, 1, 2, \ldots \}\)</span>. The random variables <span class="math inline">\(T_4\)</span>, <span class="math inline">\(T_5\)</span>, <span class="math inline">\(W_1\)</span>, and <span class="math inline">\(W_5\)</span> are continuous random variables; they each take values in the continuous time interval <span class="math inline">\([0, \infty)\)</span>.</li>
+<li>Find time <span class="math inline">\(t=3\)</span> on the horizontal axis and find the corresponding value on the vertical axis. If <span class="math inline">\(\omega\)</span> is the outcome represented by the plot on the left, then for this outcome <span class="math inline">\(N_4(\omega)=3\)</span>; the number of customers that have arrived by time 4 is 3.</li>
+<li>For this outcome <span class="math inline">\(N_{6.5}(\omega)=5\)</span>; the number of customers that have arrived by time 6.5 is 5. The number of customers is a whole number, but time is measured continuously (e.g., 6.5 minutes after opening). There is a different random variable <span class="math inline">\(N_t\)</span> corresponding to each value of time <span class="math inline">\(t\ge 0\)</span>, but the possible values of each of these variables are <span class="math inline">\(\{0, 1, 2, \ldots\}\)</span>.</li>
+<li>The fourth customer arrives when the path jumps from 3 customers so far to 4. For this outcome the path jumps from 3 to 4 a little after time 5 so <span class="math inline">\(T_4(\omega)\approx 5.1\)</span>.</li>
+<li>The fifth customer arrives when the path jumps from 4 customers so far to 5. For this outcome the path jumps from 4 to 5 a little before time 6 so <span class="math inline">\(T_5(\omega)\approx 5.9\)</span>. There is a random variable <span class="math inline">\(T_j\)</span> for each customer <span class="math inline">\(j=1, 2, \ldots\)</span>, but the possible values of each of these random variables is <span class="math inline">\([0,\infty)\)</span>.</li>
+<li><span class="math inline">\(W_1\)</span> is the waiting time from open until the first customer arrives (when the counter jumps from 0 to 1) which seems to happen at about time 2, so <span class="math inline">\(W_1(\omega)\approx 2\)</span>.</li>
+<li>For this outcome <span class="math inline">\(W_5(\omega)\approx 0.8\)</span>. <span class="math inline">\(W_5\)</span> is the time elapsed between the arrival of the fourth customer (at roughly time 5.1 for outcome <span class="math inline">\(\omega\)</span>) and fifth customer (at roughly time 5.9 for outcome <span class="math inline">\(\omega\)</span>), which is about 0.8 minutes.</li>
+</ol>
+<div id="rv-function" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> A random variable is a function</h3>
+<!-- Add pictures here of scale input output -->
+<p>Recall that for a mathematical function<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> <span class="math inline">\(g\)</span>, given an input <span class="math inline">\(u\)</span>, the function returns a real number <span class="math inline">\(g(u)\)</span>. For example, if <span class="math inline">\(g(u) = \sqrt{u}\)</span> then <span class="math inline">\(g(9) = 3\)</span>. If the input comes from some set <span class="math inline">\(S\)</span> (i.e. <span class="math inline">\(u\in S\)</span>), we often write <span class="math inline">\(g:S\mapsto \mathbb{R}\)</span>.
+<!-- For example, if $g(u)=\sqrt{u}$ then $S=[0,\infty)$ since we can't take the square root of a negative number. --></p>
+<p>Likewise, a random variable <span class="math inline">\(X\)</span> is a function which maps each outcome <span class="math inline">\(\omega\)</span> in the sample space <span class="math inline">\(\Omega\)</span> to a real number <span class="math inline">\(X(\omega)\)</span>; <span class="math inline">\(X:\Omega\mapsto\mathbb{R}\)</span>. For a single outcome <span class="math inline">\(\omega\)</span>, the value <span class="math inline">\(x = X(\omega)\)</span> is a single number; notice that <span class="math inline">\(x\)</span> represents the <em>output</em> of the function <span class="math inline">\(X\)</span> rather than the input. However, it is important to remember that the RV <span class="math inline">\(X\)</span> itself is a <em>function</em>, and <em>not</em> a single number.</p>
+<p>You are probably familiar with functions expressed as simple closed form formulas of their inputs: <span class="math inline">\(g(u)=5u\)</span>, <span class="math inline">\(g(u)=u^2\)</span>, <span class="math inline">\(g(u)=e^u\)</span>, etc. While any random variable is some function, the function is rarely specified as an explicit mathematical formula of its input <span class="math inline">\(\omega\)</span>. Often, outcomes are not even numbers (e.g., sequences of coin flips), or only vaguely specified if at all (e.g., possible paths of a hurricane, tomorrow’s weather conditions). In Example <a href="rv.html#exm:coin-rv">2.16</a> we defined <span class="math inline">\(X\)</span> only through the words “number of flips that land on heads”; translating even this simple situation into a formula of <span class="math inline">\(\omega\)</span> requires some notation<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>.</p>
+<p>It is more appropriate to think of a random variable as a function in the sense of a scale at a grocery store which maps a fruit to its weight, <span class="math inline">\(X: \text{fruit}\mapsto\text{weight}\)</span>. Put an apple on the scale and the scale returns a number, <span class="math inline">\(X(\text{apple})\)</span>, the weight of the apple. Likewise, <span class="math inline">\(X(\text{orange})\)</span>, <span class="math inline">\(X(\text{banana})\)</span>. The random variable <span class="math inline">\(X\)</span> is the scale itself. This simplistic analogy assumes a sample space outcome is a single fruit. Of course, it’s even more complicated in reality since an outcome can be considered a set of fruits, so that we have for example <span class="math inline">\(X(\{\text{2 apples}, \text{3 oranges}\})\)</span>, and all fruits do not weigh the same, so that <span class="math inline">\(X(\text{this apple})\)</span> is not the same as <span class="math inline">\(X(\text{that apple})\)</span>. But the idea is that a function is like a scale, with an input (fruits) and an output (weight). The input does not have to be a number, but the output does.</p>
+<p>Suppose I’m going to randomly select some fruits, put them in a brown grocery bag, and place it on the scale. It wouldn’t be feasible to enumerate all the combinations of fruits I could put in the bag, but even so you know that any possible combination has some weight which could be measured by the scale. There is still a function (scale) that maps an input (fruits in the bag) to a numerical output (weight), even if that function is not explicitly specified with a mathematical formula. Now suppose I’ve selected some fruits and put the bag on the scale. Even if you can’t see what fruits are inside the bag, you can still read the weight off the scale. But even if you only observe the weight, you know there was still a background random process of putting fruits in a bag which resulted in a particular outcome having the observed weight.</p>
+<p>The “weighing fruits in a bag” scenario in the previous paragraph illustrates how probability usually works:</p>
+<ul>
+<li>We typically don’t explicitly specify outcomes or the sample space, but we know that different outcomes can result in different values of random variables. That is, we know there is some function which maps outcomes of the random phenomenon to values of the random variable, even if we don’t have an explicit formula for the inputs to the function (the outcomes) or the function itself.</li>
+<li>We might not observe outcomes in detail, but we often can still observe values of random variables.</li>
+</ul>
+
+<div class="example">
+<p><span id="exm:meeting-rv" class="example"><strong>Example 2.19  </strong></span>
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times. Recall the sample space from Example <a href="samplespace.html#exm:meeting-outcome">2.6</a>. Let <span class="math inline">\(R\)</span> be the random variable representing Regina’s arrival time in <span class="math inline">\([0, 1]\)</span>, and <span class="math inline">\(Y\)</span> for Cady.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Identify the function that defines <span class="math inline">\(R\)</span>. (Hint: remember the sample space.)</li>
+<li>Identify the function that defines <span class="math inline">\(Y\)</span>.</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="rv.html#exm:meeting-rv">2.19</a></p>
+<ol style="list-style-type: decimal">
+<li>Recall that an outcome is an ordered pair representing the arrival times of (Regina, Cady); we can write an outcome as <span class="math inline">\(\omega\equiv(\omega_1, \omega_2)\)</span>. Remember there is a single sample space corresponding to the pairs of arrival times, rather than a separate sample space for each. Therefore, random variables need to be defined on this single sample space; inputs to random variables defined on this sample space are pairs of arrival times. Regina’s arrival time is defined by the function <span class="math inline">\(R(\omega) \equiv R((\omega_1, \omega_2))=\omega_1\)</span>. That is, <span class="math inline">\(R\)</span> maps the ordered pair <span class="math inline">\((\omega_1, \omega_2)\)</span> to its first coordinate <span class="math inline">\(\omega_1\)</span>. For example, <span class="math inline">\(R((0.60, 0.52)) = 0.60\)</span>.</li>
+<li>On this sample space, Cady’s arrival time is defined by the function <span class="math inline">\(Y(\omega) \equiv Y((\omega_1, \omega_2))=\omega_2\)</span>. That is, <span class="math inline">\(Y\)</span> maps the ordered pair to its second coordinate. The input to <span class="math inline">\(Y\)</span> is a pair of numbers (Regina, Cady) and the output is Cady’s arrival time only. For example, <span class="math inline">\(Y((0.60, 0.52)) = 0.52\)</span>.</li>
+</ol>
+</div>
+</div>
+<div id="events-involving-random-variables" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Events involving random variables</h3>
+<p>We are often interested in events which involve random variables. In the weather example, the event “tomorrow’s high temperature is 75°F” involves the random variable “tomorrow’s high temperature”. Each possible outcome of tomorrow’s weather conditions will correspond to a value of high temperature, but only some of these outcomes will result in values of high temperature equal to 75 °F.</p>
+<p>The expressions <span class="math inline">\(X=x\)</span> or <span class="math inline">\(\{X=x\}\)</span> are shorthand for the <em>event</em> <span class="math inline">\(\{\omega\in\Omega: X(\omega)=x\}\)</span>, the set of outcomes <span class="math inline">\(\omega\)</span> for which <span class="math inline">\(X(\omega)=x\)</span>. Remember that any event is a subset of the <em>sample space</em>. So objects like <span class="math inline">\(\{X=x\}\)</span> are subsets<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> of <span class="math inline">\(\Omega\)</span>.</p>
+
+<div class="example">
+<p><span id="exm:coin-rv-event" class="example"><strong>Example 2.20  </strong></span>Consider the outcome of a sequence of 4 flips of a coin. One random variable is <span class="math inline">\(X\)</span>, the number of heads flipped. Use the sample space from Example <a href="samplespace.html#exm:coin-outcome">2.2</a> to answer the following.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Identify and interpret the event <span class="math inline">\(\{X=3\}\)</span>. That is, identify the outcomes <span class="math inline">\(\omega\)</span> for which <span class="math inline">\(X(\omega)=3\)</span>.</li>
+<li>Identify and interpret the event <span class="math inline">\(\{X=4\}\)</span>.</li>
+<li>Identify and interpret the event <span class="math inline">\(\{X\ge3\}\)</span>. How is this event related to the previous two?</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="rv.html#exm:coin-rv-event">2.20</a>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\{X=3\} = \{HHHT, HHTH, HTHH, THHH\}\)</span> is the event that exactly 3 of the flips land on heads. This is an event because it is a subset of the sample space.</li>
+<li><span class="math inline">\(\{X=4\}= \{HHHH\}\)</span>, the event that exactly 4 of the flips land on heads. Notice that the event is the set <span class="math inline">\(\{HHHH\}\)</span>, which consists of the single outcome <span class="math inline">\(HHHH\)</span>.</li>
+<li><span class="math inline">\(\{X\ge3\} = \{HHHT, HHTH, HTHH, THHH, HHHH\}\)</span> is the event that the at least 3 of the flips land on heads. Also <span class="math inline">\(\{X\ge 3\} = \{X=3\}\cup \{X=4\}\)</span>.</li>
+</ol>
+<p>The RV itself is denoted with a capital letter; possible values of that
+random variable are denoted with lower case letters. For example <span class="math inline">\(\{X=x\}\)</span> is shorthand for the event <span class="math inline">\(\{\omega\in\Omega: X(\omega)=x\}\)</span>, the set of outcomes <span class="math inline">\(\omega\)</span> for which <span class="math inline">\(X(\omega)=x\)</span>. Think of the capital letter <span class="math inline">\(X\)</span> as a label standing in for a formula like “the number of heads in 4 flips of a coin” and <span class="math inline">\(x\)</span> as a dummy variable
+standing in for a particular value like 3. Remember that any event is a subset of the <em>sample space</em>. So objects like <span class="math inline">\(\{X=x\}\)</span> are subsetsof <span class="math inline">\(\Omega\)</span>.</p>
+
+<div class="example">
+<p><span id="exm:dice-rv-event" class="example"><strong>Example 2.21  </strong></span>Roll a four-sided die <em>twice</em>, and record the result of each roll in sequence. Recall the sample space from Example <a href="samplespace.html#exm:dice-outcome">2.1</a>. Let <span class="math inline">\(X\)</span> be the sum of the two dice, and let <span class="math inline">\(Y\)</span> be the larger of the two rolls (or the common value if both rolls are the same). Identify and interpret each of the following.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\{X = 4\}\)</span>.</li>
+<li><span class="math inline">\(\{X = 3\}\)</span>.</li>
+<li><span class="math inline">\(\{X \le 3\}\)</span>.</li>
+<li><span class="math inline">\(\{Y = 4\}\)</span>.</li>
+<li><span class="math inline">\(\{Y = 3\}\)</span>.</li>
+<li><span class="math inline">\(\{Y \le 3\}\)</span>.</li>
+<li><span class="math inline">\(\{X = 4, Y = 3\}\)</span> (that is, <span class="math inline">\(\{X = 4\}\cap \{Y = 3\}\)</span>).</li>
+<li><span class="math inline">\(\{X = 4, Y \le 3\}\)</span>.</li>
+<li><span class="math inline">\(\{X = 3, Y = 3\}\)</span>.</li>
+<li><span class="math inline">\(\{X \ge Y\}\)</span>.</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="rv.html#exm:dice-rv-event">2.21</a>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\{X = 4\} =\{(1, 3), (2, 2), (3, 1)\}\)</span> is the event that the sum of the two dice is 4.</li>
+<li><span class="math inline">\(\{X = 3\} =\{(1, 2), (2, 1)\}\)</span> is the event that the sum of the two dice is 3.</li>
+<li><span class="math inline">\(\{X \le 3\}=\{(1, 1), (1, 2), (2, 1)\}\)</span> is the event that the sum of the two dice is at most 3.</li>
+<li><span class="math inline">\(\{Y = 4\}=\{(1, 4), (2, 4), (3, 4), (4, 4), (4, 1), (4, 2), (4,3)\}\)</span> is the event that the larger of the two rolls is 4.</li>
+<li><span class="math inline">\(\{Y = 3\}=\{(1, 3), (2, 3), (3, 3), (3, 1), (3, 2)\}\)</span> is the event that the larger of the two rolls is 3.</li>
+<li><span class="math inline">\(\{Y \le 3\}=\{(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)\}\)</span> is the event that the larger of the two rolls is at most 3. Notice that since in this example <span class="math inline">\(Y\)</span> can only take values 1, 2, 3, 4, we have <span class="math inline">\(\{Y\le 3\} = \{Y=4\}^c\)</span>.</li>
+<li><span class="math inline">\(\{X = 4, Y = 3\} \equiv \{X = 4\}\cap \{Y = 3\}=\{(1, 3), (3, 1)\}\)</span> is the event that both the sum of the two dice is 4 and the larger of the two rolls is 3. Even though this involves two random variables, it is a single event (that is, a single subset of the sample space). There are only two outcomes for which both the sum of the two dice is 4 and the larger of the two dice is 3.</li>
+<li><span class="math inline">\(\{X = 4, Y \le 3\} \equiv \{X = 4\}\cap \{Y \le 3\}=\{(1, 3), (2, 2), (3, 1)\}\)</span> is the event that both the sum of the two dice is 4 and the larger of the two rolls is at most 3. Notice that since in this example <span class="math inline">\(\{X=4\} \subset \{Y\le 3\}\)</span>, we have <span class="math inline">\(\{X = 4, Y \le 3\} = \{X=4\}\)</span>. If the sum is 4 we know the larger roll must be at most 3.</li>
+<li><span class="math inline">\(\{X = 3, Y = 3\} \equiv \{X = 3\}\cap \{Y = 3\}=\emptyset\)</span>, since there are no outcomes for which both the sum is 3 and the larger of the two dice is 3. (If the the larger of the two dice is 3, then the sum must be at least 4.)</li>
+<li>The event <span class="math inline">\(\{X\ge Y\}\)</span> represents the set of outcomes <span class="math inline">\(\{\omega: X(\omega) \ge Y(\omega)\}\)</span>. In this example, for every possible outcome the sum of the two dice is at least as large as the larger of the two die, so <span class="math inline">\(\{X \ge Y\} = \Omega\)</span>.</li>
+</ol>
+<p>When dealing with probabilities, it is common to write <span class="math inline">\(X=3\)</span> instead of <span class="math inline">\(\{X=3\}\)</span>, and <span class="math inline">\(X = 4, Y = 3\)</span> instead of <span class="math inline">\(\{X = 4\}\cap \{Y = 3\}\)</span>; read the comma in <span class="math inline">\(X = 4, Y = 3\)</span> as “and”. But keep in mind that an expression like “<span class="math inline">\(X=3\)</span>” really represents an event <span class="math inline">\(\{X=3\}\)</span>, an expression which itself represents <span class="math inline">\(\{\omega\in\Omega: X(\omega) = 3\}\)</span>, a subset of <span class="math inline">\(\Omega\)</span>.</p>
+
+<div class="example">
+<p><span id="exm:meeting-rv-event" class="example"><strong>Example 2.22  </strong></span>
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times. Recall the sample space from Example <a href="samplespace.html#exm:meeting-outcome">2.6</a>. Let <span class="math inline">\(R\)</span> be the random variable representing Regina’s arrival time in <span class="math inline">\([0, 1]\)</span>, and <span class="math inline">\(Y\)</span> for Cady. Identify and interpret the following.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\{R &gt; Y\}\)</span>.</li>
+<li><span class="math inline">\(\{\min(R, Y) &lt; 0.5\}\)</span>.</li>
+<li><span class="math inline">\(\{Y&lt;R&lt;Y+0.25\}\)</span>.</li>
+<li><span class="math inline">\(\{R &lt; 0.4\}\)</span>.</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="rv.html#exm:meeting-rv-event">2.22</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li><em>The parts of this problem are almost identical to those in Example <a href="events.html#exm:meeting-event">2.14</a>; the main difference is in notation.</em> See Figure <a href="rv.html#fig:uniform-rv-plot">2.6</a> for pictures. <span class="math inline">\(\{R&gt;Y\} = \{(\omega_1, \omega_2): \omega_1&gt;\omega_2\}\)</span> is the event that Regina arrives after Cady (event <span class="math inline">\(A\)</span> from Example <a href="events.html#exm:meeting-event">2.14</a>.)</li>
+<li><span class="math inline">\(\{\min(R, Y)&lt;0.5\} = \{(\omega_1, \omega_2): \omega_1&lt;0.5 \text{ or } \omega_2&lt;0.5\}\)</span>, is the event that the earlier of the two arrival times is before 12:30 (event <span class="math inline">\(B\)</span> from Example <a href="events.html#exm:meeting-event">2.14</a>.) This event can also be written as <span class="math inline">\(\{R &lt; 0.5\}\cup \{Y &lt; 0.5\}\)</span>, the event that either Regina or Cady arrives before 12:30.</li>
+<li><span class="math inline">\(\{Y&lt;R&lt;Y+0.25\} = \{(\omega_1, \omega_2): \omega_2&lt;\omega_1\le \omega_2+0.25\} = \{(\omega_1, \omega_2): \omega_1 &gt; \omega_2\ge \omega_1 - 0.25\}\)</span> is the event that Cady arrives first and Regina arrives at most 15 minutes after Cady (event <span class="math inline">\(C\)</span> from Example <a href="events.html#exm:meeting-event">2.14</a>.)</li>
+<li><span class="math inline">\(\{R &lt; 0.4\} = \{(\omega_1, \omega_2): \omega_1&lt;0.4\}\)</span> is the event that Regina arrives before 12:24 (event <span class="math inline">\(D\)</span> from Example <a href="events.html#exm:meeting-event">2.14</a>.)</li>
+</ol>
+
+<div class="figure"><span id="fig:uniform-rv-plot"></span>
+<img src="bookdown-demo_files/figure-html/uniform-rv-plot-1.png" alt="Illustration of the events in Exercise 2.22. The square represents the possible values of \((R, Y)\), the random vector representing the arrival times of Regina and Cady." width="672" />
+<p class="caption">
+Figure 2.6: Illustration of the events in Exercise <a href="rv.html#exm:meeting-rv-event">2.22</a>. The square represents the possible values of <span class="math inline">\((R, Y)\)</span>, the random vector representing the arrival times of Regina and Cady.
+</p>
+</div>
+</div>
+<div id="transform" class="section level3" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> Transformations of random variables</h3>
+<p>We are often interested in random variables that are derived from others. If the random variable <span class="math inline">\(X\)</span> represents the radius of a randomly selected circle, then <span class="math inline">\(Y = \pi X^2\)</span> is a random variable representing the circle’s area. If the random variables <span class="math inline">\(W\)</span> and <span class="math inline">\(T\)</span> represent the weight (kg) and height (m), respectively, of a randomly selected person, then <span class="math inline">\(S = W / T^2\)</span> is a random variable representing the person’s body mass index (<span class="math inline">\(\text{kg}/\text{m}^2\)</span>). In this section we introduce random variables that are derived from <em>transformations</em> of others.</p>
+<p><strong>A function of a random variable is also a random variable.</strong> That is, if <span class="math inline">\(X\)</span> is a random variable and <span class="math inline">\(g:\mathbb{R}\mapsto\mathbb{R}\)</span> is a function, then <span class="math inline">\(Y=g(X)\)</span> is a random variable<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>.</p>
+<p>For example, if <span class="math inline">\(u\)</span> is a radius of a circle, the function <span class="math inline">\(g(u) = \pi u^2\)</span> outputs its area. If <span class="math inline">\(X\)</span> is a random variable representing the radius of a randomly selected circle then <span class="math inline">\(Y = g(X)=\pi X^2\)</span> is a random variable representing the circle’s area.</p>
+
+<div class="example">
+<p><span id="exm:coin-transform" class="example"><strong>Example 2.23  </strong></span>Flip a coin 3 times and record the results in sequence. Let <span class="math inline">\(X\)</span> be the number of flips that result in H, and let <span class="math inline">\(Y=(X-1.5)^2\)</span>. (We will see later why we might be interested in such a transformation.) Construct a table identifying the values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> for each outcome in the sample space. What are the possible values of <span class="math inline">\(X\)</span>? <span class="math inline">\(Y\)</span>?</p>
+</div>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> Solution to Example <a href="rv.html#exm:coin-transform">2.23</a>.
+</div>
+<p>See Table <a href="rv.html#tab:coin-transform-tab">2.3</a>. The possible values of <span class="math inline">\(X\)</span> are <span class="math inline">\(\{0, 1, 2, 3\}\)</span>. The possible values of <span class="math inline">\(Y\)</span> are <span class="math inline">\(\{0.25, 2.25\}\)</span>.</p>
+<table>
+<caption><span id="tab:coin-transform-tab">Table 2.3: </span>Table representing <span class="math inline">\(X\)</span>, the number of heads in 3 flips of a coin, and <span class="math inline">\(Y=(X-1.5)^2\)</span></caption>
+<thead>
+<tr class="header">
+<th align="left">Outcome</th>
+<th align="right">X</th>
+<th align="right">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">HHH</td>
+<td align="right">3</td>
+<td align="right">2.25</td>
+</tr>
+<tr class="even">
+<td align="left">HHT</td>
+<td align="right">2</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="odd">
+<td align="left">HTH</td>
+<td align="right">2</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="even">
+<td align="left">THH</td>
+<td align="right">2</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="odd">
+<td align="left">HTT</td>
+<td align="right">1</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="even">
+<td align="left">THT</td>
+<td align="right">1</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="odd">
+<td align="left">TTH</td>
+<td align="right">1</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="even">
+<td align="left">TTT</td>
+<td align="right">0</td>
+<td align="right">2.25</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sums and products, etc., of random variables <em>defined on the same sample space</em> are random variables.</strong> That is, if random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are defined on the same sample space then <span class="math inline">\(X+Y\)</span>, <span class="math inline">\(X-Y\)</span>, <span class="math inline">\(XY\)</span>, and <span class="math inline">\(X/Y\)</span> are also random variables. Similarly, it is possible to make comparisons such as <span class="math inline">\(X\ge Y\)</span> and apply other transformations for random variables defined on the same probability space.</p>
+
+<div class="example">
+<p><span id="exm:meeting-transform" class="example"><strong>Example 2.24  </strong></span>
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times. Recall the sample space from Example <a href="samplespace.html#exm:meeting-outcome">2.6</a>. Let <span class="math inline">\(R\)</span> be the random variable representing Regina’s arrival time in <span class="math inline">\([0, 1]\)</span>, and <span class="math inline">\(Y\)</span> for Cady.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>What does the random variable <span class="math inline">\(T = \min(R, Y)\)</span> represent? What are the possible values of <span class="math inline">\(T\)</span>?</li>
+<li>What does the random variable <span class="math inline">\(W = |R - Y|\)</span> represent? What are the possible values of <span class="math inline">\(W\)</span>?</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="rv.html#exm:meeting-transform">2.24</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(T=\min(R, Y)\)</span> represents the time at which the first person arrives. <span class="math inline">\(T\)</span> takes values in <span class="math inline">\([0, 1]\)</span>. If either Regina and Cady arrives at time 0 (noon) then <span class="math inline">\(T\)</span> is 0; if both arrive at time 1 (1:00) then <span class="math inline">\(T\)</span> is 1.</li>
+<li><span class="math inline">\(W=|R-Y|\)</span> represents the amount of time the first person to arrive waits for the second person to arrive. <span class="math inline">\(W\)</span> takes values in <span class="math inline">\([0, 1]\)</span>. If both Regina and Cady arrive at the same time then <span class="math inline">\(W\)</span> is 0; if one arrives at noon and the other at 1:00 then <span class="math inline">\(W\)</span> is 1.</li>
+</ol>
+<p>The following example emphasizes why we need random variables to be “defined on the same sample space”.</p>
+
+<div class="example">
+<p><span id="exm:SAT-transform" class="example"><strong>Example 2.25  </strong></span>Select a U.S. high school student and record the student’s SAT Math and Reading score. Recall the sample space from Example <a href="samplespace.html#exm:SAT-outcome">2.7</a>.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>What function defines <span class="math inline">\(M\)</span>, SAT Math score? (Hint: remember how we defined an outcome in Example <a href="samplespace.html#exm:SAT-outcome">2.7</a>.)</li>
+<li>What function defines <span class="math inline">\(R\)</span>, SAT Reading score?</li>
+<li>What function defines <span class="math inline">\(T\)</span>, total SAT score?</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> Solution to <a href="rv.html#exm:SAT-transform">2.25</a>.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Recall that an outcome is an ordered pair representing (Math, Reading) score; we can write an outcome as <span class="math inline">\(\omega\equiv(\omega_1, \omega_2)\)</span>. Remember there is a single sample space corresponding to the pairs of scores, rather than a separate sample space for each of the scores. Therefore, random variables need to be defined on this single sample space; inputs to random variables defined on this sample space are pairs of scores. Math score is defined by the function <span class="math inline">\(M(\omega) \equiv M((\omega_1, \omega_2))=\omega_1\)</span>. That is, <span class="math inline">\(M\)</span> maps the ordered pair <span class="math inline">\((\omega_1, \omega_2)\)</span> to its first coordinate <span class="math inline">\(\omega_1\)</span>. For example, <span class="math inline">\(M((600, 520)) = 600\)</span>.</li>
+<li>On this sample space, Reading score is defined by the function <span class="math inline">\(R(\omega) \equiv R((\omega_1, \omega_2))=\omega_2\)</span>. That is, <span class="math inline">\(R\)</span> maps the ordered pair to its second coordinate. The input to <span class="math inline">\(R\)</span> is a pair of numbers (Math, Reading) and the output is the Reading score only. For example, <span class="math inline">\(M((600, 520)) = 520\)</span>.</li>
+<li>On this sample space, total score is defined by the function <span class="math inline">\(T(\omega) \equiv T((\omega_1, \omega_2))=\omega_1 + \omega_2\)</span>. For example, <span class="math inline">\(T((600, 520)) = 600 + 520=1120\)</span>.
+Note that <span class="math inline">\(T = M + R\)</span> because for each outcome <span class="math inline">\(\omega\)</span>, <span class="math inline">\(T(\omega) = M(\omega) + R(\omega)\)</span>.</li>
+</ol>
+<!-- ```{example dice-add} -->
+<!-- Roll a four-sided die twice, and record the result of each roll in sequence.  For example, the outcome $(3, 1)$ represents a 3 on the first roll and a 1 on the second; this is not the same outcome as $(1, 3)$.  Let $X_1$ be the result of the first roll, and $X_2$ the result of the second. -->
+<!-- ``` -->
+<!-- 1. Evaluate $X_1((3, 1))$ and $X_2((3,1))$.  -->
+<!-- 1. If an outcome is represented by $\omega=(\omega_1, \omega_2)$ (e.g. (3, 1)), specify the functions that define the random variables $X_1$ and $X_2$. -->
+<!-- 1. Is $X=X_1 + X_2$ a valid random variable?  If so, identify the function that defines it. -->
+<!-- 1. Evaluate $X((3, 1))$. -->
+<!-- ```{solution dice-add-sol} -->
+<!-- to Example \@ref(exm:dice-add) -->
+<!-- ``` -->
+<!-- 1. $X_1((3, 1))=3$ and $X_2((3,1))=1$. -->
+<!-- 1. Recall that there is a single sample space corresponding to the pairs of rolls, rather than a separate sample space for each of the individual rolls.  Therefore, random variables need to be defined on the sample space corresponding to pairs of rolls. $X_1((\omega_1, \omega_2))=\omega_1$ and $X_2((\omega_1, \omega_2))=\omega_2$.  That is, $X_1$ maps an ordered pair to its first coordinate, and $X_2$ to its second. -->
+<!-- 1. Yes, $X=X_1 + X_2$ is a valid random variable.  For each outcome $(\omega_1, \omega_2)$, $X$ returns a number: $X((\omega_1, \omega_2))=X_1((\omega_1, \omega_2)) + X_2((\omega_1, \omega_2))=\omega_1+\omega_2$ -->
+<!-- 1. $X((3, 1)) = X_1((3, 1))+X_2((3,1))=3+1=4$. -->
+<p>The previous example probably seems like notational overkill. And of course we could have defined <span class="math inline">\(T\)</span> directly as <span class="math inline">\(T((\omega_1,\omega_2))=\omega_1+\omega_2\)</span> without the need for <span class="math inline">\(M, R\)</span>. But we introduced the example to emphasize that it only makes sense to add random variables if they are defined on the same sample space. Remember that adding two random variables involves adding two <em>functions</em>, in the way that the function <span class="math inline">\(g = g_1 + g_2\)</span> is defined by <span class="math inline">\(g(u) = g_1(u) + g_2(u)\)</span>. It only makes sense to add two functions together if they have the same inputs.</p>
+<p>For example, consider the random variable <span class="math inline">\(X\)</span> from Example <a href="rv.html#exm:coin-rv">2.16</a> and the random variable <span class="math inline">\(Y\)</span> from
+Example <a href="rv.html#exm:dice-rv">2.17</a>. It wouldn’t make much practical sense to consider <span class="math inline">\(X+Y\)</span>, but it would make no mathematical sense. How would <span class="math inline">\(X+Y\)</span> even be defined? <span class="math inline">\(X\)</span> is defined for sequences of coin flips like HHTH, while <span class="math inline">\(Y\)</span> is defined for pairs of die rolls like (3, 1). If you attempted to add <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, which outcomes would go together? Would you add <span class="math inline">\(X(HHTH)\)</span> to <span class="math inline">\(Y((3, 1))\)</span>? Why not add <span class="math inline">\(X(HHTH)\)</span> to <span class="math inline">\(Y((2, 2))\)</span>? Again, adding two random variables involves adding two functions, and it doesn’t make sense to add those functions if they have different inputs.</p>
+<p>As a more practical example, requiring <span class="math inline">\(M\)</span> and <span class="math inline">\(R\)</span> in Example <a href="rv.html#exm:SAT-transform">2.25</a>
+to be defined on the same probability space is like requiring the Math scores to be measured for the same students as the Reading scores. For example, Antwan has both a Math score <span class="math inline">\(M(\text{Antwan})\)</span> and a Reading score <span class="math inline">\(R(\text{Antwan})\)</span>, so we can consider the total score <span class="math inline">\((M+R)(\text{Antwan}) = M(\text{Antwan})+R(\text{Antwan})\)</span>. (In statistical terms, the variables are measured for the same observational units.) It wouldn’t make sense to add SAT Math scores from one set of students to SAT Reading scores for a different set of students; for example <span class="math inline">\(M(\text{Antwan}) + R(\text{Maria})\)</span> makes no sense.</p>
+<p>Remember that we can visualize outcomes as rows in a spreadsheet with random variables as columns. Random variables defined on the same sample space can be put in a single spreadsheet. Each row corresponds to an outcome, and reading across any row there is a value in the column corresponding to each random variable. Transformations can be applied rowwise for each outcome to define new random variables.</p>
+
+<div class="example">
+<p><span id="exm:mscoin-rv" class="example"><strong>Example 2.26  </strong></span>Consider the outcome of a sequence of 4 flips of a coin; recall the sample space from Example <a href="samplespace.html#exm:coin-outcome">2.2</a> Example <a href="rv.html#exm:coin-rv">2.16</a> concerned the random variable <span class="math inline">\(X\)</span>, the number of heads flipped. Now we’ll consider a few more random variables.</p>
+<p>In Section <a href="sim.html#sim">1.5</a> we considered the <em>proportion of the flips which immediately follow a H that result in H</em>. Remember that we do not define this proportion if no flips follow a H, that is, if the outcome is either TTTT or TTTH.</p>
+<p>Let:</p>
+<ul>
+<li><span class="math inline">\(Z\)</span> be the number of flips immediately following H.</li>
+<li><span class="math inline">\(Y\)</span> be the number of flips immediately following H that result in H.</li>
+<li><span class="math inline">\(W\)</span> be the proportion of flips immediately following H that result in H.</li>
+</ul>
+</div>
+<ol style="list-style-type: decimal">
+<li>Is <span class="math inline">\(W\)</span> a random variable? How does it relate to <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span>?</li>
+<li>For each of the possible outcomes in the sample space, find the value of <span class="math inline">\((Z, Y, W)\)</span>.</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="rv.html#exm:mscoin-rv">2.26</a>
+</div>
+<ol style="list-style-type: decimal">
+<li>Yes, <span class="math inline">\(W\)</span> is a random variable because it maps each coin flip sequence to the value of proportion of the flips which immediately follow a H that result in H for that sequence; see the table below. Also, <span class="math inline">\(W=Y/Z\)</span>. Technically <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> are not defined for outcomes TTTT and TTTH, but we’re ignoring those sequences for the purposes of investigating the proportion of the flips which immediately follow a H that result in H.</li>
+<li>See Table <a href="rv.html#tab:mscoin">2.4</a>. For each outcome, the <strong>flips which follow head are in bold</strong>.</li>
+</ol>
+<table>
+<caption><span id="tab:mscoin">Table 2.4: </span> Possible values of (1) <span class="math inline">\(Z\)</span>, the number of flips immediately following H, (2) <span class="math inline">\(Y\)</span>, the number of flips immediately following H that result in H, and (3) <span class="math inline">\(X\)</span>, the proportion of flips immediately following H that result in H, for four flips of a fair coin.</caption>
+<thead>
+<tr class="header">
+<th>Outcome (<span class="math inline">\(\omega\)</span>)</th>
+<th align="right"><span class="math inline">\(Z\)</span></th>
+<th align="right"><span class="math inline">\(Y\)</span></th>
+<th align="right"><span class="math inline">\(X = Y/Z\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>H<strong>HHH</strong></td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>H<strong>HHT</strong></td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">2/3</td>
+</tr>
+<tr class="odd">
+<td>H<strong>HT</strong>H</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1/2</td>
+</tr>
+<tr class="even">
+<td>H<strong>T</strong>H<strong>H</strong></td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1/2</td>
+</tr>
+<tr class="odd">
+<td>TH<strong>HH</strong></td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>H<strong>HT</strong>T</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1/2</td>
+</tr>
+<tr class="odd">
+<td>H<strong>T</strong>H<strong>T</strong></td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>H<strong>T</strong>TH</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>TH<strong>HT</strong></td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1/2</td>
+</tr>
+<tr class="even">
+<td>TH<strong>T</strong>H</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>TTH<strong>H</strong></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>H<strong>T</strong>TT</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>TH<strong>T</strong>T</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>TTH<strong>T</strong></td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>TTTH</td>
+<td align="right">0</td>
+<td align="right">not defined</td>
+<td align="right">not defined</td>
+</tr>
+<tr class="even">
+<td>TTTT</td>
+<td align="right">0</td>
+<td align="right">not defined</td>
+<td align="right">not defined</td>
+</tr>
+</tbody>
+</table>
+<!-- | Outcome ($\omega$) 	| $Z$ 	|         $Y$ 	|   $X = Y/Z$ 	| -->
+<!-- |-------------------	|----:	|------------:	|------------:	| -->
+<!-- | H**HHH**          	|   3 	|           3 	|           1 	| -->
+<!-- | H**HHT**          	|   3 	|           2 	|         2/3 	| -->
+<!-- | H**HT**H          	|   2 	|           1 	|         1/2 	| -->
+<!-- | H**T**H**H**      	|   2 	|           1 	|         1/2 	| -->
+<!-- | TH**HH**          	|   2 	|           2 	|           1 	| -->
+<!-- | H**HT**T          	|   2 	|           1 	|         1/2 	| -->
+<!-- | H**T**H**T**      	|   2 	|           0 	|           0 	| -->
+<!-- | H**T**TH          	|   1 	|           0 	|           0 	| -->
+<!-- | TH**HT**          	|   2 	|           1 	|         1/2 	| -->
+<!-- | TH**T**H          	|   1 	|           0 	|           0 	| -->
+<!-- | TTH**H**          	|   1 	|           1 	|           1 	| -->
+<!-- | H**T**TT          	|   1 	|           0 	|           0 	| -->
+<!-- | TH**T**T          	|   1 	|           0 	|           0 	| -->
+<!-- | TTH**T**          	|   1 	|           0 	|           0 	| -->
+<!-- | TTTH              	|   0 	| not defined 	| not defined 	| -->
+<!-- | TTTT              	|   0 	| not defined 	| not defined 	| -->
+
+<div class="example">
+<p><span id="exm:dd-events" class="example"><strong>Example 2.27  (Don’t do what Donny Don’t does.)  </strong></span>
+At various points in his homework, Donny Don’t writes the following. Explain to Donny why each of the following symbols is nonsense, both mathematically and intuitively using a simple example (like tomorrow’s weather). Below, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> represent events, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> represent random variables.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(A = 0.5\)</span></li>
+<li><span class="math inline">\(A + B\)</span></li>
+<li><span class="math inline">\(X = A\)</span></li>
+<li><span class="math inline">\(X + A\)</span></li>
+<li><span class="math inline">\(X \cap Y\)</span></li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="rv.html#exm:dd-events">2.27</a>
+</div>
+<p>We’ll respond to Donny using tomorrow’s weather as an example, with <span class="math inline">\(A\)</span> representing the event that it rains tomorrow, <span class="math inline">\(X\)</span> tomorrow’s high temperature (degrees F), <span class="math inline">\(B=\{X&gt;80\}\)</span> the event that tomorrow’s high temperature is above 80 degrees, and <span class="math inline">\(Y\)</span> tomorrow’s rainfall (inches).</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(A\)</span> is a set and 0.5 is a number; it doesn’t make mathematical sense to equate them. It doesn’t make sense to say “it rains tomorrow equals 0.5”.</li>
+<li><span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are sets; it doesn’t make mathematical sense to add them. It doesn’t make sense to say “the sum of (it rains tomorrow) and (tomorrow’s high temperature is above 80 degrees F)”. If we want “(it rains tomorrow) OR (tomorrow’s high temperature is above 80 degrees F)”, then we need <span class="math inline">\(A\cup B\)</span>. Union is an operation on sets; addition is an operation on numbers.</li>
+<li><span class="math inline">\(X\)</span> is a random variable (a function) and <span class="math inline">\(A\)</span> is an event (a set), and it doesn’t make sense to equate these two different mathematical objects. Suppose that <span class="math inline">\(X\)</span> represents tomorrow’s high temperate (degrees F). It doesn’t make sense to say “tomorrow’s high temperature equals the event that it rains tomorrow”.</li>
+<li><span class="math inline">\(X\)</span> is a random variable (a function) and <span class="math inline">\(A\)</span> is an event (a set), and it doesn’t make sense to add these two different mathematical objects. It doesn’t make sense to say “the sum of (tomorrow’s high temperature) and (the event that it rains tomorrow)”.</li>
+<li><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are random variables (functions) and intersection is an operation on sets. <span class="math inline">\(X \cap Y\)</span> is attempting to say “tomorrow’s high temperature in degrees F and the amount of rainfall in inches tomorrow”. If we’re talking about a random vector containing these two variables, we would write <span class="math inline">\((X, Y)\)</span> not <span class="math inline">\(X \cap Y\)</span>. If we’re interested in an event involving <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, we’re missing qualifying information to define a valid event. We could write <span class="math inline">\(X &gt;80, Y &lt; 2\)</span> or <span class="math inline">\(\{X &gt; 80\} \cap \{Y &lt; 2\}\)</span> to represent “the event that (tomorrow’s high temperature is greater than 80 degrees F) AND (the amount of rainfall tomorrow is less than 2 inches)”.</li>
+</ol>
+</div>
+<div id="indicator-random-variables-and-counting" class="section level3" number="2.3.4">
+<h3><span class="header-section-number">2.3.4</span> Indicator random variables and counting</h3>
+<p>Random variables that only take two possible values, 0 and 1, have a special name.</p>
+
+<div class="definition">
+<span id="def:indicator" class="definition"><strong>Definition 2.5  </strong></span>An <strong>indicator (a.k.a. Bernoulli)</strong> random variable can take only the values 0 or 1. If <span class="math inline">\(A\)</span> is an event then the corresponding indicator random variable <span class="math inline">\(\textrm{I}_A\)</span> is defined as
+<span class="math display">\[
+\textrm{I}_A(\omega) =
+\begin{cases}
+1, &amp; \omega \in A,\\
+0, &amp; \omega \notin A
+\end{cases}
+\]</span>
+</div>
+<p>That is, <span class="math inline">\(\textrm{I}_A\)</span> equals 1 if event <span class="math inline">\(A\)</span> occurs, and <span class="math inline">\(\textrm{I}_A\)</span> equals 0 if event <span class="math inline">\(A\)</span> does not occur. Indicators provide the bridge between events (sets) and random variables (functions).</p>
+
+<div class="example">
+<p><span id="exm:coin-indicator" class="example"><strong>Example 2.28  </strong></span>Flip a coin 3 times and record the results in sequence. Let <span class="math inline">\(A_i\)</span> be the event that flip <span class="math inline">\(i\)</span> lands on H, for <span class="math inline">\(i=1, 2, 3\)</span>.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Construct a table identifying the values of the indicator random variables <span class="math inline">\(\textrm{I}_{A_1}\)</span>, <span class="math inline">\(\textrm{I}_{A_2}\)</span>, and <span class="math inline">\(\textrm{I}_{A_3}\)</span> for each outcome in the sample space.</li>
+<li>Identify and interpret the event <span class="math inline">\(\{I_{A_1}=1\}\)</span>.</li>
+<li>Identify and interpret the event <span class="math inline">\(\{I_{A_1}=0\}\)</span>.</li>
+<li>Identify and interpret the event <span class="math inline">\(\{I_{A_2}=1\}\)</span>.</li>
+<li>Identify and interpret the event <span class="math inline">\(\{I_{A_1 \cap A_2}=1\}\)</span>.</li>
+<li>Identify and interpret the event <span class="math inline">\(\{I_{A_1 \cup A_2}=1\}\)</span>.</li>
+<li>How is <span class="math inline">\(\textrm{I}_{A_1^c}\)</span> related to <span class="math inline">\(\textrm{I}_{A_1}\)</span>?</li>
+<li>How is <span class="math inline">\(\textrm{I}_{A_1\cap A_2}\)</span> related to <span class="math inline">\(\textrm{I}_{A_1}\)</span> and <span class="math inline">\(\textrm{I}_{A_2}\)</span>? (Can you think of two ways?)</li>
+<li>How is <span class="math inline">\(\textrm{I}_{A_1\cup A_2}\)</span> related to <span class="math inline">\(\textrm{I}_{A_1}\)</span> and <span class="math inline">\(\textrm{I}_{A_2}\)</span>? (Can you think of two ways?)</li>
+<li>How is <span class="math inline">\(X\)</span>, the number of flips that result in H, related to <span class="math inline">\(\textrm{I}_{A_1}\)</span>, <span class="math inline">\(\textrm{I}_{A_2}\)</span>, and <span class="math inline">\(\textrm{I}_{A_3}\)</span>?</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> Solution to Example <a href="rv.html#exm:coin-indicator">2.28</a>.
+</div>
+<ol style="list-style-type: decimal">
+<li>See Table <a href="rv.html#tab:coin-indicator-tab">2.5</a>. We’ve also added columns for <span class="math inline">\(I_{A_1^c}\)</span>, <span class="math inline">\(I_{A_1 \cap A_2}\)</span>, <span class="math inline">\(I_{A_1 \cup A_2}\)</span>, and <span class="math inline">\(X\)</span>, the number of H.</li>
+</ol>
+<table>
+<caption><span id="tab:coin-indicator-tab">Table 2.5: </span>Indicators of H on each flip in a sequence of 3 flips of a coin</caption>
+<thead>
+<tr class="header">
+<th align="left">Outcome</th>
+<th align="right">I<sub>A1</sub></th>
+<th align="right">I<sub>A2</sub></th>
+<th align="right">I<sub>A3</sub></th>
+<th align="right">I<sub>not_A1</sub></th>
+<th align="right">I<sub>A1_and_A2</sub></th>
+<th align="right">I<sub>A1_or_A2</sub></th>
+<th align="right">X</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">HHH</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">HHT</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">HTH</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">HTT</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">THH</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">THT</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">TTH</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">TTT</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(\{I_{A_1}=1\}=\{HHH, HHT, HTH, HTT\}\)</span> is the event that the first flip results in H.</p></li>
+<li><p>Since <span class="math inline">\(I_{A_1}\)</span> is either 1 or 0, <span class="math inline">\(\{I_{A_1}=0\}=\{I_{A_1}=1\}^c = \{HHH, HHT, HTH, HTT\}^c\)</span> is the event that the first flip does not result in H.</p></li>
+<li><p><span class="math inline">\(\{I_{A_2}=1\}=\{HHH, HHT, THH, THT\}\)</span> is the event that the second flip results in H.</p></li>
+<li><p><span class="math inline">\(\{I_{A_1\cap A_2}=1\}=\{HHH, HHT\}\)</span> is the event that the first two flips result in H.</p></li>
+<li><p><span class="math inline">\(\{I_{A_1 \cup A_2}=1\} = \{TTH, TTT\}^c\)</span> is the event that at least one of the first two flips results in H.</p></li>
+<li><p>Reading across each row, we see that for every outcome <span class="math inline">\(\textrm{I}_{A_1^c} = 1 - \textrm{I}_{A_1}\)</span>. If <span class="math inline">\(A_1\)</span> occurs (<span class="math inline">\(\omega \in A_1\)</span>, flip 1 is H), <span class="math inline">\(I_{A_1}=1\)</span> and <span class="math inline">\(I_{A_1^c}=0\)</span>; if <span class="math inline">\(A_1\)</span> does not occurs (<span class="math inline">\(\omega \in A_1^c\)</span>, flip 1 is not H), <span class="math inline">\(I_{A_1}=0\)</span> and <span class="math inline">\(I_{A_1^c}=1\)</span>.</p></li>
+<li><p>Reading across each row, we see that for every outcome <span class="math inline">\(\textrm{I}_{A_1\cap A_2} = \textrm{I}_{A_1}\textrm{I}_{A_2}\)</span>. If both <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span> occur then <span class="math inline">\(A_1\cap A_2\)</span> occurs (flip 1 is H and flip 2 is H), so <span class="math inline">\(\textrm{I}_{A_1\cap A_2} = 1\)</span> and <span class="math inline">\(\textrm{I}_{A_1} \textrm{I}_{A_2}=1\)</span>. If <span class="math inline">\(A_1\)</span> does not occur (flip 1 is not H) then <span class="math inline">\(A_1\cap A_2\)</span> does not occur, so <span class="math inline">\(I_{A_1}=0\)</span>, <span class="math inline">\(\textrm{I}_{A_1\cap A_2} = 0\)</span> and <span class="math inline">\(\textrm{I}_{A_1} \textrm{I}_{A_2}=0\)</span>. (Similarly if <span class="math inline">\(A_2\)</span> does not occur.).<br />
+Reading across each row we also see that for every outcome <span class="math inline">\(I_{A_1 \cap A_2} = \min(I_{A_1}, I_{A_2})\)</span>. <span class="math inline">\(\min(I_{A_1}, I_{A_2})=1\)</span> if and only if both <span class="math inline">\(I_{A_1}=1\)</span> and <span class="math inline">\(I_{A_2}=1\)</span>, which happens if and only if both <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span> occur.</p></li>
+<li><p>Reading across each row, we see that for every outcome <span class="math inline">\(\textrm{I}_{A_1\cup A_2} = \textrm{I}_{A_1}+\textrm{I}_{A_2}-\textrm{I}_{A_1}\textrm{I}_{A_2}\)</span></p>
+<ul>
+<li>If neither <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span> occur then <span class="math inline">\(I_{A_1}=0\)</span>, <span class="math inline">\(I_{A_2} = 0\)</span>, and <span class="math inline">\(\textrm{I}_{A_1\cup A_2} = 0\)</span>, and the relationship holds in this case.<br />
+</li>
+<li>If <span class="math inline">\(A_1\)</span> occurs but <span class="math inline">\(A_2\)</span> does not then <span class="math inline">\(I_{A_1}=1\)</span>, <span class="math inline">\(I_{A_2} = 0\)</span>, and <span class="math inline">\(\textrm{I}_{A_1\cup A_2} = 1\)</span>, and the relationship holds in this case. (Similarly if <span class="math inline">\(A_2\)</span> occurs but <span class="math inline">\(A_1\)</span> does not.)<br />
+</li>
+<li>If both <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span> occur then <span class="math inline">\(I_{A_1}=1\)</span>, <span class="math inline">\(I_{A_2} = 1\)</span>, and <span class="math inline">\(\textrm{I}_{A_1\cup A_2} = 1\)</span>, and the relationship holds in this case.</li>
+</ul>
+<p>Reading across each row we also see that for every outcome <span class="math inline">\(I_{A_1 \cup A_2} = \max(I_{A_1}, I_{A_2})\)</span>. <span class="math inline">\(\max(I_{A_1}, I_{A_2})=0\)</span> if and only if both <span class="math inline">\(I_{A_1}=0\)</span> and <span class="math inline">\(I_{A_2}=0\)</span>, which happens if and only if <span class="math inline">\((A_1^c \cap A_2^c) = (A_1 \cup A_2)^c\)</span> occurs.</p></li>
+<li><p>Reading across each row, we see that for every outcome <span class="math inline">\(X= I_{A_1} + I_{A_2} + I_{A_3}\)</span>. We discuss this idea in more detail below.</p></li>
+</ol>
+<p>The previous example illustrates that for two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>
+<span class="math display">\[\begin{align*}
+\textrm{I}_{A^c} &amp; = 1 - I_A &amp; &amp; \\
+\textrm{I}_{A \cap B} &amp; = \textrm{I}_A \textrm{I}_B &amp; &amp; =\min(I_A, I_B)\\
+\textrm{I}_{A \cup B} &amp; = \textrm{I}_A + \textrm{I}_B - \textrm{I}_{A \cap B} &amp; &amp; = \max(I_A, I_B)
+\end{align*}\]</span></p>
+<p>In particular, the indicator of an intersection is the product of the indicators of each event. The <span class="math inline">\(\min, \max\)</span>, and product formulas work for more than two events, but the addition formula is more complicated<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>.</p>
+<p>Even though they seem simple, indicator random variables are very useful.
+In particular, many probability problems are of the form “find the expected number of (blank)”. In these problems, representing a count as a sum of indicator random variables, as in the last part of Example <a href="rv.html#exm:coin-indicator">2.28</a>, is a very common and useful strategy. We elaborate on this idea below, but first a little story.</p>
+<p>Imagine a dad and his young child are reading a picture book. They come to a page that has twenty pictures of fruits, of which seven are bananas. The following conversation ensues.</p>
+<ul>
+<li>Dad: Can you count all the bananas? Let’s see! How many bananas have we counted so far?</li>
+<li>Kid: We haven’t started counting yet!</li>
+<li>Dad: Right, so how many bananas have we counted so far?</li>
+<li>Kid: Zero!</li>
+<li>Dad: That’s right! We’ve counted zero bananas so far. (Points to a banana.) Is that a banana?</li>
+<li>Kid: Yes!</li>
+<li>Dad: So how many more bananas did we just count?</li>
+<li>Kid: One!</li>
+<li>Dad: So how many bananas have we counted so far?</li>
+<li>Kid: One!</li>
+<li>Dad: Great job! We’ve counted one banana so far. (Points to a different banana.) Is that a banana?</li>
+<li>Kid: Yes!</li>
+<li>Dad: So how many more bananas did we just count?</li>
+<li>Kid: We counted one more banana!</li>
+<li>Dad: So how many bananas have we counted so far?</li>
+<li>Kid: Two!</li>
+<li>Dad: Great job! We’ve counted two bananas so far. (Points to a different banana.) Is that a banana?</li>
+<li>Kid: Yes!</li>
+<li>Dad: So how many more bananas did we just count?</li>
+<li>Kid: We counted one more banana!</li>
+<li>Dad: So how many bananas have we counted so far?</li>
+<li>Kid: Three!</li>
+<li>Dad: Great job! We’ve counted three bananas so far. (Points to an orange<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>.) Is that a banana?</li>
+<li>Kid: No, that’s an orange!</li>
+<li>Dad: So how many more bananas did we just count?</li>
+<li>Kid: Zero! It was not a banana!</li>
+<li>Dad: So how many bananas have we counted so far?</li>
+<li>Kid: Still three!</li>
+<li>Dad: Great job! We’ve counted three bananas so far. (Continues in this manner until Dad points to the twentieth and last fruit on the page, a banana.) Almost done. We’ve counted six bananas so far. Is that a banana?</li>
+<li>Kid: Yes!</li>
+<li>Dad: So how many more bananas did we just count?</li>
+<li>Kid: We counted one more banana!</li>
+<li>Dad: So how many bananas have we counted so far?</li>
+<li>Kid: Seven!</li>
+<li>Dad: We looked at each fruit on the page. How many were bananas?</li>
+<li>Kid: Seven!</li>
+<li>Dad: Great job! Now you know how indicator random variables can be used to count.</li>
+</ul>
+<p>In the story, the kid counted the bananas by examining each object, determining whether or not it was a banana, and then incrementing the banana counter by 1 for each object that was a banana (and by 0 for the objects that were not bananas). The kid essentially created an indicator (of “banana”) variable for each object on the page (<span class="math inline">\(I_{B_1}=1\)</span>, <span class="math inline">\(I_{B_2}=1\)</span>, <span class="math inline">\(I_{B_3}=1\)</span>, <span class="math inline">\(I_{B_4}=0\ldots\)</span>, <span class="math inline">\(I_{B_{20}}=1\)</span>) and then summed these indicators to obtain the total count of bananas. This strategy gives a way of breaking down a complicated counting problem into smaller pieces and counting incrementally.</p>
+
+<div class="example">
+<p><span id="exm:matching-indicator" class="example"><strong>Example 2.29  (Matching problem)  </strong></span>Recall the “matching problem”. A geology museum in California has four different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order. We might be interested in things like whether all the rocks are put back in the correct spot, or none are, or if the heaviest rock is put back in the correct spot.</p>
+<p>Recall the sample space from Example <a href="samplespace.html#exm:matching-outcome">2.3</a>. Let the random variable <span class="math inline">\(Y\)</span> count the number of rocks that are put back in the correct spot.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Evaluate <span class="math inline">\(Y(1234)\)</span>, <span class="math inline">\(Y(1243)\)</span>, and <span class="math inline">\(Y(2143)\)</span>.</li>
+<li>Construct a table identifying the value of <span class="math inline">\(Y\)</span> for each outcome in the sample space.</li>
+<li>How could you represent <span class="math inline">\(Y\)</span> in terms of indicator random variables? Define appropriate indicators and add the corresponding columns to the table.</li>
+<li>What is the relationship between <span class="math inline">\(Y\)</span> and the indicators you defined in the previous part?</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="rv.html#exm:matching-indicator">2.29</a>
+</div>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(Y(1234)=4\)</span> because for this outcome all rocks are put in the correct spot, <span class="math inline">\(Y(1243)=2\)</span> because rocks 1 and 2 are in the correct spot but 3 and 4 aren’t, and <span class="math inline">\(Y(2143)=0\)</span> because none of the rocks are in the correct spot.</p></li>
+<li><p>See the first two columns of Table <a href="rv.html#tab:matching-indicator-tab">2.6</a>.</p>
+<table>
+<caption><span id="tab:matching-indicator-tab">Table 2.6: </span>Indicators for each item and total number of matches in Matching Problem</caption>
+<thead>
+<tr class="header">
+<th align="left">Outcome</th>
+<th align="right">Y</th>
+<th align="right">I<sub>1</sub></th>
+<th align="right">I<sub>2</sub></th>
+<th align="right">I<sub>3</sub></th>
+<th align="right">I<sub>4</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1234</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">1243</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1324</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">1342</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1423</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1432</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2134</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">2143</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2314</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">2341</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2413</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2431</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">3124</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">3142</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">3214</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">3241</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">3412</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">3421</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">4123</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">4132</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">4213</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">4231</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">4312</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">4321</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>We want to know whether each rock was put in the correct spot. Let <span class="math inline">\(C_j\)</span> be the event that rock <span class="math inline">\(j\)</span> is placed correctly in spot <span class="math inline">\(j\)</span>, <span class="math inline">\(j=1, 2, 3, 4\)</span>. Then define the indicator random variables corresponding to these events <span class="math inline">\(I_{C_j}\equiv I_j\)</span>. There is one indicator for each rock. See Table <a href="rv.html#tab:matching-indicator-tab">2.6</a>. For example, <span class="math inline">\(I_1(1243)=1\)</span>, <span class="math inline">\(I_2(1243)=1\)</span>, <span class="math inline">\(I_3(1243) = 0\)</span> and <span class="math inline">\(I_4(1243)=0\)</span>.</p></li>
+<li><p>The indicators define the incremental counters like in the banana story, so <span class="math inline">\(Y=I_1 + I_2 + I_3+I_4\)</span>. Remember that this is a relationship between functions; within each row the total number of matches is the sum of the values of the indicator random variables.</p></li>
+</ol>
+<p>In the matching problem, it is not feasible to enumerate the outcomes and count when there are a large number of items and spots. Using indicators allows you to focus on one item at time — is just this item in the correct spot? — rather than all at once. We will see that indicators often provide a useful strategy for tackling probability problems.</p>
+</div>
+<div id="summary-2" class="section level3" number="2.3.5">
+<h3><span class="header-section-number">2.3.5</span> Summary</h3>
+<ul>
+<li>A random variable is a function whose input is a sample space outcome and whose output is a real number.</li>
+<li>A random vector is a vector of random variables.</li>
+<li>Many events of interest involve random variables.</li>
+<li>A function of a random variable is also a random variable.</li>
+<li>Sums and products, etc., of random variables <em>defined on the same probability space</em> are random variables.</li>
+</ul>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="18">
+<li id="fn18"><p>Another less important reason is that is often convenient to work with sample spaces in which the outcomes are equally likely. For four flips of a fair coin the outcomes <span class="math inline">\(HHHH, HHHT, HHTH, \ldots\)</span> are equally likely, but the values <span class="math inline">\(0, 1, 2, 3, 4\)</span> are not equally likely for the number of heads.<a href="rv.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<li id="fn19"><p>Throughout, we use <span class="math inline">\(g\)</span> to denote a generic function, and reserve <span class="math inline">\(f\)</span> to represent a probability density function. Likewise, we represent a generic function argument (or “dummy variable”) with <span class="math inline">\(u\)</span>, since <span class="math inline">\(x\)</span> is often used to represent possible values of a random variable <span class="math inline">\(X\)</span>. In the context of a random variable, <span class="math inline">\(x\)</span> typically represents the <em>output</em> of the function <span class="math inline">\(X\)</span> rather than the input (which is a sample space outcome <span class="math inline">\(\omega\)</span>.)<a href="rv.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p>It’s easiest if we label a flip of heads as 1 and tails as 0. Represent an outcome <span class="math inline">\(\omega\)</span> as <span class="math inline">\((\omega_1, \omega_2, \omega_3, \omega_4)\)</span>, where <span class="math inline">\(\omega_i\in\{0,1\}\)</span> is the result of the <span class="math inline">\(i\)</span>th flip. Then <span class="math inline">\(X(\omega)=\sum_{i=1}^{4} \omega_i\)</span> represents the number of heads. For example, outcome HHTH would be represented as <span class="math inline">\((1, 1, 0, 1)\)</span> and <span class="math inline">\(X((1, 1, 0, 1)) = 1 + 1 + 0 + 1 = 3\)</span>. This could be coded as <code>sum(omega)</code>.<a href="rv.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn21"><p>Technically, we have some collection <span class="math inline">\(\mathcal{F}\)</span> of events of interest, and so we require sets like <span class="math inline">\(\{X\le x\}\)</span> to be in <span class="math inline">\(\mathcal{F}\)</span>. This requirement is satisfied by requiring <span class="math inline">\(X\)</span> to be an <em><span class="math inline">\(\mathcal{F}\)</span>-measurable</em> function. We will ignore this technicality and always assume events like <span class="math inline">\(\{X\le x\}\)</span> are always include in the collection of events of interest.<a href="rv.html#fnref21" class="footnote-back">↩︎</a></p></li>
+<li id="fn22"><p><span class="math inline">\(Y(\omega) = g(X(\omega))\)</span> so <span class="math inline">\(Y\)</span> maps <span class="math inline">\(\Omega\)</span> to <span class="math inline">\(\mathbb{R}\)</span> via the composition of the functions <span class="math inline">\(g\)</span> and <span class="math inline">\(X\)</span>; that is, <span class="math inline">\(Y=g\circ X\)</span> where <span class="math inline">\((g\circ X):\Omega\mapsto \mathbb{R}\)</span><a href="rv.html#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p>See the <a href="https://mathworld.wolfram.com/Inclusion-ExclusionPrinciple.html">inclusion-exclusion principle</a><a href="rv.html#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn24"><p>Orange you glad I didn’t say banana<a href="rv.html#fnref24" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="events.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="probspace.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

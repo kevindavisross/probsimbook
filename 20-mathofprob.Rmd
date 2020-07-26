@@ -1,0 +1,2615 @@
+# The Language of Probability {#probmath}
+
+
+\newcommand{\IP}{\textrm{P}}
+\newcommand{\IQ}{\textrm{Q}}
+\newcommand{\E}{\textrm{E}}
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\SD}{\textrm{SD}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\Corr}{\textrm{Corr}}
+\newcommand{\Xbar}{\bar{X}}
+\newcommand{\Ybar}{\bar{X}}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\ybar}{\bar{y}}
+\newcommand{\ind}{\textrm{I}}
+\newcommand{\dd}{\text{DDWDDD}}
+\newcommand{\ep}{\epsilon}
+\newcommand{\reals}{\mathbb{R}}
+
+
+
+A phenomenon is **random** if there are multiple potential
+*outcomes*, and there is *uncertainty* about which outcome will occur. This chapter introduces the fundamental terminology and objects of random phenomena, including
+
+- Possible **outcomes** of the random phenomenon
+- Related **events** that could occur
+- **Random variables** which measure numeric quantities based on outcomes
+- **Probability measures** which assign likelihoods to events in a logically coherent way
+- **Probability spaces** which put it all together
+
+Full disclosure: many of the examples in this chapter involve rather dry tasks like discussing mathematical notation or listing elements of sets.  Also, some of the things we do in these examples are rarely done in practice. So why bother? Many common mistakes in solving probability problems arise from misunderstanding of the foundational objects of probability.  We hope that concrete --- though sometimes uninteresting --- examples foster understanding of fundamental concepts.
+
+
+This chapter introduces what the fundamental objects of probability are, but not yet how to solve probability problems. Don't worry; we'll solve many interesting problems in the remaining chapters. Think of this chapter as introducing the "language" or "grammar" of probability.  When first learning to write, we learn the basic elements of sentences: subjects, predicates, clauses, modifiers, etc. Understanding these fundamental building blocks is essential to learning how to write well, even if we don't explicitly identify the subject, the verb, etc., in every sentence we write.  Likewise, understanding the language of probability is crucial to learning how to solve probability problems, even if the language is sometimes unspoken.
+
+
+## Sample space of outcomes {#samplespace}
+
+
+Probability models can be applied to any situation in which there are multiple potential
+outcomes and there is uncertainty about which outcome will occur.  Due to the wide variety of types of random phenomena, an **outcome** can be virtually anything:
+
+- the result of a coin flip
+- the results of a sequence of coin flips
+- a shuffle of a deck of cards
+- the weather conditions tomorrow in your city
+- the path of a particular Atlantic hurricane
+- the closing price of a certain stock tomorrow
+- the result of a diagnostic medical test
+- a sample of car insurance polices
+- a sample of registered voters
+- the result of an election
+- the next World Series champion
+- a play in a basketball game
+
+
+
+And on and on.  In particular, an outcome does *not* have to be a number.
+
+Before the random phenomenon occurs it is unknown which outcome will be the result. When the phenomenon takes place, a particular outcome is observed. The first step in defining a probability model for a random phenomenon is to describe the possible outcomes.
+
+```{definition sample-space}
+
+The **sample space**, denoted^[There is no one set of universally agreed on notation, but $\Omega$ is commonly used to represent a sample space.  It is also common practice to use uppercase and lowercase letters to denote different objects.] $\Omega$ (the uppercase Greek letter "omega"), is the set of all possible
+outcomes of a random phenomenon. An **outcome**, denoted $\omega$ (the lowercase Greek letter "omega"), is an element of the sample space: $\omega\in\Omega$.
+
+```
+
+Mathematically, the sample space $\Omega$ is a *set* containing all possible outcomes, while an individual outcome $\omega$ is a *point* or *element* in $\Omega$.  The symbol $\omega$ denotes a generic outcome, much like the symbol $u$ in $\sqrt{u}$ denotes a generic input to the square root function.
+
+For example, the simplest random phenomena have just two distinct outcomes, in which case the sample space is just a set with two elements, e.g. $\Omega=\{\text{no}, \text{yes}\}$, $\Omega=\{\text{off}, \text{on}\}$, $\Omega=\{0, 1\}$, $\Omega=\{-1, 1\}$.  For example, the sample space for a single coin flip could be $\Omega = \{H, T\}$.  If the coin lands on heads, we observe the outcome $\omega = H$; if tails we observe $\omega=T$. 
+
+A random phenomenon is modeled by a *single* sample space, upon which all objects are defined.  These objects, which we will encounter later, include events and random variables. Whenever possible, a sample space outcome should be defined to provide the maximum amount of information about the outcome of random phenomenon.
+
+In the following examples we will describe the sample space by listing all possible outcomes.  However, constructing a list of all possible outcomes is rarely done in practice.  We do so here only to provide some concrete examples of sample spaces.   While a random phenomenon always has a corresponding sample space, in many situations the sample space of outcomes is at best only vaguely specified and can not be feasibly enumerated.
+ 
+
+
+```{example dice-outcome}
+
+Roll a four-sided die^[Why four-sided?  Simply to make the number of possibilities a little more manageable (e.g., for in-class simulation activities).  Rolling a four-sided die twice yields 16 possible pairs, while rolling a six-sided die yields 36 possible pairs.] twice, and record the result of each roll in sequence as an ordered pair.  For example, the outcome $(3, 1)$ represents a 3 on the first roll and a 1 on the second; this is not the same outcome as $(1, 3)$.
+
+```
+
+1. Identify the sample space.
+1. We might be interested in the sum of the two dice.  Explain why it is still advantageous to define the sample space as in the previous part, rather than as $\Omega=\{2, \ldots, 8\}$.
+
+```{solution dice-outcome-sol}
+to Example \@ref(exm:dice-outcome)
+
+```
+
+1. The sample space consists of 16 possible ordered pairs of rolls
+\begin{align*}
+\Omega & = \{(1, 1), (1, 2), (1, 3), (1, 4),\\
+& \qquad (2, 1), (2, 2), (2, 3), (2, 4),\\
+& \qquad (3, 1), (3, 2), (3, 3), (3, 4),\\
+& \qquad (4, 1), (4, 2), (4, 3), (4, 4)\}
+\end{align*}
+Any element of this set is a possible outcome $\omega$. For example, the outcome $\omega = (4, 2)$ occurs when the first roll is a 4 and the second roll is a 2. The notation above makes it clear that the sample space is a set.  But it is often helpful to conceptualize or visualizing the sample space as a list or table like the following.  
+
+    ```{r, dice-outcome-sol-table, echo = FALSE}
+    u1 = sort(rep(1:4, 4))
+    u2 = rep(1:4, 4)
+    
+    knitr::kable(
+      data.frame(u1, u2),
+      col.names = c("First roll", "Second roll"),
+      booktabs = TRUE,
+      caption = 'Table representing the sample space of two rolls of a four-sided die'
+    )
+    ```  
+    
+1. Yes, we might be interested in the sum of the two dice.  But we might also be interested in other things, like the larger of the two rolls, or if at least one 3 was rolled, or the result of the first roll.  Knowing just the sum of the dice does not provide as much information about the outcome of the random phenomenon as the sequence of individual rolls does.
+
+**Note:** In the previous example, there was a single sample space whose outcomes represented the result of the pair of rolls.  In particular, there was not a separate sample space for each of the individual rolls.  Now, we could have written the sample space as the Cartesian product $\Omega = \{1, 2, 3, 4\} \times\{1, 2, 3, 4\}$, where the first $\{1, 2, 3, 4\}$ set in the product represents the result of the first roll (and similarly for the second.) But this Cartesian product represents a single set of ordered pairs, and it is that single set which is the sample space corresponding to outcomes of the pair of rolls.
+
+
+```{example coin-outcome}
+
+Consider the outcome of a sequence of 4 flips of a coin.  
+
+```
+
+1. Identify an appropriate sample space.
+1. We might be interested in the number of heads flipped.  Explain why it is still advantageous to define the sample space as in the previous part, rather than as $\Omega=\{0, 1, 2, 3, 4\}$.
+
+
+```{solution coin-outcome-sol}
+to Example \@ref(exm:coin-outcome)
+
+```
+
+1. We can record the outcome as an ordered sequence representing the results of the four flips.  For example, HTHT means heads on the first on third flips and tails on the second and fourth; this is not the same outcome as HHTT or THTH. (We could also write (H, T, H, T) but the HTHT notation is simpler.) The sample space is the following set composed of 16 distinct outcomes
+\begin{align*}
+\Omega & = \{HHHH, HHHT, HHTH, HTHH, THHH, HHTT, HTHT, HTTH,\\ 
+& \qquad THHT, THTH, TTHH, HTTT, THTT, TTHT, TTTH, TTTT\}
+\end{align*}
+Again, it is helpful to conceptualize and visualize the sample space as a list or a table (which we will do later when we encounter this scenario again).
+1. Yes, we might be interested in the number of heads flipped, but we might also be interested in other things, such as whether the first flip was heads, the length of the longest streak of heads in a row, or the proportion of flips following H that resulted in H.  Knowing just the number of heads flipped does not provide as much information about the outcome of the random phenomenon as the sequence of individual flips does.
+
+**Note:** We reiterate what we said after Example \@ref(exm:dice-outcome). In the previous example, there was a single sample space whose outcomes were sequences of coin flips.  In particular, there was not a separate sample space for each of the individual flips.  We could have written the sample space as the Cartesian product $\Omega = \{H, T\}\times \{H, T\}\times \{H, T\}\times \{H, T\} = \{H, T\}^4$.  But this Cartesian product represents a single set of sequences of 4 flips, and it is this single set which is the sample space.
+
+
+We'll present a few more concrete examples where we list all the outcomes in the sample space.  However, keep in mind that enumerating the sample space is rarely done in practice.  
+
+```{example matching-outcome, name='Matching problem'}
+
+The "matching problem" is one well known probability problem.  The following version is from [FiveThirtyEight](https://fivethirtyeight.com/features/everythings-mixed-up-can-you-sort-it-all-out/).
+
+A geology museum in California has four different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order.  We might be interested in things like whether all the rocks are put back in the correct spot, or none are, or if the heaviest rock is put back in the correct spot.
+
+Label the rocks 1, 2, 3, 4, and also label the spots 1, 2, 3, 4, with spot 1 the correct spot for rock 1, etc. Identify an appropriate sample space.
+
+```
+
+```{solution matching-outcome-sol}
+to Example \@ref(exm:matching-outcome)
+
+```
+
+We can consider each outcome to be a particular placement of rocks in the spots.  For example, the outcome 3214 (or $(3, 2, 1, 4)$) represents that rock 3 is placed in spot 1, rock 2 in spot 2, rock 1 in spot 3, and rock 4 in spot 4. (We say that an outcome is a *permutation* (or reordering) of the numbers 1, 2, 3, 4.) So the sample space consists of the following 24 outcomes^[There are 4 rocks that could potentially go in spot 1, then 3 rocks that could potentially go in spot 2, 2 to spot 3, and 1 left for spot 4.  This results in $4\times3\times2\times1=4! = 24$ possible outcomes.  We will see more counting rules in XXXX.].
+
+\begin{align*}
+\Omega & = \{1234, 1243, 1324, 1342, 1423, 1432 \\
+  & \qquad 2134, 2143, 2314, 2341, 2413, 2431 \\
+  & \qquad 3124, 3142, 3214, 3241, 3412, 3421 \\
+  & \qquad 4123, 4132, 4213, 4231, 4312, 4321\}
+\end{align*}
+
+Recording outcomes in this way provides more information than if we had chosen the sample space to correspond to, for example, the number of rocks that were placed in the correct spot.
+
+  
+```{example collector-outcome, name='Collector problem'}
+
+The "collector problem" is one well known probability problem.  Here is one version of it.
+
+The latest series of collectible Lego Minifigures contains 3 different Minifigures.  Each package contains a single unknown Minifigure.  We buy packages one at a time until we have a complete collection. We might be interested in things like how many packages we needed to buy to complete the collection, or which Minifigure we have the most of.
+
+Label the different Minifigures 1, 2, and 3.  Identify an appropriate sample space.  Is it possible to identify a sample space in which all outcomes have the same "length"?
+
+```
+
+```{solution collector-outcome-sol}
+to Example \@ref(exm:collector-outcome)
+
+```
+
+An outcome could represent the sequence of Minifigures we obtain in order.  For example, (2, 3, 3, 2, 2, 2, 3, 1) represents figure 2 in the first package, figure 3 in the second and third packages, figure 2 in the fourth, and so on, completing the collection with figure 1 in the eighth package.  Outcomes recorded in this way can have different lengths if we only record the packages we buy; for example (2, 3, 1) versus (2, 3, 3, 1) versus (2, 3, 3, 2, 1).  However, it is often convenient for sample space outcomes to have the same length, as in the previous examples (two die rolls, four coin flips, four rocks in spots).
+
+We can define outcomes with the same "length" if we assume the process continues indefinitely, that is, if we continue to buy packages even after we complete a set.  Now an outcome is an *infinite* sequence, with each component of the sequence taking a value of 1, 2, or 3; for example, (2, 3, 3, 2, 2, 2, 3, 1, 2, 1, 1, 3, $\ldots$).  Thus the sample space is the set of all infinite sequences whose components take values in $\{1, 2, 3\}$, which can be written as $\Omega=\{1, 2, 3\}^\infty$.  Outcomes of this sample space all have the same "length" (infinite).  Moreover, this sample space allows for a broader range of questions to be investigated. For example, we might be interested in the number of packages needed to obtain 5 complete collections (which might be relevant if you have 5 kids and they all want their own collection).
+
+```{example sampling-outcome}
+Many statistical applications involve *random sampling*.  For example, polling organizations often select random samples of Americans.  Typically the selection involves random digit dialing: a sample of say 1000 phone numbers are randomly selected from some large bank (hundreds of millions) of phone numbers; this is the *population*^[Technically, the bank of phone numbers is the *sampling frame* while the population is all Americans.  The population and the sampling frame need not be the same.].  An outcome would consist of the 1000 phone numbers selected; this is the *sample*.
+
+As an extraordinarily unrealistic, oversimplified, but concrete example, suppose the bank only contains 5 phone numbers, labeled \{1, 2, 3, 4, 5\}, from which 3 are selected.  Describe an appropriate sample space.  Note: the order in which the numbers are selected does not matter; we only care which numbers are selected.
+
+```
+
+```{solution sampling-outcome-sol}
+to Example \@ref(exm:sampling-outcome)
+
+```
+
+An outcome consists of a *subset* of size 3 from the set $\{1, 2, 3, 4, 5\}$, representing the list of the 3 phone numbers selected.  For example, outcome $\{1, 4, 5\}$ occurs if phone numbers 1, 4, and 5 are selected. There are 10 distinct outcomes
+\[
+\Omega = \{\{1, 2, 3\}, \{1, 2, 4\}, \{1, 2, 5\}, \{1, 3, 4\}, \{1, 3, 5\},\\
+\qquad\quad  \{1, 4, 5\}, \{2, 3, 4\},\{2, 3, 5\},\{2, 4, 5\},\{3, 4, 5\}\}
+\]
+Note that the sample space is a set whose elements are sets. Also note the difference between $\{1, 2, 3\}$ and $(1, 2, 3)$; $(1, 2, 3)$ represents an *ordered* sequence.  There is only one set containing the elements 1, 2, and 3, the set $\{1, 2, 3\}$, but there are six different ordered sequences containing the values 1, 2, and 3: $(1, 2, 3), (1, 3, 2), (2, 1, 3), (2, 3, 1), (3, 1, 2), (3, 2, 1)$.
+
+In a more realistic setting, the population would consist of hundreds of millions of phone numbers, and the sample space would be composed of all possible subsets (samples) of 1000 phone numbers.  Even if the order in which the numbers are selected is irrelevant, the sample space is enormous and could never be feasibly enumerated as in this oversimplified example.  But the idea is the same: an outcome consists of a *subset* of numbers, and the sample space is a collection of possible subsets.  (That is, the sample space is a set of sets.)
+
+
+```{example meeting-outcome}
+
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  We might be interested in questions involving whether they arrive within 15 minutes of one another, who arrives first, or how long the first person to arrive needs to wait for the second.  
+
+Describe an appropriate sample space.  Note: rather than dealing with clock time, it is helpful to represent noon as time 0 and measure time as fraction of the hour after noon, so that times take values in the continuous interval [0, 1].  For example, 12:15 corresponds to a time of 0.25, 12:30 to 0.5, 12:42 to 0.7.
+
+```
+
+
+
+```{solution meeting-outcome-sol}
+
+to Example \@ref(exm:meeting-outcome)
+
+``` 
+
+An outcome is a pair of values $\omega = (\omega_1, \omega_2)$ corresponding to the arrival times of (Regina, Cady).  For example, the outcome (0.5, 0.7) represents Regina arriving at time 0.5 (12:30) and Cady at time 0.7 (12:42), while (0.7, 0) represents Regina arriving at time 0.7 (12:42) and Cady at time 0 (noon).  The sample space is $\Omega = [0,1]\times [0,1]=[0,1]^2$, the Cartesian product $\{(\omega_1, \omega_2): \omega_1 \in [0, 1], \omega_2 \in [0, 1]\}$, the set of ordered pairs whose components take values in $[0, 1]$.  This sample space is an *uncountable* set, and it is impossible to enumerate outcomes like in the previous examples.  (The sample space of infinite sequences in Example \@ref(exm:collector-outcome) is also an uncountable set.)  We can visualize the sample space as the set of points within the blue square in Figure \@ref(fig:meeting-outcome-plot).
+
+
+(ref:cap-meeting-outcome) The square represents the sample space $\Omega=[0,1]\times[0,1]$ in Example \@ref(exm:meeting-outcome).  Each point within the blue square is a pair of values $\omega = (\omega_1, \omega_2)$ corresponding to the arrival times of (Regina, Cady).
+
+
+```{r meeting-outcome-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-meeting-outcome)"}
+dfA <- data.frame(x = c(0, 0, 1, 1),
+                 y = c(0, 1, 1, 0),
+                 v = c(1, 1, 1, 1))
+
+ggplot(data = dfA, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+```
+
+
+A value in $[0, 1]$ can be visualized with a circular spinner like the one in Figure \@ref(fig:uniform-spinner) which returns values between 0 and 1.  Such a spinner can be thought of as a continuous analog of a die roll.  Imagine a needle anchored at the center of the circle which is spun and eventually lands pointing at a number on the outside of the circle (like a spinner in a kids game). The values in the picture are rounded to two decimal places, but consider an idealized model where the spinner is infinitely precise and the needle infinitely fine so that any real number between 0 and 1 is a possible outcome.  Under certain assumptions in the meeting time problem, we can think of Regina and Cady each spinning the spinner, with the results of the pair of spins representing the outcome $\omega$.  (But under other assumptions the spinner in Figure \@ref(fig:uniform-spinner) might not be appropriate, if for example, Regina is more likely to arrive later in the hour and Cady is more likely to arrive earlier in the hour.)
+
+(ref:cap-uniform-spinner) A Uniform(0, 1) spinner.  The values in the picture are rounded to two decimal places, but in the idealized model the spinner is infinitely precise so that any real number between 0 and 1 is a possible outcome.
+
+
+```{r uniform-spinner, echo=FALSE, fig.cap="(ref:cap-uniform-spinner)"}
+
+knitr::include_graphics("_graphics/uniform-spinner.png")
+
+```
+
+In the previous example, outcomes were measured on a continuous scale; any real number between 0 and 1 was a possible arrival time (or a possible result of a spin).  In practice we might round the arrival time to the nearest minute or second, but in principle and with infinite precision any real number in the continuous interval $[0, 1]$ is possible.
+
+Furthermore, even in situations where outcomes are inherently discrete, it is often more convenient to model them as continuous.  For example, if an outcome represents the annual salary in dollars of a randomly selected U.S. household, it would be more convenient to model the sample space as the continuous interval^[We could also try $(0, m)$ where $m$ is some large dollar amount providing an upper bound on the maximum possible salary.  But we would need to be sure that $m$ is large enough so that all possible outcomes are in the sample space $(0, m)$.  Without knowing this bound in advance, it is convenient to just choose the unbounded interval $(0, \infty)$.  There is really no harm in making the sample space bigger than it needs to be, but you can run into problems if you make it too small.] $[0, \infty)$ rather than $\{0, 1, 2, \ldots\}$ or $\{0, 0.01, 0.02, \ldots\}$. 
+
+
+
+```{example SAT-outcome}
+Select a U.S. high school student and record the student's SAT Math and Reading scores.  Identify an appropriate sample space.
+
+```
+
+
+```{solution SAT-outcome-sol}
+to Example \@ref(exm:SAT-outcome)
+
+``` 
+
+An outcome will be an ordered pair representing (Math, Reading) score. Technically, possible scores are 200 through 800 in increments of 10.  So we could consider the sample space to be $\{200, 210, 220, \ldots, 790, 800\}\times \{200, 210, 220, \ldots, 790, 800\}$.
+
+However, we could also model scores on a continuous scale, taking any value in the interval from 200 to 800.  In this case, the sample space would be $\Omega = [200, 800] \times [200, 800]$.  This sample space could be represented in a square like the one in Figure \@ref(fig:meeting-outcome-plot), but with Math score on the horizonal axis, Reading score on the vertical, and axis limits of $[200, 800$ instead of $[0, 1]$. A continuous  specification of a sample space is often more convenient mathematically than a discrete one.
+
+
+In the previous examples, the sample space could be defined rather explicitly, either by direct enumeration or using set notation (like a Cartesian product). However, explicitly defining a sample space in a compact way is often not possible, as in the following example.
+
+
+```{example PP-outcome}
+Customers enter a deli and take a number to mark their place in line.  When the deli opens the counter starts 0; the first customer to arrive takes number 1, the second 2, etc.  We record the counter over time, continuously, as it changes as customers arrive.  Time is measured in minutes after the deli opens (time 0).
+
+A sample space outcome could be represented as a path of the value of the counter over time; a few such paths are illustrated in Figure \@ref(fig:coin-sim2).  Notice the stairstep feature: a customer arrives and takes a number then the counter stays on that number for some time (the flat spots) until another customer arrives and the counter increases by one (the jumps).  In other words, an outcome is a nondecreasing *function* mapping the time interval $[0, \infty)$ to nonnegative integers $\{0, 1, 2, \ldots\}$, that only jumps by one unit at a time. The sample space consists of all possible *functions* of this form.
+
+```
+
+  
+
+(ref:cap-PP-outcome) Sample space outcomes for Example \@ref(exm:PP-outcome). Left: a single sample path of the number of customer arrivals over time.  Right: several possible paths.
+
+
+```{r PP-outcome-plot, echo=FALSE, fig.cap="(ref:cap-PP-outcome)", out.width='50%', fig.show='hold'}
+
+knitr::include_graphics(c("_graphics/PP-path-one.png", "_graphics/PP-path-several.png"))
+
+```
+
+
+
+
+Any random phenomenon has a corresponding sample space but in some situations explicitly defining a outcome is not feasible. For example, consider a single play in a basketball game.  The [SportsVU system](https://www.stats.com/sportvu-basketball/) uses cameras in arenas to record NBA games.  The outcome of a single play might look like the following video.
+
+
+[![SportsVU](https://grantland.com/wp-content/uploads/2013/03/gl_rapskts_57611.jpg)](https://youtu.be/5Sq_Z6Um3UM)
+
+In order to describe such an outcome, we need to specify (among other things): the location of each player and the ball, the passer and receiver of each pass, the defensive assignments, the location and shooter of each shot attempt and its result, and how it all evolves over time.  Representing all of this information in a compact way to define an outcome is virtually impossible.  Regardless, the sample space is still there in the background, whether we specify it or not.  Without a sample space representing what is possible, we would not be able to assess the relative likelihood of, say, a play resulting in a made three point field goal. 
+
+
+
+### Summary
+
+
+- The sample space is the set of all possible outcomes of a random phenomenon.
+- Outcomes can take a wide variety of forms.  In particular, outcomes do not need to be numbers.
+- Whenever possible, a sample space outcome should be defined to provide the maximum amount of information about the outcome of random phenomenon.
+
+In practice we rarely enumerate the sample space as we did for some of the examples in this section.  Nonetheless, there is always some underlying sample space corresponding to all possible outcomes of the random phenomenon.  Even though the sample space often plays a background role, it is important to first consider what is *possible* before determining what is *probable*.  The sample space essentially defines the denominator in probability calculations.  Considering the sample space can help distinguish between "what is the probability this happens to me?" and "what is the probability this happens to someone somewhere sometime?" (as discussed in Section XXX.)  
+
+## Events {#events}
+
+An event is something that could happen.  For example, if we're interested in the weather conditions in our city tomorrow, events include
+
+- "the high temperature is 75&deg;F"
+- "the high temperature is above 75&deg;F"
+- "it rains"
+- "it does not rain"
+- "it rains and the high temperature is above 75&deg;F"
+
+
+An outcome consists of all the information about tomorrow's weather conditions, while an *event* is a collection of outcomes that satisfy some criteria.  
+
+```{definition event}
+An **event** $A$ is a *subset* of the sample space: $A\subseteq \Omega$.  If the random phenomenon yields outcome $\omega$, we say "event $A$ occurred" if $\omega\in A$. The collection of all events of interest^[For the purposes of this text, $\mathcal{F}$ can be considered to be the set of all subsets of $\Omega$.  Technically, $\mathcal{F}$ is a *$\sigma$-field* of subsets of $\Omega$: $\mathcal{F}$ contains $\Omega$ and is closed under countably many elementary set operations (complements, unions, intersections). This requirement ensures that if $A$ and $B$ are "events of interest", then so are $A\cup B$, $A\cap B$, and $A^c$. While this level of technical detail is not needed, we prefer to introduce the idea of a "collection of events" now since a probability measure is a function whose input is an event (set) rather than an outcome (point).] is denoted $\mathcal{F}$.
+
+```
+
+
+The sample space is the collection of all possible outcomes. An event represents only those outcomes which satisfy some criteria. Events are typically denoted with capital letters near the start of the alphabet, with or without subscripts (e.g. $A$, $B$, $C$, $A_1$, $A_2$). Events can be composed from others using [basic set operations](https://en.wikipedia.org/wiki/Set_(mathematics)#Basic_operations) like unions ($A\cup B$), intersections ($A \cap B$), and complements ($A^c$).
+
+  - Read $A^c$ as "not" $A$.
+  - Read $A\cap B$ as "$A$ and $B$"
+  - Read $A \cup B$ as "$A$ or $B$".  Note that unions ($\cup$, "or") are always inclusive.  $A\cup B$ occurs if $A$ occurs but $B$ does not, $B$ occurs but $A$ does not, or both $A$ and $B$ occur.
+
+
+```{example dice-event}
+Roll a four-sided die *twice*, and record the result of each roll in sequence.  Using the sample space from Example \@ref(exm:dice-outcome), identify the following events.
+```
+
+1. $A$, the event that the sum of the two dice is 4.
+1. $B$, the event that the sum of the two dice is at most 3.
+1. Donny Don't says "we should just consider the sample space to be $\{2, \ldots, 8\}$" so that $A = 4$ and $B = \{2, 3\}$.  Do you agree?  (Also, can you spot the subtle mistake that Donny made?)
+1. Identify $C$, the event that the larger of the two rolls (or the common roll if a tie) is 3
+1. Identify and interpret $A\cap C$.
+1. Donny Don't says that $D$, the event that the first roll is a 3, is $D=\{3\}$. Explain to Donny his mistake, and identify event $D$.
+1. Identify $E$, the event that the second roll is a 3.
+1. Identify and interpret $D \cap E$.
+1. Identify and interpret $D \cup E$.
+1. If the outcome is $(1, 3)$, which of the events above occurred?
+
+```{solution dice-event-sol}
+to Example \@ref(exm:dice-event)
+```
+
+1. Remember that the sample space consists of 16 possible ordered pairs of rolls
+\begin{align*}
+\Omega & = \{(1, 1), (1, 2), (1, 3), (1, 4),\\
+& \qquad (2, 1), (2, 2), (2, 3), (2, 4),\\
+& \qquad (3, 1), (3, 2), (3, 3), (3, 4),\\
+& \qquad (4, 1), (4, 2), (4, 3), (4, 4)\}
+\end{align*}
+(See also Table \@ref(tab:dice-outcome-sol-table).) All events must be defined as subsets of this sample space. So $A=\{(1, 3), (2, 2), (3, 1)\}$ is the event that the sum of the two dice is 4.
+1. $B=\{(1, 1), (1, 2), (2, 1)\}$ is the event that the sum of the two dice is at most 3.
+1. Tell Donny it's better to use the sample space from Example \@ref(exm:dice-outcome) since we might be interested in events other than ones that involve the sum of the dice, like those in the following parts.  Knowing just the sum of the dice does not provide enough information to investigate events like whether the larger of the two rolls is a 3.  (Donny has also made a subtle mistake in writing $A = 4$. An event is always a set, even if it contains just a single outcome. Given Donny's sample space, he should have written $A = \{4\}$.)
+1. $C=\{(1, 3), (2, 3), (3, 1), (3, 2), (3, 3)\}$, the event that the larger of the two rolls (or the common roll if a tie) is 3
+1. $A\cap C=\{(1, 3), (3, 1)\}$ is the event that both the sum of the two dice is 4 and the larger of the two rolls is 3.
+1. Tell Donny that each outcome in the sample space consists of a pair of rolls, so we must account for both rolls in defining events, even if the event of interest involves just the first roll.  (Remember, there is always a single sample space upon which all events are defined.) $D=\{(3, 1), (3, 2), (3, 3), (3, 4)\}$ is the event that the first roll is a 3.
+1. $E=\{(1, 3), (2, 3), (3, 3), (4, 3)\}$, the event that the second roll is a 3.  Note that this is not the same event as $D$.
+1. $D \cap E = \{(3, 3)\}$ is the event that both rolls result in a 3.  That is, (3, 3) is the only outcome that satisfies both events $D$ and $E$. While an event is always a set, it can be a set consisting of a single outcome (or the empty set).
+1. $D \cup E = \{(3, 1), (3, 2), (3, 3), (3, 4), (1, 3), (2, 3), (4, 3)\}$ is the event that at least one of the two rolls results in a 3.  Notice that the union is inclusive: $(3, 3)$, the outcome that satisfies both $D$ and $E$, is an element of $D\cup E$. But also notice that the outcome $(3, 3)$ only appears once in the set $D \cup E$.
+1. If the outcome is $(1, 3)$ then events $A$, $C$, $A\cap C$, $E$, $D\cup E$ all occur.  Events $B,$ $D,$ and $D\cap E$ do not occur.
+
+
+
+We reiterate (again!) that there is a single sample space, upon which all events are defined. In the above example, events that involved only the first or second roll such as $D$ and $E$ were still defined in terms of pairs of rolls. An outcome in a sample space should be defined to record as much information as possible so that the occurrence or non-occurrence of all events of interest can be determined.
+
+
+While an event is always a set, it can be a set consisting of a single outcome, or a set consisting of no outcomes at all (the empty set $\emptyset$).
+
+```{definition disjoint}
+Two events $A$ and $B$ are **disjoint** (a.k.a. mutually exclusive) if $A\cap B=\emptyset$. That is, $A$ and $B$ are disjoint if they have no outcomes in common.
+
+A collection of events $A_1, A_2, \ldots$ are **disjoint** (a.k.a. mutually exclusive) if $A_i \cap A_j = \emptyset$ for all $i \neq j$. That is, multiple events are disjoint if none of the events have any outcomes in common.
+
+```
+
+```{example dice-event-disjoint}
+Continuing Example \@ref(exm:dice-event).
+```
+
+1. Identify two events that are disjoint.
+1. Are the events $A, B, C$ disjoint?
+
+
+```{solution dice-event-disjoint-sol}
+to Example \@ref(exm:dice-event-disjoint)
+```
+
+1. Events $A$ and $B$ are disjoint.  It is not possible for an outcome to satisfy both criteria "the sum is 4" and "the sum is at most 3".
+1. No, because $A\cap C \neq \emptyset$ since there are outcomes that satisfy both criteria "the sum is 4" and "the larger roll is 3".
+
+
+```{example coin-event}
+Consider the outcome of a sequence of 4 flips of a coin. Using the sample space from Example \@ref(exm:coin-outcome), identify the following events.
+```
+
+1. Identify $A$, the event that exactly 3 of the flips land on heads.
+1. Identify $B$, the event that exactly 4 of the flips land on heads.
+1. Identify $C$, the event that the at least 3 of the flips land on heads.  How does $C$ relate to $A$ and $B$?
+1. The previous events all consider the number of heads flipped.  Explain why we don't just consider the sample space to be $\{0, 1, 2, 3, 4\}$, so that for example $C = \{3, 4\}$.
+1. Identify $D$, the event that at least 3 heads are flipped in a row.
+1. Identify $E$, the event that the first two flips results in tails.
+1. Identify $D\cap E$.
+1. If the outcome is HHTH, which of the events above occurred?
+
+```{solution coin-event-sol}
+to Example \@ref(exm:coin-event)
+```
+
+
+1. $A = \{HHHT, HHTH, HTHH, THHH\}$ is the event that exactly 3 of the flips land on heads
+1. $B = \{HHHH\}$, the event that exactly 4 of the flips land on heads.  While an event is always a set, it can be a set consisting of a single outcome.
+1. $C = \{HHHT, HHTH, HTHH, THHH, HHHH\}$ is the event that the at least 3 of the flips land on heads.  Also $C = A \cup B$.
+1. Yes, the previous events all consider the number of heads flipped, but we might be interested in events --- like the ones in the following parts --- whose occurrence cannot be determined simply by knowing the number of heads.  The sample space should always to defined in such a way to provide enough information to investigate any relevant event of interest.  There is always a single sample space upon which all events are defined.
+1. $D = \{HHHT, THHH, HHHH\}$ is the event that at least 3 heads are flipped in a row.  Note that $D$ is not the same event as $C$.
+1. $E = \{TTHH, TTHT, TTTH, TTTT\}$ is the event that the first two flips result in tails.  Note that each outcome consists of the results of 4 flips, so we must account for all 4 flips in defining events.  There is always a single sample space upon which all events are defined.
+1. $D\cap E=\emptyset$ so the events $D$ and $E$ are disjoint; it is not possible to have at least three heads in a row when the first two flips (out of 4) are tails.
+1. If the outcome is HHTH then events $A$ and  $C$ occur.  Events $B$, $D$, $E$, and $D \cap E$ do not occur. 
+
+```{example matching-event, name='Matching problem'}
+Recall the "matching problem". A geology museum in California has four different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order.  We might be interested in things like whether all the rocks are put back in the correct spot, or none are, or if the heaviest rock is put back in the correct spot.
+
+Using the sample space from Example \@ref(exm:matching-outcome), identify the following events.
+```
+
+1. $A$, the event that all rocks are put in the correct spot.
+1. $B$, the event that no rocks are put in the correct spot.
+1. $C$, the event that exactly 3 rocks are put in the correct spot.
+1. $D$, the event that rock 3 is put (correctly) in spot 3.
+
+```{solution matching-event-sol}
+to Example \@ref(exm:matching-event)
+```
+
+1. Recall that each outcome is a particular placement of rocks in the spots.  For example, the outcome 3214 (or $(3, 2, 1, 4)$) represents that rock 3 is put in spot 1, rock 2 in spot 2, rock 1 in spot 3, and rock 4 in spot 4.  There is only one outcome, 1234, for which all rocks are put in the correct spot, so $A=\{1234\}$. Remember that an event is always a set, but it can be a set consisting of a single outcome.
+1. For each outcome in the sample space check to see if the criteria holds to identify $B=\{2143, 2341, 2413, 3142, 3412, 3421, 4123, 4312, 4321\}$ as the event that no rocks are put in the correct spot.  
+1. There are no outcomes in which exactly 3 rocks are put in the correct spot so $C=\emptyset$. (If three rocks are in their correct spots, then the remaining rock must be in its correct spot too.)
+1. $D=\{1234, 1432, 2134, 2431, 4132, 4231\}$ is the event that rock 3 is put (correctly) in spot 3. Even though event $D$ only concerns rock 3, since the sample space consists of the placements of each of the rocks then all events must be expressed in terms of these outcomes.
+
+When more than just a few events are of interest, subscripts are commonly used to identify different events, as in the following example.
+
+
+```{example sampling-event}
+In the context of Example \@ref(exm:sampling-outcome), let $A_i$ be the event that phone number $i$ is selected for the sample, $i=1, 2, 3, 4, 5$. Using the sample space from Example \@ref(exm:sampling-outcome) identify the following events, both in terms of $A_i$'s and as subsets of the sample space.
+
+```
+
+1. The event that phone number 1 is selected for the sample.
+1. The event that phone number 4 is selected for the sample.
+1. The event that phone numbers 1 and 4 are selected for the sample.
+1. The event that phone numbers 1 or 4 are selected for the sample.
+1. The event that phone numbers 1, 4, and 5 are selected for the sample.
+1. The event that phone numbers 1, 4, or 5 are selected for the sample.
+
+```{solution sampling-event-sol}
+to Example \@ref(exm:sampling-event)
+```
+
+1. The event $A_1=\{\{1, 2, 3\}, \{1, 2, 4\}, \{1, 2, 5\}, \{1, 3, 4\}, \{1, 3, 5\}, \{1, 4, 5\}\}$ consists of the samples which include phone number 1. Even though event $A_1$ only concerns phone number 1, since the sample space consists of sets (samples) of size 3 then all events must be expressed in terms of these outcomes.
+1. The event $A_4=\{\{1, 2, 4\}, \{1, 3, 4\}, \{1, 4, 5\}, \{2, 3, 4\}, \{2, 4, 5\}, \{3, 4, 5\}\}$ consists of the samples which include phone number 4.
+1. The event $A_1\cap A_4=\{\{1, 2, 4\}, \{1, 3, 4\}, \{1, 4, 5\}\}$ consists of the samples which include both phone numbers 1 and 4.
+1. The event $A_1\cup A_4=\{\{1, 2, 3\}, \{1, 2, 4\}, \{1, 2, 5\}, \{1, 3, 4\}, \{1, 3, 5\}, \{1, 4, 5\}, \{2, 3, 4\}, \{2, 4, 5\}, \{3, 4, 5\}\}$ consists of the samples which include either phone number 1 or 4 (or both).
+1. The event $A_1\cap A_4\cap A_5=\{\{1, 4, 5\}\}$ consists of the only outcome in which phone numbers 1, 4, and 5 are selected.
+1. The event $A_1\cup A_4\cup A_5=\Omega$ is the event that phone numbers 1, 4, or 5 are selected for the sample.  Since only two of the five numbers are not selected from the sample, at least one of the numbers 1, 4, or 5 must be included in the sample.
+
+
+Remember that intervals of real numbers such as $(a,b), [a,b], (a,b]$ are also sets, and so can also be events.  For example, if an outcome is the result of a single spin of the spinner in Figure \@ref(fig:uniform-spinner), events include
+
+- $[0, 0.5]$, the result is between 0 and 0.5 (the needle lands in the right half of the spinner)
+- $[0.75, 1]$, the result is between 0.75 and 1 (the needle lands in the northwest quarter of the spinner)
+- $[0.595, 0.605)$, the result rounded to two decimal places is 0.6
+- $\{0.6\}$, the result is 0.6 exactly (the needle points exactly at 0.60000000$\ldots$)
+
+It is often helpful to conceptualize and visualize events (sets) with pictures, as in the following example.
+
+```{example meeting-event}
+
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  Using the sample space from Example \@ref(exm:meeting-outcome), identify the following events using both mathematical notation and symbols.  (Hint: see Figure \@ref(fig:meeting-outcome-plot).)
+
+```
+
+
+1. Identify $A$, the event that Regina arrives after Cady.
+1. Identify $B$, the event that either Regina or Cady arrives before 12:30.
+1. Identify $C$, the event that Regina arrives at most 15 minutes after Cady (and Cady arrives first).
+1. Identify $D$, the event that Regina arrives before 12:24.
+
+
+
+
+```{solution meeting-event-sol}
+
+to Example \@ref(exm:meeting-event)
+
+```
+
+1. See Figure \@ref(fig:uniform-event-plot) for pictures. Recall that an outcome is a pair of values $\omega = (\omega_1, \omega_2)$ corresponding to the arrival times of (Regina, Cady), and that $[0, 1]$ corresponds to the one hour time interval from noon (0) to 1. $A = \{(\omega_1, \omega_2): \omega_1>\omega_2\}$ is the event that Regina arrives after Cady.  (Throughout we only consider $(\omega_1, \omega_2)$ in the sample space $[0, 1]\times[0,1]$; the conditions $0\le \omega_1 \le 1, 0\le \omega_2 \le 1$ are assumed.)
+1. $B = \{(\omega_1, \omega_2): \omega_1<0.5 \text{ or } \omega_2<0.5\}$ is the event that either Regina or Cady arrives before 12:30.  This event is the complement of the event that both arrive after 12:30, $B = ([0.5, 1]\times[0.5, 1])^c$. The event $B$ can also be written as $\{(\omega_1, \omega_2): \min(\omega_1,\omega_2)<0.5\}$, the event that the earlier of the two arrival times is before 12:30.
+1. $C = \{(\omega_1, \omega_2): \omega_2<\omega_1\le \omega_2+0.25\} = \{(\omega_1, \omega_2): \omega_1 > \omega_2\ge \omega_1 - 0.25\}$ is the event that Regina arrives at most 15 minutes after Cady (and Cady arrives first).
+1. $D = \{(\omega_1, \omega_2): \omega_1<0.4\}$ is the event that Regina arrives before 12:24. Even though event $D$ only concerns Regina, since the sample space consists of pairs of arrival times then all events must be expressed in terms of these outcomes.
+
+
+(ref:cap-uniform-event) Illustration of the events in Exercise \@ref(exm:meeting-event). The square represents the sample space $\Omega=[0,1]\times[0,1]$.
+
+
+```{r uniform-event-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-uniform-event)"}
+
+dfA <- data.frame(x = c(0, 1, 1, 1),
+                 y = c(0, 0, 1, 1),
+                 v = c(1, 1, 1, 1))
+
+pA <- ggplot(data = dfA, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Event A is shaded") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+dfB <- data.frame(x = c(0.5, 1, 1, 0.5),
+                  y = c(0.5, 0.5, 1, 1),
+                  v = c(1, 1, 1, 1))
+
+pB <- ggplot(data = dfB, aes(x = x, y = y)) +
+  geom_polygon(fill = "white", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(panel.background = element_rect(fill = "cornflowerblue",
+                                    colour = "cornflowerblue")) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Event B is shaded") +
+  theme(plot.title = element_text(hjust = 0.5))
+  
+
+# dfC <- data.frame(x = c(1, 1, 0.5, 1),
+#                   y = c(0.5, 0.5, 1, 1),
+#                   v = c(1, 1, 1, 1))
+# 
+# pC <- ggplot(data = dfC, aes(x = x, y = y)) +
+#   geom_polygon(fill = "cornflowerblue", show.legend = FALSE) +
+#   scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+#   scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+#   theme_classic() +
+#   theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+#   theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+#   xlab(expression(omega[1] ~ "(Regina)")) +
+#   ylab(expression(omega[2] ~ "(Cady)")) +
+#   ggtitle("Event C is shaded") +
+#   theme(plot.title = element_text(hjust = 0.5))
+
+
+dfC <- data.frame(x = c(0, 0.25, 1, 1),
+                 y = c(0, 0, 0.75, 1),
+                 v = c(1, 1, 1, 1))
+
+pC <- ggplot(data = dfC, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Event C is shaded") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+dfD <- data.frame(x = c(0, 0.4, 0.4, 0),
+                  y = c(0, 0, 1, 1),
+                  v = c(1, 1, 1, 1))
+
+pD <- ggplot(data = dfD, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Event D is shaded") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+library(ggpubr)
+ggarrange(pA, pB, pC, pD, ncol = 2, nrow = 2)
+
+```
+
+
+<!-- ```{example, sat-event} -->
+<!-- Consider as a sample space all possible scores on the SAT Math exam (ranging from 200 to 800).  Even though actual scores are multiples of 10, it is mathematically convenient to consider the sample space as $\Omega=[200, 800]$, the set of all real numbers between 200 and 800 (rather than $\{200, 210, 220, \ldots, 800\}$.) -->
+<!-- ``` -->
+<!-- 1. Identify $A$, the event that an SAT Math score is at most 700. -->
+<!-- 1. Identify $B$, the event that an SAT Math score is greater than 500. -->
+<!-- 1. Identify and interpret $A\cap B$. -->
+
+<!-- ```{solution sat-event-sol} -->
+<!-- to Example \@ref(exm:sat-event) -->
+<!-- ``` -->
+
+<!-- 1. $A=[200, 700]$ is the event that an SAT Math score is at most 700. -->
+<!-- 1. $B=(500, 800]$ is the event that an SAT Math score is greater than 500. -->
+<!-- 1. $A\cap B = (500, 700]$ is the event that an SAT Math score is greater than 500 but at most 700. -->
+
+
+
+```{example dd-event, name='(ref:ddwddd)'}
+Donny Don't is asked a series of questions involving a pair of rolls of six-sided dice, such as "what is the event that the sum of the dice is at least 10".  Donny's responses are below; explain to him what is wrong with his responses and help him understand the correct answers.
+```
+
+1. The possible rolls are 1 through 6, so the sample space is $\{1, 2, 3, 4, 5, 6\}$.
+1. The sum of the two dice can be 2 through 12, so the event that the sum of the two dice is at least 10 is $\{10, 11, 12\}$.
+1. The event that the first roll is a 3 is $\{3\}$.
+1. The event that the first roll is a 3 and the second roll is a 1 is $\{3, 1\}$
+1. Donny's sample space from the first question might correspond to what dice rolling scenario? What does $\{3, 1\}$ represent in this scenario?
+
+```{solution dd-event-sol}
+to Example \@ref(exm:dd-event)
+```
+
+1. The questions involve a pair of rolls, so best to record an outcome as an ordered pair, e.g., (5, 2) for 5 on the first roll and 2 on the second.  Therefore, the sample space would be the following set of 36 possible outcomes.
+\begin{align*}
+\Omega  = & \{
+(1, 1), (1, 2), \ldots, (1, 6),\\
+& \;\; (2, 1), (2, 2), \ldots, (2, 6),\\
+& \;\; \vdots\qquad \qquad \quad \cdots \qquad \vdots\\
+& \;\; (6, 1), (6, 2), \ldots, (6, 6)
+\}
+\end{align*}
+1. Donny's answers to the first two parts are inconsistent, since there is always a single sample space.  So if he says the answer to the first part is $\{1, \ldots, 6\}$, then any event must be a subset of that sample space and his answer to the second part must be wrong.  Using the sample space of 36 ordered pairs from the previous answer, the correct event that the sum of the two dice is at least 10 is
+$\{(4, 6), (5, 5), (5, 6), (6, 4), (6, 5), (6, 6)\}$.
+If Donny's sample space in the first part had been $\{2, \ldots, 12\}$, corresponding to the sum of the two dice, then his answer of $\{10, 11, 12\}$ would have been correct.  However, using such a sample space, he would not have been able to answer the remaining questions (which don't involve the sum of the rolls).  There is always one sample space on which all events are defined.
+1. Donny didn't take into account that an outcome is a pair of rolls.  The correct event is $\{(3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6)\}$, the set of all pairs of rolls for which the first roll is 3.
+1. Maybe Donny is just using bad notation here, but it sure looks like he is confusing an outcome with an event.  The answer should be $\{(3, 1)\}$, the set containing the single outcome $(3, 1)$.  Notice that this is not the same set as $\{(1, 3)\}$. (But the set $\{3, 1\}$ is the same as the set $\{1, 3\}$.) 
+1. The sample space of $\{1, 2, 3, 4, 5, 6\}$ could correspond to a *single* roll of a fair six-sided die.  In this case, the event $\{3, 1\}$ would be the event that the roll results in either either a 3 or a 1.  (The set $\{3, 1\}$ is the same as the set $\{1, 3\}$.)
+
+
+
+### The collection of events of interest {#sigmafield}
+
+An event $A$ is a set.  The collection $\mathcal{F}$ of "events of interest" is a *collection of sets*. For the purposes of this text, $\mathcal{F}$ can be considered to be the set of all subsets of $\Omega$.
+
+As an example, consider a *single* roll of a four-sided die. (Don't confuse this scenario with previous examples that involved two rolls.)  The sample space consists of the four possible outcomes $\Omega = \{1, 2, 3, 4\}$.  (Again, don't confuse this scenario with previous examples.) Any subset of this sample space is an event.  The following table lists he collection of all events ($\mathcal{F}$), and whether they occur if the single roll results in a 3 (that is, for the outcome $\omega=3$).
+
+| Event | Description | Occurs upon observing outcome $\omega=3$?
+| --- | --- | --- |
+| $\emptyset$ | Roll nothing (not possible) | No |
+$\{1\}$ | Roll a 1 | No | 
+$\{2\}$ | Roll a 2 | No | 
+$\{3\}$ | Roll a 3 | Yes | 
+$\{4\}$ | Roll a 4 | No | 
+$\{1, 2\}$ | Roll a 1 or a 2 | No | 
+$\{1, 3\}$ | Roll a 1 or a 3 | Yes |
+$\{1, 4\}$ | Roll a 1 or a 4 | No | 
+$\{2, 3\}$ | Roll a 2 or a 3 | Yes |
+$\{2, 4\}$ | Roll a 2 or a 4 | No |
+$\{3, 4\}$ | Roll a 3 or a 4 | Yes | 
+$\{1, 2, 3\}$ | Roll a 1, 2, or 3 (a.k.a. do not roll a 4) | Yes | 
+$\{1, 2, 4\}$ | Roll a 1, 2, or 4 (a.k.a. do not roll a 3) | No |
+$\{1, 3, 4\}$ | Roll a 1, 3, or 4 (a.k.a. do not roll a 2) | Yes | 
+$\{2, 3, 4\}$ | Roll a 2, 3, or 4 (a.k.a. do not roll a 1) | Yes |
+$\{1, 2, 3, 4\}$ | Roll something | Yes |
+
+A random phenomenon corresponds to a single sample space, but there are many events of interest. Listing the collection of all possible events as in the previous table is rarely done in practice, but we do so here to provide a concrete example of $\mathcal{F}$. 
+
+
+
+
+### Summary
+
+- An outcome $\omega$ is a point.
+- The sample space $\Omega$ is the set of all possible outcomes.
+- An event $A$ is a collection of outcomes that satisfy some particular criteria.  That is, an event is a subset of the sample space, $A\subseteq\Omega$.
+- There are many events (sets) of interest associated with a random phenomenon. This collection of events (sets) is what  $\mathcal{F}$ represents.
+- All events of interest are defined in terms of a single sample space.
+- An event can be a set consisting of a single outcome, or no outcomes at all (the empty set $\emptyset$).
+- Events can be composed from others using [basic set operations](https://en.wikipedia.org/wiki/Set_(mathematics)#Basic_operations) like unions ($A\cup B$), intersections ($A \cap B$), and complements ($A^c$).
+  - Read $A^c$ as "not" $A$.
+  - Read $A\cap B$ as "$A$ and $B$"
+  - Read $A \cup B$ as "$A$ or $B$".  Note that unions ($\cup$, "or") are always inclusive.  $A\cup B$ occurs if $A$ occurs but $B$ does not, $B$ occurs but $A$ does not, or both $A$ and $B$ occur.
+- Pictures can be used to conceptualize and visualize events.
+
+
+## Random variables {#rv}
+
+
+
+
+
+Statisticians use the terms *observational unit* and *variable*.  Observational units are the people, places, things, etc., for which data are observed.  Variables are the measurements made on the observational units.  For example, the observational units in a study could be college students, while variables could be age, high school GPA, college GPA, SAT score, years in college, number of Statistics courses taken, etc.
+
+In probability, an *outcome* of a random phenomenon plays a role analogous to an observational unit in statistics.  The sample space of outcomes is often only vaguely defined.  In many situations we are less interested in detailing the outcomes themselves and more interested in whether or not certain events occur, or with measurements that we can make for the outcomes.  For example, if the random phenomenon corresponds to randomly selecting a sample of students at a college, an outcome could be the list of students selected for the sample. But we are less interested in who the students are, and more interested in questions which involve variables, such as: what is the distribution of SAT scores? What is the relationship between high school GPA and college GPA?  What is the average number of years before graduation? In probability, *random variables* play a role analogous to variables in statistics.
+
+Roughly, a random variable assigns a number measuring some quantity of interest to each outcome of a random phenomenon.  For example, if we're interested in the weather conditions in our city tomorrow, random variables include
+
+- high temperature (&deg;F)
+- amount of precipitation (inches)
+- Humidity (%)
+- Maximum wind speed (mph)
+
+
+
+```{definition rv}
+
+A **random variable (RV)** $X$ is a *function* that takes an outcome in the sample space as input and returns a real number as output; that is, $X:\Omega \mapsto \mathbb{R}$.   The value that the random variable $X$ assigns to the outcome $\omega$ is denoted $X(\omega)$.
+
+```
+
+
+
+
+```{example coin-rv}
+
+Consider the outcome of a sequence of 4 flips of a coin. One random variable is $X$, the number of heads flipped. Use the sample space from Example \@ref(exm:coin-outcome) to answer the following.
+
+```
+
+1. Explain why $X$ is a random variable.
+1. Evaluate each of the following: $X(HHHH), X(HTHT), X(TTHH)$.
+1. Identify the possible values of $X$. Why not let the sample space just consist of this set of possible values?
+
+```{solution coin-rv-sol}
+to Example \@ref(exm:coin-rv)
+
+```
+
+1. $X$ maps each outcome to a number via the function "count the number of heads".
+1. $X(HHHH) = 4, X(HTHT) = 2, X(TTHH) = 2$.
+1. The possible values of $X$ are $0, 1, 2, 3, 4$.  (Don't forget 0.) You might ask: if we only care about the number of heads, why bother with the coin flip sequence at all?  That is, why not define the sample space as $\{0, 1, 2, 3, 4\}$ rather than $\{HHHH, HHHT, HHTH, \ldots\}$.  The main reason^[Another less important reason is that is often convenient to work with sample spaces in which the outcomes are equally likely. For four flips of a fair coin the outcomes  $HHHH, HHHT, HHTH, \ldots$ are equally likely, but the values $0, 1, 2, 3, 4$ are not equally likely for the number of heads.] is that recording only the number of heads would not allow us to investigate other random variables like the longest number of heads in a row, or the proportion of heads on trials that follow heads.  
+
+
+The main reason for modeling a sample space as the set of possible outcomes rather than the set of all possible values of some random variable is that **we often want to define many random variables on the same sample space, and study relationships between them**.  As a statistics analogy, you would not be able to study the relationship between SAT scores and college GPA unless you measured both variables for the same set of observational units.     
+
+In statistics, data is often stored in a spreadsheet (or flat file) with rows corresponding to observational units and columns to variables.  Likewise, in probability it helps to conceptualize or visualize a table with rows corresponding to outcomes and columns to random variables.
+
+
+
+```{example dice-rv}
+Roll a four-sided die *twice*, and record the result of each roll in sequence.  Recall the sample space from Example \@ref(exm:dice-outcome). Let $X$ be the sum of the two dice, and let $Y$ be the larger of the two rolls (or the common value if both rolls are the same).  
+
+```
+
+1. Evaluate $X((1, 3))$, $X((4, 3))$, and $X((2,2))$.
+1. Evaluate $Y((1, 3))$, $Y((4, 3))$, and $Y((2,2))$.
+1. Construct a table identifying the values of $X$ and $Y$ for each outcome in the sample space. 
+1. Identify the possible values of $X$.
+1. Identify the possible values of $Y$.
+1. Identify the possible values of the pair $(X, Y)$.
+
+```{solution dice-rv-sol}
+to Example \@ref(exm:dice-rv)
+```
+
+1. $X$ is the sum of the two rolls, so $X((1, 3))=4$, $X((4, 3))=7$, and $X((2,2))=4$.
+1. $Y$ is the larger of the two rolls (or the common value if a tie) so $Y((1, 3))=3$, $Y((4, 3))=4$, and $Y((2,2))=2$.
+1. See Table \@ref(tab:dice-rv-sol-table). The first column corresponds to sample space outcomes, and there is a column for each random variable.  
+
+    ```{r, dice-rv-sol-table, echo = FALSE}
+    u1 = sort(rep(1:4, 4))
+    u2 = rep(1:4, 4)
+    x = u1 + u2
+    y = pmax(u1, u2)
+    
+    knitr::kable(
+      data.frame(paste("(", u1, ", ", u2, ")", sep=""), x, y),
+      col.names = c("Outcome (First roll, second roll)", "X (sum)", "Y (max)"),
+      booktabs = TRUE,
+      caption = 'Table representing the sum ($X$) and larger ($Y$) of two rolls of a four-sided die'
+    )
+    ```  
+
+1. The possible values of $X$ are $\{2, 3, 4,5,6,7, 8\}$
+1. The possible values of $Y$ are $\{1, 2, 3, 4\}$
+1. The possible values of the pair $(X, Y)$ are $\{(2, 1), (3, 2), (4, 2), (4, 3), (5, 3), (5, 4), (6, 3), (6, 4), (7, 4), (8,4)\}$.   Notice that while, for example, 8 is a possible value of $X$ and 1 is a possible value of $Y$, (8, 1) is not a possible value of the pair $(X, Y)$; it's not possible for the larger of the two dice to be 1 but their sum to be 8.
+
+
+Random variables are typically denoted by capital letters near the end
+of the alphabet, with or without subscripts: e.g. $X$, $Y$, $Z$, or $X_1$, $X_2$, $X_3$, etc. The random variable itself is typically denoted with a capital letter ($X$); possible values of that
+random variable are denoted with lower case letters ($x$).  Think of the capital letter $X$ as a label standing in for a formula like "the number of heads in 4 flips of a coin" and $x$ as a dummy variable
+standing in for a particular value like 3.
+
+
+
+
+In the previous example, the pair $V=(X, Y)$ is a random vector.  The output of each of $X$ and $Y$ is a number; the output of $V$ is an ordered pair of numbers. A $d$-dimensional **random vector** $V$ maps sample space outcomes to $d$-dimensional vectors, $V:\Omega \mapsto \mathbb{R}^d$. The output of a random vector is a vector (or tuple) of numbers. More simply, *a random vector is a vector of random variables*. We introduce the notion of a random vector mainly to emphasize that there are often multiple random variables of interest in a problem.  For example, considering tomorrow's weather conditions, we might measure all of (high temperature, precipitation, humidity, max wind speed).  
+
+There are two main types of random variables.
+
+- **Discrete random variables** take at most countably many possible values (e.g., $0, 1, 2, \ldots$).  They are often counting variables (e.g., the number of Heads in 10 coin flips).
+- **Continuous random variables** can take any real value in some interval (e.g., $[0, 1]$, $[0,\infty)$, $(-\infty, \infty)$.).  That is, continuous random variables can take uncountably many different values.  Continuous random variables are often measurement variables (e.g., height, weight, income).
+
+In some problems, there are *many* random variables of interest, as in the following example.
+
+```{example PP-rv}
+
+Customers enter a deli and take a number to mark their place in line.  When the deli opens the counter starts 0; the first customer to arrive takes number 1, the second 2, etc.  We record the counter over time, continuously, as it changes as customers arrive.  Time is measured in minutes after the deli opens (time 0). A sample space outcome could be represented as a path of the number of customers over time; a few such paths are illustrated in Figure \@ref(fig:coin-sim2).  Notice the stairstep feature: a customer arrives and takes a number then the counter stays on that number for some time (the flat spots) until another customer arrives and the counter increases by one (the jumps).
+
+There are many random variables that could be of interest, including
+
+- $N_t$, the number of customers that have arrived by time $t$, where $t\ge0$ is minutes after time 0
+- $T_j$, the time (in minutes after time 0) at which the $j$th customer arrives, for $j=1, 2, \ldots$
+- $W_j$, the "waiting" time (in minutes) between the arrival of the $j$th and the $(j-1)$th customer.
+
+```
+
+  
+
+(ref:cap-PP-rv) Sample space outcomes for Example \@ref(exm:PP-rv). Left: a single sample path of the number of customer arrivals over time.  Right: several possible paths.
+
+
+```{r PP-rv-plot, echo=FALSE, fig.cap="(ref:cap-PP-rv)", out.width='50%', fig.show='hold'}
+
+knitr::include_graphics(c("_graphics/PP-path-one.png", "_graphics/PP-path-several.png"))
+
+```
+
+Classify each of the following random variables as discrete or continuous.  Then for the outcome represented by the path in the plot on the left in Figure \@ref(fig:PP-rv-plot), identify (as best as you can from the plot) the value of the following random variables.
+
+1. $N_4$
+1. $N_{6.5}$
+1. $T_4$
+1. $T_5$
+1. $W_1$
+1. $W_5$
+
+
+```{solution PP-rv-sol}
+to Example \@ref(exm:PP-rv)
+```  
+
+1. The random variables $N_4$ and $N_{6.5}$ count the number of customers who have arrived so far at different times; these are discrete random variables each taking values in the countable set $\{0, 1, 2, \ldots \}$.  The random variables $T_4$, $T_5$, $W_1$, and $W_5$ are continuous random variables; they each take values in the continuous time interval $[0, \infty)$.
+1. Find time $t=3$ on the horizontal axis and find the corresponding value on the vertical axis. If $\omega$ is the outcome represented by the plot on the left, then for this outcome $N_4(\omega)=3$; the number of customers that have arrived by time 4 is 3.
+1. For this outcome $N_{6.5}(\omega)=5$; the number of customers that have arrived by time 6.5 is 5.  The number of customers is a whole number, but time is measured continuously (e.g., 6.5 minutes after opening).  There is a different random variable $N_t$ corresponding to each value of time $t\ge 0$, but the possible values of each of these variables are $\{0, 1, 2, \ldots\}$.
+1. The fourth customer arrives when the path jumps from 3 customers so far to 4. For this outcome the path jumps from 3 to 4 a little after time 5 so $T_4(\omega)\approx 5.1$. 
+1. The fifth customer arrives when the path jumps from  4 customers so far to 5. For this outcome the path jumps from 4 to 5 a little before time 6 so $T_5(\omega)\approx 5.9$. There is a random variable $T_j$ for each customer $j=1, 2, \ldots$, but the possible values of each of these random variables is $[0,\infty)$.
+1. $W_1$ is the waiting time from open until the first customer arrives (when the counter jumps from 0 to 1) which seems to happen at about time 2, so $W_1(\omega)\approx 2$.
+1. For this outcome $W_5(\omega)\approx 0.8$. $W_5$ is the time elapsed between the arrival of the fourth customer (at roughly time 5.1 for outcome $\omega$) and fifth customer (at roughly time 5.9 for outcome $\omega$), which is about 0.8 minutes.
+
+
+
+### A random variable is a function {#rv-function}
+
+<!-- Add pictures here of scale input output -->
+
+Recall that for a mathematical function^[Throughout, we use $g$ to denote a generic function, and reserve $f$ to represent a probability density function.  Likewise, we represent a generic function argument (or "dummy variable") with $u$, since $x$ is often used to represent possible values of a random variable $X$. In the context of a random variable, $x$ typically represents the *output* of the function $X$ rather than the input (which is a sample space outcome $\omega$.)] $g$, given an input $u$, the function returns a real number $g(u)$.  For example, if $g(u) = \sqrt{u}$ then $g(9) = 3$. If the input comes from some set $S$ (i.e. $u\in S$), we often write $g:S\mapsto \mathbb{R}$.
+<!-- For example, if $g(u)=\sqrt{u}$ then $S=[0,\infty)$ since we can't take the square root of a negative number. -->
+
+Likewise, a random variable $X$ is a function which maps each outcome $\omega$ in the sample space $\Omega$ to a real number $X(\omega)$; $X:\Omega\mapsto\mathbb{R}$.  For a single outcome $\omega$, the value $x = X(\omega)$ is a single number; notice that $x$ represents the *output* of the function $X$ rather than the input.  However, it is important to remember that the RV $X$ itself is a *function*, and *not* a single number.
+
+You are probably familiar with functions expressed as simple closed form formulas of their inputs: $g(u)=5u$, $g(u)=u^2$, $g(u)=e^u$, etc.  While any random variable is some function, the function is rarely specified as an explicit mathematical formula of its input $\omega$.  Often, outcomes are not even numbers (e.g., sequences of coin flips), or only vaguely specified if at all (e.g., possible paths of a hurricane, tomorrow's weather conditions).  In Example \@ref(exm:coin-rv) we defined $X$ only through the words "number of flips that land on heads"; translating even this simple situation into a formula of $\omega$ requires some notation^[It's easiest if we label a flip of heads as 1 and tails as 0.  Represent an outcome $\omega$ as $(\omega_1, \omega_2, \omega_3, \omega_4)$, where $\omega_i\in\{0,1\}$ is the result of the $i$th flip. Then $X(\omega)=\sum_{i=1}^{4} \omega_i$ represents the number of heads.  For example, outcome HHTH would be represented as $(1, 1, 0, 1)$ and $X((1, 1, 0, 1)) = 1 + 1 + 0 + 1 = 3$. This could be coded as `sum(omega)`.].
+
+It is more appropriate to think of a random variable as a function in the sense of a scale at a grocery store which maps a fruit to its weight, $X: \text{fruit}\mapsto\text{weight}$.  Put an apple on the scale and the scale returns a number, $X(\text{apple})$, the weight of the apple.  Likewise, $X(\text{orange})$, $X(\text{banana})$.  The random variable $X$ is the scale itself.  This simplistic analogy assumes a sample space outcome is a single fruit.  Of course, it's even more complicated in reality since an outcome can be considered a set of fruits, so that we have for example $X(\{\text{2 apples}, \text{3 oranges}\})$, and all fruits do not weigh the same, so that $X(\text{this apple})$ is not the same as $X(\text{that apple})$. But the idea is that a function is like a scale, with an input (fruits) and an output (weight).  The input does not have to be a number, but the output does.
+
+Suppose I'm going to randomly select some fruits, put them in a brown grocery bag, and place it on the scale. It wouldn't be feasible to enumerate all the combinations of fruits I could put in the bag, but even so you know that any possible combination has some weight which could be measured by the scale. There is still a function (scale) that maps an input (fruits in the bag) to a numerical output (weight), even if that function is not explicitly specified with a mathematical formula. Now suppose I've selected some fruits and put the bag on the scale. Even if you can't see what fruits are inside the bag, you can still read the weight off the scale.  But even if you only observe the weight, you know there was still a background random process of putting fruits in a bag which resulted in a particular outcome having the observed weight.
+
+The "weighing fruits in a bag" scenario in the previous paragraph illustrates how probability usually works:
+
+- We typically don't explicitly specify outcomes or the sample space, but we know that different outcomes can result in different values of random variables.  That is, we know there is some function which maps outcomes of the random phenomenon to values of the random variable, even if we don't have an explicit formula for the inputs to the function (the outcomes) or the function itself.
+- We might not observe outcomes in detail, but we often can still observe values of random variables.
+
+
+```{example meeting-rv}
+
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  Recall the sample space from Example \@ref(exm:meeting-outcome).  Let $R$ be the random variable representing Regina's arrival time in $[0, 1]$, and $Y$ for Cady.
+
+```
+
+1. Identify the function that defines $R$. (Hint: remember the sample space.)
+1. Identify the function that defines $Y$. 
+
+
+
+
+```{solution meeting-rv-sol, fold.chunk = FALSE}
+
+to Example \@ref(exm:meeting-rv)
+
+
+1. Recall that an outcome is an ordered pair representing the arrival times of (Regina, Cady); we can write an outcome as $\omega\equiv(\omega_1, \omega_2)$. Remember there is a single sample space corresponding to the pairs of arrival times, rather than a separate sample space for each.  Therefore, random variables need to be defined on this single sample space; inputs to random variables defined on this sample space are pairs of arrival times. Regina's arrival time is defined by the function $R(\omega) \equiv R((\omega_1, \omega_2))=\omega_1$. That is, $R$ maps the ordered pair $(\omega_1, \omega_2)$ to its first coordinate $\omega_1$.  For example, $R((0.60, 0.52)) = 0.60$.
+1. On this sample space, Cady's arrival time is defined by the function $Y(\omega) \equiv Y((\omega_1, \omega_2))=\omega_2$. That is, $Y$ maps the ordered pair to its second coordinate. The input to $Y$ is a pair of numbers (Regina, Cady) and the output is Cady's arrival time only. For example, $Y((0.60, 0.52)) = 0.52$.
+
+```
+
+### Events involving random variables
+
+We are often interested in events which involve random variables.  In the weather example, the event "tomorrow's high temperature is 75&deg;F" involves the random variable "tomorrow's high temperature". Each possible outcome of tomorrow's weather conditions will correspond to a value of high temperature, but only some of these outcomes will result in values of high temperature equal to 75 &deg;F.
+
+The expressions $X=x$ or $\{X=x\}$ are shorthand for the *event* $\{\omega\in\Omega: X(\omega)=x\}$, the set of outcomes $\omega$ for which $X(\omega)=x$.    Remember that any event is a subset of the *sample space*.  So objects like $\{X=x\}$ are subsets^[Technically, we have some collection $\mathcal{F}$ of events of interest, and so we require sets like $\{X\le x\}$ to be in $\mathcal{F}$.  This requirement is satisfied by requiring $X$ to be an *$\mathcal{F}$-measurable* function.  We will ignore this technicality and always assume events like $\{X\le x\}$ are always include in the collection of events of interest.] of $\Omega$.
+
+
+
+
+```{example coin-rv-event}
+Consider the outcome of a sequence of 4 flips of a coin. One random variable is $X$, the number of heads flipped. Use the sample space from Example \@ref(exm:coin-outcome) to answer the following.
+
+```
+
+1. Identify and interpret the event $\{X=3\}$.  That is, identify the outcomes $\omega$ for which $X(\omega)=3$.
+1. Identify and interpret the event $\{X=4\}$.
+1. Identify and interpret the event $\{X\ge3\}$. How is this event related to the previous two?
+
+```{solution coin-rv-event-sol}
+to Example \@ref(exm:coin-rv-event)
+```
+
+
+1. $\{X=3\} = \{HHHT, HHTH, HTHH, THHH\}$ is the event that exactly 3 of the flips land on heads.  This is an event because it is a subset of the sample space.
+1. $\{X=4\}= \{HHHH\}$, the event that exactly 4 of the flips land on heads.  Notice that the event is the set $\{HHHH\}$, which consists of the single outcome $HHHH$.
+1. $\{X\ge3\} = \{HHHT, HHTH, HTHH, THHH, HHHH\}$ is the event that the at least 3 of the flips land on heads.  Also $\{X\ge 3\} =  \{X=3\}\cup \{X=4\}$.
+
+
+
+
+The RV itself is denoted with a capital letter; possible values of that
+random variable are denoted with lower case letters.  For example $\{X=x\}$ is shorthand for the event $\{\omega\in\Omega: X(\omega)=x\}$, the set of outcomes $\omega$ for which $X(\omega)=x$.  Think of the capital letter $X$ as a label standing in for a formula like "the number of heads in 4 flips of a coin" and $x$ as a dummy variable
+standing in for a particular value like 3.  Remember that any event is a subset of the *sample space*.  So objects like $\{X=x\}$ are subsetsof $\Omega$.
+
+
+
+```{example dice-rv-event}
+Roll a four-sided die *twice*, and record the result of each roll in sequence.  Recall the sample space from Example \@ref(exm:dice-outcome). Let $X$ be the sum of the two dice, and let $Y$ be the larger of the two rolls (or the common value if both rolls are the same). Identify and interpret each of the following.
+
+```
+
+
+1. $\{X = 4\}$.
+1. $\{X = 3\}$.
+1. $\{X \le 3\}$.
+1. $\{Y = 4\}$.
+1. $\{Y = 3\}$.
+1. $\{Y \le 3\}$.
+1. $\{X = 4, Y = 3\}$ (that is, $\{X = 4\}\cap \{Y = 3\}$).
+1. $\{X = 4, Y \le 3\}$.
+1. $\{X = 3, Y = 3\}$.
+1. $\{X \ge Y\}$.
+
+
+```{solution dice-rvevent-sol}
+to Example \@ref(exm:dice-rv-event)
+```
+
+
+1. $\{X = 4\} =\{(1, 3), (2, 2), (3, 1)\}$ is the event that the sum of the two dice is 4.
+1. $\{X = 3\} =\{(1, 2), (2, 1)\}$ is the event that the sum of the two dice is 3.
+1. $\{X \le 3\}=\{(1, 1), (1, 2), (2, 1)\}$ is the event that the sum of the two dice is at most 3.
+1. $\{Y = 4\}=\{(1, 4), (2, 4), (3, 4), (4, 4), (4, 1), (4, 2), (4,3)\}$ is the event that the larger of the two rolls is 4.
+1. $\{Y = 3\}=\{(1, 3), (2, 3), (3, 3), (3, 1), (3, 2)\}$ is the event that the larger of the two rolls is 3.
+1. $\{Y \le 3\}=\{(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)\}$ is the event that the larger of the two rolls is at most 3.  Notice that since in this example $Y$ can only take values 1, 2, 3, 4, we have $\{Y\le 3\} = \{Y=4\}^c$.
+1. $\{X = 4, Y = 3\} \equiv \{X = 4\}\cap \{Y = 3\}=\{(1, 3), (3, 1)\}$ is the event that both the sum of the two dice is 4 and the larger of the two rolls is 3.  Even though this involves two random variables, it is a single event (that is, a single subset of the sample space).  There are only two outcomes for which both the sum of the two dice is 4 and the larger of the two dice is 3.
+1. $\{X = 4, Y \le 3\} \equiv \{X = 4\}\cap \{Y \le 3\}=\{(1, 3), (2, 2), (3, 1)\}$ is the event that both the sum of the two dice is 4 and the larger of the two rolls is at most 3.  Notice that since in this example $\{X=4\} \subset \{Y\le 3\}$, we have $\{X = 4, Y \le 3\} = \{X=4\}$.  If the sum is 4 we know the larger roll must be at most 3.
+1. $\{X = 3, Y = 3\} \equiv \{X = 3\}\cap \{Y = 3\}=\emptyset$, since there are no outcomes for which both the sum is 3 and the larger of the two dice is 3. (If the the larger of the two dice is 3, then the sum must be at least 4.)
+1. The event $\{X\ge Y\}$ represents the set of outcomes $\{\omega: X(\omega) \ge Y(\omega)\}$.  In this example, for every possible outcome the sum of the two dice is at least as large as the larger of the two die, so $\{X \ge Y\} = \Omega$.
+
+
+
+When dealing with probabilities, it is common to write $X=3$ instead of $\{X=3\}$, and $X = 4, Y = 3$ instead of $\{X = 4\}\cap \{Y = 3\}$; read the comma in $X = 4, Y = 3$ as "and".  But keep in mind that an expression like "$X=3$" really represents an event $\{X=3\}$, an expression which itself represents $\{\omega\in\Omega: X(\omega) = 3\}$, a subset of $\Omega$. 
+
+
+
+```{example meeting-rv-event}
+
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  Recall the sample space from Example \@ref(exm:meeting-outcome).  Let $R$ be the random variable representing Regina's arrival time in $[0, 1]$, and $Y$ for Cady. Identify and interpret the following.
+
+```
+
+
+1. $\{R > Y\}$.
+1. $\{\min(R, Y) < 0.5\}$.
+1. $\{Y<R<Y+0.25\}$.
+1. $\{R < 0.4\}$.
+
+
+
+
+```{solution meeting-rv-event-sol}
+
+to Example \@ref(exm:meeting-rv-event)
+
+```
+
+
+1. *The parts of this problem are almost identical to those in Example \@ref(exm:meeting-event); the main difference is in notation.* See Figure \@ref(fig:uniform-rv-plot) for pictures. $\{R>Y\} = \{(\omega_1, \omega_2): \omega_1>\omega_2\}$ is the event that Regina arrives after Cady (event $A$ from Example \@ref(exm:meeting-event).)
+1. $\{\min(R, Y)<0.5\} = \{(\omega_1, \omega_2): \omega_1<0.5 \text{ or } \omega_2<0.5\}$, is the event that the earlier of the two arrival times is before 12:30 (event $B$ from Example \@ref(exm:meeting-event).)  This event  can also be written as $\{R < 0.5\}\cup \{Y < 0.5\}$, the event that either Regina or Cady arrives before 12:30.
+1. $\{Y<R<Y+0.25\} = \{(\omega_1, \omega_2): \omega_2<\omega_1\le \omega_2+0.25\} = \{(\omega_1, \omega_2): \omega_1 > \omega_2\ge \omega_1 - 0.25\}$ is the event that Cady arrives first and Regina arrives at most 15 minutes after Cady (event $C$ from Example \@ref(exm:meeting-event).)
+1. $\{R < 0.4\} = \{(\omega_1, \omega_2): \omega_1<0.4\}$ is the event that Regina arrives before 12:24 (event $D$ from Example \@ref(exm:meeting-event).)
+
+
+(ref:cap-uniform-rv) Illustration of the events in Exercise \@ref(exm:meeting-rv-event). The square represents the possible values of $(R, Y)$, the random vector representing the arrival times of Regina and Cady.
+
+
+```{r uniform-rv-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-uniform-rv)"}
+
+dfA <- data.frame(x = c(0, 1, 1, 1),
+                 y = c(0, 0, 1, 1),
+                 v = c(1, 1, 1, 1))
+
+pA <- ggplot(data = dfA, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(R ~ "(Regina)")) +
+  ylab(expression(Y ~ "(Cady)")) +
+  ggtitle("Event {R > Y} is shaded") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+dfB <- data.frame(x = c(0.5, 1, 1, 0.5),
+                  y = c(0.5, 0.5, 1, 1),
+                  v = c(1, 1, 1, 1))
+
+pB <- ggplot(data = dfB, aes(x = x, y = y)) +
+  geom_polygon(fill = "white", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(panel.background = element_rect(fill = "cornflowerblue",
+                                    colour = "cornflowerblue")) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(R ~ "(Regina)")) +
+  ylab(expression(Y ~ "(Cady)")) +
+  ggtitle("Event {min(R, Y) < 0.5} is shaded") +
+  theme(plot.title = element_text(hjust = 0.5))
+  
+
+# dfC <- data.frame(x = c(1, 1, 0.5, 1),
+#                   y = c(0.5, 0.5, 1, 1),
+#                   v = c(1, 1, 1, 1))
+# 
+# pC <- ggplot(data = dfC, aes(x = x, y = y)) +
+#   geom_polygon(fill = "cornflowerblue", show.legend = FALSE) +
+#   scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+#   scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+#   theme_classic() +
+#   theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+#   theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+#   xlab(expression(omega[1] ~ "(Regina)")) +
+#   ylab(expression(omega[2] ~ "(Cady)")) +
+#   ggtitle("Event C is shaded") +
+#   theme(plot.title = element_text(hjust = 0.5))
+
+
+dfC <- data.frame(x = c(0, 0.25, 1, 1),
+                 y = c(0, 0, 0.75, 1),
+                 v = c(1, 1, 1, 1))
+
+pC <- ggplot(data = dfC, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(R ~ "(Regina)")) +
+  ylab(expression(Y ~ "(Cady)")) +
+  ggtitle("Event {Y<R<Y+0.25} is shaded") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+dfD <- data.frame(x = c(0, 0.4, 0.4, 0),
+                  y = c(0, 0, 1, 1),
+                  v = c(1, 1, 1, 1))
+
+pD <- ggplot(data = dfD, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(R ~ "(Regina)")) +
+  ylab(expression(Y ~ "(Cady)")) +
+  ggtitle("Event {R < 0.4} is shaded") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+library(ggpubr)
+ggarrange(pA, pB, pC, pD, ncol = 2, nrow = 2)
+
+```
+
+
+### Transformations of random variables {#transform}
+
+
+We are often interested in random variables that are derived from others.  If the random variable $X$ represents the radius of a randomly selected circle, then $Y = \pi X^2$ is a random variable representing the circle's area. If the random variables $W$ and $T$ represent the weight (kg) and height (m), respectively, of a randomly selected person, then $S = W / T^2$ is a random variable representing the person's body mass index ($\text{kg}/\text{m}^2$). In this section we introduce random variables that are derived from *transformations* of others.
+
+**A function of a random variable is also a random variable.**  That is, if $X$ is a random variable and $g:\mathbb{R}\mapsto\mathbb{R}$ is a function, then $Y=g(X)$ is a random variable^[$Y(\omega) = g(X(\omega))$ so $Y$ maps $\Omega$ to $\mathbb{R}$ via the composition of the functions $g$ and $X$; that is, $Y=g\circ X$ where $(g\circ X):\Omega\mapsto \mathbb{R}$].
+
+
+For example, if $u$ is a radius of a circle, the function $g(u) = \pi u^2$ outputs its area. If $X$ is a random variable representing the radius of a randomly selected circle then $Y = g(X)=\pi X^2$ is a random variable representing the circle's area.
+
+
+
+```{example coin-transform}
+Flip a coin 3 times and record the results in sequence.  Let $X$ be the number of flips that result in H, and let $Y=(X-1.5)^2$. (We will see later why we might be interested in such a transformation.)  Construct a table identifying the values of $X$ and $Y$ for each outcome in the sample space. What are the possible values of $X$?  $Y$?
+
+```
+
+
+```{solution coin-transform-sol}
+Solution to Example \@ref(exm:coin-transform).
+```
+
+See Table \@ref(tab:coin-transform-tab). The possible values of $X$ are $\{0, 1, 2, 3\}$. The possible values of $Y$ are $\{0.25, 2.25\}$.
+
+```{r, coin-transform-tab, echo = FALSE, fold.chunk = FALSE}
+n = 3
+# u1 = sort(rep(c("H", "T"), 4))
+# u2 = rep(sort(rep(c("H", "T"), 2)), 2)
+# u3 = rep(c("H", "T"), 4)
+# u = paste(u1, u2, u3, sep = "")
+u = c("HHH", "HHT", "HTH", "THH", "HTT", "THT", "TTH", "TTT")
+
+x = c(3, rep(2, 3), rep(1, 3), 0)
+y = (x - 1.5) ^ 2
+
+
+knitr::kable(
+  data.frame(u, x, y),
+  col.names = c("Outcome", "X", "Y"),
+  booktabs = TRUE,
+  caption = 'Table representing $X$, the number of heads in 3 flips of a coin, and $Y=(X-1.5)^2$'
+)
+
+```
+
+
+
+**Sums and products, etc., of random variables *defined on the same sample space* are random variables.** That is, if random variables $X$ and $Y$ are defined on the same sample space then $X+Y$, $X-Y$, $XY$, and $X/Y$ are also random variables.  Similarly, it is possible to make comparisons such as $X\ge Y$ and apply other transformations for random variables defined on the same probability space.
+
+```{example meeting-transform}
+
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  Recall the sample space from Example \@ref(exm:meeting-outcome).  Let $R$ be the random variable representing Regina's arrival time in $[0, 1]$, and $Y$ for Cady.
+
+```
+
+1. What does the random variable $T = \min(R, Y)$ represent?  What are the possible values of $T$?
+1. What does the random variable $W = |R - Y|$ represent? What are the possible values of $W$?
+
+
+
+
+```{solution meeting-transform-sol}
+
+to Example \@ref(exm:meeting-transform)
+
+```
+
+1. $T=\min(R, Y)$ represents the time at which the first person arrives.  $T$ takes values in $[0, 1]$.  If either Regina and Cady arrives at time 0 (noon) then $T$ is 0; if both arrive at time 1 (1:00) then $T$ is 1.
+1. $W=|R-Y|$ represents the amount of time the first person to arrive waits for the second person to arrive.  $W$ takes values in $[0, 1]$.  If both Regina and Cady arrive at the same time then $W$ is 0; if one arrives at noon and the other at 1:00 then $W$ is 1.
+
+
+The following example emphasizes why we need random variables to be "defined on the same sample space".
+
+
+```{example SAT-transform}
+Select a U.S. high school student and record the student's SAT Math and Reading score.  Recall the sample space from Example \@ref(exm:SAT-outcome).
+
+```
+
+1. What function defines $M$, SAT Math score? (Hint: remember how we defined an outcome in Example \@ref(exm:SAT-outcome).)
+1. What function defines $R$, SAT Reading score?
+1. What function defines $T$, total SAT score?
+
+
+```{solution SAT-transform-sol}
+Solution to \@ref(exm:SAT-transform).
+
+``` 
+
+1. Recall that an outcome is an ordered pair representing (Math, Reading) score; we can write an outcome as $\omega\equiv(\omega_1, \omega_2)$. Remember there is a single sample space corresponding to the pairs of scores, rather than a separate sample space for each of the scores.  Therefore, random variables need to be defined on this single sample space; inputs to random variables defined on this sample space are pairs of scores. Math score is defined by the function $M(\omega) \equiv M((\omega_1, \omega_2))=\omega_1$. That is, $M$ maps the ordered pair $(\omega_1, \omega_2)$ to its first coordinate $\omega_1$.  For example, $M((600, 520)) = 600$.
+1. On this sample space, Reading score is defined by the function $R(\omega) \equiv R((\omega_1, \omega_2))=\omega_2$. That is, $R$ maps the ordered pair to its second coordinate. The input to $R$ is a pair of numbers (Math, Reading) and the output is the Reading score only. For example, $M((600, 520)) = 520$.
+1. On this sample space, total score is defined by the function $T(\omega) \equiv T((\omega_1, \omega_2))=\omega_1 + \omega_2$. For example, $T((600, 520)) = 600 + 520=1120$.
+Note that $T = M + R$ because for each outcome $\omega$, $T(\omega) = M(\omega) + R(\omega)$.
+ 
+
+
+
+<!-- ```{example dice-add} -->
+<!-- Roll a four-sided die twice, and record the result of each roll in sequence.  For example, the outcome $(3, 1)$ represents a 3 on the first roll and a 1 on the second; this is not the same outcome as $(1, 3)$.  Let $X_1$ be the result of the first roll, and $X_2$ the result of the second. -->
+<!-- ``` -->
+
+<!-- 1. Evaluate $X_1((3, 1))$ and $X_2((3,1))$.  -->
+<!-- 1. If an outcome is represented by $\omega=(\omega_1, \omega_2)$ (e.g. (3, 1)), specify the functions that define the random variables $X_1$ and $X_2$. -->
+<!-- 1. Is $X=X_1 + X_2$ a valid random variable?  If so, identify the function that defines it. -->
+<!-- 1. Evaluate $X((3, 1))$. -->
+
+<!-- ```{solution dice-add-sol} -->
+<!-- to Example \@ref(exm:dice-add) -->
+<!-- ``` -->
+
+<!-- 1. $X_1((3, 1))=3$ and $X_2((3,1))=1$. -->
+<!-- 1. Recall that there is a single sample space corresponding to the pairs of rolls, rather than a separate sample space for each of the individual rolls.  Therefore, random variables need to be defined on the sample space corresponding to pairs of rolls. $X_1((\omega_1, \omega_2))=\omega_1$ and $X_2((\omega_1, \omega_2))=\omega_2$.  That is, $X_1$ maps an ordered pair to its first coordinate, and $X_2$ to its second. -->
+<!-- 1. Yes, $X=X_1 + X_2$ is a valid random variable.  For each outcome $(\omega_1, \omega_2)$, $X$ returns a number: $X((\omega_1, \omega_2))=X_1((\omega_1, \omega_2)) + X_2((\omega_1, \omega_2))=\omega_1+\omega_2$ -->
+<!-- 1. $X((3, 1)) = X_1((3, 1))+X_2((3,1))=3+1=4$. -->
+
+The previous example probably seems like notational overkill.  And of course we could have defined $T$ directly as $T((\omega_1,\omega_2))=\omega_1+\omega_2$ without the need for $M, R$.  But we introduced the example to emphasize that it only makes sense to add random variables if they are defined on the same sample space.  Remember that adding two random variables involves adding two *functions*, in the way that the function $g = g_1 + g_2$ is defined by $g(u) = g_1(u) + g_2(u)$.  It only makes sense to add two functions together if they have the same inputs.
+
+For example, consider the random variable $X$ from Example \@ref(exm:coin-rv) and the random variable $Y$ from 
+Example \@ref(exm:dice-rv).  It wouldn't make much practical sense to consider $X+Y$, but it would make no mathematical sense.  How would $X+Y$ even be defined?  $X$ is defined for sequences of coin flips like HHTH, while $Y$ is defined for pairs of die rolls like (3, 1).  If you attempted to add $X$ and $Y$, which outcomes would go together?  Would you add $X(HHTH)$ to $Y((3, 1))$?  Why not add $X(HHTH)$ to $Y((2, 2))$?  Again, adding two random variables involves adding two functions, and it doesn't make sense to add those functions if they have different inputs.
+
+As a more practical example, requiring $M$ and $R$ in Example \@ref(exm:SAT-transform)
+ to be defined on the same probability space is like requiring the Math scores to be measured for the same students as the Reading scores.  For example, Antwan has both a Math score $M(\text{Antwan})$ and a Reading score $R(\text{Antwan})$, so we can consider the total score $(M+R)(\text{Antwan}) = M(\text{Antwan})+R(\text{Antwan})$. (In statistical terms, the variables are measured for the same observational units.)  It wouldn't make sense to add SAT Math scores from one set of students to SAT Reading scores for a different set of students; for example $M(\text{Antwan}) + R(\text{Maria})$ makes no sense.
+
+Remember that we can visualize outcomes as rows in a spreadsheet with random variables as columns.  Random variables defined on the same sample space can be put in a single spreadsheet. Each row corresponds to an outcome, and reading across any row there is a value in the column corresponding to each random variable. Transformations can be applied rowwise for each outcome to define new random variables.
+
+```{example mscoin-rv}
+Consider the outcome of a sequence of 4 flips of a coin; recall the sample space from Example \@ref(exm:coin-outcome) Example \@ref(exm:coin-rv) concerned the random variable $X$, the number of heads flipped. Now we'll consider a few more random variables.
+
+In Section \@ref(sim) we considered the *proportion of the flips which immediately follow a H that result in H*. Remember that we do not define this proportion if no flips follow a H, that is, if the outcome is either TTTT or TTTH.
+
+Let:
+
+- $Z$  be the number of flips immediately following H.
+- $Y$  be the number of flips immediately following H that result in H.
+- $W$  be the proportion of flips immediately following H that result in H.
+
+```
+
+1. Is $W$ a random variable?  How does it relate to $Y$ and $Z$?
+1. For each of the possible outcomes in the sample space, find the value of $(Z, Y, W)$.
+
+```{solution mscoin-rv-sol}
+to Example \@ref(exm:mscoin-rv)
+```
+
+1. Yes, $W$ is a random variable because it maps each coin flip sequence to the value of proportion of the flips which immediately follow a H that result in H for that sequence; see the table below.  Also, $W=Y/Z$.  Technically $Y$ and $Z$ are not defined for outcomes TTTT and TTTH, but we're ignoring those sequences for the purposes of investigating the proportion of the flips which immediately follow a H that result in H.
+1. See Table \@ref(tab:mscoin).  For each outcome, the **flips which follow head are in bold**.
+
+Table: (\#tab:mscoin) Possible values of (1) $Z$, the number of flips immediately following H, (2) $Y$, the number of flips immediately following H that result in H, and (3) $X$,  the proportion of flips immediately following H that result in H, for four flips of a fair coin.
+
+| Outcome ($\omega$) | $Z$ |         $Y$ |   $X = Y/Z$ |
+|--------------------|----:|------------:|------------:|
+| H**HHH**           |   3 |           3 |           1 |
+| H**HHT**           |   3 |           2 |         2/3 |
+| H**HT**H           |   2 |           1 |         1/2 |
+| H**T**H**H**       |   2 |           1 |         1/2 |
+| TH**HH**           |   2 |           2 |           1 |
+| H**HT**T           |   2 |           1 |         1/2 |
+| H**T**H**T**       |   2 |           0 |           0 |
+| H**T**TH           |   1 |           0 |           0 |
+| TH**HT**           |   2 |           1 |         1/2 |
+| TH**T**H           |   1 |           0 |           0 |
+| TTH**H**           |   1 |           1 |           1 |
+| H**T**TT           |   1 |           0 |           0 |
+| TH**T**T           |   1 |           0 |           0 |
+| TTH**T**           |   1 |           0 |           0 |
+| TTTH               |   0 | not defined | not defined |
+| TTTT               |   0 | not defined | not defined |
+
+
+
+<!-- | Outcome ($\omega$) 	| $Z$ 	|         $Y$ 	|   $X = Y/Z$ 	| -->
+<!-- |-------------------	|----:	|------------:	|------------:	| -->
+<!-- | H**HHH**          	|   3 	|           3 	|           1 	| -->
+<!-- | H**HHT**          	|   3 	|           2 	|         2/3 	| -->
+<!-- | H**HT**H          	|   2 	|           1 	|         1/2 	| -->
+<!-- | H**T**H**H**      	|   2 	|           1 	|         1/2 	| -->
+<!-- | TH**HH**          	|   2 	|           2 	|           1 	| -->
+<!-- | H**HT**T          	|   2 	|           1 	|         1/2 	| -->
+<!-- | H**T**H**T**      	|   2 	|           0 	|           0 	| -->
+<!-- | H**T**TH          	|   1 	|           0 	|           0 	| -->
+<!-- | TH**HT**          	|   2 	|           1 	|         1/2 	| -->
+<!-- | TH**T**H          	|   1 	|           0 	|           0 	| -->
+<!-- | TTH**H**          	|   1 	|           1 	|           1 	| -->
+<!-- | H**T**TT          	|   1 	|           0 	|           0 	| -->
+<!-- | TH**T**T          	|   1 	|           0 	|           0 	| -->
+<!-- | TTH**T**          	|   1 	|           0 	|           0 	| -->
+<!-- | TTTH              	|   0 	| not defined 	| not defined 	| -->
+<!-- | TTTT              	|   0 	| not defined 	| not defined 	| -->
+
+
+
+
+```{example dd-events, name='(ref:ddwddd)'}
+
+At various points in his homework, Donny Don't writes the following.  Explain to Donny why each of the following symbols is nonsense,  both mathematically and intuitively using a simple example (like tomorrow's weather).  Below, $A$ and $B$ represent events, $X$ and $Y$ represent random variables.
+
+```
+
+1. $A = 0.5$
+1. $A + B$
+1. $X = A$
+1. $X + A$
+1. $X \cap Y$
+
+```{solution dd-events-sol}
+to Example \@ref(exm:dd-events)
+```
+
+We'll respond to Donny using tomorrow's weather as an example, with $A$ representing the event that it rains tomorrow, $X$ tomorrow's high temperature (degrees F), $B=\{X>80\}$ the event that tomorrow's high temperature is above 80 degrees, and $Y$ tomorrow's rainfall (inches).
+
+
+1. $A$ is a set and 0.5 is a number; it doesn't make mathematical sense to equate them.  It doesn't make sense to say  "it rains tomorrow equals 0.5".
+1. $A$ and $B$ are sets; it doesn't make mathematical sense to add them.  It doesn't make sense to say "the sum of (it rains tomorrow) and (tomorrow's high temperature is above 80 degrees F)".  If we want "(it rains tomorrow) OR (tomorrow's high temperature is above 80 degrees F)", then we need $A\cup B$.  Union is an operation on sets; addition is an operation on numbers.
+1. $X$ is a random variable (a function) and $A$ is an event (a set), and it doesn't make sense to equate these two different mathematical objects.  Suppose that $X$ represents tomorrow's high temperate (degrees F). It doesn't make sense to say  "tomorrow's high temperature equals the event that it rains tomorrow".
+1. $X$ is a random variable (a function) and $A$ is an event (a set), and it doesn't make sense to add these two different mathematical objects.  It doesn't make sense to say  "the sum of (tomorrow's high temperature) and  (the event that it rains tomorrow)".
+1. $X$ and $Y$ are random variables (functions) and intersection is an operation on sets.   $X \cap Y$ is attempting to say "tomorrow's high temperature in degrees F and the amount of rainfall in inches tomorrow". If we're talking about a random vector containing these two variables, we would write $(X, Y)$ not $X \cap Y$. If we're interested in an event involving $X$ and $Y$, we're missing qualifying information to define a valid event. We could write $X >80, Y < 2$ or $\{X > 80\} \cap \{Y < 2\}$ to represent "the event that (tomorrow's high temperature is greater than 80 degrees F) AND (the amount of rainfall tomorrow is less than 2 inches)".
+
+
+
+### Indicator random variables and counting
+
+Random variables that only take two possible values, 0 and 1, have a special name.
+
+```{definition indicator}
+An **indicator (a.k.a.\ Bernoulli)** random variable can take only the values 0 or 1. If $A$ is an event then the corresponding indicator random variable $\ind_A$ is defined as
+\[
+\ind_A(\omega) =
+\begin{cases}
+1, & \omega \in A,\\
+0, & \omega \notin A
+\end{cases}
+\]
+```
+
+That is, $\ind_A$ equals 1 if event $A$ occurs, and $\ind_A$ equals 0 if event $A$ does not occur.  Indicators provide the bridge between events (sets) and random variables (functions).
+
+
+```{example coin-indicator}
+Flip a coin 3 times and record the results in sequence.  Let $A_i$ be the event that flip $i$ lands on H, for $i=1, 2, 3$.
+
+```
+
+1. Construct a table identifying the values of the indicator random variables $\ind_{A_1}$, $\ind_{A_2}$, and $\ind_{A_3}$  for each outcome in the sample space.
+1. Identify and interpret the event $\{I_{A_1}=1\}$.
+1. Identify and interpret the event $\{I_{A_1}=0\}$.
+1. Identify and interpret the event $\{I_{A_2}=1\}$.
+1. Identify and interpret the event $\{I_{A_1 \cap A_2}=1\}$.
+1. Identify and interpret the event $\{I_{A_1 \cup A_2}=1\}$.
+1. How is $\ind_{A_1^c}$ related to $\ind_{A_1}$?
+1. How is $\ind_{A_1\cap A_2}$ related to $\ind_{A_1}$ and $\ind_{A_2}$?  (Can you think of two ways?)
+1. How is $\ind_{A_1\cup A_2}$ related to $\ind_{A_1}$ and $\ind_{A_2}$? (Can you think of two ways?)
+1. How is $X$, the number of flips that result in H, related to $\ind_{A_1}$, $\ind_{A_2}$, and $\ind_{A_3}$?
+
+
+```{solution coin-indicator-sol}
+Solution to Example \@ref(exm:coin-indicator).
+```
+
+
+1. See Table \@ref(tab:coin-indicator-tab). We've also added columns for $I_{A_1^c}$, $I_{A_1 \cap A_2}$, $I_{A_1 \cup A_2}$, and $X$, the number of H.
+
+```{r, coin-indicator-tab, echo = FALSE}
+n = 3
+u1 = sort(rep(c("H", "T"), 4))
+u2 = rep(sort(rep(c("H", "T"), 2)), 2)
+u3 = rep(c("H", "T"), 4)
+u = paste(u1, u2, u3, sep = "")
+
+I1 = as.numeric(u1 == "H")
+I2 = as.numeric(u2 == "H")
+I3 = as.numeric(u3 == "H")
+x = c(0, rep(1, 3), rep(2, 3), 3)
+
+
+knitr::kable(
+  data.frame(u, I1, I2, I3, 1 - I1, I1 * I2, I1 + I2 - I1 * I2, x),
+  col.names = c("Outcome", "I~A1~", "I~A2~", "I~A3~",
+                "I~not_A1~", "I~A1_and_A2~", "I~A1_or_A2~", "X"),
+  booktabs = TRUE,
+  caption = 'Indicators of H on each flip in a sequence of 3 flips of a coin'
+)
+
+```
+1. $\{I_{A_1}=1\}=\{HHH, HHT, HTH, HTT\}$ is the event that the first flip results in H.
+1. Since $I_{A_1}$ is either 1 or 0, $\{I_{A_1}=0\}=\{I_{A_1}=1\}^c = \{HHH, HHT, HTH, HTT\}^c$ is the event that the first flip does not result in H.
+1. $\{I_{A_2}=1\}=\{HHH, HHT, THH, THT\}$ is the event that the second flip results in H.
+1. $\{I_{A_1\cap A_2}=1\}=\{HHH, HHT\}$ is the event that the first two flips result in H.
+1. $\{I_{A_1 \cup A_2}=1\} = \{TTH, TTT\}^c$ is the event that at least one of the first two flips results in H.
+1. Reading across each row, we see that for every outcome $\ind_{A_1^c} = 1 - \ind_{A_1}$.  If $A_1$ occurs ($\omega \in A_1$, flip 1 is H), $I_{A_1}=1$ and $I_{A_1^c}=0$; if $A_1$ does not occurs ($\omega \in A_1^c$, flip 1 is not H), $I_{A_1}=0$ and $I_{A_1^c}=1$. 
+1. Reading across each row, we see that for every outcome $\ind_{A_1\cap A_2} = \ind_{A_1}\ind_{A_2}$.  If both $A_1$ and $A_2$ occur then $A_1\cap A_2$ occurs (flip 1 is H and flip 2 is H), so $\ind_{A_1\cap A_2} = 1$ and $\ind_{A_1} \ind_{A_2}=1$. If $A_1$ does not occur (flip 1 is not H) then $A_1\cap A_2$ does not occur, so $I_{A_1}=0$, $\ind_{A_1\cap A_2} = 0$ and $\ind_{A_1} \ind_{A_2}=0$. (Similarly if $A_2$ does not occur.).  
+Reading across each row we also see that for every outcome $I_{A_1 \cap A_2} = \min(I_{A_1}, I_{A_2})$.  $\min(I_{A_1}, I_{A_2})=1$ if and only if both $I_{A_1}=1$ and $I_{A_2}=1$, which happens if and only if both $A_1$ and $A_2$ occur.
+1. Reading across each row, we see that for every outcome $\ind_{A_1\cup A_2} = \ind_{A_1}+\ind_{A_2}-\ind_{A_1}\ind_{A_2}$  
+    - If neither $A_1$ and $A_2$ occur then $I_{A_1}=0$, $I_{A_2} = 0$, and $\ind_{A_1\cup A_2} = 0$, and the relationship holds in this case.  
+    - If $A_1$ occurs but $A_2$ does not then $I_{A_1}=1$, $I_{A_2} = 0$, and $\ind_{A_1\cup A_2} = 1$, and the relationship holds in this case.  (Similarly if $A_2$ occurs but $A_1$ does not.)  
+    - If both $A_1$ and $A_2$ occur then  $I_{A_1}=1$, $I_{A_2} = 1$, and $\ind_{A_1\cup A_2} = 1$, and the relationship holds in this case.  
+    
+    Reading across each row we also see that for every outcome $I_{A_1 \cup A_2} = \max(I_{A_1}, I_{A_2})$.  $\max(I_{A_1}, I_{A_2})=0$ if and only if both $I_{A_1}=0$ and $I_{A_2}=0$, which happens if and only if $(A_1^c \cap A_2^c) = (A_1 \cup A_2)^c$ occurs.  
+    
+1. Reading across each row, we see that for every outcome $X= I_{A_1} + I_{A_2} + I_{A_3}$. We discuss this idea in more detail below.
+
+The previous example illustrates that for two events $A$ and $B$
+\begin{align*}
+\ind_{A^c} & = 1 - I_A & & \\
+\ind_{A \cap B} & = \ind_A \ind_B & & =\min(I_A, I_B)\\
+\ind_{A \cup B} & = \ind_A + \ind_B - \ind_{A \cap B} & & = \max(I_A, I_B)
+\end{align*}
+
+
+In particular, the indicator of an intersection is the product of the indicators of each event. The $\min, \max$, and product formulas work for more than two events, but the addition formula is more complicated^[See the [inclusion-exclusion principle](https://mathworld.wolfram.com/Inclusion-ExclusionPrinciple.html)].
+
+Even though they seem simple, indicator random variables are very useful.
+In particular, many probability problems are of the form "find the expected number of (blank)". In these problems, representing a count as a sum of indicator random variables, as in the last part of Example \@ref(exm:coin-indicator), is a very common and useful strategy.  We elaborate on this idea below, but first a little story.
+
+
+
+
+Imagine a dad and his young child are reading a picture book.  They come to a page that has twenty pictures of fruits, of which seven are bananas. The following conversation ensues.
+
+- Dad: Can you count all the bananas?  Let's see! How many bananas have we counted so far?
+- Kid: We haven't started counting yet!
+- Dad: Right, so how many bananas have we counted so far?
+- Kid: Zero!
+- Dad: That's right! We've counted zero bananas so far.  (Points to a banana.) Is that a banana?
+- Kid: Yes!
+- Dad: So how many more bananas did we just count?
+- Kid: One!
+- Dad: So how many bananas have we counted so far?
+- Kid: One!
+- Dad: Great job! We've counted one banana so far. (Points to a different banana.) Is that a banana?
+- Kid: Yes! 
+- Dad: So how many more bananas did we just count?
+- Kid: We counted one more banana!
+- Dad: So how many bananas have we counted so far?
+- Kid: Two!
+- Dad: Great job! We've counted two bananas so far. (Points to a different banana.) Is that a banana?
+- Kid: Yes! 
+- Dad: So how many more bananas did we just count?
+- Kid: We counted one more banana!
+- Dad: So how many bananas have we counted so far?
+- Kid: Three!
+- Dad: Great job! We've counted three bananas so far. (Points to an orange^[Orange you glad I didn't say banana].) Is that a banana?
+- Kid: No, that's an orange!
+- Dad: So how many more bananas did we just count?
+- Kid: Zero! It was not a banana!
+- Dad: So how many bananas have we counted so far?
+- Kid: Still three!
+- Dad: Great job! We've counted three bananas so far. (Continues in this manner until Dad points to the twentieth and last fruit on the page, a banana.) Almost done. We've counted six bananas so far. Is that a banana?
+- Kid: Yes!
+- Dad: So how many more bananas did we just count?
+- Kid: We counted one more banana!
+- Dad: So how many bananas have we counted so far?
+- Kid: Seven!
+- Dad: We looked at each fruit on the page.  How many were bananas?
+- Kid: Seven!
+- Dad: Great job! Now you know how indicator random variables can be used to count.
+
+In the story, the kid counted the bananas by examining each object, determining whether or not it was a banana, and then incrementing the banana counter by 1 for each object that was a banana (and by 0 for the objects that were not bananas). The kid essentially created an indicator (of "banana") variable for each object on the page ($I_{B_1}=1$, $I_{B_2}=1$, $I_{B_3}=1$, $I_{B_4}=0\ldots$, $I_{B_{20}}=1$) and then summed these indicators to obtain the total count of bananas.  This strategy gives a way of breaking down a complicated counting problem into smaller pieces and counting incrementally.
+
+```{example matching-indicator, name='Matching problem'}
+Recall the "matching problem". A geology museum in California has four different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order.  We might be interested in things like whether all the rocks are put back in the correct spot, or none are, or if the heaviest rock is put back in the correct spot.
+
+Recall the sample space from Example \@ref(exm:matching-outcome).  Let the random variable $Y$ count the number of rocks that are put back in the correct spot.
+
+```
+
+1. Evaluate $Y(1234)$, $Y(1243)$, and $Y(2143)$.
+1. Construct a table identifying the value of $Y$  for each outcome in the sample space.
+1. How could you represent $Y$  in terms of indicator random variables?  Define appropriate indicators and add the corresponding columns to the table.
+1. What is the relationship between $Y$ and the indicators you defined in the previous part?
+
+
+
+
+```{solution matching-indicator-sol}
+to Example \@ref(exm:matching-indicator)
+```
+
+1. $Y(1234)=4$ because for this outcome all rocks are put in the correct spot, $Y(1243)=2$ because rocks 1 and 2 are in the correct spot but 3 and 4 aren't, and $Y(2143)=0$ because none of the rocks are in the correct spot.
+1. See the first two columns of Table \@ref(tab:matching-indicator-tab).  
+    ```{r, matching-indicator-tab, echo = FALSE}
+    n = 4
+    temp = expand.grid(1:4, 1:4, 1:4, 1:4)
+    us <- temp[apply(temp, 1, function(x) {length(unique(x)) == 4}),]
+    us <- us %>% unite(u, 1:4, sep="", remove = FALSE) %>% arrange(u)
+    
+    I1 = as.numeric(us[, 1 + 1] == 1)
+    I2 = as.numeric(us[, 2 + 1] == 2)
+    I3 = as.numeric(us[, 3 + 1] == 3)
+    I4 = as.numeric(us[, 4 + 1] == 4)
+    y = I1 + I2 + I3 + I4
+    
+    
+    knitr::kable(
+      data.frame(us[, 1], y, I1, I2, I3, I4),
+      col.names = c("Outcome", "Y", "I~1~", "I~2~", "I~3~",
+                "I~4~"),
+      booktabs = TRUE,
+      caption = 'Indicators for each item and total number of matches in Matching Problem'
+    )
+    
+    ```
+1. We want to know whether each rock was put in the correct spot.  Let $C_j$ be the event that rock $j$ is placed correctly in spot $j$, $j=1, 2, 3, 4$.  Then define the indicator random variables corresponding to these events $I_{C_j}\equiv I_j$. There is one indicator for each rock. See Table \@ref(tab:matching-indicator-tab). For example, $I_1(1243)=1$, $I_2(1243)=1$, $I_3(1243) = 0$ and $I_4(1243)=0$.
+1. The indicators define the incremental counters like in the banana story, so $Y=I_1 + I_2 + I_3+I_4$. Remember that this is a relationship between functions; within each row the total number of matches is the sum of the values of the indicator random variables.
+
+In the matching problem, it is not feasible to enumerate the outcomes and count when there are a large number of items and spots. Using indicators allows you to focus on one item at time --- is just this item in the correct spot? --- rather than all at once.  We will see that indicators often provide a useful strategy for tackling probability problems.
+
+
+### Summary
+
+- A random variable is a function whose input is a sample space outcome and whose output is a real number.
+- A random vector is a vector of random variables.
+- Many events of interest involve random variables.
+- A function of a random variable is also a random variable.
+- Sums and products, etc., of random variables *defined on the same probability space* are random variables.
+
+## Probability spaces {#probspace}
+
+  
+
+In the previous sections we defined outcomes, events, and random variables, the main mathematical objects associated with a random phenomenon.  But we haven't actually computed any probabilities yet!  So far we have only been concerned with what is *possible*. You might have noticed that the examples did not include any assumptions like "the coin is fair", "the die is weighted", "Regina is more likely to arrive late and Cady is more likely to arrive early", "the janitor is equally likely to put any rock in any spot."  Now we will incorporate assumptions of the random phenomenon to determine how *probable* various events are.
+
+
+In keeping with the theme of this chapter, we will focus on what it means to assign probabilities to events, rather than how to actually compute probabilities.  Later chapters will focus in much more detail on solving a wide variety of probability problems.
+
+A probability measure assigns probabilities to events to quantify their relative likelihoods. As we saw in Section \@ref(consistency), there are some basic logical consistency requirements that probabilities must satisfy.  These requirements are formalized in the following definition.
+
+```{definition probspace}
+A **probability space** is a triple $(\Omega, \mathcal{F}, \IP)$ where
+
+- $\Omega$ is a sample space of outcomes
+- $\mathcal{F}$ is a collection of events of interest^[Technically, $\mathcal{F}$ is a *$\sigma$-field* of subsets of $\Omega$: $\mathcal{F}$ contains $\Omega$ and is closed under countably many elementary set operations (complements, unions, intersections).  While this level of technical detail is not needed, we prefer to refer to a probability space as a triple to emphasize that probabilities are assigned directly to *events* rather than just outcomes.] $A\subseteq\Omega$
+- $\IP$ is a **probability measure** which assigns a probability $\IP(A)$ to events $A\in\mathcal{F}$.  A probability measure satisfies the following three axioms
+  - $\IP(\Omega)=1$
+  - For all events $A\in\mathcal{F}$, $0\le \IP(A)\le 1$
+  - (*Countable additivity*.) If events $A_1, A_2, \ldots\in\mathcal{F}$ are *disjoint (a.k.a. mutually exclusive)* --- that is $A_i\cap A_j = \emptyset$ for all $i\neq j$ --- then
+  \begin{equation*}
+    \IP\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty \IP\left(A_i\right)
+  \end{equation*}
+
+```
+
+A probability space puts all the objects we have seen in this chapter together in a model for the random phenomenon.  Even though random variables are not an explicit component of a probability space, remember that many events of interest are defined in terms of random variables.  Think of a probability space as the collection of all outcomes, events, and random variables associated with a random phenomenon along with the probabilities of all events of interest.
+
+
+A probability measure is a *set function*: $\IP:\mathcal{F}\mapsto[0, 1]$ takes as an input an event (set) $A$ (from the collection of events of interest $\mathcal{F}$) and returns as an output a number $\IP(A)\in[0,1]$ quantifying the probability of the event.  
+
+The requirement $0\le \IP(A)\le 1$ makes sense in light of the relative frequency interpretation: an event $A$ can not occur on more than 100\% of repetitions or less than 0\% of repetitions of the random phenomenon.
+
+The requirement that $\IP(\Omega)=1$ just ensures that the sample space accounts for all of the possible outcomes.  If outcome $\omega$ is observed, then event $A$ occurs if $\omega\in A$.  If $\IP(\Omega)<1$ then it would be possible to observe outcomes $\omega\notin \Omega$; but this violates the requirement that $\Omega$ is the set of all possible outcomes.  Basically, $\IP(\Omega)=1$ says that on any repetition of the random phenomenon, "something has to happen".  If $\Omega$ is a countable set, countable additivity and $\IP(\Omega)=1$ imply that probability of all the outcomes must add up to 1. For example, in Example \@ref(exm:worldseries) $\IP(\Omega)=1$, together with countable additivity, is what requires that the probability that a team other than those four teams win to be 26%. 
+
+Countable additivity is best understood through a diagram with areas representing probabilities, as in the figure below which represents two events (yellow / and blue \\).  On the left, there is no "overlap" between areas so the total area is the sum of the two pieces; this depicts countable additivity for two disjoint events.  On the right, there is overlap between the two areas, so simply adding the two areas "double counts" the intersection (green $\times$) and does not result in the correct total area.  Countable additivity applies to any *countable* number^[It's the *number of events* that must be countable.  The events themselves can be uncountable sets like intervals.] of events, as long as there is no "overlap".
+
+(ref:cap-venn-disjoint) Illustration of countable additivity for two events.  The events in the picture on the left are disjoint, but not on the right.
+
+```{r venn-disjoint, echo=FALSE, fig.cap="(ref:cap-venn-disjoint)"}
+
+knitr::include_graphics("_graphics/venn-disjoint.png")
+
+```
+
+In Example \@ref(exm:worldseries), the events $A$="the Astros win the 2020 World Series" and $D$="the Dodgers win the 2020 World Series" are disjoint $A\cap D = \emptyset$; in a single World Series, both teams cannot win.  Therefore, the probability of $A\cup D$, the event that either the Astros or the Dodgers win, must be 46%.  
+
+The three axioms of a probability measure are minimal logical consistency requirements that must be satisfied by any probability model.  There are also many physical aspects of the random phenomenon or assumptions (e.g.
+"fairness", independence, conditional relationships) that must be considered when determining a reasonable
+probability measure for a particular situation.  Sometimes $\IP(A)$ is defined explicitly for an event $A$ via a formula. But it is much more common for a probability measure to be defined only implicitly through modeling
+assumptions; probabilities of events then follow from the
+axioms and related properties.
+
+Probabilities are always defined for events (sets) but remember than many events are defined in terms of random variables. For example, if $X$ is tomorrow's high temperature (degrees F) we might be interested in $\IP(\{X>80\})$, the probability of the event that tomorrow's high temperature is above 80 degrees F.  If $Y$ is the amount of rainfall tomorrow (inches) we might be interested in $\IP(\{X > 80\}\cap \{Y < 2\})$, the probability of the event that tomorrow's high temperature is above 80 degrees F and the amount of rainfall is less than 2 inches.  To simplify notation, it is common to write $\IP(X>80)$ instead of $\IP(\{X>80\})$, or $\IP(X > 80, Y < 2)$ instead of $\IP(\{X > 80\}\cap \{Y < 2\})$.  (Read the comma in $\IP(X > 80, Y < 2)$ as "and".) But keep in mind that an expression like "$X>80$" really represents an event $\{X>80\}$, an expression which itself represents $\{\omega\in\Omega: X(\omega) > 80\}$, a subset of the sample space $\Omega$.
+
+
+
+In the next few sections we'll work with some actual numerical probabilities.  But let's first pause to think about some of the concepts we have seen so far.  It's easy to get confused between things like events, random variables, and probabilities, and the symbols that represent them. But a strong understanding of these fundamental concepts will help you solve probability problems. Examples like the following do more than encourage proper use of notation.  Explaining to Donny why he is wrong will help you better understand the objects that symbols represent, how they are different from one another, and how they connect to real-world contexts.
+
+
+```{example dd-notation, name='(ref:ddwddd)'}
+
+At various points in his homework, Donny Don't writes the following.  Explain to Donny why each of the following symbols is nonsense,  both mathematically and intuitively using a simple example (like tomorrow's weather).  Below, $A$ and $B$ represent events, $X$ and $Y$ represent random variables.
+
+```
+
+1. $\IP(A = 0.5)$
+1. $\IP(A + B)$
+1. $\IP(A) \cup \IP(B)$
+1. $\IP(X)$
+1. $\IP(X = A)$
+1. $\IP(X \cap Y)$
+
+```{solution dd-notation-sol}
+to Example \@ref(exm:dd-notation)
+```
+
+We'll respond to Donny using tomorrow's weather as an example, with $A$ representing the event that it rains tomorrow, $X$ tomorrow's high temperature (degrees F), $B=\{X>80\}$ the event that tomorrow's high temperature is above 80 degrees, and $Y$ tomorrow's rainfall (inches).
+
+1. $A$ is a set and 0.5 is a number; it doesn't make mathematical sense to equate them.  It doesn't make sense to say  "it rains tomorrow equals 0.5".  Donny probably means "the probability that it rains tomorrow equals 0.5" which he should write as $\IP(A) = 0.5$.
+1. $A$ and $B$ are sets; it doesn't make mathematical sense to add them.  What Donny has written reads as “the probability that it rains tomorrow or the probability that tomorrow’s high temperature is above 80 degrees F,” which doesn't make much sense.  Donny probably means “the probability that (it rains tomorrow) or (tomorrow’s high temperature is above 80 degrees),” which he should write as $\IP(A \cup B)$. (Mathematically, $\IP(A)$ and $\IP(B)$ are numbers while union is an operation on sets, so it doesn't make mathematical sense to take a union of numbers.) Donny might have meant to write $\IP(A) + \IP(B)$, which is valid expression since $\IP(A)$ and $\IP(B)$ are numbers. However, he should keep in mind that $\IP(A) + \IP(B)$ is not necessarily a probability of anything; this sum could even be greater than one.  In particular, since there are some rainy days with high temperatures above 80 degrees --- that is, $A$ and $B$ are not disjoint --- $\IP(A) + \IP(B)$ is greater than $\IP(A\cup B)$.  (See the general addition rule and related discussion in Section \@ref(propprob).)
+1. $\IP(A)$ and $\IP(B)$ are numbers; union is an operation on sets, and it doesn't make mathematical sense to take a union of numbers.  See the previous part for related discussion.
+1. $X$ is a random variable, and probabilities are assigned to events.  $P(X)$ reads "the probability that tomorrow's high temperature in degrees F", a subject in need of a predicate; the phrase is missing any qualifying information that could define an event .  We assign probabilities to things that could happen (events) like "tomorrow's high temperature is above 80 degrees," which has probability $\IP(X > 80)$.
+1. $X$ is a random variable (a function) and $A$ is an event (a set), and it doesn't make sense to equate these two different mathematical objects.  It doesn't make sense to say "tomorrow's high temperature in degrees F equals the event that it rains tomorrow".  We're not sure what Donny was thinking here.
+1. $X$ and $Y$ are RVs (functions) and intersection is an operation on sets.  $X \cap Y$ is attempting to say "tomorrow's high temperature in degrees F and the amount of rainfall in inches tomorrow", but this is still missing qualifying information to define a valid event for which a probability can be assigned.  We could say $\IP(X > 80, Y < 2)$ to represent "the probability that (tomorrow's high temperature is greater than 80 degrees F) AND (the amount of rainfall tomorrow is less than 2 inches)". (Remember,"$X > 80, Y < 2$" is short for the event $\{X > 80\} \cap \{Y < 2\}$
+
+
+
+### Some probability measures for a roll of a four-sided
+
+
+Consider a single roll of a four-sided die.  The sample space consists of four possible outcomes $\Omega = \{1, 2, 3, 4\}$.  Recall that we identified all possible events in Section \@ref(sigmafield).
+
+Let's first assume that the die is fair, so all four outcomes are equally likely, each with probability^[That the probability of each outcome must be 1/4 when there are four *equally likely* outcomes follows from the axioms, by writing $\{1, 2, 3, 4\} = \{1\}\cup\{2\}\cup \{3\}\cup \{4\}$, a union of disjoint sets, and applying countable additivity and $\IP(\Omega)=1$.] 1/4. Given that the probability of each outcome^[Probabilities are always defined for events (sets).  When we say loosely "the probability of an outcome $\omega$'' we really mean the probability of the event consisting of the single outcome $\{\omega\}$.  In this example $\IP(\{1\})=\IP(\{2\})=\IP(\{3\})=\IP(\{4\})=1/4$.] is 1/4, countable additivity implies
+
+\[
+\IP(A) = \frac{\text{number of elements in $A$}}{4}, \qquad{\text{$\IP$ assumes a fair four-sided die}}
+\]
+
+
+Table \@ref(tab:die-events-fair) lists all the possible events, and their probabilities according to the probability measure $\IP$.
+
+
+Table: (\#tab:die-events-fair) All possible events associated with a single roll of a four-sided die, and their probabilities assuming the die is fair.
+
+| Event | Description | Probability of event assuming equally likely outcomes
+| --- | --- | --- |
+| $\emptyset$ | Roll nothing (not possible) | 0 |
+$\{1\}$ | Roll a 1 | 1/4 | 
+$\{2\}$ | Roll a 2 | 1/4 | 
+$\{3\}$ | Roll a 3 | 1/4 | 
+$\{4\}$ | Roll a 4 | 1/4 | 
+$\{1, 2\}$ | Roll a 1 or a 2 | 2/4 | 
+$\{1, 3\}$ | Roll a 1 or a 3 | 2/4 |
+$\{1, 4\}$ | Roll a 1 or a 4 | 2/4 | 
+$\{2, 3\}$ | Roll a 2 or a 3 | 2/4 |
+$\{2, 4\}$ | Roll a 2 or a 4 | 2/4 |
+$\{3, 4\}$ | Roll a 3 or a 4 | 2/4 | 
+$\{1, 2, 3\}$ | Roll a 1, 2, or 3 (a.k.a. do not roll a 4) | 3/4 | 
+$\{1, 2, 4\}$ | Roll a 1, 2, or 4 (a.k.a. do not roll a 3) | 3/4 |
+$\{1, 3, 4\}$ | Roll a 1, 3, or 4 (a.k.a. do not roll a 2) | 3/4 | 
+$\{2, 3, 4\}$ | Roll a 2, 3, or 4 (a.k.a. do not roll a 1) | 3/4 |
+$\{1, 2, 3, 4\}$ | Roll something | 1 |
+
+
+The above assignment satisfies all the axioms and so it represents a valid probability measure.  But assuming that the outcomes are equally likely is a much stricter assumption than the basic logical consistency requirements of the axioms.  There are many other possible probability measures, like in the following.
+
+```{example die-weighted}
+Now consider a single roll of a four-sided die, but suppose the die is weighted so that the outcomes are no longer equally likely. Suppose that the probability of event $\{2, 3\}$ is 0.5, of event $\{3, 4\}$ is 0.7, and of event $\{1, 2, 3\}$ is 0.6.  Complete a table, like Table \@ref(tab:die-events-fair), listing the probability of each event for this particular weighted die.  In what particular way is the die weighted?  That is, what is the probability of each the four possible outcomes?
+
+```
+
+
+
+
+```{solution die-weighted-sol}
+to Example \@ref(exm:die-weighted)
+
+```
+
+Since the probability of not rolling a 4 is 0.6, the probability of rolling a 4 must be 0.4.  Since $\{3, 4\} = \{3\} \cup \{4\}$, a union of disjoint sets, the probability of rolling a 3 must be 0.3.  Similarly, the probability of rolling a 2 must be 0.2, and  the probability of rolling a 1 must be 0.1.  From there we can find the probabilities of all possible events for this particular weighted die, displayed in Table \@ref(tab:die-events-weighted).
+
+Table: (\#tab:die-events-weighted) All possible events associated with a single roll of a four-sided die, and their probabilities assuming the die is weighted: roll a 1 with probability 0.1, 2 with probability 0.2, 3 with probability 0.3, 4 with probability 0.4.
+
+| Event | Description | Probability of event assuming a particular weighted die
+| --- | --- | --- |
+| $\emptyset$ | Roll nothing (not possible) | 0 |
+$\{1\}$ | Roll a 1 | 0.1 | 
+$\{2\}$ | Roll a 2 | 0.2 | 
+$\{3\}$ | Roll a 3 | 0.3 | 
+$\{4\}$ | Roll a 4 | 0.4 | 
+$\{1, 2\}$ | Roll a 1 or a 2 | 0.3 | 
+$\{1, 3\}$ | Roll a 1 or a 3 | 0.4 |
+$\{1, 4\}$ | Roll a 1 or a 4 | 0.5 | 
+$\{2, 3\}$ | Roll a 2 or a 3 | 0.5 |
+$\{2, 4\}$ | Roll a 2 or a 4 | 0.6 |
+$\{3, 4\}$ | Roll a 3 or a 4 | 0.7 | 
+$\{1, 2, 3\}$ | Roll a 1, 2, or 3 (a.k.a. do not roll a 4) | 0.6 | 
+$\{1, 2, 4\}$ | Roll a 1, 2, or 4 (a.k.a. do not roll a 3) | 0.7 |
+$\{1, 3, 4\}$ | Roll a 1, 3, or 4 (a.k.a. do not roll a 2) | 0.8 | 
+$\{2, 3, 4\}$ | Roll a 2, 3, or 4 (a.k.a. do not roll a 1) | 0.9 |
+$\{1, 2, 3, 4\}$ | Roll something | 1 |
+
+
+The symbol $\IP$ is more than just shorthand for the word "probability".  $\IP$ denotes the underlying probability measure, which represents all the assumptions about the random phenomenon.  Changing assumptions results in a change of the probability measure and a different probability model.  We often consider several probability measures for the same sample space and collection of events; these several measures represent different sets of assumptions and different probability models.
+
+In the dice example above, suppose $\IP$ represents the probability measure corresponding to the assumption of a fair die (equally likely outcomes).  With this measure $\IP(A) = 2/4$ for $A = \{1, 2\}$.  Now let $\IQ$ represent the probability measure corresponding to the assumption of the weighted die; then $\IQ(A) = 0.3$.  The outcomes and events are the same in both scenarios, because both scenarios involve a four sided-die.  What is different is the probability measure that assigns probabilities to the events.  One scenario assumes the die is fair while the other assumes the die has a particular weighting, resulting in two different probability measures.
+
+Both probability measures in the dice example could be written as explicit set functions: for an event $A$
+
+\begin{align*}
+\IP(A) & = \frac{\text{number of elements in $A$}}{4}, & & {\text{$\IP$ assumes a fair four-sided die}}
+\\
+\IQ(A) & = \frac{\text{sum of elements in $A$}}{10}, & & {\text{$\IQ$ assumes a particular weighted four-sided die}}
+\end{align*}
+
+We provide the above descriptions to illustrate that a probability measure operates on sets.  However, in many situations there does not exist a simple closed form expression for the set function defining the probability measure which maps events to probabilities.
+
+```{example dice-normalize}
+Consider again a single roll of a weighted four-sided die. Suppose that
+
+- Rolling a 1 is twice as likely as rolling a 4
+- Rolling a 2 is three times as likely as rolling a 4
+- Rolling a 3 is 1.5 times as likely as rolling a 4
+  
+Let $\tilde{\textrm{Q}}$ be the probability measure corresponding to this die.  Compute $\tilde{\textrm{Q}}(A)$ for each event in  Table \@ref(tab:die-events-fair).  In what particular way is the die weighted?  That is, what is the probability of each the four possible outcomes?
+
+```
+
+```{solution dice-normalize-sol}
+to Example \@ref(exm:dice-normalize).
+```
+
+Let $q = \tilde{\textrm{Q}}(\{4\})$ denote the probability of rolling a 4.  Then $\tilde{\textrm{Q}}(\{1\}) = 2q$, $\tilde{\textrm{Q}}(\{2\}) = 3q$, and $\tilde{\textrm{Q}}(\{3\}) = 1.5q$.  Since these probabilities must sum to 1, we have $2q + 3q + 1.5q + q = 1$ so $q = 2/15$. From there we can find the probabilities of all possible events for this particular weighted die, displayed in Table \@ref(tab:die-events-weighted2). Note this probability measure does not have a simple closed formula for $\tilde{\textrm{Q}}(A)$.
+
+Table: (\#tab:die-events-weighted2) All possible events associated with a single roll of a four-sided die, and their probabilities assuming the die is weighted: roll a 1 with probability 4/15, 2 with probability 6/15, 3 with probability 3/15, 4 with probability 2/15.
+
+| Event | Description | Probability of event assuming a particular weighted die
+| --- | --- | --- |
+| $\emptyset$ | Roll nothing (not possible) | 0 |
+$\{1\}$ | Roll a 1 | 4/15 | 
+$\{2\}$ | Roll a 2 | 6/15 | 
+$\{3\}$ | Roll a 3 | 3/15 | 
+$\{4\}$ | Roll a 4 | 2/15 | 
+$\{1, 2\}$ | Roll a 1 or a 2 | 10/15 | 
+$\{1, 3\}$ | Roll a 1 or a 3 | 7/15 |
+$\{1, 4\}$ | Roll a 1 or a 4 | 6/15 | 
+$\{2, 3\}$ | Roll a 2 or a 3 | 9/15|
+$\{2, 4\}$ | Roll a 2 or a 4 | 8/15 |
+$\{3, 4\}$ | Roll a 3 or a 4 | 5/15 | 
+$\{1, 2, 3\}$ | Roll a 1, 2, or 3 (a.k.a. do not roll a 4) | 13/15 | 
+$\{1, 2, 4\}$ | Roll a 1, 2, or 4 (a.k.a. do not roll a 3) | 12/15 |
+$\{1, 3, 4\}$ | Roll a 1, 3, or 4 (a.k.a. do not roll a 2) | 9/15 | 
+$\{2, 3, 4\}$ | Roll a 2, 3, or 4 (a.k.a. do not roll a 1) | 11/15 |
+$\{1, 2, 3, 4\}$ | Roll something | 1 |
+
+
+The dice rolling example is not the most exciting or practical scenario. But the example does illustrate the idea of several probability measures, each corresponding to a different set of assumptions about the random phenomenon.  If it's difficult to imagine how to physically weight a die in these particular ways, consider the spinners (like from a kids game) in \@ref(fig:die-three-spinners).  
+
+(ref:cap-die-three-spinners) Three possible spinners corresponding to the roll of a four-sided die. Left: a fair die.  Middle: the weighted die of Example \@ref(exm:die-weighted). Right: the weighted die of Example \@ref(exm:dice-normalize).
+
+
+```{r die-three-spinners, echo=FALSE, fig.cap="(ref:cap-die-three-spinners)", out.width='33%', fig.show='hold'}
+
+make_discrete_spinner <- function(x, p){
+  xp <- data.frame(x, p)
+  cdf = c(0, cumsum(xp$p))
+  plotp = (cdf[-1] + cdf[-length(cdf)]) / 2
+  ggplot(xp, aes(x="", y=p, fill=x))+
+    geom_bar(width = 1, stat = "identity", color="black", fill="white") + 
+    coord_polar("y", start=0) +
+    blank_theme +
+    # plot the possible values on the outside
+    scale_y_continuous(breaks = plotp, labels=xp$x) +
+    theme(axis.text.x=element_text(size=16, face="bold")) +
+    # plot the probabilities as percents inside
+    geom_text(aes(y = plotp,
+                  label = format(percent(round(p, 3)),0)), size=6)
+}
+
+x = 1:4
+p1 = rep(0.25, 4)
+p2 = x / sum(x)
+p3 = c(4, 6, 3, 2) / 15
+
+make_discrete_spinner(x, p1)
+
+make_discrete_spinner(x, p2)
+
+make_discrete_spinner(x, p3)
+
+```
+
+
+Perhaps the concept of multiple potential probability measures is easier to understand in a subjective probability situation.  For example, each model that is used to forecast the 2020-2021 NFL season corresponds to a probability measure which assigns probabilities to events like "the Eagles win the 2021 Superbowl".  Different sets of assumptions and models can assign different probabilities for the same events.  As another example, the weather forecaster on one local news station might report that the probability of rain tomorrow is 0.6, while an online source might report it as 0.5.  Each weather forecasting model corresponds to a different probability measure which encodes a set of assumptions about the random phenomenon.
+
+- A single probability measure corresponds to a particular set of assumptions about the random phenomenon.
+- There can be many probability measures defined on a single sample space, each one corresponding to a different probability model for the random phenomenon.
+- Probabilities of events can change if the probability measure changes.
+
+
+
+
+### Properties of probability measures {#propprob}
+
+Many other properties follow from the axioms.  The main "meat" of the axioms is countable additivity.  Thus, the key to many proofs of probability properties is to write relevant events in terms of disjoint events.
+
+```{theorem prob-properties, name='Properties of a probability measure.'}
+
+Complement rule^[Proof: Since $\Omega = A \cup A^c$ and $A$ and $A^c$ are disjoint the axioms imply that $1=\IP(\Omega) = \IP(A \cup A^c) = \IP(A) + \IP(A^c)$.]. For any event $A$, $\IP(A^c)  = 1 - \IP(A)$.  In particular, since $\Omega^c=\emptyset$, $\IP(\emptyset)=0$.
+
+Subset rule^[Proof. If $A \subseteq B$ then $B = A \cup (B \cap A^c)$.  Since $A$ and $(B \cap A^c)$ are disjoint, $\IP(B) = \IP(A) + \IP(B \cap A^c) \ge \IP(A)$.]. If $A \subseteq B$ then $\IP(A) \le \IP(B)$.
+
+General addition rule for two events^[The proof is easiest to see by considering a picture like the one in Figure \@ref(fig:venn-disjoint) .]. If $A$ and $B$ are any two events
+\begin{align*}
+\IP(A\cup B) = \IP(A) + \IP(B) - \IP(A \cap B)
+\end{align*}
+
+
+Law of total probability.  If $B_1,\ldots, B_k$ are disjoint with $B_1\cup \cdots \cup B_k=\Omega$, then 
+\begin{align*}
+\IP(A) & = \sum_{i=1}^k \IP(A \cap B_i)
+\end{align*}
+
+```
+
+
+
+The key to the proofs is to represent relevant events in terms of disjoint events and use countable additivity (and the other axioms).
+
+```{example dd-union}
+Donny Don't says: "Wait a minute. You said unions are inclusive; $\IP(A\cup B)$ means the probability of $A$ or $B$ OR BOTH.  So $\IP(A\cup B)$ should just be $\IP(A)+\IP(B)$."  Explain to Donny his mistake, using the picture on the right in Figure \@ref(fig:venn-disjoint) as an example.
+```
+
+```{solution dd-union-sol}
+to Example \@ref(exm:dd-union).
+```
+
+
+$A\cup B$ is inclusive so we *do* want to count the possibility of both, $A\cap B$.  The problem with simply adding $\IP(A)$ and $\IP(B)$ is that their sum *double counts* $A \cap B$.  We do want to count the outcomes that satisfy both $A$ and $B$, but *we only want to count them once*.  Subtracting $\IP(A \cap B)$ in the general addition rule for two events corrects for the double counting.
+
+For example, consider the picture on the right in Figure \@ref(fig:venn-disjoint).  Suppose each rectangular cell represents a distinct outcome; there are 16 outcomes in total.  Assume the outcomes are equally likely, each with probability $1/16$.  Let $A$ represent the yellow / event which has probability $4/16$ and let $B$ represent the  blue \\ event which has probability 4/16.  Then $\IP(A\cup B) = 6/16$, since there are 6 outcomes which satisfy either event $A$ or $B$ (or both).  However, simply adding $\IP(A)+\IP(B)$ yields $8/16$ because the two outcomes that satisfy the green event $A\cap B$ are counted both in $\IP(A)$ and $\IP(B)$.  So to correct for this double counting, we subtract out $\IP(A\cap B)$:
+\[
+\IP(A)+\IP(B)-\IP(A\cap B) = 4/16 + 4/16 -2/16 = 6/16 = \IP(A\cup B)
+\]
+
+Warning: The general addition rule for more than two events is more complicated^[For three events,
+\begin{align*}
+\IP(A\cup B\cup C) & = \IP(A) + \IP(B) + \IP(C)\\
+& \qquad - \IP(A\cap B) - \IP(A \cap C) - \IP(B \cap C)\\
+& \qquad + \IP(A \cap B \cap C).
+\end{align*}]; see [the inclusion-exclusion principle](https://en.wikipedia.org/wiki/Inclusion%E2%80%93exclusion_principle#In_probability).
+
+
+In the law of total probability the events $B_1, \ldots, B_k$, which represent  "cases", form a *partition* of the sample space; each outcome $\omega\in\Omega$ lies in exactly one of the $B_i$.  The law of total probability says that we can interpret the "overall" probability $\IP(A)$ by summing the probability of $A$ in each "case" $\IP(A\cap B_i)$. (We will see a different and more useful expression of the law of total probability, involving conditional probabilities, in Section \@ref(lawtotalprob).)
+
+```{example venn-prob}
+
+
+Computer monitors are given a final inspection following assembly. Three types of defects are identified as minor, major, and critical and are coded $A$, $B$, and $C$, respectively. The following data are found through the inspection:
+
+- 15% have minor defects
+- 12% have major defects
+- 10% have critical defects
+- 4% have both minor and major defects
+- 5% have both minor and critical defects
+- 4% have both major and critical defects
+- 1% have all three types of defects
+```
+
+1. Use a Venn diagram below and the information above to partition the sample space into 8 disjoint regions, along with their probabilities. (Hint: Work your way out from the center.)
+1. One of the 8 pieces of the partition has a probability of 0.07. Identify the event in symbols, and then interpret the event in words.
+1. Find the probability that a randomly selected computer monitor has at least one of these three types of defects.
+1. Find the probability that a randomly selected computer monitor has no defects.
+1. Find the probability that a randomly selected computer monitor has exactly one of these three types of defects.
+1. Find the probability that a randomly selected computer monitor has either a minor or major defect (or both), but not a critical defect.
+
+
+```{solution venn-prob-sol, fold.chunk = FALSE}
+to Example \@ref(exm:venn-prob).
+```
+  
+The following example involves random selecting a U.S. household. Note that while "randomly select" is commonly used terminology, it is not the best wording.  Remember that "random" simply means uncertain, so technically "randomly select" just means selecting in a way that the outcome is uncertain.   Suppose I want to "randomly select" one of two households, A or B.  I could put 10 tickets in a hat, with 9 labeled A and 1 labeled B, and then draw a ticket; this is random selection because the outcome of the draw is uncertain.  However, what is often meant by "randomly select" is selecting in a way that each outcome is equally likely. To give households A and B the same chance of being selected, I would put a single ticket for each in the hat. Randomly selecting in a way that each outcome is equally likely could be described more precisely as "selecting uniformly at random".  (We discuss equally likely outcomes in more detail starting in Section \@ref(equally-likely).)
+  
+```{example largest-smallest-prob}
+The probability that a randomly selected U.S. household has a pet dog is 0.47. The probability that a randomly selected U.S. household has a pet cat is 0.25. (These values are based on the 2018 [General Social Survey (GSS)](https://gss.norc.org/).)
+```
+
+
+1. Represent the information provided using proper symbols.
+1. Donny Don't says: "the probability that a randomly selected U.S. household has a pet dog OR a pet cat is $0.47 + 0.25=0.72$." Do you agree?  What must be true for Donny to be correct? Explain.
+1. What is the *largest possible* value of the probability that a randomly selected U.S. household has a pet dog AND a pet cat? Describe the (unrealistic) situation in which this extreme case would occur. (Hint: for the remaining parts it helps to consider two-way tables.)
+1. What is the *smallest possible* value of the probability that a randomly selected U.S. household has a pet dog AND a pet cat? Describe the (unrealistic) situation in which this extreme case would occur.
+1. Donny Don't says: "I remember hearing once that in probability OR means add and AND means multiply. So the probability that a randomly selected U.S. household has a pet dog AND a pet cat is $0.47 \times 0.25=0.1175$." Do you agree?  Explain.
+1. According to the GSS, the probability that a randomly selected U.S. household has a pet dog AND a pet cat is $0.15$. Compute the probability that a randomly selected U.S. household has a pet dog OR a pet cat.
+
+
+```{solution largest-smallest-prob-sol}
+to Example \@ref(exm:largest-smallest-prob).
+```
+  
+
+1. The sample space consists of U.S. households. Let $C$ be the event that the household has a pet cat, and let $D$ be the event that the household has a pet dog.  Let $\IP$ be the probability measure corresponding to randomly selecting a U.S. household. (The probability measure corresponds to however the random selection is done; though not specified, it's assumed to be uniformly at random.)  Then $\IP(C) = 0.25$ and $\IP(D) = 0.47$.
+1. Donny would be correct if the events $C$ and $D$ were disjoint, which would only be true if the probability that a randomly selected U.S. household has a pet dog AND a pet cat were 0.  This is unrealistic, since I'm sure you know households (maybe even your own!) that have both pet cats and dogs.
+1. $\IP(C \cup D) = \IP(C) + \IP(D) - \IP(C \cap D) = 0.25 + 0.42 - \IP(C\cap D)$.  So $\IP(C\cup D)$ is the largest it can be when $\IP(C \cap D)$ is the smallest it can be.  The smallest $\IP(C \cap D)$ can be is 0, and hence the largest $\IP(C\cup D)$ can be is 0.72, which would only be true if no households had both a pet cat and a pet dog.  The following two-way table of percents represents this unrealistic scenario.   
+
+    |           |  D | not D | Total |
+    |-----------|---:|------:|------:|
+    | **C**     |  0 |    25 |    25 |
+    | **not C** | 47 |    28 |    75 |
+    | **Total** | 47 |    53 |   100 |
+
+1. $\IP(C \cup D) = \IP(C) + \IP(D) - \IP(C \cap D) = 0.25 + 0.42 - \IP(C\cap D)$. $\IP(C\cup D)$ is the smallest it can be when $\IP(C \cap D)$ is the largest it can be.  The probability that the household has both a pet cat and a pet dog can not be larger than either of the two component probabilities; that is $\IP(C\cap D)\le \IP(C) = 0.25$ and $\IP(C\cap D)\le \IP(D) = 0.42$. The largest $\IP(C \cap D)$ can be is 0.25, and hence the smallest $\IP(C\cup D)$ can be is 0.42, which would only be true if every household that has a pet cat also has a pet dog. The following two-way table of percents represents this unrealistic scenario.   
+
+    |           |  D | not D | Total |
+    |-----------|---:|------:|------:|
+    | **C**     | 25 |     0 |    25 |
+    | **not C** | 22 |    53 |    75 |
+    | **Total** | 47 |    53 |   100 |
+
+1. Tell Donny to check the axioms of probability.  There is no requirement that the probability of an intersection must be the product of the probabilities. The two previous parts show that $0\le \IP(C \cap D) \le 0.25$, but without further information we can't determine the value of $\IP(C\cap D)$. It helps to think it in percentage terms. The extreme of 0 occurs when 0\% of households with a pet cat also have a pet dog; the extreme of 0.25 occurs when 100\% of households with a pet cat also have a pet dog.  We might expect that that the true value of $\IP(C \cap D)$ depends on the actual percentage of households with a pet cat that also have a pet dog.  Without knowing that percentage (or equivalent information), we cannot determine $\IP(C \cap D)$.  (We will explore this topic in more depth in Chapter XXX.)
+1. $\IP(C \cup D) = \IP(C) + \IP(D) - \IP(C \cap D) = 0.25 + 0.42 - 0.15 = 0.52$. Notice that this is between the hypothetical extremes of 0.42 and 0.72. Also notice that the actual $\IP(C \cap D)$ is between the hypothetical extremes of 0 and 0.25, but it is not equal to the product of 0.25 and 0.42. The moral is that we are not able to compute probabilities involving both events ($\IP(C\cup D)$, $\IP(C \cap D$)) based on the probability of each event alone. The following two-way table of percents represents the actual scenario.   
+
+    |           |  D | not D | Total |
+    |-----------|---:|------:|------:|
+    | **C**     | 15 |    10 |    25 |
+    | **not C** | 32 |    43 |    75 |
+    | **Total** | 47 |    53 |   100 |
+
+
+Probabilities involving multiple events, such as $\IP(A \cap B)$ or $\IP(X>80, Y<2)$, are often called **joint probabilities**.
+Note that the axioms do not specify any direct requirements on probabilities of intersections. In particular, is not necessarily true that $\IP(A\cap B)$ equals $\IP(A)\IP(B)$.  It is true that probabilities of intersections can be obtained by multiplying, but the product generally involves at least one *conditional probability* that reflects any association between the events involved.  In general, joint probabilities ($\IP(A \cap B)$) can not be computed based on the individual probabilities ($\IP(A)$, $\IP(B)$) alone. We will explore this topic in more depth in Chapter XXX.
+
+```{exercise linda}
+Consider a Cal Poly student who frequently has blurry, bloodshot eyes, generally exhibits slow reaction time, always seems to have the munchies, and disappears at 4:20 each day. Which of the following events, $A$ or $B$, has a higher probability? (Assume the two probabilities are not equal.)
+
+- $A$: The student has a GPA above 3.0.
+- $B$: The student has a GPA above 3.0 and smokes marijuana regularly.
+
+```
+
+
+
+**Warning!** Your psychological judgment of probabilities is often inconsistent with the mathematical logic of probabilities.
+
+
+
+### Equally likely outcomes {#equally-likely}
+
+
+Sometimes a probability $\IP(A)$ is defined explicitly for an event $A$ via a formula. For example, in the case of a finite sample space with **equally likely outcomes**,
+
+\[
+\IP(A) = \frac{|A|}{|\Omega|} = \frac{\text{number of outcomes in $A$}}{\text{number of outcomes in $\Omega$}} \qquad{\text{when outcomes are equally likely}}
+\]
+
+
+```{example coin-probspace}
+
+Consider the outcome of a sequence of 4 flips of a coin. Recall the sample space from Example \@ref(exm:coin-outcome) consisting of 16 possible outcomes. Let $X$ be the number of H. One choice of probability measure $\IP$ corresponds to assuming the 16 possible outcomes are equally likely, consistent with the assumption that the coin is fair and the flips are independent.  (We'll discuss independence in Section XXX.)
+
+```
+
+1. Specify the probability of each individual outcome, e.g. $\{HHTH\}$.  
+1. Find $\IP(E_1)$, the event that the first flip results in heads.  (Hint: remember the sample space.)
+1. Find $\IP(E_2)$, the event that the second flip results in heads.
+1. Find and interpret $\IP(E_1 \cup E_2)$. (Can you do it two ways?)
+1. Find and interpret $\IP(X=3)$.
+1. Find and interpret $\IP(X = 4)$.
+1. Find and interpret $\IP(X \ge 3)$. (Can you do it two ways?)
+1. We assumed the 16 outcomes are equally likely.  Do the axioms or probability require this assumption?
+1. Are the possible values are $X$ equally likely?
+1. Provide a "long run relative frequency" interpretation of $\IP(X = 3)$.
+
+
+
+```{solution coin-probspace-sol}
+
+to Example \@ref(exm:coin-probspace)
+
+```
+
+1. The sample space is composed of 16 outcomes which are assumed to be equally likely, so the probability of each outcome is 1/16.
+1. Intuitively this is 1/2, but sample space outcomes consist of sequences of four coin flips, so we should define the proper event.
+\[
+E_1 = \{HHHH, HHHT, HHTH, HTHH, HHTT, HTHT, HTTH, HTTT\}
+\]
+So $\IP(E_1) = 8/16 = 1/2$.
+1. Similar to the previous part.
+\[
+E_2 = \{HHHH, HHHT, HHTH, THHH, HHTT, THHT, THTH, THTT\}
+\]
+So $\IP(E_2) = 8/16 = 1/2$.
+1. $E_1 \cup E_2$ is the event that at least one of the first two flips is heads.  We can identify the event and compute its probability directly.
+\begin{align*}
+E_1 \cup E_2 & = \{HHHH, HHHT, HHTH, HTHH, THHH, HHTT,
+\\
+& \quad HTHT, HTTH, THHT, THTH, HTTT, THTT\}
+\end{align*}
+So $\IP(E_1 \cup E_2) = 12/16$.  Note that $\E_1$ and $\E_2$ are not disjoint --- it is possible for the first two flips to both be H --- so we cannot just add their probabilities.  But we can use the general addition rule for two events.
+\[
+E_1 \cap E_2 = \{HHHH, HHHT, HHTH, HHTT\}
+\]
+So $\IP(E_1 \cup E_2) = \IP(E_1) + \IP(E_2) - \IP(E_1 \cap E_2) = 8/16 + 8/16 - 4/16 = 12/16$.
+1. $\{X=3\} = \{HHHT, HHTH, HTHH, THHH\}$ is the event that exactly 3 of the flips land on heads, so $\IP(X=3) = 4/16$.
+1. $\{X=4\} = \{HHHH\}$, an event consisting of a single outcome, so $\IP(X=4) = 1/16$.
+1. Directly, $\{X \ge 3\} = \{HHHT, HHTH, HTHH, THHH, HHHH\}$, so $\IP(X\ge 3) = 5/16$.  Also $\{X\ge 3\}=\{X=3\}\cup\{X=4\}$, a union of disjoint events, so $\IP(X \ge 3) = \IP(X = 3) + \IP(X = 4) = 4/16 + 1/16 = 5/16$.
+1. No,  the axioms do not require equally likely outcomes.  If, for example, the coin were biased in favor of landing on Heads, we would want a different probability measure.
+1. No, $\IP(X=3)\neq \IP(X = 4)$.  Even though the underlying sample space outcomes are equally likely, the possible values of $X$ are not.
+1. Over many sets of 4 flips of a fair coin the number of H will be equal to 3 in about 25% of sets.
+
+
+
+
+Remember that events often involve random variables.  Even if the sample space outcomes are equally likely, the possible values of related random variables might not be.
+
+
+
+```{example, matching-probspace, name='Matching problem'}
+Recall the "matching problem". A geology museum in California has four different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order.
+
+Recall the sample space from Example \@ref(exm:matching-outcome).  Let the random variable $Y$ count the number of rocks that are put back in the correct spot.  (Hint: recall Table \@ref(tab:matching-indicator-tab).)  Let $\IP$ denote the probability measure corresponding to the assumption that the janitor is equally likely to put any rock in any spot, so that the 24 possible placements are equally.
+  
+
+```
+
+1. Find $\IP(Y=0)$.
+1. What are the possible values of $Y$? Make a table displaying $\IP(Y=y)$ for each possible value of $y$.
+1. Let $C$ be the event that at least one rock is put in the correct spot.  Find $\IP(C)$.
+1. Let $C_1$ be the event that rock 1 (say the heaviest rock) is put correctly in spot 1. Find $\IP(C_1)$.
+1. Let $C_2$ be the event that rock 2 (say the next heaviest rock) is put correctly in spot 2. Find $\IP(C_2)$.
+1. Define $C_3$, and $C_4$ similarly.  Represent the event $C$  in terms of $C_1, C_2, C_3, C_4$.
+1. Find and interpret $\IP(C_1\cap C_2 \cap C_3 \cap C_4)$.
+1. Donny Don't says: "the events are not disjoint so by the general addition rule $\IP(C_1 \cup C_2 \cup C_3 \cup C_4)$ is equal to $\IP(C_1)+\IP(C_2)+\IP(C_3)+\IP(C_4)-\IP(C_1\cap C_2 \cap C_3 \cap C_4)$."  Explain to Donny his mistake.
+
+```{solution matching-probspace-sol}
+
+to Example \@ref(exm:matching-probspace)
+
+```
+
+(ref:cap-matching-probspace-table) Probability of each possible value of the number of matches, $Y$, in the matching problem in Example \@ref(exm:matching-probspace).
+
+1. Each of the 24 outcomes in Table \@ref(tab:matching-indicator-tab) is equally likely.  There are 9 outcomes for which $Y=0$, so $\IP(Y=0)=9/24=0.375$.
+1. The possible values of $Y$ are 0, 1, 2, 4.  $Y$ cannot be 3, since if 3 rocks are in the correct spot, then the fourth must be too. $\IP(Y=y)$ for $y=0, 1, 2, 4$ can be found as in the previous part. See Table \@ref(tab:matching-probspace-table).  
+
+    ```{r, matching-probspace-table, echo = FALSE}
+    y = c(0, 1, 2, 4)
+    p = c(9, 8, 6, 1) / 24
+    
+    knitr::kable(
+      data.frame(y, p),
+      col.names = c("y", "P(Y=y)"),
+      booktabs = TRUE,
+      caption = "(ref:cap-matching-probspace-table)",
+      digits = 4
+    )
+    
+    ```  
+
+1. $C=\{Y\ge 1\}$ is the  event that at least one rock is put in the correct spot.  $\IP(Y \ge 1) = 1-\IP(Y=0)=1-9/24 = 15/24 = 0.625$.  
+1. Intuitively, $\IP(C_1)=1/4$ since rock 1 is equally likely to be put in any of the 4 spots.  In terms of the sample space outcomes, $C_1 =\{1234, 1234, 1243, 1324, 1342, 1423, 1432\}$, so $\IP(C_1)=6/24=1/4$.
+1. Similar to the previous part, $\IP(C_2)=1/4$. Also $C_2=\{I_2=1\}$, and we see that there are 6 outcomes (rows) in Table \@ref(tab:matching-indicator-tab) corresponding to $I_2=1$.  Similarly, $\IP(C_3)=\IP(C_4)=1/4$.
+1. $C = C_1\cup C_2\cup C_3\cup C_4$.
+1. $\IP(C_1\cap C_2 \cap C_3 \cap C_4) = \IP(\{1234\}) = 1/24$ is the probability that all four rocks are put in their correct spots.
+1. As we mentioned previously, the general addition rule is complicated for more than two events.  There are some terms missing from Donny's calculation.
+
+There is one point about Example \@ref(exm:matching-probspace) worth emphasizing.
+Probability problems often involve finding "the probability of at least one...," which on the surface involves unions (OR).  However, the general addition rule for multiple events is complicated.  It is often more convenient to use the complement rule and compute "the probability of at least one..." as one minus "the probability of none..."; the latter probability involves intersections (AND).  We will see more about probabilities of intersections in Chapter XXX.
+
+
+### Uniform probability measures {#sec-uniform-prob}
+
+
+For a finite sample space with equally likely outcomes, computing the probability of an event reduces to counting the number of outcomes that satisfy the event.  The continuous analog of equally likely outcomes is a **uniform probability measure**.  When the sample space is uncountable, size is measured continuously (length, area, volume) rather that discretely (counting).
+
+\[
+\IP(A) = \frac{|A|}{|\Omega|} = \frac{\text{size of } A}{\text{size of } \Omega} \qquad \text{if $\IP$ is a uniform probability measure}
+\]
+
+```{example meeting-probspace1}
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  We'll consider only Regina's arrival time for now. (We'll get back to Cady in the next example.) Assume that Regina arrives at a time chosen uniformly at random between noon and 1.  We can model Regina's arrival with the sample space $[0, 1]$ and a uniform probability measure.
+
+```
+
+1. Find the probability that Regina arrives before 12:15.
+1. Find the probability that Regina arrives after 12:45.
+1. Find the probability that Regina arrives between 12:15 and 12:45.
+1. Find the probability that Regina arrives between 12:15:00 and 12:16:00.
+1. Find the probability that Regina arrives between 12:15:00 and 12:15:01.
+1. Find the probability that Regina arrives at the exact time 12:15:00 (with infinite precision).
+
+
+```{solution meeting-probspace1-sol}
+
+to Example \@ref(exm:meeting-probspace1)
+
+```
+
+1. Since the sample space is $[0, 1]$, a continuous (one-dimensional) interval, "size" is measured by length (which in this context represents fractions of an hour). Let $\IP$ be the uniform probability measure on $[0, 1]$. The interval from noon to 12:15 has length 0.25 hours and the sample space has length 1 hour, so the probability she arrives before 12:15 is $0.25/1 = 0.25$; $\IP([0, 0.25)) = 0.25$.
+1. Similar to the previous part, the probability she arrives after 12:45 is 0.25; $\IP((0.75, 1]) = 0.25$.
+1. The probability that Regina arrives between 12:15 and 12:45, an interval of length 0.5 hours, is 0.5; $\IP((0.25, 0.75)) = 0.5$.
+1. A one minute interval has length $1/60 = 0.0167$ hours, so the probability she arrives between 12:15 and 12:16 is 0.0167; $\IP([0.25, 0.25+1/60]) = 1/60$.
+1. A one second interval has length $1/3600 = 0.000278$ hours, so the probability she arrives between 12:15:00 and 12:15:01 is 0.000278; $\IP([0.25, 0.25+1/3600]) = 1/3600$.
+1. The exact time 12:15:00 represents a single point the sample space, an interval of length 0.  The probability that Regina arrives at the exact time 12:15:00 (with infinite precision) is 0; $\IP(\{0.25\}) = 0$.
+
+The last part in the previous example might seem counterintuitive at first.  There was nothing special about 12:15; pick any time in the continuous interval from noon to 1:00, and the probability that Regina arrives at that exact time, with infinite precision, is 0.  This idea can be understood as a limit. The probability that Regina arrives within one minute of the specified time is small, within one second of the specified time is even smaller, within one millisecond of the specified time is even smaller still; with infinite precision these time increments can get smaller and smaller indefinitely.  Of course, infinite precision is not practical, but assuming the possible arrival times are represented by a continuous interval provides a reasonable mathematical model. Even though any particular time has probability 0 of being the exact arrival time, *intervals* of time still have positive probability of containing the arrival time.  We will revisit this idea in more detail in Section XXX.  This is one reason why probabilities are defined for events and not outcomes.
+
+
+```{example, meeting-probspace2}
+
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  Recall the sample space from Example \@ref(exm:meeting-outcome).  Assume that the (Regina, Cady) pair of arrival times is chosen uniformly at random from the sample space $[0, 1]\times[0, 1]$.  We can model the pair of arrival times with the sample space $[0, 1]\times [0, 1]$ and a uniform probability measure.
+
+
+```
+
+
+1. Find the probability that Regina arrives after Cady.
+1. Find the probability that either Regina or Cady arrives before 12:30.
+1. Find the probability that Regina arrives at most 15 minutes after Cady (and Cady arrives first).
+1. Find the probability that Regina arrives before 12:24.
+1. Find the probability that Regina arrives at most 1 minute after Cady (and Cady arrives first).
+1. Find the probability that Regina arrives at most 1 second after Cady (and Cady arrives first).
+1. Find the probability that Regina and Cady arrive at exactly the same time, with infinite precision.
+
+
+
+
+```{solution meeting-probspace2-sol}
+
+to Example \@ref(exm:meeting-probspace2)
+
+```
+
+1. See Figure \@ref(fig:meeting-probspace2-plot) for pictures. Since the sample space is $[0, 1]\times[0, 1]$, a continuous two-dimensional region, "size" is measured by area. Let $\IP$ be the uniform probability measure on $[0, 1]\times [0, 1]$.  The sample space has area 1. The triangular region corresponding to the event that Regina arrives after Cady has area 0.5. So the probability that Regina arrives after Cady is $0.5/1=0.5$.
+1. The L-shaped region corresponding to the event that Regina or Cady arrives before 12:30 has area 0.75, so the probability is 0.75.
+1. The trapezoidal region corresponding to the event that that Regina arrives at most 15 minutes after Cady (and Cady arrives first) has area $7/32 = 0.21875$. (It's easiest to find the area of the two unshaded triangles and subtract from the total area of 1; $1 - 0.5 - (1-0.25)^2/2=7/32$.) So the probability that Regina arrives at most 15 minutes after Cady (and Cady arrives first) is 0.21875.
+1. The rectangular region corresponding to the event that that Regina arrives before 12:24 has area 0.4, so the probability is 0.4.
+1. Similar to part 3, the probability that Regina arrives at most 1 minute after Cady (and Cady arrives first) is $1 - 0.5 - (1-1/60)^2/2=0.0165$.
+1. Similar to part 3, the probability that Regina arrives at most 1 second after Cady (and Cady arrives first) is $1 - 0.5 - (1-1/3600)^2/2=0.000278$.
+1. The event that Regina and Cady arrive at exactly the same time, with infinite precision, corresponds to the line segment $\{(\omega_1,\omega_2):\omega_1 = \omega_2\}$.  The area of this line segment is 0, so the probability that Regina and Cady arrive at exactly the same time, with infinite precision, is 0.
+
+
+(ref:cap-meeting-probspace2) Illustration of the events in Exercise \@ref(exm:meeting-probspace2). The square represents the sample space $\Omega=[0,1]\times[0,1]$.
+
+
+```{r meeting-probspace2-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-meeting-probspace2)"}
+
+dfA <- data.frame(x = c(0, 1, 1, 1),
+                 y = c(0, 0, 1, 1),
+                 v = c(1, 1, 1, 1))
+
+pA <- ggplot(data = dfA, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Regina arrives after Cady") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+dfB <- data.frame(x = c(0.5, 1, 1, 0.5),
+                  y = c(0.5, 0.5, 1, 1),
+                  v = c(1, 1, 1, 1))
+
+pB <- ggplot(data = dfB, aes(x = x, y = y)) +
+  geom_polygon(fill = "white", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(panel.background = element_rect(fill = "cornflowerblue",
+                                    colour = "cornflowerblue")) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Regina or Cady arrives before 12:30") +
+  theme(plot.title = element_text(hjust = 0.5))
+  
+
+# dfC <- data.frame(x = c(1, 1, 0.5, 1),
+#                   y = c(0.5, 0.5, 1, 1),
+#                   v = c(1, 1, 1, 1))
+# 
+# pC <- ggplot(data = dfC, aes(x = x, y = y)) +
+#   geom_polygon(fill = "cornflowerblue", show.legend = FALSE) +
+#   scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+#   scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+#   theme_classic() +
+#   theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+#   theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+#   xlab(expression(omega[1] ~ "(Regina)")) +
+#   ylab(expression(omega[2] ~ "(Cady)")) +
+#   ggtitle("Event C is shaded") +
+#   theme(plot.title = element_text(hjust = 0.5))
+
+
+dfC <- data.frame(x = c(0, 0.25, 1, 1),
+                 y = c(0, 0, 0.75, 1),
+                 v = c(1, 1, 1, 1))
+
+pC <- ggplot(data = dfC, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Regina arrives at most 15 minutes after Cady") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+dfD <- data.frame(x = c(0, 0.4, 0.4, 0),
+                  y = c(0, 0, 1, 1),
+                  v = c(1, 1, 1, 1))
+
+pD <- ggplot(data = dfD, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Regina arrives before 12:24") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+library(ggpubr)
+ggarrange(pA, pB, pC, pD, ncol = 2, nrow = 2)
+
+```
+
+The latter parts of Example \@ref(exm:meeting-probspace2) illustrate ideas similar to those discussed after Example \@ref(exm:meeting-probspace1). Regardless of the precise time in the continuous interval $[0, 1]$ at which Regina arrives, the probability that Cady arrives at that exact time, with infinite precision, is 0.
+
+
+```{example meeting-waiting-uniform}
+
+Continuing Example \@ref(exm:meeting-probspace2), let $R$ be the random variable representing Regina's arrival time in $[0, 1]$, and $Y$ for Cady. The random variable $W = |R - Y|$ represents the amount of time the first person to arrive waits for the second person to arrive.
+
+```
+
+1. Find and interpret $\IP(W < 0.25)$. (Hint: draw a picture representing the event in terms of the pairs of arrival times.)
+1. Find and interpret $\IP(W > 0.75)$.
+1. Are the values of $W$ uniformly distributed over $[0, 1]$?
+
+
+```{solution meeting-waiting-uniform-sol}
+
+to Example \@ref(exm:meeting-waiting-uniform)
+
+```
+
+1. The event corresponding to $W<0.25$ is depicted on the left in Figure \@ref(fig:meeting-waiting-uniform-plot). If Cady arrives first ($R>Y$, below the diagonal in the plot) then $W=R-Y$ so $W<0.25$ if $R -0.25 < Y$. If Regina arrives first ($R<Y$, above the diagonal in the plot) then $W=Y-R$ so $W<0.25$ if $Y < R + 0.25$. Putting the two cases together $W<0.25$ if $R - 0.25 < Y < R + 0.25$; the corresponding region of $(R, Y)$ pairs is shaded in the plot.  According to the uniform probability measure on $[0, 1]\times[0,1]$, $\IP(W <0.25)$ is the area of the shaded region (divided by the area of the sample space which is 1). The area of the shaded region is 0.4375. (It is easiest to find the areas of the unshaded triangles and subtract from 1, $1 - 0.75^2/2 - 0.75^2/2$.)  So $\IP(W < 0.25)=0.4375$ is the probability that Regina and Cady arrive within 15 minutes of each other.
+1. The event corresponding to $W>0.75$ is depicted on the right in Figure \@ref(fig:meeting-waiting-uniform-plot).  The probability is the area of the shaded region.  So $\IP(W > 0.75)=0.25^2/2 + 0.25^2/2=0.0625$ is the probability that Regina and Cady arrive more than 45 minutes apart.
+1. The values of $W$ are not uniformly distributed over $[0, 1]$.  For uniform probability measures, regions of the same size have the same probability.  But the probability that $W$ lies in the interval $[0, 0.25]$ is seven times greater than the probability that $W$ lies in the interval $[0.75, 1]$, even though these intervals have the same length.
+
+
+
+(ref:cap-meeting-waiting-uniform) Illustration of the events in Example \@ref(exm:meeting-waiting-uniform). The square represents the sample space $\Omega=[0,1]\times[0,1]$.
+
+
+```{r meeting-waiting-uniform-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.show="hold", out.width="50%", fig.cap="(ref:cap-meeting-waiting-uniform)"}
+
+
+dfC <- data.frame(x = c(0, 0.25, 1, 1, 0.75, 0),
+                 y = c(0, 0, 0.75, 1, 1, 0.25),
+                 v = c(1, 1, 1, 1, 1, 1))
+
+pC <- ggplot(data = dfC, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Regina and Cady arrive within 15 minutes of each other") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+plot(pC)
+
+dfD <- data.frame(x = c(0, 0.75, 1, 1, 0.25, 0),
+                 y = c(0, 0, 0.25, 1, 1, 0.75),
+                 v = c(1, 1, 1, 1, 1, 1))
+
+pD <- ggplot(data = dfD, aes(x = x, y = y)) +
+  geom_polygon(fill="white", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA),
+          panel.background = element_rect(fill = "cornflowerblue", colour = "cornflowerblue",
+                                size = 2, linetype = "solid")) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(omega[1] ~ "(Regina)")) +
+  ylab(expression(omega[2] ~ "(Cady)")) +
+  ggtitle("Regina and Cady arrive at least 45 minutes apart") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+plot(pD)
+
+# library(ggpubr)
+# ggarrange(pA, pB, pC, pD, ncol = 2, nrow = 2)
+
+```
+
+We saw in Example \@ref(exm:matching-probspace) on the matching problem that even though the possible placements of the rocks were equally likely, the possible values of the number of correct matches were not. Example \@ref(exm:meeting-waiting-uniform) illustrates a similar idea on a continuous scale.  Even though the pairs of arrival times are uniformly distributed over $[0, 1]\times[0, 1]$, the values of the waiting time $W$ are not uniformly distributed over $[0, 1]$.
+
+### Non-uniform probability measures
+
+Most random phenomenon do not involve equally likely outcomes or uniform probability measures.  Even when the underlying outcomes are equally likely, the values of related random variables are usually not. Therefore, most interesting probability problems involve non-uniform probability measures.
+
+For countable sample spaces, a probability measure is often defined by specifying the probability of each individual outcome.  The probability of any event can then be obtained (using countable additivity) by summing the probabilities of the outcomes which comprise the event.  Such was the case in Example \@ref(exm:dice-normalize). We specified the relative likelihood of each outcome, and then we obtained probabilities of all the events in Table \@ref(tab:die-events-weighted2) by adding the appropriate outcome probabilities. For example, the probability that the result of a single roll of the die in Example \@ref(exm:dice-normalize) results in an even number is $\tilde{\textrm{Q}}(\{2, 4\}) = \tilde{\textrm{Q}}(\{2\}) + \tilde{\textrm{Q}}(\{4\}) = 6/15 + 2/15 = 8/15$.
+
+
+
+For uncountable sample spaces, specifying probabilities for individual outcomes is not a feasible strategy.  As illustrated by Example \@ref(exm:meeting-probspace1) and the discussion following it, reasonable mathematical models for outcomes taking values on a continuous scale, with infinite precision, assign 0 probability to any exact outcome.  Therefore, we specify a probability measure for uncountable sample spaces by assigning probabilities to intervals or regions of the sample space.
+
+```{example meeting-nonuniform-probspace1}
+Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  We'll consider only Regina's arrival time for now. We will model Regina's arrival time with the sample space $[0, 1]$ and a non-uniform probability measure which reflects that she is more likely to arrive closer to 1 than to noon. In particular, we assume that the probability that Regina arrives before time $x\in [0, 1]$ is equal to $x^2$; let $\IQ$ denote the corresponding probability measure. (We will see where such a probability measure might come from later. For now, we'll just use it to compute probabilities and observe that it is a non-uniform measure.)  In addition to computing probabilities below, compare your answers to the corresponding parts from Example \@ref(exm:meeting-probspace1).
+
+```
+
+<!-- 1. Verify that $\IQ$ is a valid probability measure. -->
+1. Find the probability that Regina arrives before 12:15. 
+1. Find the probability that Regina arrives after 12:45.  How does this compare to the previous part? What does that say about Regina's arrival time?
+1. Find the probability that Regina arrives between 12:15 and 12:45.
+1. Find the probability that Regina arrives between 12:15:00 and 12:16:00.
+1. Find the probability that Regina arrives between 12:15:00 and 12:15:01.
+1. Find the probability that Regina arrives at the exact time 12:15:00 (with infinite precision).
+1. Find the probability that Regina arrives between 12:59:00 and 1:00:00. How does this compare to the probability for 12:15:00 to 12:16:00? What does that say about Regina's arrival time?
+1. Find the probability that Regina arrives between 12:59:59 and 1:00:00. How does this compare to the probability for 12:15:00 to 12:15:01? What does that say about Regina's arrival time?
+1. Find the probability that Regina arrives at the exact time 1:00:00 (with infinite precision).
+
+
+
+```{solution meeting-nonuniform-probspace1-sol}
+
+to Example \@ref(exm:meeting-nonuniform-probspace1)
+
+```
+
+1. Notice that $\IQ([0, 1]) = 1^2 = 1$, so $\IQ$ is a valid probability measure. 12:15 corresponds to arriving at time $0.25$ in $[0, 1]$, so by assumption  the probability she arrives before 12:15 is $0.25^2 =0.0625$; $\IQ([0, 0.25)) = 0.0625$. (She is now less likely to arrive with 15 minutes of noon than in the uniform case.)
+1. 12:45 corresponds to arriving at time $0.75$ in $[0, 1]$ and by assumption  the probability she arrives before 12:45 is $0.75^2 =0.5625$. Therefore, the probability that she arrives after 12:45, i.e., in the interval $[0.75, 1]$ is $\IQ([0.75, 1]) = 1 - 0.5625 = 0.4375$.  So she is 7 times more likely to arrive within 15 minutes of 1:00 than within 15 minutes of noon. (She is now more likely to arrive with 15 minutes of 1:00 than in the uniform case.)
+1. The probability that Regina arrives between 12:15 and 12:45 is $\IQ((0.25, 0.75)) = 1 - 0.0625 - 0.4375 = 0.5$. (This probability happens to be the same as in the uniform case.)
+1. The probability that she arrives before 12:16 is the sum of the probability that she arrives before 12:15 and the probability that she arrives between 12:15 and 12:16. Therefore,
+\begin{align*}
+\IQ([0.25, 0.25+1/60]) & = \IQ([0, 0.25+1/60]) - \IQ([0, 0.25])\\
+& = (0.25 + 1/60)^2 - 0.25^2 = 0.0086.
+\end{align*}
+(This probability is less than what it was in the uniform case.)
+1. Similar to the previous part, $\IQ([0.25, 0.25+1/3600]) = (0.25 + 1/3600)^2 - 0.25^2 = 0.00014$. (This probability is less than what it was in the uniform case.)
+1. The exact time 12:15:00 represents a single point the sample space, an interval of length 0.  The probability that Regina arrives at the exact time 12:15:00 (with infinite precision) is 0; $\IQ(\{0.25\}) = 0$.
+1. 12:59:00 is time $1 - 1/60=0.9833$ in [0, 1]. $\IQ([1 - 1/60, 1]) = \IQ([0, 1]) - \IQ([0, 1-1/60]) = 1^2 - (1-1/60)^2 = 0.0331$. Notice that this one minute interval around 1:00 has higher probability that a one minute interval around 12:15. (This probability is more than what it was in the uniform case.)
+1. Similar to the previous part, $\IQ([1-1/3600, 1]) = 1^2 - (1-1/3600)^2 = 0.00056$. Notice that this one second interval around 1:00 has higher probability that a one second interval around 12:15, though both probabilities are small. (This probability is more than what it was in the uniform case.)
+1. The exact time 1:00:00 represents a single point the sample space, an interval of length 0.  The probability that Regina arrives at the exact time 1:00:00 (with infinite precision) is 0; $\IQ(\{1\}) = 0$.
+
+In Example \@ref(exm:meeting-nonuniform-probspace1), the probability that Regina arrives at any exact time in $[0, 1]$, with infinite precision, is 0, just as in Example \@ref(exm:meeting-probspace1).  But the values of the probabilities in Example \@ref(exm:meeting-nonuniform-probspace1) illustrate the non-uniform probability assumption.  Regina is much more likely to arrive between 12:45 and 1:00 than she is to arrive between 12:00 and 12:15, even though both these intervals have the same length.  Also, while the probability that she arrives at any exact time with infinite precision is 0, the probability that she arrives "close to" 1:00 is larger than the probability that she arrives "close to" 12:15 (where "close to" might mean within a minute or within a second.)  In some sense, some values in $[0, 1]$ are "more likely" than others.  We will explore this idea further in Section XXX, where we will see that integration plays the analogous role for uncountable sample spaces that summation plays for countable sample spaces.
+
+
+<!-- ```{example, exponential-probspace} -->
+<!-- Consider the sample space $\Omega=[0,\infty)$ with a probability measure^[This defines the Exponential(1) distribution; see Section \@ref(exponential).] defined by  -->
+<!-- \[ -->
+<!--   \IP(A) = \int_A e^{-u}\, du, \qquad A \subseteq [0, \infty). -->
+<!-- \] -->
+<!-- ```  -->
+
+<!-- 1. Verify that $\IP(\Omega)=1$. -->
+<!-- 1. Compute $\IP(A)$ for $A=[0, 1]$. -->
+<!-- 1. Without integrating again, compute $\IP(B)$ for $B=(1, \infty)$. -->
+<!-- 1. Compute $\IP(C)$ for $C=[0, 1] \cup (2, 4)$. -->
+
+<!-- ```{solution exponential-probspace-sol} -->
+<!-- to Example \@ref(exm:exponential-probspace) -->
+<!-- ``` -->
+
+## Probability distributions (a brief introduction)
+
+Even when outcomes of a random phenomenon are equally likely, values of related random variable are usually not.  The **probability distribution** of a random variable summarizes the possible values that the random variable can take and their relative likelihoods.
+
+The probability distribution of a discrete random variable $X$ is often displayed in a table containing the probability of the event $\{X=x\}$ for each possible value $x$.  For example, the distribution of the number of matches $Y$ in the matching problem in Example \@ref(exm:matching-probspace) is represented by Table \@ref(tab:matching-probspace-table).
+
+```{example dice-probspace}
+
+Roll a four-sided die twice; recall the sample space in Example \@ref(exm:dice-rv) and Table \@ref(tab:dice-rv-sol-table). One choice of probability measure corresponds to assuming that the die is fair and that the 16 possible outcomes are equally likely.  Let $X$ be the sum of the two dice, and let $Y$ be the larger of the two rolls (or the common value if both rolls are the same).
+
+```
+
+
+
+
+1. Construct a table displaying the distribution of $X$.  
+1. Construct a table displaying the distribution of $Y$.
+1. Construct a two-way table displaying the distribution of $(X, Y)$ pairs.
+1. Starting with the two-way table from the previous part, how could you obtain the distribution of $X$? of $Y$?
+1. Starting with the distribution of $X$ and the distribution of $Y$ from parts 1 and 2, but without Table \@ref(tab:dice-rv-sol-table), could you construct the two-way table of the distribution of $(X, Y)$ pairs?
+
+```{solution dice-probspace-sol}
+
+to Example \@ref(exm:dice-probspace)
+
+```
+
+(ref:cap-dice-sum-dist-table) The distribution of $X$, the sum of two rolls of a fair four-sided die.
+
+```{r, dice-sum-dist-table, echo = FALSE}
+y = 2:8
+p = c(1, 2, 3, 4, 3, 2, 1) / 16
+
+dice_sum_dist = knitr::kable(
+  data.frame(y, p),
+  col.names = c("x", "P(X=x)"),
+  booktabs = TRUE,
+  caption = "(ref:cap-dice-sum-dist-table)",
+  digits = 4
+)
+
+```  
+
+
+
+(ref:cap-dice-max-dist-table) The distribution of $Y$, the larger (or common value if a tie) of two rolls of a fair four-sided die.
+
+```{r, dice-max-dist-table, echo = FALSE}
+y = 1:4
+p = c(1, 3, 5, 7) / 16
+
+dice_max_dist = knitr::kable(
+  data.frame(y, p),
+  col.names = c("y", "P(Y=y)"),
+  booktabs = TRUE,
+  caption = "(ref:cap-dice-max-dist-table)",
+  digits = 4
+)
+
+```  
+
+1. The possible values of $X$ are $2, 3, 4, 5, 6, 7, 8$. Find the probability of each value using Table \@ref(tab:dice-rv-sol-table). For example $\IP(X = 3) = \IP(\{(1, 2), (2, 1)\}) = 2/16$. Table \@ref(tab:dice-sum-dist-table) displays the distribution. `r dice_sum_dist`  
+1. The possible values of $Y$ are $1, 2, 3, 4$. For example $\IP(Y = 3) = \IP(\{(1, 3), (2, 3), (3, 1), (3, 2), (3, 3)\}) = 5/16$. Table \@ref(tab:dice-max-dist-table) displays the distribution.  
+
+    `r dice_max_dist`  
+    
+1. Similar to the previous parts, we can first construct a table with each row corresponding to a possible $(X, Y)$ pair.  Basically, collapse Table \@ref(tab:dice-joint-dist-flat). For example $\IP((X, Y) = (4, 3))=\IP(X = 4, Y=3) = \IP(\{(1, 3), (3, 1)\}) = 2/16$.
+
+```{r, dice-joint-dist-flat, echo = FALSE}
+x = c(2, 3, 4, 4, 5, 5, 6, 6, 7, 8)
+y = c(1, 2, 2, 3, 3, 4, 3, 4, 4, 4)
+p = c(1, 2, 1, 2, 2, 2, 1, 2, 2, 1) / 16
+
+knitr::kable(
+  data.frame(paste("(", x, ", ", y, ")", sep=""), p),
+  col.names = c("(x, y)", "P(X = x, Y = y)"),
+  booktabs = TRUE,
+  caption = 'Table representing the joint distribution of sum ($X$) and larger ($Y$) of two rolls of a four-sided die',
+  digits = 4
+)
+``` 
+
+
+Table \@ref(tab:dice-joint-dist-twoway) reorganizes Table \@ref(tab:dice-joint-dist-flat) into a two-way table with rows corresponding to possible values of $X$ and columns corresponding to possible values of $Y$.
+
+Table: (\#tab:dice-joint-dist-twoway) Two-way table representation of the joint distribution of $X$ and $Y$,  the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die.  Possible values of $X$ are in the leftmost column; possible values of $Y$ are in the top row.
+
+|             |       |       |       |       |
+|------------	|-----:	|-----:	|-----:	|-----:	|
+| $x$ \\ $y$ 	|    1 	|    2 	|    3 	|    4 	|
+| 2          	| 1/16 	|    0 	|    0 	|    0 	|
+| 3          	|    0 	| 2/16 	|    0 	|    0 	|
+| 4          	|    0 	| 1/16 	| 2/16 	|    0 	|
+| 5          	|    0 	|    0 	| 2/16 	| 2/16 	|
+| 6          	|    0 	|    0 	| 1/16 	| 2/16 	|
+| 7          	|    0 	|    0 	|    0 	| 2/16 	|
+| 8          	|    0 	|    0 	|    0 	| 1/16 	|
+
+1. For each possible value $x$ of $X$ sum the values in the corresponding row to find $\IP(X=x)$.  For example, \begin{align*}
+\IP(X=4) & = \IP(X=4, Y=1) + \IP(X=4, Y=2)\\
+\& \quad + \IP(X=4, Y=3) + \IP(X=4, Y=4) = 0 + 1/16 + 2/16 + 0=3/16.
+\end{align*}
+Similarly, for each possible value $y$ of $Y$ sum the values in the corresponding column to find $\IP(Y = y)$.
+1. No, you could not construct the two-way table of the distribution of $(X, Y)$ pairs based on the distributions of $X$ and $Y$ alone.  Essentially, just because you know the row totals and column totals doesn't necessarily mean you know the values of the interior cells.
+
+
+Table \@ref(tab:dice-joint-dist-twoway) and Table \@ref(tab:dice-joint-dist-flat) represent the **joint distribution** of $X$ and $Y$.  The joint distribution of two random variables summarizes the possible *pairs* of values and their relative likelihoods.
+
+In the context of multiple random variables, the distribution of any one of the random variables is called a **marginal distribution**. In Example \@ref(exm:dice-probspace)
+, we can obtain the marginal distributions of $X$ and $Y$ from the joint distribution by summing rows and columns.  Think of adding a total column (for $X$) and a total row (for $Y$) in the "margins" of the table.
+
+It is possible to obtain marginal distributions from a joint distribution.  However, in general you cannot recover the joint distribution from the marginal distributions alone. Just because you know the row and column totals doesn't mean you know all the values of the interior cells in the joint distribution table.
+
+Consider the following two-way table representing the joint distribution of two random variables $X$ and $Y$.  You can check that the marginal distribution of $X$ is the same as in Table \@ref(tab:dice-sum-dist-table).  You can also check that the marginal distribution of $Y$ is the same as in Table \@ref(tab:dice-max-dist-table).  However, clearly the joint distribution of $X$ and $Y$ is not the same as in Table \@ref(tab:dice-joint-dist-flat).
+
+
+|             |       |       |       |       |
+|------------	|-----:	|-----:	|-----:	|-----:	|
+| $x$ \\ $y$ 	|    1 	|    2 	|    3 	|    4 	|
+| 2          	|    0 	| 1/16 	|    0 	|    0 	|
+| 3          	| 1/16 	| 1/16 	|    0 	|    0 	|
+| 4          	|    0 	| 1/16 	| 2/16 	|    0 	|
+| 5          	|    0 	|    0 	| 1/16 	| 3/16 	|
+| 6          	|    0 	|    0 	| 1/16 	| 2/16 	|
+| 7          	|    0 	|    0 	|    0 	| 2/16 	|
+| 8          	|    0 	|    0 	| 1/16 	|    0 	|
+
+
+
+```{example dice-change-dist}
+Continuing Example \@ref(exm:dice-probspace), suppose that instead of a fair die, the weighted die in Example \@ref(exm:die-weighted) is rolled twice.  Answer the following without doing any computations.
+```
+
+1. Are the possible values of $X$ the same as in Table \@ref(tab:dice-sum-dist-table)?  Is the distribution of $X$ the same as in Table \@ref(tab:dice-sum-dist-table)?
+1. Are the possible values of $Y$ the same as in Table \@ref(tab:dice-max-dist-table)?  Is the distribution of $Y$ the same as in Table \@ref(tab:dice-max-dist-table)?
+1. Are the possible values of $(X, Y)$ the same as in Table \@ref(tab:dice-joint-dist-twoway)?  Is the joint distribution of $X$ and $Y$ the same as in Table \@ref(tab:dice-joint-dist-twoway)?
+
+
+```{solution dice-change-dist-sol}
+to Example \@ref(exm:dice-change-dist)
+```
+
+In all parts, yes the possible values are the same.  There are still 16 possible outcomes and the random variables are still measuring the same quantities as before.  But the distributions are all different.  With the weighted die some outcomes are more likely than others, and some values of the random variables are more likely than before.  For example, the probabilities of the events $\{X = 8\}$, $\{Y=4\}$, and $\{X = 8, Y=4\}$ are larger with the weighted die than with the fair die (because each roll of the weighted die is more likely to result in a 4 than the fair die).
+
+The distribution of a random variable depends on the underlying probability measure.  Changing the probability measure can change the distribution of the random variable. We will see the importance of this idea when we cover conditional probability and distributions in Chapter XXX.
+
+
+
+
+
+```{example coin-HT-same-dist}
+
+Flip a coin 3 times and record the results in sequence.  Let $X$ be the number of flips that result in H. Let $Y$ be the number of flips that result in T, and let $Z$ be the length of the longest streak of H in a row (which could be 0 if all T or 1 if no H is followed by H). (Hint: recall Table \@ref(tab:coin-transform-tab).) One choice of probability measure $\IP$ corresponds to assuming the 8 possible outcomes are equally likely, consistent with the assumption that the coin is fair and the flips are independent.  
+
+```
+
+1. Identify the distribution of $X$.
+<!-- 1. Define another random variable $Y$ in this context that has the same distribution as $X$. -->
+1. Identify the distribution of $Y$.
+1. Are $X$ and $Y$ the same random variable? Do they have the same distribution?
+1. Donny Don't says "$X$ and $Y$ have the same distribution so $\IP(X=Y)=1$." Explain to Donny his mistake, and find $\IP(X = Y)$.
+1. Donny Don't says "OK, I see why $\IP(X=Y)$ is not 1.  But then I don't understand what it means for $X$ and $Y$ to have the same distribution."  Explain this to Donny using a long run relative frequency interpretation.
+1. Identify the distribution of $Z$.
+1. Are $X$ and $Z$ the same random variable?  Do $X$ and $Z$ have the same distribution?
+1. Donny says "$X$ and $Y$ have the same distribution but $X$ and $Z$ don't, so $\IP(X = Y)$ must be greater than $\IP(X = Z)$". Explain to Donny his mistake, and find $\IP(X = Z)$.
+1. Suppose that the coin was biased in favor of landing on H. Without doing any computations, would $X$ and $Y$ have the same distribution in this scenario?  Explain.
+
+```{solution coin-HT-same-dist-sol}
+to Example \@ref(exm:coin-HT-same-dist)
+```
+
+Table \@ref(tab:coin-transform-tab2) lists the possible outcomes and corresponding values of $X, Y, Z$.
+
+```{r, coin-transform-tab2, echo = FALSE, fold.chunk = FALSE}
+n = 3
+# u1 = sort(rep(c("H", "T"), 4))
+# u2 = rep(sort(rep(c("H", "T"), 2)), 2)
+# u3 = rep(c("H", "T"), 4)
+# u = paste(u1, u2, u3, sep = "")
+u = c("HHH", "HHT", "HTH", "THH", "HTT", "THT", "TTH", "TTT")
+
+x = c(3, rep(2, 3), rep(1, 3), 0)
+y = 3 - x
+z = c(3, 2, 1, 2, rep(1, 3), 0)
+
+
+knitr::kable(
+  data.frame(u, x, y, z),
+  col.names = c("Outcome", "X", "Y", "Z"),
+  booktabs = TRUE,
+  caption = 'Table representing $X$ the number of heads, $Y$ the number of tails, and $Z$ the length of the longest streak of heads in a row in 3 flips of a coin.'
+)
+
+```
+
+1. One way to "identify a distribution" of a discrete random variable is to make a table of possible values along with their probabilities. Collapse Table \@ref(tab:coin-transform-tab2) to see that $X$ takes values 0, 1, 2, 3 with respective probability $1/8, 3/8, 3/8, 1/8$.
+<!-- 1. Define another random variable $Y$ in this context that has the same distribution as $X$. -->
+1. $Y$ takes values 0, 1, 2, 3 with respective probability $1/8, 3/8, 3/8, 1/8$.
+1. $X$ and $Y$ are different random variables; they measure different things.  Remember, random variables are functions, and the random variables $X$ and $Y$ are different functions, one counts H and one counts T. But $X$ and $Y$ do have the same distribution; they take the same possible values with the same respective probabilities.
+1. The event $X=Y$ represents the set of outcomes for which the value of the number of H is equal to the value of the number of T.  But this is impossible for an odd number of coin flips, so $\IP(X = Y) = 0$.
+1. $X$ and $Y$ have the same long run pattern of variability over many sets of 3 coin flips. Over many sets of 3 coin flips, about 1/8 of sets will have 0 H, about 3/8 of sets will have 1 H, etc.  $Y$ follows the same pattern: Over many sets of 3 coin flips, about 1/8 of sets will have 0 T, about 3/8 of sets will have 1 T, etc. 
+1. $Z$ takes values 0, 1, 2, 3 with respective probability $1/8, 4/8, 2/8, 1/8$.
+1. $X$ and $Z$ are not the same random variable. Remember, random variables are functions; two functions are the same if for any given input the two functions have the same output.  But $X(HTH)=2$ and $Z(HTH)=1$.  $X$ and $Z$ also do not have the same distribution; $X$ is 2 with probability 3/8 but $Z$ is 2 with probability 2/8.
+1. We have already explained that $\IP(X = Y)=0$, so it can't be greater than $\IP(X = Z)$. The only outcome that does not satisfy the event $\{X=Z\}$ is $HTH$, so $\IP(X=Z)=7/8$.
+1. No. If the coin were biased in favor of landing on H then $X$ and $Y$ would not follow the same pattern of variability. For example, the probability that $X=3$ would be greater than 1/8 and the  probability that $Y=3$ would be less than 1/8.  Remember, the distribution of a random variable depends on the underlying probability measure.
+
+
+
+The previous example illustrates two ideas of "sameness" of random variables. Two random variables are the same if for each outcome of the random phenomenon they return the same value.  Statements like $\IP(X=Y)$ involve events; for which individual outcomes is the value of $X$ equal to the value of $Y$.  Essentially $\IP(X=Y)$ is determined by checking if $X(\omega)=Y(\omega)$ on an individual outcome-by-outcome $\omega$ basis.
+
+On the other hard, the distribution of a random variable describes its overall pattern of variability over all possible outcomes, summarized in aggregate (and not on an outcome-by-outcome basis). As the previous example shows, two random variables can have the same distribution even if they are never equal for any outcomes.  Also, two random variables can take the same values for "most" outcomes, but still have different distributions.
+
+Two random variables can have the same distribution even if they are not defined on the same probability space. For example, assuming boys and girls are equally likely, then the number of girls in a random sample of 3 births has the same distribution as the number of heads in 3 flips of a fair coin.
+
+
+Two ideas illustrated in the examples in this section are worth emphasizing.
+
+- **In general, marginal distributions alone are not enough to determine a joint distribution.**
+- **Do not confuse a random variable with its distribution.**
+
+
+Many common mistakes in probability result from not heeding these principles, so we will introduce many related examples to help you practice your understanding.
+
+In almost all of the examples in this Chapter, we specified the probability space.  In this section, we derived distributions by considering the underlying sample space and probability measure.  However, in many problems we often assume or identify distributions directly, without any mention of the underlying sample space or probability measure.
+
+Recall the brown bag analogy in Section \@ref(rv-function). The probability space corresponds to the random selection of fruits to put in the bag. The random variable is weight. The distribution of weight can be obtained by randomly selecting fruits to put in the bag, weighing the bag, and then repeating this process many times to observe many weights.  For example, 10\% of bags have weights less than 5 pounds, 75\% of bags have weights less than 20 pounds.  But we can observe the distribution of weights even if we never observe the actual fruits in the bag.
+
+
+We will explore distributions in much more detail in the remaining chapters.  We will see several other ways of describing distributions.

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.5 Joint distributions: rolling dice yet again | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.5 Joint distributions: rolling dice yet again | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.5 Joint distributions: rolling dice yet again | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="non-equally-likely-outcomes-a-weighted-die.html"/>
+<link rel="next" href="sec-mscoin-sim.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="joint-distributions-rolling-dice-yet-again" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Joint distributions: rolling dice yet again</h2>
+<p>The example in Section <a href="technology-intro.html#technology-intro">3.2</a> involved the sum <span class="math inline">\(X\)</span> and max <span class="math inline">\(Y\)</span> of two rolls of a fair four-sided die. In Example <a href="probability-distributions-a-brief-introduction.html#exm:dice-probspace">2.42</a> we found <span class="math inline">\(\IP(X=4, Y=3)=2/16\)</span>. In a similar way, we can find <span class="math inline">\(\IP(X=x, Y=y)\)</span> for each possible <span class="math inline">\((x, y)\)</span> pair. These values, displayed in Table <a href="joint-distributions-rolling-dice-yet-again.html#tab:dice-dist">3.2</a>, specify the <em>joint</em> distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<table>
+<caption><span id="tab:dice-dist">Table 3.2: </span> Joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die. Possible values of <span class="math inline">\(X\)</span> are in the leftmost column; possible values of <span class="math inline">\(Y\)</span> are in the top row.</caption>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x\)</span> \ <span class="math inline">\(y\)</span> |</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>2 |</td>
+<td align="right">1/16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>3 |</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>4 |</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">2/16</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>5 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="even">
+<td>6 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="odd">
+<td>7 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="even">
+<td>8 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that the tile plot suggests a tactile method for simulating <span class="math inline">\((X, Y)\)</span> pairs directly. Namely, pairs generated using the spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a> below will follow the same pattern as in the above tile plot. (The spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a> represents the <em>joint distribution</em> of <span class="math inline">\((X, Y)\)</span>.)</p>
+
+<div class="figure"><span id="fig:spinner-dice-sum-max"></span>
+<img src="_graphics/spinner-dice-sum-max.PNG" alt="Spinner which generates \((X, Y)\) pairs, where \(X\) is the sum and \(Y\) is the larger (or common value if a tie) of two rolls of a fair four-sided die." width="230" />
+<p class="caption">
+Figure 3.5: Spinner which generates <span class="math inline">\((X, Y)\)</span> pairs, where <span class="math inline">\(X\)</span> is the sum and <span class="math inline">\(Y\)</span> is the larger (or common value if a tie) of two rolls of a fair four-sided die.
+</p>
+</div>
+<p>The joint distribution in Table <a href="joint-distributions-rolling-dice-yet-again.html#tab:dice-dist">3.2</a> corresponds to the spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a>. Once we have obtained the distribution, we now have two ways to simulate an <span class="math inline">\((X, Y)\)</span> pair with the distribution inTable <a href="joint-distributions-rolling-dice-yet-again.html#tab:dice-dist">3.2</a> .</p>
+<ol style="list-style-type: decimal">
+<li>Simulate two rolls of a fair four sided die. Let <span class="math inline">\(X\)</span> be the sum of the two values and let <span class="math inline">\(Y\)</span> be the larger of the two rolls (or the common value if a tie).</li>
+<li>Spin the spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a> once and record the resulting <span class="math inline">\((X, Y)\)</span> pair. (Recall that this spinner returns a pair of values.)</li>
+</ol>
+<p>Of course, the second method requires that the distribution of <span class="math inline">\((X, Y)\)</span> is known. But in principle, there are always two ways of simulating a value <span class="math inline">\(x\)</span> of a random variable <span class="math inline">\(X\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li>(Simulate from the probability space.) Simulate an outcome <span class="math inline">\(\omega\)</span> from the underlying probability space and set <span class="math inline">\(x = X(\omega)\)</span>.</li>
+<li>(Simulate from the distribution.) Construct a spinner corresponding to the distribution of <span class="math inline">\(X\)</span> and spin it once to generate <span class="math inline">\(x\)</span>.</li>
+</ol>
+<p>The second method requires that the distribution of <span class="math inline">\(X\)</span> is known. However, as we will see in many examples, it is common to specify the distribution of a random variable directly without defining the underlying probability space.</p>
+<p>Below is the Symbulate code for the second method, which corresponds to the spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a>. Note that the probability space outcomes (the tickets in <code>BoxModel</code>) correspond to the possible <span class="math inline">\((X, Y)\)</span> pairs, which are not equally likely (even though the 16 pairs of rolls are). We specify the probability of each outcome by using the <code>probs</code> option. To generate a single <span class="math inline">\((X, Y)\)</span> pair, we spin the spinner once, and we draw one ticket from the box of pairs; this is why <code>size = 1</code>.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb81-1"><a href="joint-distributions-rolling-dice-yet-again.html#cb81-1"></a></span>
+<span id="cb81-2"><a href="joint-distributions-rolling-dice-yet-again.html#cb81-2"></a>xy_pairs <span class="op">=</span> [(<span class="dv">2</span>, <span class="dv">1</span>), (<span class="dv">3</span>, <span class="dv">2</span>), (<span class="dv">4</span>, <span class="dv">2</span>), (<span class="dv">4</span>, <span class="dv">3</span>), (<span class="dv">5</span>, <span class="dv">3</span>), (<span class="dv">5</span>, <span class="dv">4</span>), (<span class="dv">6</span>, <span class="dv">3</span>), (<span class="dv">6</span>, <span class="dv">4</span>), (<span class="dv">7</span>, <span class="dv">4</span>), (<span class="dv">8</span>, <span class="dv">4</span>)]</span>
+<span id="cb81-3"><a href="joint-distributions-rolling-dice-yet-again.html#cb81-3"></a>pxy <span class="op">=</span> [<span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>]</span>
+<span id="cb81-4"><a href="joint-distributions-rolling-dice-yet-again.html#cb81-4"></a></span>
+<span id="cb81-5"><a href="joint-distributions-rolling-dice-yet-again.html#cb81-5"></a>P <span class="op">=</span> BoxModel(xy_pairs, probs <span class="op">=</span> pxy, size <span class="op">=</span> <span class="dv">1</span>, replace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb81-6"><a href="joint-distributions-rolling-dice-yet-again.html#cb81-6"></a></span>
+<span id="cb81-7"><a href="joint-distributions-rolling-dice-yet-again.html#cb81-7"></a><span class="bu">print</span>(P.sim(<span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.Results object at 0x000000002B495708&gt;</code></pre>
+<p>We now wish to define the random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. An outcome of <code>P</code> is a pair of values. Recall that a Symbulate <code>RV</code> is always defined in terms of a probability space and a function <code>RV(probspace, function)</code>. The default function is the identity: <span class="math inline">\(g(\omega) = \omega\)</span>. Therefore, <code>RV(P)</code> would just correspond to the pair of values generated by <code>P</code>. The sum <span class="math inline">\(X\)</span> corresponds to the first coordinate in the pair and the max <span class="math inline">\(Y\)</span> corresponds to the second. We can define these random variables in Symbulate by “unpacking” the pair as in the following<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a></p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="joint-distributions-rolling-dice-yet-again.html#cb83-1"></a></span>
+<span id="cb83-2"><a href="joint-distributions-rolling-dice-yet-again.html#cb83-2"></a>X, Y <span class="op">=</span> RV(P)</span>
+<span id="cb83-3"><a href="joint-distributions-rolling-dice-yet-again.html#cb83-3"></a></span>
+<span id="cb83-4"><a href="joint-distributions-rolling-dice-yet-again.html#cb83-4"></a>(X <span class="op">&amp;</span> Y).sim(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## &lt;symbulate.results.RVResults object at 0x000000002B4954C8&gt;</code></pre>
+<p>Then we can simulate many <span class="math inline">\((X, Y)\)</span> pairs and summarize as before. The tile plot depicts the approximate joint distribution on <span class="math inline">\((X, Y)\)</span> pairs. The impulse plots in the “margins” of the plot are the simulated “marginal distributions” of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb85-1"><a href="joint-distributions-rolling-dice-yet-again.html#cb85-1"></a></span>
+<span id="cb85-2"><a href="joint-distributions-rolling-dice-yet-again.html#cb85-2"></a>xy <span class="op">=</span> (X <span class="op">&amp;</span> Y).sim(<span class="dv">16000</span>)</span>
+<span id="cb85-3"><a href="joint-distributions-rolling-dice-yet-again.html#cb85-3"></a></span>
+<span id="cb85-4"><a href="joint-distributions-rolling-dice-yet-again.html#cb85-4"></a>plt.figure()</span>
+<span id="cb85-5"><a href="joint-distributions-rolling-dice-yet-again.html#cb85-5"></a>xy.plot([<span class="st">&#39;tile&#39;</span>, <span class="st">&#39;marginal&#39;</span>])</span>
+<span id="cb85-6"><a href="joint-distributions-rolling-dice-yet-again.html#cb85-6"></a>plt.show()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a href="joint-distributions-rolling-dice-yet-again.html#cb86-1"></a>xy.tabulate()</span></code></pre></div>
+<pre><code>## {(5, 4): 2060, (3, 2): 2055, (6, 4): 1970, (4, 3): 1998, (7, 4): 1883, (4, 2): 998, (8, 4): 944, (5, 3): 2048, (2, 1): 1008, (6, 3): 1036}</code></pre>
+<p>We can compute <span class="math inline">\(\IP(X=4)\)</span> from the joint distribution by summing over the possible <span class="math inline">\((X, Y)\)</span> pairs for which <span class="math inline">\(X=4\)</span>: <span class="math inline">\(\IP(X=4) = \IP(X=4, Y=2) + \IP(X=4, Y=3)=3/16\)</span>. In the context of multiple random variables, a probability involving only one of the random variables is called a <em>marginal probability</em>. The <em>marginal distribution</em> of <span class="math inline">\(X\)</span> is obtained by computing <span class="math inline">\(\IP(X=x)\)</span> for each possible value of <span class="math inline">\(x\)</span>. This is accomplished by summing across the columns in Table <a href="joint-distributions-rolling-dice-yet-again.html#tab:dice-dist">3.2</a>. Similarly, the marginal distribution of <span class="math inline">\(Y\)</span> is obtained by summing across the rows. Think of adding a total column (for <span class="math inline">\(X\)</span>) and a total row (for <span class="math inline">\(Y\)</span>) in the “margins” of the table. For example, the marginal distribution of <span class="math inline">\(Y\)</span> is displayed in the following table; a simulation-based approximation is displayed in Figure <a href="technology-intro.html#fig:dice-max-marginal-sim">3.3</a>.</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(y\)</span> |</th>
+<th align="right">1</th>
+<th align="right">2</th>
+<th align="right">3</th>
+<th align="right">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\IP(Y=y)\)</span></td>
+<td align="right">1/16 |</td>
+<td align="right">3/16</td>
+<td align="right">5/16 |</td>
+<td align="right">7/16</td>
+</tr>
+</tbody>
+</table>
+<p>The marginal distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> can be depicted as spinners, as in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max-marginal">3.6</a>.</p>
+
+<div class="figure"><span id="fig:spinner-dice-sum-max-marginal"></span>
+<img src="_graphics/spinner-dice-sum-marginal.PNG" alt="Marginal distributions of \(X\) (left) and \(Y\) (right), the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die." width="50%" /><img src="_graphics/spinner-dice-max-marginal.PNG" alt="Marginal distributions of \(X\) (left) and \(Y\) (right), the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die." width="50%" />
+<p class="caption">
+Figure 3.6: Marginal distributions of <span class="math inline">\(X\)</span> (left) and <span class="math inline">\(Y\)</span> (right), the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die.
+</p>
+</div>
+
+<div class="example">
+<p><span id="exm:dd-dice-marginal-sim" class="example"><strong>Example 3.5  (Don’t do what Donny Don’t does.)  </strong></span>
+Donny says “Forget the spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a>. I can simulate an <span class="math inline">\((X, Y)\)</span> pair just by spinning each of the spinners in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max-marginal">3.6</a> once.” Is Donny correct? If not, can you help him see why not?</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="joint-distributions-rolling-dice-yet-again.html#exm:dd-dice-marginal-sim">3.5</a></p>
+</div>
+<p>Donny is not correct. Yes, spinning the <span class="math inline">\(X\)</span> spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max-marginal">3.6</a> will generate values of <span class="math inline">\(X\)</span> according to the proper marginal distribution, and similarly for <span class="math inline">\(Y\)</span>. However, spinning each of the spinners will <em>not</em> produce <span class="math inline">\((X, Y)\)</span> pairs with the correct <em>joint</em> distribution. For example, Donny’s method could produce <span class="math inline">\(X=2\)</span> and <span class="math inline">\(Y=4\)</span>, which is not a possible <span class="math inline">\((X, Y)\)</span> pair. Donny’s method treats the values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> as if they were <em>independent</em>; the result of the <span class="math inline">\(X\)</span> spin would not change what could happen with the <span class="math inline">\(Y\)</span> spin (since the spins are physically independent). However, the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> values are related. For example, if <span class="math inline">\(X=2\)</span> then <span class="math inline">\(Y\)</span> must be 1; if <span class="math inline">\(X=4\)</span> then <span class="math inline">\(Y\)</span> must be 2 or 3. The joint distribution spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a> correctly reflects the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. But in general, you cannot recover the joint distribution from the marginal distributions, which is what Donny is attempting to do. Just because you know the row and column totals doesn’t mean you know all the values of the interior cells in the joint distribution table.</p>
+<p>Donny’s method corresponds to (1) rolling the die twice and summing to get <span class="math inline">\(X\)</span>, (2) rolling the die two more times and finding the larger roll to get <span class="math inline">\(Y\)</span>. Essentially, Donny is not using the same probability space for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, and therefore events involving both random variables cannot be studied. In Symbulate, Donny’s code — which would produce an error — would look like</p>
+<pre><code>
+X = RV(BoxModel([1, 2, 3, 4], size = 2), sum)
+Y = RV(BoxModel([1, 2, 3, 4], size = 2), max)
+
+(X &amp; Y).sim(10000)
+
+### Error: Events must be defined on same probability space.</code></pre>
+<p>In Donny’s code, his random variables are defined on different probability spaces; one box model is used to generate the rolls for <span class="math inline">\(X\)</span> and a separate box model is used to generate the rolls for <span class="math inline">\(Y\)</span>. As we have mentioned a few times, random variables (and events) must all be defined on the same probability space<a href="#fn50" class="footnote-ref" id="fnref50"><sup>50</sup></a>.</p>
+
+<div class="example">
+<p><span id="exm:dd-dice-joint-sim" class="example"><strong>Example 3.6  (Don’t do what Donny Don’t does.)  </strong></span>
+Donny says “I see what you mean about needing the spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a> to simulate <span class="math inline">\((X, Y)\)</span> pairs. So then forget the spinners in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max-marginal">3.6</a>. If I want to simulate <span class="math inline">\(X\)</span> values, I could just spin the spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a> and ignore the <span class="math inline">\(Y\)</span> values.” Is Donny’s method correct? If not, can you help him see why not?</p>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> to Example <a href="joint-distributions-rolling-dice-yet-again.html#exm:dd-dice-joint-sim">3.6</a></p>
+</div>
+<p>Donny is correct! The joint distribution spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a> correctly produces <span class="math inline">\((X, Y)\)</span> pairs according to the joint distribution in Table <a href="joint-distributions-rolling-dice-yet-again.html#tab:dice-dist">3.2</a>. Ignoring the <span class="math inline">\(Y\)</span> values is like “summing across the rows” and only worrying about what happens in total for <span class="math inline">\(X\)</span>. For example, in the long run, 1/16 of spins will generate (4, 2) and 2/16 of spins will generate (4, 3), so ignoring the <span class="math inline">\(y\)</span> values, 3/16 of spins will return an <span class="math inline">\(x\)</span> value of 4. From the joint distribution you can always find the marginal distributions (by finding row and column totals). (Donny’s method does work, but it does require more work than necessary. If you really only needed to simulate <span class="math inline">\(X\)</span> values, you only need the distribution of <span class="math inline">\(X\)</span> and not the joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, so you could use the <span class="math inline">\(X\)</span> spinner in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max-marginal">3.6</a>.)</p>
+<p><strong>Some lessons from this example.</strong></p>
+<ul>
+<li>There are two ways to simulate a value of a random variable.
+<ul>
+<li>Simulate an outcome from the underlying probability space and evaluate the random variable for the simulated outcome.</li>
+<li>Find the distribution of the random variable, and simulate a value from that distribution (e.g., by constructing a spinner).</li>
+</ul></li>
+<li>To simulate an <span class="math inline">\((X, Y)\)</span> pair it is, in general<a href="#fn51" class="footnote-ref" id="fnref51"><sup>51</sup></a>, <em>not</em> sufficient to simulate a value of <span class="math inline">\(X\)</span> from its marginal distribution and a value of <span class="math inline">\(Y\)</span> from its marginal distribution. Instead, a pair <span class="math inline">\((X, Y)\)</span> must be simulated from the joint distribution.</li>
+</ul>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="49">
+<li id="fn49"><p>Since <code>P</code> returns pairs of outcomes, <code>Z=RV(P)</code> is a random <em>vector</em>. Components of a vector can be indexed with brackets <code>[]</code>; e.g., the first component is <code>Z[0]</code> and the second is <code>Z[1]</code>. (Remember: Python uses zero-based indexing.) So the “unpacked” code is an equivalent but simpler version of <code>Z = RV(P); X = Z[0]; Y = Z[1]</code>.<a href="joint-distributions-rolling-dice-yet-again.html#fnref49" class="footnote-back">↩︎</a></p></li>
+<li id="fn50"><p>If Donny <em>really</em> wanted to simulate two independent pairs of rolls, one to compute <span class="math inline">\(X\)</span> and one to compute <span class="math inline">\(Y\)</span>, he would still need define the random variables on the same probability space, using <code>BoxModel([1, 2, 3, 4], size = 2) ** 2</code> for which an example outcome would be ((3, 2), (1, 1)). Then he could define <code>X=RV(P)[0].apply(sum)</code> and <code>X=RV(P)[1].apply(max)</code>. But it’s hard to justify why Donny would want to do this.<a href="joint-distributions-rolling-dice-yet-again.html#fnref50" class="footnote-back">↩︎</a></p></li>
+<li id="fn51"><p>When <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <em>independent</em> it is sufficient to simulate values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> separately from their respective marginal distributions. We study independence in detail in Section <a href="#independence"><strong>??</strong></a>.<a href="joint-distributions-rolling-dice-yet-again.html#fnref51" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="non-equally-likely-outcomes-a-weighted-die.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sec-mscoin-sim.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

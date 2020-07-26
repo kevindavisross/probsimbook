@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.1 Tactile simulation: Boxes and spinners | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.1 Tactile simulation: Boxes and spinners | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.1 Tactile simulation: Boxes and spinners | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="simulation.html"/>
+<link rel="next" href="technology-intro.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tactile" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Tactile simulation: Boxes and spinners</h2>
+<p>While we generally use technology to conduct large scale simulations, it is helpful to first consider how we might conduct a simulation by hand using physical objects like coins, dice, cards, or spinners.</p>
+<p>Many random phenomena can be represented in terms of a <strong>“box model”</strong>.</p>
+<ul>
+<li>Imagine a box containing “tickets” with labels. Examples include:
+<ul>
+<li>Fair coin flip. 2 tickets: 1 labeled H and 1 labeled T</li>
+<li>90% free throw shooter. 10 tickets: 9 labeled “make” and 1 labeled “miss”</li>
+<li>Card shuffling. 52 cards: each card with a pair of labels (face value, suit).</li>
+<li>Random digit dialing. 10 tickets: labeled 0 through 9 (corresponding to single digits).</li>
+</ul></li>
+<li>The tickets are shuffled in the box, some number are drawn out — either <em>with replacement or without replacement</em> of the tickets before the next draw<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a></li>
+<li>In some cases, the order in which the tickets are drawn matters; in other cases the order is irrelevant. For example,
+<ul>
+<li>Dealing a 5 card poker hand: Select 5 cards without replacement, order does not matter</li>
+<li>Random digit dialing: Select 10 cards with replacement (for a phone number with area code), order matters (e.g., 805-555-1234 is a different outcome than 805-555-4321)</li>
+</ul></li>
+<li>Then something is done with the tickets, typically to measure random variables of interest. For example, you might flip a coin 10 times (by drawing from the H/T box 10 times with replacement) and count the number of H.</li>
+</ul>
+<p>If the draws are made with replacement from a single box, we can think of a single circular “spinner” instead of a box, spun multiple times. For example:</p>
+<ul>
+<li>Fair coin flip. Spinner with half of the area corresponding to H and half T</li>
+<li>90% free throw shooter. Spinner with 90% of the area correspoding to “make” and 10% “miss”.</li>
+<li>Random digit dialing. Spinner marked with digits 0-9, possibly with some digits more likely than others. spun multiple times. Depending on what regions you are trying to sample, you might have three spinners: one to generate area code, one to generate the next three digits, and one to generate the last four digits.</li>
+</ul>
+
+<div class="example">
+<span id="exm:dice-sim" class="example"><strong>Example 3.1  </strong></span>
+Let <span class="math inline">\(X\)</span> be the sum of two rolls of a fair four-sided die, and let <span class="math inline">\(Y\)</span> be the larger of the two rolls (or the common value if a tie). Set up a box model and explain how you would use it to simulate a single realization of <span class="math inline">\((X, Y)\)</span>. Could you use a spinner instead?
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="tactile.html#exm:dice-sim">3.1</a></p>
+</div>
+<p>Use a box with four tickets, labeled 1, 2, 3, 4. Draw two tickets with replacement. Let <span class="math inline">\(X\)</span> be the sum of the two numbers drawn and <span class="math inline">\(Y\)</span> the larger of the two numbers drawn.</p>
+<p>It’s also possible to use a spinner with 4 sectors, corresponding to 1, 2, 3, 4, each with 25% of the total area; see Figure <a href="tactile.html#fig:spinner-die">3.1</a>. Spin the spinner twice. Let <span class="math inline">\(X\)</span> be the sum of the two numbers spun and <span class="math inline">\(Y\)</span> the larger of the two numbers spun.</p>
+
+<div class="figure"><span id="fig:spinner-die"></span>
+<img src="_graphics/spinner-die.PNG" alt="Spinner corresponding to a single roll of a fair four-sided die." width="155" />
+<p class="caption">
+Figure 3.1: Spinner corresponding to a single roll of a fair four-sided die.
+</p>
+</div>
+<p>The spinner in Figure <a href="tactile.html#fig:spinner-die">3.1</a> simulates the individual die rolls. We will see in Figure <a href="joint-distributions-rolling-dice-yet-again.html#fig:spinner-dice-sum-max">3.5</a> below a separate spinner for generating <span class="math inline">\((X, Y)\)</span> pairs directly.</p>
+<p>Note that we were able to simulate outcomes of the rolls and values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> without defining the probability space in detail. Instead, the probability space is defined implicitly via the specification to “roll a fair four-sided die twice” or “draw two tickets with replacement from a box with four tickets labeled 1, 2, 3, 4” or “spin the spinner in Figure <a href="tactile.html#fig:spinner-die">3.1</a> twice”. The random variables are defined by what is being measured for each outcome, the sum (<span class="math inline">\(X\)</span>) and the max (<span class="math inline">\(Y\)</span>) of the two draws or spins.</p>
+<p>A simulation involves repeatedly artificially recreating the random phenomenon a large number of repetitions and using the results to investigate properties of interest. It is important to distinguish between what entails (1) one repetition of the simulation and its output, and (2) the simulation itself and output from many repetitions.</p>
+
+<div class="example">
+<p><span id="exm:dice-sim-tactile" class="example"><strong>Example 3.2  </strong></span>
+Use a four-sided die (or a box or a spinner) and perform by hand 10 repetitions of the simulation in Example <a href="tactile.html#exm:dice-sim">3.1</a>. For each repetition, record the results of the first and second rolls (or draws or spins) and the values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. Based only on the results of your simulation, how would you approximate the following?</p>
+</div>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\IP(A)\)</span>, where <span class="math inline">\(A\)</span> is the event that the first roll is 3.</li>
+<li><span class="math inline">\(\IP(X=6)\)</span></li>
+<li><span class="math inline">\(\IP(X \ge 6)\)</span></li>
+<li><span class="math inline">\(\IP(Y = 3)\)</span></li>
+<li><span class="math inline">\(\IP(Y \ge 3)\)</span></li>
+<li><span class="math inline">\(\IP(X=6, Y=3)\)</span></li>
+<li><span class="math inline">\(\IP(X\ge6, Y \ge 3)\)</span></li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="tactile.html#exm:dice-sim-tactile">3.2</a>.</p>
+</div>
+<p>Table <a href="tactile.html#tab:dice-sim-tactile-results">3.1</a> summarizes the results of 10 repetitions. Results vary naturally so your simulation results will be different, but the same ideas apply.</p>
+<table>
+<caption><span id="tab:dice-sim-tactile-results">Table 3.1: </span>Results of 10 repetitions of two rolls of a fair four-sided die</caption>
+<thead>
+<tr class="header">
+<th align="right">Repetition</th>
+<th align="right">First roll</th>
+<th align="right">Second roll</th>
+<th align="right">X</th>
+<th align="right">Y</th>
+<th align="left">Event A occurs?</th>
+<th align="right">I[A]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="left">False</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="left">False</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">3</td>
+<td align="left">True</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="left">False</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="left">True</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="left">True</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="left">False</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="left">False</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="left">False</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="left">True</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li>Approximate <span class="math inline">\(\IP(A)\)</span> by 4/10, the proportion of repetitions where the first roll is 3.</li>
+<li>Approximate <span class="math inline">\(\IP(X=6)\)</span> by 2/10, the proportion of repetitions where the sum is 6.</li>
+<li>Approximate <span class="math inline">\(\IP(X\ge 6)\)</span> by 5/10, the proportion of repetitions where the sum is at least 6.</li>
+<li>Approximate <span class="math inline">\(\IP(Y=3)\)</span> by 3/10, the proportion of repetitions where the max is 3.</li>
+<li>Approximate <span class="math inline">\(\IP(Y\ge 3)\)</span> by 7/10, the proportion of repetitions where the max is at least 7.</li>
+<li>Approximate <span class="math inline">\(\IP(X=6, Y = 3)\)</span> by 1/10, the proportion of repetitions where both the sum is 6 and the max is 3.</li>
+<li>Approximate <span class="math inline">\(\IP(X\ge 6, Y \ge 3)\)</span> by 5/10, the proportion of repetitions where both the sum is at least 6 and the max is at least 3.</li>
+</ol>
+<p>In practice, many repetitions of a simulation are performed on a computer. But carrying out a few repetitions by hand helps make the process more concrete. Remember that it is important to distinguish between what entails (1) one repetition of the simulation and its output, and (2) the simulation itself and output from many repetitions. Refrain from making vague statements like “repeat this” or “do it again”, because “this” or “it” could refer to different elements of the simulation. In the dice example, (1) rolling a die is repeated to generate a single <span class="math inline">\((X, Y)\)</span> pair, and (2) the process of generating <span class="math inline">\((X, Y)\)</span> pairs is repeated to obtain the simulation<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a> results. That is, a single repetition involves an ordered pair of die rolls, resulting in an outcome <span class="math inline">\(\omega\)</span>, and the values of the sum <span class="math inline">\(X(\omega)\)</span> and max <span class="math inline">\(Y(\omega)\)</span> are computed for the outcome <span class="math inline">\(\omega\)</span>. This process is repeated many times to generate many outcomes and <span class="math inline">\((X, Y)\)</span> pairs according to the probability model.</p>
+<p>Think of simulation results being organized in a table like Table <a href="tactile.html#tab:dice-sim-tactile-results">3.1</a>, where each row corresponds to a different repetition of the simulation and each column corresponds to a different random variable. Remember that indicators are the bridge between events and random variables. On each repetition of the simulation an event either occurs or not. We could record the occurrence of an event as “True/False” for each repetition, or we could record the 1/0 value of the corresponding indicator random variable; see the last two columns in Table <a href="tactile.html#tab:dice-sim-tactile-results">3.1</a> for an example.</p>
+<p>Simulation results are summarized in tables and plots. Figure <a href="tactile.html#fig:dice-sim-tactile-results-plot">3.2</a> displays two plots summarizing the results in Table <a href="tactile.html#tab:dice-sim-tactile-results">3.1</a>. Each dot represents the results of one repetition; the plot on the left displays the <span class="math inline">\((X, Y)\)</span> pairs, and the plot on the right displays the values of <span class="math inline">\(X\)</span> alone along with their frequencies. While this simulation only consists of 10 repetitions, a larger scale simulation and the summarization of results would follow the same process.</p>
+
+<div class="figure"><span id="fig:dice-sim-tactile-results-plot"></span>
+<img src="bookdown-demo_files/figure-html/dice-sim-tactile-results-plot-1.png" alt="Results of 10 repetitions of two rolls of a fair four-sided die, where \(X\) is the sum and \(Y\) is the larger (or common value if a tie) of the two rolls; see Table 3.1." width="50%" /><img src="bookdown-demo_files/figure-html/dice-sim-tactile-results-plot-2.png" alt="Results of 10 repetitions of two rolls of a fair four-sided die, where \(X\) is the sum and \(Y\) is the larger (or common value if a tie) of the two rolls; see Table 3.1." width="50%" />
+<p class="caption">
+Figure 3.2: Results of 10 repetitions of two rolls of a fair four-sided die, where <span class="math inline">\(X\)</span> is the sum and <span class="math inline">\(Y\)</span> is the larger (or common value if a tie) of the two rolls; see Table <a href="tactile.html#tab:dice-sim-tactile-results">3.1</a>.
+</p>
+</div>
+<p>A particular event either occurs or not or any particular repetition of the simulation. Summarizing simulation results for events involves counting the number of repetition on which the event occurs and finding related proportions.</p>
+<p>On the other hand, random variables typically take many possible values over the course of many repetitions. We are still interested in relative frequencies of events, like <span class="math inline">\(\{X=6\}\)</span> and <span class="math inline">\(\{Y \ge 3\}\)</span> in the die example. But for random variables we also also interested distributions, average values, degree of variability, and quantities that measure relationships between random variables. We will investigate these ideas soon.</p>
+
+<div class="example">
+<p><span id="exm:coin-heads-tactile" class="example"><strong>Example 3.3  </strong></span>Flip a coin 4 times and let <span class="math inline">\(X\)</span> be the number of H.</p>
+<ol style="list-style-type: decimal">
+<li>Specify how to use a box model to simulate a single value of <span class="math inline">\(X\)</span>, with tickets labeled H and T.</li>
+<li>Specify how to use a box model to simulate a single value of <span class="math inline">\(X\)</span>, using tickets that are labeled with appropriate numbers (not H and T) and without counting.</li>
+<li>Specify how to use simulation to approximate <span class="math inline">\(\IP(X = 3)\)</span>.</li>
+</ol>
+</div>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="tactile.html#exm:coin-heads-tactile">3.3</a>.</p>
+<ol style="list-style-type: decimal">
+<li>Put two tickets in the box, one labeled H and one labeled T. Shuffle and deal 4 tickets with replacement. Count the number of times H was drawn to obtain the value of <span class="math inline">\(X\)</span> for this repetition.</li>
+<li>Put two tickets in the box, one labeled 1 (for H) and one labeled 0 (for T). Shuffle and deal 4 tickets with replacement. <em>Sum</em> the 4 values drawn to obtain the value of <span class="math inline">\(X\)</span> for this repetition.</li>
+<li>Repeat step 1 (or 2) many times to generate many simulated values of <span class="math inline">\(X\)</span>. Approximate <span class="math inline">\(\IP(X=3)\)</span> with the proportion of simulated values of <span class="math inline">\(X\)</span> that are equal to 3.</li>
+</ol>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="33">
+<li id="fn33"><p>“With replacement” always implies replacement at a uniformly random point in the box. Think of “with replacement” as “with replacement and reshuffling” before the next draw.<a href="tactile.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<li id="fn34"><p>Do we perform “a simulation”, or “many simulations”? Throughout, “a simulation” refers to the collection of results corresponding to repreatedly artificially recreating the random process. “A repetition” refers to a single artificial recreating resulting in a single simulated outcome.<a href="tactile.html#fnref34" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="simulation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="technology-intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

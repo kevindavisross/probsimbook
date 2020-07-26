@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.5 Probability distributions (a brief introduction) | An Introduction to Probability and Simulation</title>
+  <meta name="description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="generator" content="bookdown 0.20.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.5 Probability distributions (a brief introduction) | An Introduction to Probability and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.5 Probability distributions (a brief introduction) | An Introduction to Probability and Simulation" />
+  
+  <meta name="twitter:description" content="This textbook presents a simulation-based approach to probability, using the Symbulate package." />
+  
+
+<meta name="author" content="Kevin Ross" />
+
+
+<meta name="date" content="2020-07-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="probspace.html"/>
+<link rel="next" href="simulation.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li><a href="index.html#why-study-probability-and-simulation">Why study probability <em>and simulation</em>?</a></li>
+<li class="chapter" data-level="0.0.1" data-path="index.html"><a href="index.html#learning-objectivesgoalsstyle-better-title"><i class="fa fa-check"></i><b>0.0.1</b> Learning Objectives/Goals/Style??? (Better title)</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#symbulate"><i class="fa fa-check"></i>Symbulate</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dont-do-what-donny-dont-does"><i class="fa fa-check"></i>Don’t do what Donny Don’t does</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-book"><i class="fa fa-check"></i>About this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prob-literacy.html"><a href="prob-literacy.html"><i class="fa fa-check"></i><b>1</b> What is Probability?</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomness.html"><a href="randomness.html"><i class="fa fa-check"></i><b>1.1</b> Instances of randomness</a></li>
+<li class="chapter" data-level="1.2" data-path="interpretations.html"><a href="interpretations.html"><i class="fa fa-check"></i><b>1.2</b> Interpretations of probability</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="interpretations.html"><a href="interpretations.html#rel-freq"><i class="fa fa-check"></i><b>1.2.1</b> Relative frequency</a></li>
+<li class="chapter" data-level="1.2.2" data-path="interpretations.html"><a href="interpretations.html#subjective-probability"><i class="fa fa-check"></i><b>1.2.2</b> Subjective probability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="proportional-reasoning-and-tables-of-counts.html"><a href="proportional-reasoning-and-tables-of-counts.html"><i class="fa fa-check"></i><b>1.3</b> Proportional reasoning and tables of counts</a></li>
+<li class="chapter" data-level="1.4" data-path="consistency.html"><a href="consistency.html"><i class="fa fa-check"></i><b>1.4</b> Working with probabilities</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="consistency.html"><a href="consistency.html#consistency-requirements"><i class="fa fa-check"></i><b>1.4.1</b> Consistency requirements</a></li>
+<li class="chapter" data-level="1.4.2" data-path="consistency.html"><a href="consistency.html#odds"><i class="fa fa-check"></i><b>1.4.2</b> Odds</a></li>
+<li class="chapter" data-level="1.4.3" data-path="consistency.html"><a href="consistency.html#dutch-book"><i class="fa fa-check"></i><b>1.4.3</b> Dutch book</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="sim.html"><a href="sim.html"><i class="fa fa-check"></i><b>1.5</b> Approximating probabilities - a brief introduction to simulation</a></li>
+<li class="chapter" data-level="1.6" data-path="sliding-scale-of-probability-or-probability-of-what.html"><a href="sliding-scale-of-probability-or-probability-of-what.html"><i class="fa fa-check"></i><b>1.6</b> Sliding scale of probability, or Probability of what?</a></li>
+<li class="chapter" data-level="1.7" data-path="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><a href="common-misinterpretation-and-fallacies-e-g-outbreak-of-asian-disease-utts-book.html"><i class="fa fa-check"></i><b>1.7</b> Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)</a></li>
+<li class="chapter" data-level="1.8" data-path="why-study-coins-dice-cards-and-spinners.html"><a href="why-study-coins-dice-cards-and-spinners.html"><i class="fa fa-check"></i><b>1.8</b> Why study coins, dice, cards, and spinners?</a></li>
+<li class="chapter" data-level="1.9" data-path="list-of-recurring-examples.html"><a href="list-of-recurring-examples.html"><i class="fa fa-check"></i><b>1.9</b> List of recurring examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probmath.html"><a href="probmath.html"><i class="fa fa-check"></i><b>2</b> The Language of Probability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="samplespace.html"><a href="samplespace.html"><i class="fa fa-check"></i><b>2.1</b> Sample space of outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="samplespace.html"><a href="samplespace.html#summary"><i class="fa fa-check"></i><b>2.1.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="events.html"><a href="events.html"><i class="fa fa-check"></i><b>2.2</b> Events</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="events.html"><a href="events.html#sigmafield"><i class="fa fa-check"></i><b>2.2.1</b> The collection of events of interest</a></li>
+<li class="chapter" data-level="2.2.2" data-path="events.html"><a href="events.html#summary-1"><i class="fa fa-check"></i><b>2.2.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="rv.html"><a href="rv.html"><i class="fa fa-check"></i><b>2.3</b> Random variables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="rv.html"><a href="rv.html#rv-function"><i class="fa fa-check"></i><b>2.3.1</b> A random variable is a function</a></li>
+<li class="chapter" data-level="2.3.2" data-path="rv.html"><a href="rv.html#events-involving-random-variables"><i class="fa fa-check"></i><b>2.3.2</b> Events involving random variables</a></li>
+<li class="chapter" data-level="2.3.3" data-path="rv.html"><a href="rv.html#transform"><i class="fa fa-check"></i><b>2.3.3</b> Transformations of random variables</a></li>
+<li class="chapter" data-level="2.3.4" data-path="rv.html"><a href="rv.html#indicator-random-variables-and-counting"><i class="fa fa-check"></i><b>2.3.4</b> Indicator random variables and counting</a></li>
+<li class="chapter" data-level="2.3.5" data-path="rv.html"><a href="rv.html#summary-2"><i class="fa fa-check"></i><b>2.3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probspace.html"><a href="probspace.html"><i class="fa fa-check"></i><b>2.4</b> Probability spaces</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probspace.html"><a href="probspace.html#some-probability-measures-for-a-roll-of-a-four-sided"><i class="fa fa-check"></i><b>2.4.1</b> Some probability measures for a roll of a four-sided</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probspace.html"><a href="probspace.html#propprob"><i class="fa fa-check"></i><b>2.4.2</b> Properties of probability measures</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probspace.html"><a href="probspace.html#equally-likely"><i class="fa fa-check"></i><b>2.4.3</b> Equally likely outcomes</a></li>
+<li class="chapter" data-level="2.4.4" data-path="probspace.html"><a href="probspace.html#sec-uniform-prob"><i class="fa fa-check"></i><b>2.4.4</b> Uniform probability measures</a></li>
+<li class="chapter" data-level="2.4.5" data-path="probspace.html"><a href="probspace.html#non-uniform-probability-measures"><i class="fa fa-check"></i><b>2.4.5</b> Non-uniform probability measures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="probability-distributions-a-brief-introduction.html"><a href="probability-distributions-a-brief-introduction.html"><i class="fa fa-check"></i><b>2.5</b> Probability distributions (a brief introduction)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>3</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tactile.html"><a href="tactile.html"><i class="fa fa-check"></i><b>3.1</b> Tactile simulation: Boxes and spinners</a></li>
+<li class="chapter" data-level="3.2" data-path="technology-intro.html"><a href="technology-intro.html"><i class="fa fa-check"></i><b>3.2</b> Computer simulation: Symbulate</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes"><i class="fa fa-check"></i><b>3.2.1</b> Simulating outcomes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="technology-intro.html"><a href="technology-intro.html#simulating-random-variables"><i class="fa fa-check"></i><b>3.2.2</b> Simulating random variables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="technology-intro.html"><a href="technology-intro.html#approximating-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Approximating distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="technology-intro.html"><a href="technology-intro.html#simulating-events"><i class="fa fa-check"></i><b>3.2.4</b> Simulating events</a></li>
+<li class="chapter" data-level="3.2.5" data-path="technology-intro.html"><a href="technology-intro.html#simulating-multiple-random-variables"><i class="fa fa-check"></i><b>3.2.5</b> Simulating multiple random variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="technology-intro.html"><a href="technology-intro.html#simulating-outcomes-and-random-variables"><i class="fa fa-check"></i><b>3.2.6</b> Simulating outcomes and random variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="technology-intro.html"><a href="technology-intro.html#simulating-equally-likely-outcomes"><i class="fa fa-check"></i><b>3.2.7</b> Simulating equally likely outcomes</a></li>
+<li class="chapter" data-level="3.2.8" data-path="technology-intro.html"><a href="technology-intro.html#brief-summary-of-symbulate-commands"><i class="fa fa-check"></i><b>3.2.8</b> Brief summary of Symbulate commands</a></li>
+<li class="chapter" data-level="3.2.9" data-path="technology-intro.html"><a href="technology-intro.html#exercises"><i class="fa fa-check"></i><b>3.2.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moe.html"><a href="moe.html"><i class="fa fa-check"></i><b>3.3</b> Approximating probabilities: Simulation margin of error</a></li>
+<li class="chapter" data-level="3.4" data-path="non-equally-likely-outcomes-a-weighted-die.html"><a href="non-equally-likely-outcomes-a-weighted-die.html"><i class="fa fa-check"></i><b>3.4</b> Non-equally likely outcomes: A weighted die</a></li>
+<li class="chapter" data-level="3.5" data-path="joint-distributions-rolling-dice-yet-again.html"><a href="joint-distributions-rolling-dice-yet-again.html"><i class="fa fa-check"></i><b>3.5</b> Joint distributions: rolling dice yet again</a></li>
+<li class="chapter" data-level="3.6" data-path="sec-mscoin-sim.html"><a href="sec-mscoin-sim.html"><i class="fa fa-check"></i><b>3.6</b> Customizing random variables: Heads following Heads</a></li>
+<li class="chapter" data-level="3.7" data-path="changing-parameters-matching-problem.html"><a href="changing-parameters-matching-problem.html"><i class="fa fa-check"></i><b>3.7</b> Changing parameters: Matching problem</a></li>
+<li class="chapter" data-level="3.8" data-path="sec-linear-rescaling.html"><a href="sec-linear-rescaling.html"><i class="fa fa-check"></i><b>3.8</b> Outcomes on a continuous scale: Meeting times</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-distributions.html"><a href="appendix-distributions.html"><i class="fa fa-check"></i><b>A</b> Summary of common distributions</a></li>
+<li class="chapter" data-level="B" data-path="appendix-plots.html"><a href="appendix-plots.html"><i class="fa fa-check"></i><b>B</b> Visualizing and Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html"><i class="fa fa-check"></i><b>B.1</b> A few common plots for numerical data</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#rug-plot"><i class="fa fa-check"></i><b>B.1.1</b> Rug plot</a></li>
+<li class="chapter" data-level="B.1.2" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#impulse-plot"><i class="fa fa-check"></i><b>B.1.2</b> Impulse plot</a></li>
+<li class="chapter" data-level="B.1.3" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#histograms"><i class="fa fa-check"></i><b>B.1.3</b> Histograms</a></li>
+<li class="chapter" data-level="B.1.4" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#density-plots"><i class="fa fa-check"></i><b>B.1.4</b> Density plots</a></li>
+<li class="chapter" data-level="B.1.5" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#scatterplots"><i class="fa fa-check"></i><b>B.1.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="B.1.6" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#tile-plots"><i class="fa fa-check"></i><b>B.1.6</b> Tile plots</a></li>
+<li class="chapter" data-level="B.1.7" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-histograms"><i class="fa fa-check"></i><b>B.1.7</b> Two-dimensional histograms</a></li>
+<li class="chapter" data-level="B.1.8" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#two-dimensional-density-plots"><i class="fa fa-check"></i><b>B.1.8</b> Two-dimensional density plots</a></li>
+<li class="chapter" data-level="B.1.9" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#mosaic-plots"><i class="fa fa-check"></i><b>B.1.9</b> Mosaic plots</a></li>
+<li class="chapter" data-level="B.1.10" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#violin-plots"><i class="fa fa-check"></i><b>B.1.10</b> Violin plots</a></li>
+<li class="chapter" data-level="B.1.11" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#plotting-more-than-two-variables"><i class="fa fa-check"></i><b>B.1.11</b> Plotting more than two variables</a></li>
+<li class="chapter" data-level="B.1.12" data-path="a-few-common-plots-for-numerical-data.html"><a href="a-few-common-plots-for-numerical-data.html#time-plots"><i class="fa fa-check"></i><b>B.1.12</b> Time plots</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>B.2</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#frequency-and-relative-frequency"><i class="fa fa-check"></i><b>B.2.1</b> Frequency and relative frequency</a></li>
+<li class="chapter" data-level="B.2.2" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#percentiles"><i class="fa fa-check"></i><b>B.2.2</b> Percentiles</a></li>
+<li class="chapter" data-level="B.2.3" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#mean"><i class="fa fa-check"></i><b>B.2.3</b> Mean</a></li>
+<li class="chapter" data-level="B.2.4" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#variance-and-standard-deviation"><i class="fa fa-check"></i><b>B.2.4</b> Variance and standard deviation</a></li>
+<li class="chapter" data-level="B.2.5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#covariance-and-correlation"><i class="fa fa-check"></i><b>B.2.5</b> Covariance and correlation</a></li>
+<li class="chapter" data-level="B.2.6" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html#regression"><i class="fa fa-check"></i><b>B.2.6</b> Regression?</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="transforming-values.html"><a href="transforming-values.html"><i class="fa fa-check"></i><b>B.3</b> Transforming values</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendix-math.html"><a href="appendix-math.html"><i class="fa fa-check"></i><b>C</b> Mathematical Preliminaries</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="sets.html"><a href="sets.html"><i class="fa fa-check"></i><b>C.1</b> Sets</a></li>
+<li class="chapter" data-level="C.2" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>C.2</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="probability-distributions-a-brief-introduction" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Probability distributions (a brief introduction)</h2>
+<p>Even when outcomes of a random phenomenon are equally likely, values of related random variable are usually not. The <strong>probability distribution</strong> of a random variable summarizes the possible values that the random variable can take and their relative likelihoods.</p>
+<p>The probability distribution of a discrete random variable <span class="math inline">\(X\)</span> is often displayed in a table containing the probability of the event <span class="math inline">\(\{X=x\}\)</span> for each possible value <span class="math inline">\(x\)</span>. For example, the distribution of the number of matches <span class="math inline">\(Y\)</span> in the matching problem in Example <a href="probspace.html#exm:matching-probspace">2.37</a> is represented by Table <a href="probspace.html#tab:matching-probspace-table">2.10</a>.</p>
+
+<div class="example">
+<p><span id="exm:dice-probspace" class="example"><strong>Example 2.42  </strong></span>
+Roll a four-sided die twice; recall the sample space in Example <a href="rv.html#exm:dice-rv">2.17</a> and Table <a href="rv.html#tab:dice-rv-sol-table">2.2</a>. One choice of probability measure corresponds to assuming that the die is fair and that the 16 possible outcomes are equally likely. Let <span class="math inline">\(X\)</span> be the sum of the two dice, and let <span class="math inline">\(Y\)</span> be the larger of the two rolls (or the common value if both rolls are the same).</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Construct a table displaying the distribution of <span class="math inline">\(X\)</span>.<br />
+</li>
+<li>Construct a table displaying the distribution of <span class="math inline">\(Y\)</span>.</li>
+<li>Construct a two-way table displaying the distribution of <span class="math inline">\((X, Y)\)</span> pairs.</li>
+<li>Starting with the two-way table from the previous part, how could you obtain the distribution of <span class="math inline">\(X\)</span>? of <span class="math inline">\(Y\)</span>?</li>
+<li>Starting with the distribution of <span class="math inline">\(X\)</span> and the distribution of <span class="math inline">\(Y\)</span> from parts 1 and 2, but without Table <a href="rv.html#tab:dice-rv-sol-table">2.2</a>, could you construct the two-way table of the distribution of <span class="math inline">\((X, Y)\)</span> pairs?</li>
+</ol>
+
+<div class="solution">
+<p> <span class="solution"><em>Solution. </em></span> 
+to Example <a href="probability-distributions-a-brief-introduction.html#exm:dice-probspace">2.42</a></p>
+</div>
+
+
+<ol style="list-style-type: decimal">
+<li>The possible values of <span class="math inline">\(X\)</span> are <span class="math inline">\(2, 3, 4, 5, 6, 7, 8\)</span>. Find the probability of each value using Table <a href="rv.html#tab:dice-rv-sol-table">2.2</a>. For example <span class="math inline">\(\textrm{P}(X = 3) = \textrm{P}(\{(1, 2), (2, 1)\}) = 2/16\)</span>. Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-sum-dist-table">2.11</a> displays the distribution.</li>
+</ol>
+<table>
+<caption><span id="tab:dice-sum-dist-table">Table 2.11: </span>The distribution of <span class="math inline">\(X\)</span>, the sum of two rolls of a fair four-sided die.</caption>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+<th align="right">P(X=x)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">0.0625</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">0.1250</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">0.1875</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="right">0.2500</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">0.1875</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="right">0.1250</td>
+</tr>
+<tr class="odd">
+<td align="right">8</td>
+<td align="right">0.0625</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li>The possible values of <span class="math inline">\(Y\)</span> are <span class="math inline">\(1, 2, 3, 4\)</span>. For example <span class="math inline">\(\textrm{P}(Y = 3) = \textrm{P}(\{(1, 3), (2, 3), (3, 1), (3, 2), (3, 3)\}) = 5/16\)</span>. Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-max-dist-table">2.12</a> displays the distribution.</li>
+</ol>
+<table>
+<caption><span id="tab:dice-max-dist-table">Table 2.12: </span>The distribution of <span class="math inline">\(Y\)</span>, the larger (or common value if a tie) of two rolls of a fair four-sided die.</caption>
+<thead>
+<tr class="header">
+<th align="right">y</th>
+<th align="right">P(Y=y)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">0.0625</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">0.1875</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">0.3125</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0.4375</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li>Similar to the previous parts, we can first construct a table with each row corresponding to a possible <span class="math inline">\((X, Y)\)</span> pair. Basically, collapse Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-joint-dist-flat">2.13</a>. For example <span class="math inline">\(\textrm{P}((X, Y) = (4, 3))=\textrm{P}(X = 4, Y=3) = \textrm{P}(\{(1, 3), (3, 1)\}) = 2/16\)</span>.</li>
+</ol>
+<table>
+<caption><span id="tab:dice-joint-dist-flat">Table 2.13: </span>Table representing the joint distribution of sum (<span class="math inline">\(X\)</span>) and larger (<span class="math inline">\(Y\)</span>) of two rolls of a four-sided die</caption>
+<thead>
+<tr class="header">
+<th align="left">(x, y)</th>
+<th align="right">P(X = x, Y = y)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(2, 1)</td>
+<td align="right">0.0625</td>
+</tr>
+<tr class="even">
+<td align="left">(3, 2)</td>
+<td align="right">0.1250</td>
+</tr>
+<tr class="odd">
+<td align="left">(4, 2)</td>
+<td align="right">0.0625</td>
+</tr>
+<tr class="even">
+<td align="left">(4, 3)</td>
+<td align="right">0.1250</td>
+</tr>
+<tr class="odd">
+<td align="left">(5, 3)</td>
+<td align="right">0.1250</td>
+</tr>
+<tr class="even">
+<td align="left">(5, 4)</td>
+<td align="right">0.1250</td>
+</tr>
+<tr class="odd">
+<td align="left">(6, 3)</td>
+<td align="right">0.0625</td>
+</tr>
+<tr class="even">
+<td align="left">(6, 4)</td>
+<td align="right">0.1250</td>
+</tr>
+<tr class="odd">
+<td align="left">(7, 4)</td>
+<td align="right">0.1250</td>
+</tr>
+<tr class="even">
+<td align="left">(8, 4)</td>
+<td align="right">0.0625</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-joint-dist-twoway">2.14</a> reorganizes Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-joint-dist-flat">2.13</a> into a two-way table with rows corresponding to possible values of <span class="math inline">\(X\)</span> and columns corresponding to possible values of <span class="math inline">\(Y\)</span>.</p>
+<table>
+<caption><span id="tab:dice-joint-dist-twoway">Table 2.14: </span> Two-way table representation of the joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the sum and the larger (or common value if a tie) of two rolls of a fair four-sided die. Possible values of <span class="math inline">\(X\)</span> are in the leftmost column; possible values of <span class="math inline">\(Y\)</span> are in the top row.</caption>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x\)</span> \ <span class="math inline">\(y\)</span> |</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>2 |</td>
+<td align="right">1/16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>3 |</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>4 |</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">2/16</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>5 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="even">
+<td>6 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="odd">
+<td>7 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="even">
+<td>8 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li>For each possible value <span class="math inline">\(x\)</span> of <span class="math inline">\(X\)</span> sum the values in the corresponding row to find <span class="math inline">\(\textrm{P}(X=x)\)</span>. For example, <span class="math display">\[\begin{align*}
+\textrm{P}(X=4) &amp; = \textrm{P}(X=4, Y=1) + \textrm{P}(X=4, Y=2)\\
+\&amp; \quad + \textrm{P}(X=4, Y=3) + \textrm{P}(X=4, Y=4) = 0 + 1/16 + 2/16 + 0=3/16.
+\end{align*}\]</span>
+Similarly, for each possible value <span class="math inline">\(y\)</span> of <span class="math inline">\(Y\)</span> sum the values in the corresponding column to find <span class="math inline">\(\textrm{P}(Y = y)\)</span>.</li>
+<li>No, you could not construct the two-way table of the distribution of <span class="math inline">\((X, Y)\)</span> pairs based on the distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> alone. Essentially, just because you know the row totals and column totals doesn’t necessarily mean you know the values of the interior cells.</li>
+</ol>
+<p>Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-joint-dist-twoway">2.14</a> and Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-joint-dist-flat">2.13</a> represent the <strong>joint distribution</strong> of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. The joint distribution of two random variables summarizes the possible <em>pairs</em> of values and their relative likelihoods.</p>
+<p>In the context of multiple random variables, the distribution of any one of the random variables is called a <strong>marginal distribution</strong>. In Example <a href="probability-distributions-a-brief-introduction.html#exm:dice-probspace">2.42</a>
+, we can obtain the marginal distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from the joint distribution by summing rows and columns. Think of adding a total column (for <span class="math inline">\(X\)</span>) and a total row (for <span class="math inline">\(Y\)</span>) in the “margins” of the table.</p>
+<p>It is possible to obtain marginal distributions from a joint distribution. However, in general you cannot recover the joint distribution from the marginal distributions alone. Just because you know the row and column totals doesn’t mean you know all the values of the interior cells in the joint distribution table.</p>
+<p>Consider the following two-way table representing the joint distribution of two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. You can check that the marginal distribution of <span class="math inline">\(X\)</span> is the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-sum-dist-table">2.11</a>. You can also check that the marginal distribution of <span class="math inline">\(Y\)</span> is the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-max-dist-table">2.12</a>. However, clearly the joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is not the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-joint-dist-flat">2.13</a>.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x\)</span> \ <span class="math inline">\(y\)</span> |</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>2 |</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>3 |</td>
+<td align="right">1/16</td>
+<td align="right">1/16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>4 |</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">2/16</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>5 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">3/16</td>
+</tr>
+<tr class="even">
+<td>6 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="odd">
+<td>7 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2/16</td>
+</tr>
+<tr class="even">
+<td>8 |</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1/16</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+
+<div class="example">
+<span id="exm:dice-change-dist" class="example"><strong>Example 2.43  </strong></span>Continuing Example <a href="probability-distributions-a-brief-introduction.html#exm:dice-probspace">2.42</a>, suppose that instead of a fair die, the weighted die in Example <a href="probspace.html#exm:die-weighted">2.31</a> is rolled twice. Answer the following without doing any computations.
+</div>
+<ol style="list-style-type: decimal">
+<li>Are the possible values of <span class="math inline">\(X\)</span> the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-sum-dist-table">2.11</a>? Is the distribution of <span class="math inline">\(X\)</span> the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-sum-dist-table">2.11</a>?</li>
+<li>Are the possible values of <span class="math inline">\(Y\)</span> the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-max-dist-table">2.12</a>? Is the distribution of <span class="math inline">\(Y\)</span> the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-max-dist-table">2.12</a>?</li>
+<li>Are the possible values of <span class="math inline">\((X, Y)\)</span> the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-joint-dist-twoway">2.14</a>? Is the joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> the same as in Table <a href="probability-distributions-a-brief-introduction.html#tab:dice-joint-dist-twoway">2.14</a>?</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="probability-distributions-a-brief-introduction.html#exm:dice-change-dist">2.43</a>
+</div>
+<p>In all parts, yes the possible values are the same. There are still 16 possible outcomes and the random variables are still measuring the same quantities as before. But the distributions are all different. With the weighted die some outcomes are more likely than others, and some values of the random variables are more likely than before. For example, the probabilities of the events <span class="math inline">\(\{X = 8\}\)</span>, <span class="math inline">\(\{Y=4\}\)</span>, and <span class="math inline">\(\{X = 8, Y=4\}\)</span> are larger with the weighted die than with the fair die (because each roll of the weighted die is more likely to result in a 4 than the fair die).</p>
+<p>The distribution of a random variable depends on the underlying probability measure. Changing the probability measure can change the distribution of the random variable. We will see the importance of this idea when we cover conditional probability and distributions in Chapter XXX.</p>
+
+<div class="example">
+<p><span id="exm:coin-HT-same-dist" class="example"><strong>Example 2.44  </strong></span>
+Flip a coin 3 times and record the results in sequence. Let <span class="math inline">\(X\)</span> be the number of flips that result in H. Let <span class="math inline">\(Y\)</span> be the number of flips that result in T, and let <span class="math inline">\(Z\)</span> be the length of the longest streak of H in a row (which could be 0 if all T or 1 if no H is followed by H). (Hint: recall Table <a href="rv.html#tab:coin-transform-tab">2.3</a>.) One choice of probability measure <span class="math inline">\(\textrm{P}\)</span> corresponds to assuming the 8 possible outcomes are equally likely, consistent with the assumption that the coin is fair and the flips are independent.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Identify the distribution of <span class="math inline">\(X\)</span>.
+<!-- 1. Define another random variable $Y$ in this context that has the same distribution as $X$. --></li>
+<li>Identify the distribution of <span class="math inline">\(Y\)</span>.</li>
+<li>Are <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> the same random variable? Do they have the same distribution?</li>
+<li>Donny Don’t says “<span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have the same distribution so <span class="math inline">\(\textrm{P}(X=Y)=1\)</span>.” Explain to Donny his mistake, and find <span class="math inline">\(\textrm{P}(X = Y)\)</span>.</li>
+<li>Donny Don’t says “OK, I see why <span class="math inline">\(\textrm{P}(X=Y)\)</span> is not 1. But then I don’t understand what it means for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to have the same distribution.” Explain this to Donny using a long run relative frequency interpretation.</li>
+<li>Identify the distribution of <span class="math inline">\(Z\)</span>.</li>
+<li>Are <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> the same random variable? Do <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> have the same distribution?</li>
+<li>Donny says “<span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have the same distribution but <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> don’t, so <span class="math inline">\(\textrm{P}(X = Y)\)</span> must be greater than <span class="math inline">\(\textrm{P}(X = Z)\)</span>”. Explain to Donny his mistake, and find <span class="math inline">\(\textrm{P}(X = Z)\)</span>.</li>
+<li>Suppose that the coin was biased in favor of landing on H. Without doing any computations, would <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have the same distribution in this scenario? Explain.</li>
+</ol>
+
+<div class="solution">
+ <span class="solution"><em>Solution. </em></span> to Example <a href="probability-distributions-a-brief-introduction.html#exm:coin-HT-same-dist">2.44</a>
+</div>
+<p>Table <a href="probability-distributions-a-brief-introduction.html#tab:coin-transform-tab2">2.15</a> lists the possible outcomes and corresponding values of <span class="math inline">\(X, Y, Z\)</span>.</p>
+<table>
+<caption><span id="tab:coin-transform-tab2">Table 2.15: </span>Table representing <span class="math inline">\(X\)</span> the number of heads, <span class="math inline">\(Y\)</span> the number of tails, and <span class="math inline">\(Z\)</span> the length of the longest streak of heads in a row in 3 flips of a coin.</caption>
+<thead>
+<tr class="header">
+<th align="left">Outcome</th>
+<th align="right">X</th>
+<th align="right">Y</th>
+<th align="right">Z</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">HHH</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">HHT</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">HTH</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">THH</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">HTT</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">THT</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">TTH</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">TTT</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li>One way to “identify a distribution” of a discrete random variable is to make a table of possible values along with their probabilities. Collapse Table <a href="probability-distributions-a-brief-introduction.html#tab:coin-transform-tab2">2.15</a> to see that <span class="math inline">\(X\)</span> takes values 0, 1, 2, 3 with respective probability <span class="math inline">\(1/8, 3/8, 3/8, 1/8\)</span>.
+<!-- 1. Define another random variable $Y$ in this context that has the same distribution as $X$. --></li>
+<li><span class="math inline">\(Y\)</span> takes values 0, 1, 2, 3 with respective probability <span class="math inline">\(1/8, 3/8, 3/8, 1/8\)</span>.</li>
+<li><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are different random variables; they measure different things. Remember, random variables are functions, and the random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are different functions, one counts H and one counts T. But <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> do have the same distribution; they take the same possible values with the same respective probabilities.</li>
+<li>The event <span class="math inline">\(X=Y\)</span> represents the set of outcomes for which the value of the number of H is equal to the value of the number of T. But this is impossible for an odd number of coin flips, so <span class="math inline">\(\textrm{P}(X = Y) = 0\)</span>.</li>
+<li><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have the same long run pattern of variability over many sets of 3 coin flips. Over many sets of 3 coin flips, about 1/8 of sets will have 0 H, about 3/8 of sets will have 1 H, etc. <span class="math inline">\(Y\)</span> follows the same pattern: Over many sets of 3 coin flips, about 1/8 of sets will have 0 T, about 3/8 of sets will have 1 T, etc.</li>
+<li><span class="math inline">\(Z\)</span> takes values 0, 1, 2, 3 with respective probability <span class="math inline">\(1/8, 4/8, 2/8, 1/8\)</span>.</li>
+<li><span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> are not the same random variable. Remember, random variables are functions; two functions are the same if for any given input the two functions have the same output. But <span class="math inline">\(X(HTH)=2\)</span> and <span class="math inline">\(Z(HTH)=1\)</span>. <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> also do not have the same distribution; <span class="math inline">\(X\)</span> is 2 with probability 3/8 but <span class="math inline">\(Z\)</span> is 2 with probability 2/8.</li>
+<li>We have already explained that <span class="math inline">\(\textrm{P}(X = Y)=0\)</span>, so it can’t be greater than <span class="math inline">\(\textrm{P}(X = Z)\)</span>. The only outcome that does not satisfy the event <span class="math inline">\(\{X=Z\}\)</span> is <span class="math inline">\(HTH\)</span>, so <span class="math inline">\(\textrm{P}(X=Z)=7/8\)</span>.</li>
+<li>No. If the coin were biased in favor of landing on H then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> would not follow the same pattern of variability. For example, the probability that <span class="math inline">\(X=3\)</span> would be greater than 1/8 and the probability that <span class="math inline">\(Y=3\)</span> would be less than 1/8. Remember, the distribution of a random variable depends on the underlying probability measure.</li>
+</ol>
+<p>The previous example illustrates two ideas of “sameness” of random variables. Two random variables are the same if for each outcome of the random phenomenon they return the same value. Statements like <span class="math inline">\(\textrm{P}(X=Y)\)</span> involve events; for which individual outcomes is the value of <span class="math inline">\(X\)</span> equal to the value of <span class="math inline">\(Y\)</span>. Essentially <span class="math inline">\(\textrm{P}(X=Y)\)</span> is determined by checking if <span class="math inline">\(X(\omega)=Y(\omega)\)</span> on an individual outcome-by-outcome <span class="math inline">\(\omega\)</span> basis.</p>
+<p>On the other hard, the distribution of a random variable describes its overall pattern of variability over all possible outcomes, summarized in aggregate (and not on an outcome-by-outcome basis). As the previous example shows, two random variables can have the same distribution even if they are never equal for any outcomes. Also, two random variables can take the same values for “most” outcomes, but still have different distributions.</p>
+<p>Two random variables can have the same distribution even if they are not defined on the same probability space. For example, assuming boys and girls are equally likely, then the number of girls in a random sample of 3 births has the same distribution as the number of heads in 3 flips of a fair coin.</p>
+<p>Two ideas illustrated in the examples in this section are worth emphasizing.</p>
+<ul>
+<li><strong>In general, marginal distributions alone are not enough to determine a joint distribution.</strong></li>
+<li><strong>Do not confuse a random variable with its distribution.</strong></li>
+</ul>
+<p>Many common mistakes in probability result from not heeding these principles, so we will introduce many related examples to help you practice your understanding.</p>
+<p>In almost all of the examples in this Chapter, we specified the probability space. In this section, we derived distributions by considering the underlying sample space and probability measure. However, in many problems we often assume or identify distributions directly, without any mention of the underlying sample space or probability measure.</p>
+<p>Recall the brown bag analogy in Section <a href="rv.html#rv-function">2.3.1</a>. The probability space corresponds to the random selection of fruits to put in the bag. The random variable is weight. The distribution of weight can be obtained by randomly selecting fruits to put in the bag, weighing the bag, and then repeating this process many times to observe many weights. For example, 10% of bags have weights less than 5 pounds, 75% of bags have weights less than 20 pounds. But we can observe the distribution of weights even if we never observe the actual fruits in the bag.</p>
+<p>We will explore distributions in much more detail in the remaining chapters. We will see several other ways of describing distributions.</p>
+
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="probspace.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simulation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

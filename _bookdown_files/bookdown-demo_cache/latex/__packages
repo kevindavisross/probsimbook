@@ -1,0 +1,12 @@
+base
+methods
+datasets
+utils
+grDevices
+graphics
+stats
+knitr
+bookdown
+reticulate
+ggplot2
+ggpubr
