@@ -34,7 +34,7 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+github-repo: rstudio/probsim-book
 description: "This textbook presents a simulation-based approach to probability, using the Symbulate package."
 ---
 
@@ -79,7 +79,7 @@ hook_foldable = function(type) {
 
     # If fold is TRUE, fold
     else if (isTRUE(fold)) return(paste0(
-      "<details><summary>", paste("Expand", options$engine, " "), "</summary>\n\n",
+      "<details><summary>", paste("Show/hide solution", " "), "</summary>\n\n",
       part,
       "\n\n</details>"
     ))
@@ -153,92 +153,105 @@ Why use **simulation** to study probability?
 - Simulation-based reasoning is an important component of statistical literacy (e.g. understanding a p-value via simulation)
 - Many statistical procedures employ simulation-based methods (e.g. bootstrapping)
 
-### Learning Objectives/Goals/Style??? (Better title)
+### Learn by doing {-}
 
-- Don't skimp on rigorous definitions (RV is function defined on probspace) but deemphasize mathematical computation (counting and calculus)
-- Emphasize simulation
-- Visualize in lots of plots
-- Start multivariate relationships early
-- Rely on statistical literacy
-- Active learning, workbook style
+The exercises in this book are used to both motivate new topics and to help you practice your understanding of the material.  You should attempt the exercises on your own before reading the solutions.  To encourage you to do so, the solutions have been hidden.  You can reveal the solution by clicking on the **Show/hide solution** button.  
+
+```{asis, fold.chunk = TRUE}
+
+Here is where a solution would be, but be sure to think about the problem on your own first!
+
+```
+
+(Careful: in your browser, the triangle for the Show/hide solution button might be close to the back button, so clicking on Show/hide might take you to the previous page.  To avoid this, click on the words **Show/hide**.)
+
+### Don't do what Donny Don't does {-}
+
+Some of the examples in this book feature a character named Donny Don't. The moral of these examples is "Don't do what Donny Don't does". This is a [Simpson's](https://frinkiac.com/video/S05E08/0nvMY69o6o_U7BqeIzQ314al-SQ=.gif) [reference](https://simpsons.fandom.com/wiki/Boy-Scoutz_%27n_the_Hood). Donny represents a student who makes many of the mistakes commonly made by students studying probability.  The idea of these problems is for you to learn from the common mistakes that Donny makes, by identifying why he is wrong and by helping him understand and correct his mistakes.  (But be careful: sometimes Donny is right!)
+
+<!-- ### Learning Objectives/Goals/Style??? (Better title) -->
+
+<!-- - Don't skimp on rigorous definitions (RV is function defined on probspace) but deemphasize mathematical computation (counting and calculus) -->
+<!-- - Emphasize simulation -->
+<!-- - Visualize in lots of plots -->
+<!-- - Start multivariate relationships early -->
+<!-- - Rely on statistical literacy -->
+<!-- - Active learning, workbook style -->
 
 ### Symbulate {-}
 
-This book uses the Python package Symbulate
-(https://github.com/dlsun/symbulate) which provides a user friendly framework for conducting simulations involving probability models. The
+This book uses the Python package [Symbulate](https://github.com/dlsun/symbulate) which provides a user friendly framework for conducting simulations involving probability models. The
 syntax of Symbulate reflects the "language of probability" and makes it
 intuitive to specify, run, analyze, and visualize the results of a
 simulation. In Symbulate, probability spaces, events, random variables, and random processes are symbolic objects which can be manipulated, independently of their simulated realizations. Symbulate's consistency with the mathematics of
 probability reinforces understanding of probabilistic concepts. The article @symbulateJSE discusses Symbulate and its features in more detail.
 
-To install Symbulate, it is recommended that you first install the [Anaconda distribution](https://www.anaconda.com/distribution/), which is a Python environment with many scientific packages installed (including all of the packages that Symbulate is built on).  After installing Anaconda, the recommended way to installing Symbulate is run the command
+The best way to interact with Symbulate is through [Google Colab](https://colab.research.google.com/) or [Jupyter](https://jupyter.org/) notebooks. A notebook is organized by cells which contain text or code that can be run interactively with output displayed after the cell.
+
+Symbulate can be run online in a Colab notebook by including the following line in the first cell.
 
 ```
 !pip install symbulate
 ```
 
-from inside a notebook. (The Symbulate package can also be downloaded and installed manually from the [Symbulate Github repository](\href{https://github.com/dlsun/symbulate}) following these [instructions](https://web.calpoly.edu/~dsun09/python.html).)
+To install Symbulate on your own computer, it is recommended that you first install the [Anaconda distribution](https://www.anaconda.com/distribution/), which is a Python environment with many scientific packages installed (including all of the packages that Symbulate is built on).  After installing Anaconda, you can install Symbulate using the `pip` command above.
 
-The following command imports Symbulate during a Python session.
+<!-- (The Symbulate package can also be downloaded and installed manually from the [Symbulate Github repository](\href{https://github.com/dlsun/symbulate}) following these [instructions](https://web.calpoly.edu/~dsun09/python.html).) -->
+
+You should always include the following command once in each notebook to import Symbulate during a Python session.
 
 ```{python}
 from symbulate import *
 ```
 
-The Symbulate command `plot()` produces graphics.  These graphics can be customized (by changing axis limits, adding titles, legends, etc) using Matplotlib, and in particular the `pyplot` method, which can be imported with
+You should also always include the following command once in each notebook to enable graphical displays.
+
+```
+%matplotlib inline
+```
+
+
+
+The Symbulate command `plot()` produces graphics. These graphics can be customized (by changing axis limits, adding titles, legends, etc) using [Matplotlib](https://matplotlib.org/), and in particular the `pyplot` method, which can be imported by including the lines
 
 ```
 import matplotlib
 import matplotlib.pyplot as plt
 ```
 
-[Jupyter](http://jupyter.org/) or [Google Colab](https://colab.research.google.com/notebooks/intro.ipynb#) notebooks provide a natural interface for Symbulate.  The code in this book matches as closely as possible the commands that would be entered into cells in a notebook.  However, certain commands that appear throughout the book are needed only to properly produce the output in this book, and not if working directly in notebooks.  In particular, `plt.figure()` and `plt.show()` are not needed to produce graphics in Jupyter (with the use of the `%matplotlib inline` "magic").  In addition, Jupyter automatically displays the result of the last line in a cell; `print()` is generally not needed to display output (unless you wish to format it, or it is not the last line in the cell).
+Colab or Jupyter notebooks provide a natural interface for Symbulate.  The code in this book matches as closely as possible the commands that would be entered into cells in a notebook.  However, certain commands that appear throughout the book are needed only to properly produce the output in this book, and not if working directly in notebooks.  In particular, the command `plt.show()` is not needed to display graphics in a notebook (as long as you have included the line `%matplotlib inline`).   In addition, notebooks automatically displays the result of the last line in a cell; `print()` is generally not needed to display output (unless you wish to format it, or it is not the last line in the cell).
 
 For example, a code snippet that appears in this book as
 
 ```{python, eval=FALSE}
 x = RV(Binomial(4, 0.5)).sim(10000)
-plt.figure()
-x.plot()
-plt.show()
-print(x)
-```
 
-```{python}
-x = RV(Binomial(4, 0.5)).sim(10000)
-# plt.figure()
 x.plot()
 plt.show()
+
 print(x)
 ```
 
 
-```{python}
-x = RV(Binomial(4, 0.5)).sim(10000)
-plt.figure()
-x.plot()
-plt.show()
-print(x)
-```
 
 would be entered in a Jupyter notebook as
 
 ```{python, eval=FALSE}
 x = RV(Binomial(4, 0.5)).sim(10000)
+
 x.plot()
+
 x
 ```
 
 
 
 
-### Don't do what Donny Don't does {-}
 
-Some of the examples and exercises in this book are labeled "Don't do what Donny Don't does". This is a [Simpson's](https://frinkiac.com/video/S05E08/0nvMY69o6o_U7BqeIzQ314al-SQ=.gif) [reference](https://www.youtube.com/watch?v=pbwxlyUunL8). In this text, Donny represents a student who makes many of the mistakes commonly made by students studying probability.  The idea of these problems is for you to learn from the common mistakes that Donny makes, by identifying why he is wrong and by helping him understand and correct his mistakes.  (But be careful: sometimes Donny is right!)
 
 ### About this book {-}
 
-This book was written using the **bookdown** package [@R-bookdown], which was built on top of R Markdown and **knitr** [@xie2015].  Python code was run in RStudio using the `reticulate` package.
+This book was written using the [bookdown](https://bookdown.org/) package [@R-bookdown], which was built on top of R Markdown and [knitr](https://yihui.org/knitr/) [@xie2015].  Python code was run in R using the [reticulate](https://rstudio.github.io/reticulate/) package [@reticulate].
 
 
 

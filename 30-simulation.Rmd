@@ -1,0 +1,2448 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Simulation {#simulation}
+
+\newcommand{\IP}{\textrm{P}}
+\newcommand{\IQ}{\textrm{Q}}
+\newcommand{\E}{\textrm{E}}
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\SD}{\textrm{SD}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\Corr}{\textrm{Corr}}
+\newcommand{\Xbar}{\bar{X}}
+\newcommand{\Ybar}{\bar{X}}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\ybar}{\bar{y}}
+\newcommand{\ind}{\textrm{I}}
+\newcommand{\dd}{\text{DDWDDD}}
+\newcommand{\ep}{\epsilon}
+\newcommand{\reals}{\mathbb{R}}
+
+
+
+
+
+
+A probability model of a random phenomenon consists of a sample space of possible outcomes, associated events and random variables, and a probability measure which specifies probabilities of events (and determines distributions of random variables).  **Simulation** involves artificially recreating the random phenomenon, usually using a computer. Given a probability model, we can simulate outcomes, occurrences of events, and values of random variables, according to the specifications of the probability measure.
+
+Recall from Section \@ref(rel-freq) that probabilities can be interpreted as long run relative frequencies.  Therefore the probability of event $A$ can be approximated by simulating, according to the assumptions corresponding to the probability measure $\IP$, the random phenomenon a large number of times and computing the relative frequency of $A$.
+
+\[
+\IP(A) \approx \frac{\text{number of repetitions on which $A$ occurs}}{\text{number of repetitions}}, \quad \text{for a large number of repetitions simulated according to $\IP$}
+\]
+
+Simulation can be used to approximate probabilities of events and distributions of random variables.
+
+In general, a simulation involves the following steps.
+
+1. **Set up.** Define a probability space, and related random variables and events. The probability measure $\IP$ encodes all the assumptions of a probability model, but $\IP$ is often only specified indirectly.
+1. **Simulate.** Simulate, according to the probability measure, outcomes, occurrences of events, and values of random variables.
+1. **Summarize.** Summarize simulation output in plots and summary statistics (relative frequencies, mean, standard deviation, correlation, etc) to approximate probabilities, distributions, and related characteristics.
+
+
+
+
+
+## Tactile simulation: Boxes and spinners {#tactile}
+
+While we generally use technology to conduct large scale simulations, it is helpful to first consider how we might conduct a simulation by hand using physical objects like coins, dice, cards, or spinners. 
+
+Many random phenomena can be represented in terms of a **"box model"**.
+
+- Imagine a box containing "tickets" with labels.  Examples include:
+  - Fair coin flip. 2 tickets: 1 labeled H and 1 labeled T
+  - Free throw attempt of a 90\% free throw shooter.  10 tickets: 9 labeled "make" and 1 labeled "miss"
+  - Card shuffling.  52 cards: each card with a pair of labels (face value, suit).
+<!-- - Random digit dialing.  10 tickets: labeled 0 through 9 (corresponding to single digits). -->
+- The tickets are shuffled in the box, some number are drawn out --- either *with replacement or without replacement* of the tickets before the next draw^["With replacement" always implies replacement at a uniformly random point in the box.  Think of "with replacement" as "with replacement and reshuffling" before the next draw.].
+- In some cases, the order in which the tickets are drawn matters; in other cases the order is irrelevant.  For example, 
+  - Dealing a 5 card poker hand: Select 5 cards without replacement, order does not matter
+  - Random digit dialing: Select 4 cards with replacement from a box with tickets labeled 0 through 9 to represent the last 4 digits of a randomly selected phone number with a particular area code and exchange; order matters, e.g., 805-555-1212 is a different outcome than 805-555-2121.
+- Then something is done with the tickets, typically to measure random variables of interest.  For example, you might flip a coin 10 times (by drawing from the H/T box 10 times with replacement) and count the number of H.
+
+If the draws are made with replacement from a single box, we can think of a single circular "spinner" instead of a box, spun multiple times. For example:
+
+- Fair coin flip. Spinner with half of the area corresponding to H and half T
+- Free throw attempt of a 90\% free throw shooter.  Spinner with 90\% of the area corresponding to "make" and 10% "miss".
+<!-- - Random digit dialing.  Spinner marked with digits 0-9, possibly with some digits more likely than others.  spun multiple times.  Depending on what regions you are trying to sample, you might have three spinners: one to generate area code, one to generate the next three digits, and one to generate the last four digits. -->
+
+
+```{example dice-sim}
+
+Let $X$ be the sum of two rolls of a fair four-sided die, and let $Y$ be the larger of the two rolls (or the common value if a tie).  Set up a box model and explain how you would use it to simulate a single realization of $(X, Y)$.  Could you use a spinner instead?
+  
+```
+ 
+
+```{solution dice-sim-sol}
+
+to Example \@ref(exm:dice-sim)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+Use a box with four tickets, labeled 1, 2, 3, 4.  Draw two tickets with replacement.  Let $X$ be the sum of the two numbers drawn and $Y$ the larger of the two numbers drawn.
+
+It's also possible to use a spinner with 4 sectors, corresponding to 1, 2, 3, 4, each with 25% of the total area; see Figure \@ref(fig:spinner-die).  Spin the spinner twice. Let $X$ be the sum of the two numbers spun and $Y$ the larger of the two numbers spun.
+
+```
+
+(ref:cap-spinner-die) Spinner corresponding to a single roll of a fair four-sided die.
+
+```{r spinner-die, echo=FALSE, fig.cap="(ref:cap-spinner-die)", fig.width=8}
+
+knitr::include_graphics("_graphics/spinner-die.png")
+
+```
+
+The spinner in Figure \@ref(fig:spinner-die) simulates the individual die rolls.  We will see in Figure \@ref(fig:dice-spinners) below a separate spinner for generating $(X, Y)$ pairs directly.
+
+Note that we were able to simulate outcomes of the rolls and values of $X$ and $Y$ without defining the probability space in detail.  That is, we did not list all the possible outcomes and events and their probabilities. Instead, the probability space is defined implicitly via the specification to "roll a fair four-sided die twice" or "draw two tickets with replacement from a box with four tickets labeled 1, 2, 3, 4" or "spin the spinner in Figure \@ref(fig:spinner-die) twice". The random variables are defined by what is being measured for each outcome, the sum ($X$) and the max ($Y$) of the two draws or spins.
+
+A simulation involves repeatedly artificially recreating the random phenomenon a large number of times and using the results to investigate properties of interest.  It is important to distinguish between what entails (1) one repetition of the simulation and its output, and (2) the simulation itself and output from many repetitions.
+
+```{example dice-sim-tactile}
+
+Use a four-sided die (or a box or a spinner) and perform by hand 10 repetitions of the simulation in Example \@ref(exm:dice-sim).  (Yes, really do it.) For each repetition, record the results of the first and second rolls (or draws or spins) and the values of $X$ and $Y$. Based only on the results of your simulation, how would you approximate the following?
+
+```
+
+1. $\IP(A)$, where $A$ is the event that the first roll is 3.
+1. $\IP(X=6)$
+1. $\IP(X \ge 6)$
+1. $\IP(Y = 3)$
+1. $\IP(Y \ge 3)$
+1. $\IP(X=6, Y=3)$
+1. $\IP(X\ge6, Y \ge 3)$
+
+
+```{solution dice-sim-tactile-sol}
+
+to Example \@ref(exm:dice-sim-tactile).  
+
+
+```
+
+```{r, echo = FALSE}
+
+u1 = c(2, 1, 3, 4, 3, 3, 2, 2, 1, 3)
+u2 = c(1, 1, 3, 3, 2, 4, 3, 4, 2, 4)
+x = u1 + u2
+y = pmax(u1, u2)
+A = ifelse(u1 == 3, "True", "False")
+IA = as.numeric(u1 == 3)
+
+die_df = data.frame(1:10, u1, u2, x, y, A, IA)
+
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+See Table \@ref(tab:dice-sim-tactile-results) for the results of our simulation.
+
+1. Approximate $\IP(A)$ by 4/10, the proportion of repetitions where the first roll is 3.
+1. Approximate $\IP(X=6)$ by 2/10, the proportion of repetitions where the sum is 6.
+1. Approximate $\IP(X\ge 6)$ by 5/10, the proportion of repetitions where the sum is at least 6.
+1. Approximate $\IP(Y=3)$ by 3/10, the proportion of repetitions where the max is 3.
+1. Approximate $\IP(Y\ge 3)$ by 7/10, the proportion of repetitions where the max is at least 3.
+1. Approximate $\IP(X=6, Y = 3)$ by 1/10, the proportion of repetitions where both the sum is 6 and the max is 3.
+1. Approximate $\IP(X\ge 6, Y \ge 3)$ by 5/10, the proportion of repetitions where both the sum is at least 6 and the max is at least 3.
+
+```
+
+
+Table \@ref(tab:dice-sim-tactile-results) summarizes the results of 10 repetitions.  Results vary naturally so your simulation results will be different, but the same ideas apply.
+
+```{r, dice-sim-tactile-results, echo = FALSE}
+
+
+knitr::kable(
+  die_df, booktabs = TRUE,
+  col.names = c("Repetition", "First roll", "Second roll", "X", "Y", "Event A occurs?", expression(I[A])),
+  caption = "Results of 10 repetitions of two rolls of a fair four-sided die"
+)
+
+```
+
+In practice, many repetitions of a simulation are performed on a computer.  But carrying out a few repetitions by hand helps make the process more concrete. Remember that it is important to distinguish between what entails (1) one repetition of the simulation and its output, and (2) the simulation itself and output from many repetitions.  Refrain from making vague statements like "repeat this" or "do it again", because "this" or "it" could refer to different elements of the simulation. In the dice example, (1) rolling a die is repeated to generate a single $(X, Y)$ pair, and (2) the process of generating $(X, Y)$ pairs is repeated to obtain the simulation^[Do we perform "a simulation", or "many simulations"? Throughout, "a simulation" refers to the collection of results corresponding to repeatedly artificially recreating the random process.  "A repetition" refers to a single artificial recreation resulting in a single simulated outcome.  We perform a simulation which consists of many repetitions.] results.  That is, a single repetition involves an ordered pair of die rolls, resulting in an outcome $\omega$, and the values of the sum $X(\omega)$ and max $Y(\omega)$ are computed for the outcome $\omega$.  This process is repeated many times to generate many outcomes and $(X, Y)$ pairs according to the probability model.
+
+Think of simulation results being organized in a table like Table \@ref(tab:dice-sim-tactile-results), where each row corresponds to a different repetition of the simulation and each column corresponds to a different random variable.  Remember that indicators are the bridge between events and random variables.  On each repetition of the simulation an event either occurs or not.  We could record the occurrence of an event as "True/False" for each repetition, or we could record the 1/0 value of the corresponding indicator random variable; see the last two columns in Table \@ref(tab:dice-sim-tactile-results) for an example.
+
+Simulation results are summarized in tables and plots. Figure \@ref(fig:dice-sim-tactile-results-plot) displays two plots summarizing the results in Table \@ref(tab:dice-sim-tactile-results). Each dot represents the results of one repetition; the plot on the left displays the $(X, Y)$ pairs, and the plot on the right displays the values of $X$ alone along with their frequencies. While this simulation only consists of 10 repetitions, a larger scale simulation and the summarization of results would follow the same process.
+
+(ref:cap-dice-sim-tactile) Results of 10 repetitions of two rolls of a fair four-sided die, where $X$ is the sum and $Y$ is the larger (or common value if a tie) of the two rolls; see Table \@ref(tab:dice-sim-tactile-results).
+
+```{r dice-sim-tactile-results-plot, echo = FALSE, fig.show = 'hold', out.width = '50%', fig.cap = "(ref:cap-dice-sim-tactile)"}
+
+plot(x + c(0, 0, 0, 0, 0, 0.1, 0.1, 0, 0.1, -0.1), y,
+     xlab = "X", ylab = "Y", xaxt = 'n', yaxt = 'n',
+     xlim = c(1.5, 8.5), ylim = c(0.5, 4.5), xaxs = "i", yaxs = "i")
+segments(x0 = 2.5:7.5, y0 = 0, x1 = 2.5:7.5, y1 = 5, lty = 3)
+segments(x0 = 1.5, y0 = 0.5:4.5, x1 = 8.5, y1 = 0.5:4.5, lty = 3)
+axis(1, at = 2:8, tck = 0)
+axis(2, at = 1:4, tck = 0)
+
+
+stripchart(x, method = "stack",
+           xaxt = 'n', xlim = c(2, 8),
+           offset = .5, at = .15, pch = 1, 
+           xlab = "X", ylab = "Number of repetitions")
+axis(1, at = 2:8)
+
+
+```
+
+```{example coin-heads-tactile}
+Flip a coin 4 times and let $X$ be the number of H.
+
+1. Specify how to use a box model to simulate a single value of $X$, with tickets labeled H and T.
+1. Specify how to use a box model to simulate a single value of $X$, using tickets that are labeled with appropriate numbers (not H and T) and without counting.
+1. Specify how to use simulation to approximate $\IP(X = 3)$. 
+
+```
+
+
+
+```{solution coin-heads-tactile-sol}
+
+to Example \@ref(exm:coin-heads-tactile).  
+
+
+
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+
+1. Put two tickets in the box, one labeled H and one labeled T. Shuffle and deal 4 tickets with replacement.  Count the number of times H was drawn to obtain the value of $X$ for this repetition.
+1. Put two tickets in the box, one labeled 1 (for H) and one labeled 0 (for T). Shuffle and deal 4 tickets with replacement.  *Sum* the 4 values drawn to obtain the value of $X$ for this repetition.
+1. Repeat step 1 (or 2) many times to generate many simulated values of $X$.  Approximate $\IP(X=3)$ with the proportion of simulated values of $X$ that are equal to 3.
+
+```
+
+
+### Long run averages
+
+A particular event either occurs or not or any single repetition of the simulation. Summarizing simulation results for events involves counting the number of repetitions on which the event occurs and finding related proportions.
+
+On the other hand, random variables typically take many possible values over the course of many repetitions.  We are still interested in relative frequencies of events, like $\{X=6\}$ and $\{Y \ge 3\}$ in the die example.  But for random variables we are also interested in their distributions which describe the possible values that the random variables can take and their relative likelihoods.  While the distribution contains all the information about a random variable, it is also useful to summarize some key features of a distribution. For example, probabilities of particular events concerning a random variable can be interpreted as long run relative frequencies.
+
+One summary characteristic of a distribution is the **long run average value** of the random variable.  We can approximate the long run average value by simulating many values of the variable and computing the average (mean) in the usual way.
+
+```{example dice-sim-tactile-ev}
+
+Recall your tactile simulation from Example \@ref(exm:dice-sim-tactile). Based only on the results of your simulation, approximate the long run average value of each of the following.
+
+```
+
+1. $X$
+1. $Y$
+1. $X^2$
+1. $XY$
+
+
+```{solution dice-sim-tactile-ev-sol}
+
+to Example \@ref(exm:dice-sim-tactile-ev).  
+
+
+```
+
+```{r, echo = FALSE}
+
+u1 = c(2, 1, 3, 4, 3, 3, 2, 2, 1, 3)
+u2 = c(1, 1, 3, 3, 2, 4, 3, 4, 2, 4)
+x = u1 + u2
+y = pmax(u1, u2)
+
+die_df = data.frame(1:10, u1, u2, x, y, x ^ 2, x * y)
+
+
+```
+
+<!-- NEED TO FIGURE OUT HOW TO SHOW/HIDE THE STUFF BELOW THAT HAS BOTH R AND TEXT -->
+
+See Table \@ref(tab:dice-sim-tactile-results-ev) below.
+
+1. Approximate the long run average value of $X$ by summing the 10 simulated values of $X$ and dividing by 10.
+\[
+\frac{`r paste(x, collapse=" + ")`}{10} = `r round(mean(x), 3)`
+\]
+1. Approximate the long run average value of $Y$ by summing the 10 simulated values of $Y$ and dividing by 10.
+\[
+\frac{`r paste(y, collapse=" + ")`}{10} = `r round(mean(y), 3)`
+\]
+1. First, for each repetition square the value of $X$ to obtain the $X^2$ column. Then approximate the long run average value of $X^2$ by summing the 10 simulated values of $X^2$ and dividing by 10.
+\[
+\frac{`r paste(x ^ 2, collapse=" + ")`}{10} = `r round(mean(x ^ 2), 3)`
+\]
+<!-- paste(paste("(", x, ")^2", sep=""), collapse = "+") -->
+<!-- expression(paste(x ^"2", sep="")) -->
+1. First, for each repetition compute the product $XY$ to obtain the $XY$ column. Then approximate the long run average value of $XY$ by summing the 10 simulated values of $XY$ and dividing by 10.
+\[
+\frac{`r paste(x * y, collapse=" + ")`}{10} = `r round(mean(x * y), 3)`
+\]
+<!-- paste(paste("(",x, ")(", y, ")", sep=""), collapse = " + ") -->
+
+
+
+
+We reproduce the results of our simulation in 
+Table \@ref(tab:dice-sim-tactile-results-ev) with additional columns for $X^2$ and $XY$. Results vary naturally so your simulation results will be different, but the same ideas apply.
+
+```{r, dice-sim-tactile-results-ev, echo = FALSE}
+
+
+knitr::kable(
+  die_df, booktabs = TRUE,
+  col.names = c("Repetition", "First roll", "Second roll", "X", "Y", expression(X^2), "XY"),
+  caption = "Results of 10 repetitions of two rolls of a fair four-sided die"
+)
+
+```
+
+
+```{example dd-lra}
+Donny Don't says: "Why bother creating columns for $X^2$ and $XY$? If I want to find the average value of $X^2$ I can just square the average value of $X$. For the average value of $XY$ I can just multiply the average value of $X$ and the average value of $Y$." Do you agree?  (Check to see if this works for your simulation results.) If not, explain why not.
+```
+
+```{solution dd-lra-sol}
+to Example \@ref(exm:dd-lra)
+```
+
+```{asis, fold.chunk = TRUE}
+
+It is easy to check that Donny is wrong just by inspecting the simulation results. To simplify, suppose we had just performed two repetitions, resulting in the first two rows of Table \@ref(tab:dice-sim-tactile-results-ev).
+\[
+\text{Average of $X^2$} = \frac{3^2 + 2^2}{2} =6.5 \neq 6.25= \left(\frac{3 + 2}{2}\right)^2=(\text{Average of $X$})^2
+\]
+Squaring first and then averaging (which yields 6.5) is not the same as averaging first and then squaring (which yields 6.25), essentially because $(3+2)^2\neq 3^2 + 2^2$.
+
+Similarly,
+\[
+\text{Average of $XY$} = \frac{(3)(2) + (2)(1)}{2} =4 \neq 3.75= \left(\frac{3 + 2}{2}\right)\left(\frac{2 + 1}{2}\right)=(\text{Average of $X$})\times (\text{Average of $Y$})
+\]
+Multiplying first and then averaging (which yields 4) is not the same as averaging first and then multiplying (which yields 3.75), essentially because $(3)(2)+(2)(1)\neq(3+2)(2+1)$.
+
+```
+
+Whether in the short run or the long run, in general
+\begin{align*}
+\text{Average of $g(X)$} & \neq g(\text{Average of $X$})\\
+\text{Average of $g(X, Y)$} & \neq g(\text{Average of $X$}, \text{Average of $Y$})
+\end{align*}
+
+Many common mistakes in probability result from not heeding this principle, so we will introduce many related examples to help you practice your understanding.
+
+In addition to long run average values, we are also interested in percentiles, degree of variability, and quantities that measure relationships between random variables. We will investigate these ideas in later sections.
+
+## Computer simulation: Symbulate {#technology-intro}
+
+
+**Note: some of the plots and tables in this and the following sections do not appear exactly as they would in Jupyter or Colab notebooks.  See the accompanying notebooks for a better representation of Symbulate output.**
+
+
+We will perform computer simulations using the Python package Symbulate. The syntax of Symbulate mirrors the language of probability in that the primary objects in
+Symbulate are the same as the primary components of a probability model: probability spaces, random variables, events.  Once these components are specified, Symbulate allows users to simulate many times from the 
+probability model and summarize the results.
+
+
+This section contains a brief introduction to Symbulate; many more examples can be found throughout the text or in the [Symbulate documentation](https://dlsun.github.io/symbulate/index.html). Remember to first import Symbulate during a Python session using the command
+
+
+```{python, eval = FALSE}
+from symbulate import *
+```
+
+### Simulating outcomes
+
+We continue Example \@ref(exm:dice-sim) from Section \@ref(tactile) where $X$ is the sum of two rolls of a fair four-sided die, and $Y$ is the larger of the two rolls (or the common value if a tie).  The following Symbulate code defines a probability space^[Technically, a probability space is a triple $(\Omega, \mathcal{F}, \IP)$. We primarily view a Symbulate probability space as a description of the probability model rather than an explicit specification of $\Omega$.  For example, we define a `BoxModel` instead of creating a set with all possible outcomes.  We tend to represent a probability space with `P`, even though this is a slight abuse of notation.] `P` for simulating the 16 equally likely ordered pairs of rolls via a box model. 
+
+```{python dice-sym-boxmodel}
+
+P = BoxModel([1, 2, 3, 4], size = 2, replace = True)
+
+```
+
+The above code tells Symbulate to draw 2 tickets (`size = 2`), with replacement^[The default argument for `replace` is `True`, so we could have just written `BoxModel([1, 2, 3, 4], size = 2)`.], from a box with tickets labeled 
+1, 2, 3, and 4 (entered as the Python list `[1, 2, 3, 4]`). Each simulated outcome consists of an ordered^[There is an additional argument `order_matters` which defaults to `True`, but we could set it to false for unordered pairs.] pair of rolls.  The `sim(n)` command simulates `n` realizations of probability space outcomes (or events or random variables).
+
+```{python}
+
+P.sim(10)
+
+```
+
+### Simulating random variables
+
+A Symbulate `RV` is specified by the probability space on which it is defined and the mapping function which defines it.  Recall that $X$ is the sum of the two dice rolls and $Y$ is the larger (max).
+
+```{python dice-sym-rv}
+X = RV(P, sum)
+Y = RV(P, max)
+
+```
+
+
+The above code simply defines the random variables.  Since a random variable $X$ is a function, any `RV` can be called as a function^[The warning you get when you call a `RV` as a function just means that Symbulate is not going to check for you that the inputs to the function you used to define the `RV` actually match up with the outcomes of the probability space `P`.] to return its value $X(\omega)$ for a particular outcome $\omega$ in the probability space.
+
+```{python}
+omega = (3, 2)  # a pair of rolls
+print(X(omega), Y(omega))
+
+```
+
+
+
+The following commands simulate 100 values of the random variable `Y` and store the results as `y`.  For consistency with standard notation, the random variable itself is denoted with an uppercase letter `Y`, while the realized values of it are denoted with a lowercase letter `y`.
+
+
+
+
+
+```{python}
+y = Y.sim(100)
+y
+
+```
+
+Values and their frequencies can be summarized using `tabulate`.
+
+```{python}
+y.tabulate()
+
+```
+
+By default, `tabulate` returns frequencies (counts). Adding the argument `normalize = True` returns relative frequencies (proportions).
+
+```{python}
+y.tabulate(normalize = True)
+
+```
+
+Methods like `sim` and `tabulate` can be chained together in a single line of code. 
+
+```{python}
+Y.sim(100).tabulate(normalize = True)
+
+```
+
+Each call to `sim` reruns the simulation to generate a new set of simulated values.  To perform multiple operations on a single set of simulated values, store the simulation results as a variable (like `y` above).  When running `Y.sim(100)` Symbulate simulates, in the background, outcomes from the probability space `P` and then computes `Y` for these outcomes; however, the outcomes themselves are not saved.  (We will soon see how to simulate multiple quantities simultaneously.)
+
+
+
+We can plot the 100 individual simulated values of $Y$ in a *rug plot*.
+
+```{python}
+y.plot('rug')
+plt.show()
+```
+
+The rug plot emphasizes that realizations of the random varible $Y$ are numbers along a number line.  However, the rug plot does not adequately summarize the relative frequencies.  Instead, calling `.plot()` produces^[For discrete random variables `'impulse'` is the default plot type. Like `.tabulate()`, the `.plot()` method also has a `normalize` argument; the default is `normalize=True`.] an *impulse plot* which displays the simulated values and their relative frequencies.
+
+
+```{python}
+y.plot()
+plt.show()
+```
+
+### Approximating distributions
+
+The true distribution of $Y$ is represented by Table \@ref(tab:dice-max-dist-table).  The plot above, based on only 100 simulated values, provides a poor approximation to the distribution of $Y$.
+We often initially simulate a small number of repetitions to see what the simulation is doing and check that it is working properly.  However, in order to accurately approximate probabilities or distribution we simulate a large number of repetitions (usually thousands for our purposes).
+
+Now we simulate 10,000 values of the random variable `Y` and summarize the simulation output to approximate the distribution of $Y$.  Since the simulation results below are stored as `y`, the same set of results is used to produce the table and the plot.  Compare the simulation results summarized in Figure \@ref(fig:dice-max-marginal-sim) with Table \@ref(tab:dice-max-dist-table). The results of 10000 repetitions provide a much better approximation to the true distribution of $Y$ than the results of just 100 repetitions.
+
+
+(ref:cap-dice-max-marginal-sim) Simulation-based approximate distribution of $Y$, the larger (or common value if a tie) of two rolls of a fair four-sided die.
+
+```{python}
+
+y = Y.sim(10000)
+y.tabulate()
+
+```
+
+```{python dice-max-marginal-sim, fig.cap = "(ref:cap-dice-max-marginal-sim)"}
+
+y.plot()
+plt.show()
+```
+
+
+Figure \@ref(fig:dice-sum-marginal-sim) contains a summary of a simulated $X$ values.  Compare with Table \@ref(tab:dice-sum-dist-table).
+
+(ref:cap-dice-sum-marginal-sim) Simulation-based approximate distribution of $X$, the sum of two rolls of a fair four-sided die.
+
+```{python}
+
+x = X.sim(10000)
+x.tabulate(normalize = True)
+
+```
+
+
+```{python, dice-sum-marginal-sim, fig.cap = "(ref:cap-dice-sum-marginal-sim)"}
+
+x.plot()
+plt.show()
+
+```
+
+### Approximating long run averages
+
+
+
+Recall that we have stored 10000 simulated values of $Y$ as `y`. We can approximate the long run average value of $Y$ by computing the average --- a.k.a., *mean* --- of the 10000 simulated values: sum the 10000 simulated values stored in `y` and divide by 10000. Here are three way are finding the mean.
+
+```{python}
+
+y.sum() / 10000
+
+```
+
+```{python}
+
+y.sum() / y.count()
+
+```
+
+
+```{python}
+
+y.mean()
+
+```
+
+Similarly, the approximate long run average value of $X$ is
+
+```{python}
+
+x.mean()
+
+```
+
+These values represent the "balance points" in Figure \@ref(fig:dice-max-marginal-sim)  and Figure \@ref(fig:dice-sum-marginal-sim). We will discuss long run average values in more detail LATER.
+
+
+
+
+
+
+
+
+### Simulating events
+
+Events can also be defined and simulated.  For programming reasons, events are enclosed in parentheses `()` rather than braces $\{\}$.  
+
+```{python}
+A = (Y < 3) # an event
+```
+
+A realization of an event is `True` if the event occurs for the simulated outcome,  or `False` if not.
+
+
+```{python}
+A.sim(10)
+
+```
+
+
+
+For logical equality use a double equal sign `==`.  For example, `(Y == 3)` represents the event $\{Y=3\}$.
+
+```{python}
+(Y == 3).sim(10000).tabulate()
+
+```
+
+
+
+### Simulating multiple random variables {#sym-joint}
+
+
+We can simulate $(X, Y)$ pairs using^[Technically `&` joins two `RV`s together to form a random *vector*.  While we often intepret Symbulate `RV` as random variable, it really functions as random vector.] `&`.    We store the simulation output as `xy` to emphasize that `xy` contains pairs of values.
+
+```{python}
+xy = (X & Y).sim(100)
+xy
+
+```
+
+Pairs of values can also be tabulated.
+
+```{python}
+xy.tabulate()
+
+```
+
+
+```{python}
+xy.tabulate(normalize = True)
+
+```
+
+Individual pairs can be plotted in a scatter plot, which is a two-dimensional analog of a rug plot.
+
+```{python}
+xy.plot()
+plt.show()
+
+```
+
+
+The values can be "jittered" slightly, as below,so that points do not coincide.
+
+```{python}
+xy.plot(jitter = True)
+plt.show()
+
+```
+
+The two-dimensional analog of an impulse plot is a *tile plot*. For two discrete variables, the `'tile'` plot type produces a tile plot (a.k.a. heat map) where rectangles represent the simulated pairs with their relative frequencies visualized on a color scale.
+
+```{python}
+xy.plot('tile')
+plt.show()
+
+```
+
+We can add the impulse plot for each of each $X$ and $Y$ in the margins of the tile plot using the `'marginals'` argument.  (Note: this isn't displaying properly in the book; see the notebook.)
+
+```{python}
+xy.plot(['tile', 'marginals'])
+plt.show()
+
+```
+
+### Simulating outcomes and random variables
+
+Recall Table \@ref(tab:dice-sim-tactile-results) which displays both the outcomes of the two rolls and the corresponding values of $X$ and $Y$ for 10 repetitions.  Calling `(X & Y).sim(10)` as in the previous section produces results like those in the table, but only the values of `(X & Y)` are saved and displayed. The outcomes of the rolls are generated in the background but not saved. 
+
+We can create a `RV` which returns the outcomes of the probability space^[You might try `(P & X ).sim(10)`. But `P` is a probability space object, and `X` is an `RV` object, and `&` can only be used to join like objects together.  Much like in probability theory in general, in Symbulate the probability space plays a background role, and it is usually random variables we are interested in.].  The default mapping function for `RV` is the identity function, $g(u) = u$, so simulating values of `U = RV(P)` below returns the outcomes of the BoxModel `P` representing the outcome of the two rolls. 
+
+```{python}
+U = RV(P)
+U.sim(10)
+```
+
+Now we can simulate and display the outcomes along with the values of $X$ and $Y$ using `&`.
+
+```{python}
+(U & X & Y).sim(10)
+```
+
+
+Because the probability space `P` returns pairs of values, `U = RV(P)` above defines a random vector.  The individual components^[The components can also be accessed using brackets.  `U1, U2 = RV(P)` is shorthand for  
+`U = RV(P); U1 = U[0]; U2 = U[1]`. Python uses zero-based indexing, so 0 refers to the first component, 1 to the second, and so on.] of `U` can be "unpacked" as `U1, U2` in the following.  Here `U1` represents the result of the first roll and `U2` the second. 
+
+```{python}
+U1, U2 = RV(P)
+(U1 & U2 & X & Y).sim(10)
+```
+
+
+### Simulating equally likely outcomes {#symbulate-discrete-uniform}
+
+In the code above we used a box model to specify the probability space correspoding to pairs of rolls of a four-sided die. When tickets are equally likely and sampled with replacement, a Discrete Uniform model can also be used.  Think of a `DiscreteUniform(a, b)` probability space corresponding to a spinner with sectors of equal area labeled with integer values from `a` to `b` (inclusive). For example, the spinner in Figure \@ref(fig:spinner-die) corresponds to `DiscreteUniform(1, 4)`.
+
+In the following, $U$ represents the result of a single roll of a fair four-sided die.  The default mapping function in `RV` is the identity, so `U = RV(P)` represents^[For technical reasons, Symbulate will not plot simulated outcomes from a `ProbabilitySpace`, only simulated realizations of an `RV`.  Essentially, as mentioned in earlier sections, probability space outcomes can be *anything* --- not necessarily numbers --- and so there are too many potential situations and plots for Symbulate to handle with a single `plot` command.  In contrast, simulated realizations of `RV` are numbers (or vectors of numbers) which facilitates plotting.  Plotting simulated outcomes from a probability space `P` with numerical outcomes can be achieved by first defining `X = RV(P)` and then simulating and plotting values of `X`.  That is, replace `P.sim(1000).plot()` with `RV(P).sim(1000).plot()`.  However, this only works if the outcomes of `P` are numerical.] $U(\omega) = \omega$.
+
+```{python}
+P = DiscreteUniform(a = 1, b = 4)
+U = RV(P)
+
+U.sim(10000).plot()
+plt.show()
+```
+
+For two rolls the probability space corresponds to spinning the DiscreteUniform spinner twice, which is coded^[For now you can interpret`DiscreteUniform(a = 1, b = 4)` as a spinner with four quarters labeled 1, 2, 3, 4, and `** 2` as "spin the spinner twice".  In Python, `**` represents exponentiation; e.g., `2 ** 5 = 32`.  So `DiscreteUniform(a = 1, b = 4) ** 2` is equivalent to `DiscreteUniform(a = 1, b = 4) * DiscreteUniform(a = 1, b = 4)`. Future sections will reveal why the product `*` notation is natural for *independent* spins of spinners.] as `DiscreteUniform(a = 1, b = 4) ** 2`.   The first line below has the same effect^[`BoxModel` assumes equally likely tickets by default, but there are [options for non-equally likely cases](https://dlsun.github.io/symbulate/probspace.html#boxmodel).] as `BoxModel([1, 2, 3, 4], size = 2, replace = True)`.
+
+```{python}
+P = DiscreteUniform(a = 1, b = 4) ** 2
+X = RV(P, sum)
+Y = RV(P, max)
+
+(X & Y).sim(10000).plot(['tile', 'marginal'])
+plt.show()
+```
+
+
+### Brief summary of Symbulate commands
+
+Many
+scenarios require only a few lines of Symbulate code to set up, run,
+analyze, and visualize. Table comprises the
+requisite Symbulate commands for a wide variety of situations.
+
+
+  Command                    Function
+  -------------------------- -----------------------------------------------------------------------------------------
+  `BoxModel`                 Define a box model
+  `ProbabilitySpace`         Define a custom probability space
+  `RV`                       Define random variables, vectors, or processes
+  `RandomProcess`            Define a discrete or continuous time stochastic process
+  `apply`                    Apply transformations
+  `[]` (brackets)            Access a component of a random vector, or a random process at a particular time
+  `*` (and `**`)             Define independent probability spaces or distributions
+  `AssumeIndependent`        Assume random variables or processes are independent
+  `|` (vertical bar)          Condition on events
+  `&`                        Join multiple random variables into a random vector
+  `sim`                      Simulate outcomes, events, and random variables, vectors, and processes
+  `tabulate`                 Tabulate simulated values
+  `plot`                     Plot simulated values
+  `filter` (and relatives)   Create subsets of simulated values (`filter_eq`, `filter_lt`, etc)
+  `count` (and relatives)    Count simulated values which satisfy some critera (`count_eq`, `count_lt`, etc)
+  Statistical summaries      `mean`, `median`, `sd`, `var`, `quantile`, `corr`, `cov`, etc.
+  Common models              See LATER
+
+
+While no previous experience with Python is required, it is also possible to incorporate Python programming with Symbulate code. In particular, Python functions or loops can be used: to define or transform random variables or stochastic processes, or to investigate the effects of changing parameter values.  Also, while many common plots are built in with the Symbulate `plot` function, the Matplotlib package can be used to create or customize plots.  Some of these features will be illustrated in the next section and more examples are found throughout the text.
+
+
+
+
+
+
+### Exercises
+
+
+```{example coin-heads-sym}
+Flip a coin 4 times and let $X$ be the number of H.
+
+1. Write the Symbulate code to define X using a box model with tickets labeled H and T.  Simulate a few outcomes and a few values of X.
+1. Write the Symbulate code to define X using a box model with tickets labeled 1 and 0 and without counting. Simulate a few outcomes and a few values of X.
+1. Write the Symbulate code to conduct a simulation and use the results to approximate $\IP(X = 3)$. 
+
+```
+
+```{solution coin-heads-sym-sol}
+
+to Example \@ref(exm:coin-heads-tactile). See code below.  Note the use of `count_eq` with the H/T labels and `sum` with the 1/0 labels.  (It is also possible to use `count_eq(1)` with the 1/0 labels, but the point of indicators is that they turn counting into summing.) 
+
+```
+
+```{python}
+
+P = BoxModel(['H', 'T'], size = 4)
+P.sim(5) # a few outcomes
+
+X = RV(P, count_eq('H'))
+X.sim(5) # a few values of X
+
+X.sim(10000).count_eq(3) / 10000
+
+```
+
+```{python}
+
+P = BoxModel(['H', 'T'], size = 4)
+P.sim(5) # a few outcomes
+
+X = RV(P, count_eq('H'))
+X.sim(5) # a few values of X
+
+X.sim(10000).count_eq(3) / 10000
+
+```
+
+
+
+## Approximating probabilities: Simulation margin of error {#moe}
+
+
+The probability of an event can be approximated by simulating the random phenomenon a large number of times and computing the relative frequency of the event.  However, while after enough repetitions we expect the simulated relative frequency to be *close to* the true probability, there probably won't be an exact match.  Therefore, in addition to reporting the approximate probability, we should also provide a margin of error which indicates how close we think our simulated relative frequency is to the true probability.
+
+Section \@ref(rel-freq) introduced the relative frequency interpretation in the context of flipping a fair coin.  After many flips of a fair coin, we expect the proportion of flips resulting in H to be close to 0.5.  But how many flips is enough?  And how "close" to 0.5? We'll investigate these questions now.
+
+Consider Figure \@ref(fig:coin-sim1) below.  Each dot represents a set of 10,000 fair coin flips.  There are 100 dots displayed, representing 100 different sets of 10,000 coin flips each.  For each set of flips, the proportion of the 10,000 flips which landed on head is recorded.  For example, if in one set 4973 out of 10,000 flips landed on heads, the proportion of heads is 0.4973.  The plot displays 100 such proportions.  We see that only 5 of these 100 proportions are less than 0.49 or greater than 0.51.  So if between 0.49 and 0.51 is considered "close to 0.5", then yes, in 10000 coin flips we would expect the proportion of heads to be close to 0.5.  (In 10000 flips, the probability of heads on between 49\% and 51\% of flips is 0.956, so 95 out of 100 provides a rough estimate of this probability.)    
+
+(ref:cap-coin-sim1) Proportion of flips which are heads in 100 sets of **10,000** fair coin flips.  Each dot represents a set of **10,000** fair coin flips.
+
+
+```{r coin-sim1, echo=FALSE, fig.cap="(ref:cap-coin-sim1)"}
+
+knitr::include_graphics("_graphics/coin-sim1.png")
+
+```
+
+But what if we want to be stricter about what qualifies as "close to 0.5"?  You might suspect that with even more flips we would expect to observe heads on even closer to 50\% of flips.  Indeed, this is the case.  Figure \@ref(fig:coin-sim2) displays the results of 100 sets of 1,000,000 fair coin flips.  The pattern seems similar to Figure \@ref(fig:coin-sim1) but pay close attention to the horizontal axis which covers a much shorter range of values than in the previous figure.  Now 96 of the 100 proportions are between 0.499 and 0.501. So in 1,000,000 flips we would expect the proportion of heads to be between 0.499 and 0.501, pretty close to 0.5. (In 1,000,000 flips, the probability of heads on between 49.9\% and 50.1\% of flips is 0.955, and 96 out of 100 sets provides a rough estimate of this probability.) 
+
+
+(ref:cap-coin-sim2) Proportion of flips which are heads in 100 sets of **1,000,000** fair coin flips. Each dot represents a set of **1,000,000** fair coin flips.
+
+
+
+```{r coin-sim2, echo=FALSE, fig.cap="(ref:cap-coin-sim2)"}
+
+knitr::include_graphics("_graphics/coin-sim2.png")
+
+```
+
+
+In Figure \@ref(fig:coin-sim3) each dot represents a set of  100 millions flips.  The pattern seems similar to the previous figures, but again pay close attention the horizontal access which covers a smaller range of values. Now 96 of the 100 proportions are between 0.4999 and 0.5001. (In 100 million flips, The probability of heads on between 49.99\% and 50.01\% of flips is 0.977, so 96 out of 100 sets provides a rough estimate of this probability.)
+
+
+(ref:cap-coin-sim3) Proportion of flips which are heads in 100 sets of **100,000,000** fair coin flips. Each dot represents a set of **100,000,000** fair coin flips.
+
+
+```{r coin-sim3, echo=FALSE, fig.cap="(ref:cap-coin-sim3)"}
+
+knitr::include_graphics("_graphics/coin-sim3.png")
+
+```
+
+The previous figures illustrate that the more flips there are, the more likely it is that we observe a proportion of flips landing on heads close to 0.5.  We also see that with more flips we can refine our definition of "close to 0.5": increasing the number of flips by a factor of 100 (10,000 to 1,000,000 to 100,000,000) seems to give us an additional decimal place of precision ($0.5\pm0.01$ to $0.5\pm 0.001$ to $0.5\pm 0.0001$.)
+
+
+
+We will now carry out an analysis similar to the one above to investigate simulation margin of error and how it is influenced by the number of simulated values used to compute the relative frequency.  Continuing the dice example, suppose we want to estimate $p=\IP(X=6)$, the probability that the sum of two rolls of a fair four-sided equals six. We saw in Section \@ref(dist-intro) that the true probability is $p=3/16=0.1875$. 
+
+We will perform a "meta-simulation". The process is as follows
+
+1. Simulate two rolls of a fair four-sided die.  Compute the sum ($X$) and see if it is equal to 6.
+1. Repeat step 1 to generate $n$ simulated values of the sum ($X$).  Compute the relative frequency of sixes: count the number of the $n$ simulated values equal to 6 and divide by $n$.  Denote this relative frequency $\hat{p}$ (read "p-hat").
+1. Repeat step 2 a large number of times, recording the relative frequency $\hat{p}$ for each set of $n$ values.
+
+Be sure to distinguish between steps 2 and 3.  A simulation will typically involve just steps 1 and 2, resulting in a single relative frequency based on $n$ simulated values.  Step 3 is the "meta" step; we see how this relative frequency varies from simulation to simulation to help us in determing an appropriate margin of error.  The important quantity in this analysis is $n$, the *number of simulated values used to compute the relative frequency* in a single simulation. We wish to see how $n$ impacts margin of error.  The number of simulations in step 3 just needs to be "large" enough to provide a clear picture of how the relative frequency varies from simulation to simulation.  The more the relative frequency varies from simulation to simulation, the larger the margin of error needs to be.
+
+We can combine steps 1 and 2 of the meta-simulation to put it in the framework of the simulations from earlier in this chapter.  Namely, we can code the meta-simulation as a single simulation in which
+
+- A sample space outcome represents $n$ values of the sum of two fair-four sided dice
+- The main random variable of interest is the proportion of the $n$ values which are equal to 6.
+
+Let's first consider $n=100$. The following Symbulate code defines the probability space corresponding to 100 values of the sum of two-fair four sided dice.  Notice the use of `apply` which functions much in the same way^[One difference between `RV` and `apply`: `apply` preserves the type of the input object.  That is, if `apply` is applied to a `ProbabilitySpace` then the output will be a `ProbabilitySpace`; if `apply` is applied to an `RV` then the output will be an `RV`.  In contrast, `RV` always creates an `RV`.] as `RV`.
+
+
+```{python metasim-p}
+n = 100
+P = (DiscreteUniform(1, 4) ** 2).apply(sum) ** n
+P.sim(5)
+
+```
+
+In the code above
+
+- `DiscreteUniform(1, 4) ** 2` simulates two rolls of a fair four-sided die
+- `.apply(sum)` computes the sum of the two rolls
+- `** n` repeats the process `n` times to generate a set of `n` independent values, each value representing the sum of two rolls of a fair four-sided die
+- `P.sim(5)` simulates 5 sets, each set consisting of `n` sums
+
+Now we define the random variable which takes as an input a set of $n$ sums and returns the proportion of the $n$ sums which are equal to six.
+
+```{python metasim-phat}
+
+phat = RV(P, count_eq(6)) / n
+phat.sim(5)
+
+```
+
+In the code above
+
+- `phat` is an `RV` defined on the probability space `P`. Recall that an outcome of `P` is a set of `n` sums (and each sum is the sum of two rolls of a fair four-sided die).
+- The function that defines the `RV` is `count.eq(6)`, which counts the number of values in the set that are equal to 6. We then^[Unfortunately, for techincal reasons, `RV(P, count_eq(6) / n)` will not work.  It is possible to divide by `n` within `RV` if we define a custom function `def rel_freq_six(x): return x.count_eq(6) / n`
+and then define `RV(P, rel_freq_six)`.] divide by `n`, the total number of values in the set, to get the relative frequency.  (Remember that a transformation of a random variable is also a random variable.)
+- `phat.sim(5)` generates 5 simulated values of the relative frequency `phat`.  Each simulated value of `phat` is the relative frequency of sixes in `n` sums of two rolls of a fair four-sided die.
+
+
+Now we simulate and summarize a large number of values of `phat`.  We'll simulate 100 values for illustration.  Be sure not to confuse 100 with `n`.  Remember, the important quantity is `n`, the number of simulated values used in computing each relative frequency.
+
+```{python}
+phat.sim(100).plot(normalize = False)
+plt.ylabel('Number of simulations');
+plt.show()
+
+```
+
+
+We see that the 100 relative frequencies are roughly centered around the true probability 0.1875, but there is variability in the relative frequencies from simulation to simulation. From the range of values, we see that most relative frequencies are within about 0.08 or so from the true probability 0.1875. So a value around 0.08 seems like a reasonable value of the margin of error, but the actual value depends on what we mean by "most".  We can get a clearer picture if we run more simulations.  The following plot displays the results of 10000 simulations, each resulting in a value of $\hat{p}$.  Remember that each relative frequency is based on $n=100$ sums of two rolls.
+
+```{python}
+phats = phat.sim(10000)
+phats.plot(normalize = False)
+plt.ylabel('Number of simulations');
+plt.show()
+```
+
+Let's see how many of these 10000 simulated proportions are within 0.08 of the true probability 0.1875.
+
+
+
+
+```{python}
+1 - (phats.count_lt(0.1875 - 0.08) + phats.count_gt(0.1875 + 0.08)) / 10000
+
+```
+
+In roughly 95% or so of simulations, the simulated relative frequency was within 0.08 of the true probability.  So 0.08 seems like a reasonable margin of error for "95% confidence" or "95% accuracy".  However, a margin of error of 0.08 yields pretty imprecise estimates, ranging from about 0.10 to 0.27.  Can we keep the degree of accuracy at 95% but get a smaller margin of error, and hence a more precise estimate?  Yes, if we increase the number of repetitions used to compute the relative frequency.
+
+Now we repeat the analysis, but with $n=10000$.  In this case, each relative frequency is computed based on 10000 independent values, each value representing a sum of two rolls of a fair four-sided die. As before we start with 100 simulated relative frequencies.
+
+```{python}
+
+n = 10000
+P = (DiscreteUniform(1, 4) ** 2).apply(sum) ** n
+phat = RV(P, count_eq(6)) / n
+
+phats = phat.sim(100)
+phats.plot(normalize = False)
+plt.ylabel('Number of simulations');
+plt.show()
+
+```
+
+Again we see that the 100 relative frequencies are roughly centered around the true probability 0.1875, but there is less variability in the relative frequencies from simulation to simulation for $n=10000$ than for $n=100$. From the range of values, we see that most relative frequencies are now within about 0.008 of the true probability 0.1875.
+
+```{python}
+1 - (phats.count_lt(0.1875 - 0.008) + phats.count_gt(0.1875 + 0.008)) / 100
+
+```
+
+As with $n=100$, running more than 100 simulations would give a clearer picture of how much the relative frequency based on $n=10000$ simulated values varies from simulation to simulation. But even with just 100 simulations, we see that a margin of error of about 0.008 is required for roughly 95% accuracy when $n=10000$, as opposed to 0.08 when $n=100$. As we observed in the coin flipping example earlier in this section, it appears that increasing $n$ by a factor of 100 yields an extra decimal place of precision. That is, increasing $n$ by a factor of 100 decreases the margin of error by a factor of $\sqrt{100}$.  In general, the margin of error is inversely related to $\sqrt{n}$.
+
+
+(ref:cap-moe-compare) Comparison of margins of error for 95% confidence for the meta-simulations in this section.
+
+```{r, moe-compare, echo = FALSE}
+ns = 100 ^ (1:3)
+
+compare_df = data.frame(c("A fair coin flip lands H",
+                          "Two rolls of a fair four-sided die sum to 3"),
+                        c(0.5, 0.1875),
+                    round(t(cbind(2 * 0.5 / sqrt(ns), 2 * sqrt(3 / 16 * (1 - 3 / 16)) / sqrt(ns))), 4))
+
+knitr::kable(
+  compare_df, booktabs = TRUE,
+  col.names = c("Probability that", "True value",
+                "95% m.o.e. (n = 100)", "95% m.o.e. (n = 10000)",
+                "95% m.o.e. (n = 1000000)"),
+  caption = "(ref:cap-moe-compare)"
+)
+
+```
+
+
+The two examples in this section illustrate that the margin of error also depends somewhat on the true probability. The margin of error required for 95% accuracy is larger when the true probability is 0.5 than when it is 0.1875.  It can be shown that when estimating a probability $p$ with a relative frequency based on $n$ simulated repetitions, the margin of error required for 95% confidence^[We will see
+    the rationale behind this formula LATER. The factor 2
+    comes from the fact that for a Normal distribution, about 95% of values
+    are within 2 standard deviations of the mean. Technically, the
+    factor 2 corresponds to 95% confidence only when a single
+    probability is estimated. If multiple probabilities are estimated
+    simultaneously, then alternative methods should be used,
+    e.g., increasing the factor 2 using a
+    [Bonferroni
+    correction](https://en.wikipedia.org/wiki/Bonferroni_correction). For example, a multiple of 5 rather than 2 produces very conservative error bounds.] is
+\[
+2\frac{\sqrt{p(1-p)}}{\sqrt{n}}
+\]
+For a given $n$, the above quantity is maximized when $p$ is 0.5.  Since $p$ is usually unknown --- the reason for performing the simulation is to approximate it --- we plug in 0.5 for a somewhat conservative margin of error of $1/\sqrt{n}$.
+
+The factor 2 in the margin of error formula above corresponds to 95% accuracy.  Greater accuracy would require a larger factor.  But in any case, the margin of error is on the order of magnitude of $1/\sqrt{n}$.
+
+In summary, the margin of error when approximating a probability based on a simulated relative frequency is roughly on the order \(1/\sqrt{n}\), where \(n\) is the number of simulated values used to calculate the relative frequency. Warning: alternative methods are necessary when the actual probability being estimated is close to 0 or to 1.
+
+
+Finally, keep in mind that any probability model is based on a series of assumptions and these assumptions are probably not satisfied exactly by the random phenomenon.  For example, the probability that a coin lands on H is probably not 0.5 *exactly*.   But any difference between the true probability of the coin landing on H and 0.5 is likely not large enough to be practically meaningful^[There is actually [some evidence](https://www.stat.berkeley.edu/~aldous/Real-World/coin_tosses.html) that a coin flip is slightly more likely to land the same way it started; e.g, a coin that starts H up is more likely to land H up.  But the tendency is small.].  That is, assuming the coin is fair is a reasonable model.
+
+For most of the situations we'll encounter in this book, estimating a probability to within 0.01 of its true value will be sufficient for practical purposes, and so simulations of size 10000 will be appropriate.  Of course, there are real situations where probabilities need to be estimated much more precisely, e.g., the probability that a bridge will collapse.  Such situations require more intensive methods.
+
+
+A probability is a theoretical long run relative frequency.  A probability can be approximated by a relative frequency from a large number of simulated repetitions, but there is also some simulation margin of error.  Likewise, the average value of $X$  after a large number of simulated repetitions is only an approximation to the theoretical long run average value of $X$.  The margin of error is also on the order of $1/\sqrt{n}$ where $n$ is the number of simulated values used to compute the average. We will explore margins of error for long run averages  in more detail LATER. 
+
+
+
+## Non-equally likely outcomes: A weighted die
+
+In the next few sections we will investigate some examples that further illustrate properties of random variables and distributions, the simulation process, and Symbulate code.
+
+Recall that the **(probability) distribution** of a random variable specifies the possible values of the RV and a way of determining corresponding probabilities.  The distribution of a random variable specifies the long run pattern of variation of values of the random variable over many repetitions of the underlying random phenomenon. The distribution of a random variable ($X$) can be approximated by
+
+- simulating an outcome of the underlying random phenomenon ($\omega$)
+- observing the value of the random variable for that outcome ($(X(\omega)$)
+- repeating this process many times
+- then computing relative frequencies involving the simulated values of the RV to approximate probabilities of events involving the random variable (e.g., $\IP(X\le x)$).
+
+
+We will discuss distributions in more detail in Chapter 4, but the examples in this Chapter provide an introduction to some of the ideas. One key idea is that **any distribution can be represented by a spinner**.  For example, the spinner on the left in Figure \@ref(fig:die-three-spinners) corresponds to a single roll of a fair four-sided die. But what about a weighted die like the one in Example \@ref(exm:die-weighted)?  Before considering the weighted die, let's look at the fair die in Symbulate.
+
+Let $U$ be the result of a *single* roll of a four-sided die.  Let $\IP$ be the probability measure corresponding to a *fair* die. `BoxModel` assumes equally likely outcomes by default, so calling `BoxModel([1, 2, 3, 4])` assumes a fair die.  (The default `size` value is 1, so `BoxModel([1, 2, 3, 4])` corresponds to a *single roll* of a fair four-sided die.) The random variable $U$ is just the outcome of this roll, identified by the identity function $U(\omega) = \omega$. (Recall that a Symbulate `RV` is always defined in terms of a probability space and a function `RV(probspace, function)`.  The default function is the identity: $g(\omega) = \omega$.)
+
+```{python}
+
+P = BoxModel([1, 2, 3, 4])
+U = RV(P)
+
+U.sim(10000).plot()
+plt.show()
+
+```
+
+The plot displays a simulation-based approximation to the distribution of $U$ according to the probability measure $\IP$.  We see that the four values are equally likely.  This distribution can be represented by the spinner on the left in Figure \@ref(fig:die-three-spinners).
+
+
+Now consider the weighted die in Example \@ref(exm:die-weighted): a single roll results in 1 with probability 1/10, 2 with probability 2/10, 3 with probability 3/10, 4 with probability 4/10.  Let $\IQ$ be the probability measure corresponding to the assumption that the die is weighted as in Example \@ref(exm:die-weighted).  We can specify non-equally likely outcomes in `BoxModel` using the `probs` option.  The probability space `Q` in the following code corresponds to a single roll of the weighted die.  Note that $U$ is still defined via the identity function.
+
+
+```{python}
+
+Q = BoxModel([1, 2, 3, 4], probs = [0.1, 0.2, 0.3, 0.4])
+U = RV(Q)
+
+U.sim(10000).plot()
+plt.show()
+
+```
+
+The plot displays a simulation-based approximation to the distribution of $U$, but now according to the probability measure $\IQ$.  This distribution can be represented by the middle spinner in Figure \@ref(fig:die-three-spinners).
+
+
+<!-- (ref:cap-spinner-die-weighted) Spinner corresponding to a single roll of the weighted four-sided die in Example \@ref(exm:die-weighted). -->
+
+<!-- ```{r spinner-die-weighted, echo=FALSE, fig.cap="(ref:cap-spinner-die-weighted)"} -->
+
+<!-- knitr::include_graphics("_graphics/spinner-die-weighted.png") -->
+
+<!-- ``` -->
+
+
+Note that in the two scenarios, (1) the sample space is the same, $\Omega=\{1,2,3,4\}$, and (2) the random variable is the same function, $U(\omega) = \omega$.  What changes is the probability measure, from $\IP$ (fair die) to $\IQ$ (weighted die).  Changing the probability measure changes the distribution of $U$.
+
+Another way to model a weighted die is with a box model with 10 tickets --- one ticket labeled 1, two tickets labeled 2, three tickets labeled 3, and four tickets labeled 4 --- from which a single ticket is drawn.  A `BoxModel` can be specified in this way using the following `{label: number of tickets with the label}` formulation^[Braces `{}` are used here because this defines a Python *dictionary*.  But don't confuse this code with set notation]. This formulation is especially useful when multiple tickets are drawn from the box *without replacement*.
+
+```{python}
+
+Q = BoxModel({1: 1, 2: 2, 3: 3, 4: 4})
+U = RV(Q)
+
+U.sim(10000).plot()
+plt.show()
+```
+
+```{example dice-normalize-sym}
+Recall Example \@ref(exm:dice-normalize). Write the Symbulate code to model this situation, in two ways.
+```
+
+1. Using the `probs` option of `BoxModel`.
+1. Using the `{label: number of tickets with the label}` form of `BoxModel`.
+
+```{solution dice-normalize-sym-sol}
+Solution to Example \@ref(exm:dice-normalize-sym).
+```
+
+1. See below  
+
+    ```
+    Qtilde = BoxModel([1, 2, 3, 4], probs = [4 / 15, 6 / 15, 3  15, 2 / 15])
+    U = RV(Qtilde)
+    ```
+    
+1. See below  
+
+    ```
+    Qtilde = BoxModel({1: 4, 2: 6, 3: 3, 4: 2})
+    U = RV(Qtilde)
+    ```
+
+**Some lessons from this section.**
+
+
+- Changing a probability measure changes distributions of random variables.
+- Distributions can be represented by spinners.
+- Box models can handle situations with non-equally likely outcomes.  In Symbulate, `BoxModel` has options like `probs` that can be used to specify probabilities of individual outcomes.
+
+
+
+
+## Simulating from distributions: rolling dice yet again
+
+
+Consider yet again the sum $X$ and max $Y$ of two rolls of a fair four-sided die. Section \@ref(dist-intro) discussed the joint and marginal probability distributions of $X$ and $Y$. In Section \@ref(technology-intro) we simulated values of $X$ and $Y$ by first simulating dice rolls.  Now we'll see another way.
+
+```{example dice-spinners-ex}
+Construct a spinner representing each of the following.
+```
+
+1. The marginal distribution of $X$.
+1. The marginal distribution of $Y$.
+1. The joint distribution of $X$ and $Y$.
+
+```{solution dice-spinners-ex-sol}
+to Example \@ref(exm:dice-spinners-ex).
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+
+See Figure \@ref(fig:dice-spinners).
+
+1. The spinner on the left represents the marginal distribution of $X$; see Table \@ref(tab:dice-sum-dist-table).
+1. The spinner in the middle represents the marginal distribution of $Y$; see Table \@ref(tab:dice-max-dist-table).
+1. The spinner on the right represents the joint distribution of $X$ and $Y$. For example, the spinner returns the pair $(4, 2)$ with probability 1/16 and the pair $(4, 3)$ with probability 2/16. See Table \@ref(tab:dice-joint-dist-twoway) or Table \@ref(tab:dice-joint-dist-flat) . Remember, a joint distribution of two random variables is a distribution of pairs on values.
+
+``` 
+
+(ref:cap-dice-spinners) Spinners representing the joint and marginal distributions of $X$ and $Y$,  the sum and the larger of two rolls of a fair four-sided die. Left: the marginal distribution of $X$.  Middle: the marginal distribution of $Y$. Right: the joint distribution of $X$ and $Y$.
+
+```{r dice-spinners, echo=FALSE, fig.cap="(ref:cap-dice-spinners)", out.width='33%', fig.show='hold'}
+
+knitr::include_graphics(c(
+  "_graphics/spinner-dice-sum-marginal.png",
+  "_graphics/spinner-dice-max-marginal.png",
+  "_graphics/spinner-dice-sum-max.png"))
+
+```
+                        
+<!-- ```{r dice-spinners, echo=FALSE, fig.cap="(ref:cap-dice-spinners)", out.width='33%', fig.show='hold'} -->
+
+<!-- make_discrete_spinner <- function(x, p){ -->
+<!--   xp <- data.frame(x, p) -->
+<!--   cdf = c(0, cumsum(xp$p)) -->
+<!--   plotp = (cdf[-1] + cdf[-length(cdf)]) / 2 -->
+<!--   ggplot(xp, aes(x="", y=p, fill=x))+ -->
+<!--     geom_bar(width = 1, stat = "identity", color="black", fill="white") +  -->
+<!--     coord_polar("y", start=0) + -->
+<!--     blank_theme + -->
+<!--     # plot the possible values on the outside -->
+<!--     scale_y_continuous(breaks = plotp, labels=xp$x) + -->
+<!--     theme(axis.text.x=element_text(size=16, face="bold")) + -->
+<!--     # plot the probabilities as percents inside -->
+<!--     geom_text(aes(y = plotp, -->
+<!--                   label = format(percent(round(p, 3)),0)), size=6) -->
+<!-- } -->
+
+<!-- x = 2:8 -->
+<!-- px = c(1, 2, 3, 4, 3, 2, 1) / 16 -->
+<!-- y = 1:4 -->
+<!-- py = c(1, 3, 5, 7) / 16 -->
+
+
+<!-- make_discrete_spinner(x, px) -->
+
+<!-- make_discrete_spinner(y, py) -->
+
+<!-- # make_discrete_spinner(xy, pxy) -->
+
+<!-- ``` -->
+
+In principle, there are always two ways of simulating a value $x$ of a random variable $X$.
+
+1. **Simulate from the probability space.** Simulate an outcome $\omega$ from the underlying probability space and set $x = X(\omega)$.
+1. **Simulate from the distribution.** Construct a spinner corresponding to the distribution of $X$ and spin it once to generate $x$.
+
+The second method requires that the distribution of $X$ is known.  However, as we will see in many examples, it is common to specify the distribution of a random variable directly without defining the underlying probability space.
+
+
+
+```{example dice-marginal-sim-from-dist}
+We have seen the Symbulate code the "simulate from the probability space" method in the dice rollowing example.  Now we investigate the "simulation from the distribution method".
+
+1. Write the Symbulate code to simulate a value of $X$ from its marginal distribution.
+1. Write the Symbulate code to simulate a value of $Y$ from its marginal distribution.
+
+```
+
+```{solution dice-marginal-sim-from-dist-sol}
+
+to Example \@ref(exm:dice-marginal-sim-from-dist).
+
+We simulate a value of $X$ from its distribution by spinning the spinner on the left in Figure \@ref(fig:dice-spinners); similarly, use the spinner in the middle for $Y$.  We can define a BoxModel corresponding to each of these spinners, and then define a random variable through the identify function.  Essentially, we define the random variable by specifying its distribution, rather specifying the underlying probability space.
+
+```
+
+```{python}
+
+X = RV(BoxModel([2, 3, 4, 5, 6, 7, 8], probs = [1 / 16, 2 / 16, 3 / 16, 4 / 16, 3 / 16, 2 / 16, 1 / 16]))
+
+Y = RV(BoxModel([1, 2, 3, 4], probs = [1 / 16, 3 / 16, 5 / 16, 7 / 16]))
+```
+
+
+The joint distribution in Table \@ref(tab:dice-joint-dist-twoway) corresponds to the spinner on the right in Figure \@ref(fig:dice-spinners).  Once we have obtained the distribution, we now have two ways to simulate an $(X, Y)$ pair with the distribution in Table \@ref(tab:dice-joint-dist-twoway).
+
+1. Simulate two rolls of a fair four sided die.  Let $X$ be the sum of the two values and let $Y$ be the larger of the two rolls (or the common value if a tie).
+1. Spin the spinner on the right in Figure \@ref(fig:dice-spinners) once and record the resulting $(X, Y)$ pair.  (Recall that this spinner returns a pair of values.) Of course, this method requires that the joint distribution of $(X, Y)$ is known.
+
+
+Below is the Symbulate code for simulating directly from the joint distribution in Table \@ref(tab:dice-joint-dist-twoway).   Note that the tickets in `BoxModel` correspond to the possible $(X, Y)$ pairs, which are not equally likely (even though the 16 pairs of rolls are).  We specify the probability of each ticket by using the `probs` option.  To generate a single $(X, Y)$ pair --- like spinning the joint distribution spinner in Figure \@ref(fig:dice-spinners) once --- we draw one ticket from the box of pairs; this is why `size = 1`.
+
+```{python}
+
+xy_pairs = [(2, 1), (3, 2), (4, 2), (4, 3), (5, 3), (5, 4), (6, 3), (6, 4), (7, 4), (8, 4)]
+pxy = [1/16, 2/16, 1/16, 2/16, 2/16, 2/16, 1/16, 2/16, 2/16, 1/16]
+
+P = BoxModel(xy_pairs, probs = pxy, size = 1, replace = True)
+
+print(P.sim(5))
+
+```
+
+We can now define random variables $X$ and $Y$. An outcome of `P` is a pair of values.  Recall that a Symbulate `RV` is always defined in terms of a probability space and a function `RV(probspace, function)`.  The default function is the identity: $g(\omega) = \omega$.  Therefore, `RV(P)` would just correspond to the pair of values generated by `P`. The sum $X$ corresponds to the first coordinate in the pair and the max $Y$ corresponds to the second.  We can define these random variables in Symbulate by "unpacking" the pair as in the following^[Since `P` returns pairs of outcomes, `Z = RV(P)` is a random *vector*.  Components of a vector can be indexed with brackets `[]`; e.g., the first component is `Z[0]` and the second is `Z[1]`.  (Remember: Python uses zero-based indexing.)  So the "unpacked" code is an equivalent but simpler version of `Z = RV(P); X = Z[0]; Y = Z[1]`.]
+
+```{python}
+X, Y = RV(P)
+```
+
+Then we can simulate many $(X, Y)$ pairs and summarize as we did in Section \@ref(sym-joint).
+
+
+```{python}
+(RV(P) & X & Y).sim(5)
+
+```
+
+
+<!-- ```{python} -->
+
+<!-- xy = (X & Y).sim(16000) -->
+
+<!-- plt.figure() -->
+<!-- xy.plot(['tile', 'marginal']) -->
+<!-- plt.show() -->
+<!-- xy.tabulate() -->
+
+<!-- ``` -->
+
+
+
+
+
+
+
+```{example dd-dice-marginal-sim, name='(ref:ddwddd)'}
+
+Donny says "Forget the joint distribution spinner in Figure \@ref(fig:dice-spinners).  I can simulate an $(X, Y)$ pair just by spinning the spinner on the left to generate $X$ and the one in the middle to generate $Y$."  Is Donny correct?  If not, can you help him see why not?
+
+```
+
+```{solution dd-dice-marginal-sim-sol}
+to Example \@ref(exm:dd-dice-marginal-sim)
+
+```
+
+
+```{asis, fold.chunk = TRUE}
+ 
+Donny is not correct.  Yes, spinning the $X$ spinner in Figure \@ref(fig:dice-spinners) will generate values of $X$ according to the proper marginal distribution, and similarly for $Y$.  However, spinning each of the spinners will *not* produce $(X, Y)$ pairs with the correct *joint* distribution.  For example, Donny's method could produce $X=2$ and $Y=4$, which is not a possible $(X, Y)$ pair.  Donny's method treats the values of $X$ and $Y$ as if they were *independent*; the result of the $X$ spin would not change what could happen with the $Y$ spin (since the spins are physically independent).  However, the $X$ and $Y$ values are related.  For example, if $X=2$ then $Y$ must be 1; if $X=4$ then $Y$ must be 2 or 3.  The joint distribution spinner on the right in Figure \@ref(fig:dice-spinners) correctly reflects the relationship between $X$ and $Y$.  But as we discussed in Section \@ref(dist-intro), in general you cannot recover the joint distribution from the marginal distributions, which is what Donny is attempting to do.
+
+```
+
+Donny's method corresponds to (1) rolling the die twice and summing to get $X$, then (2) rolling the die two more times and finding the larger roll to get $Y$.  Essentially, Donny is not using the same probability space for $X$ and $Y$, and therefore events involving both random variables cannot be studied.  In Symbulate, Donny's code --- *which would produce an error* --- would look like
+
+```
+X = RV(BoxModel([1, 2, 3, 4], size = 2), sum)
+Y = RV(BoxModel([1, 2, 3, 4], size = 2), max)
+
+(X & Y).sim(10000)
+
+### Error: Events must be defined on same probability space.
+```
+
+In Donny's code, his random variables are defined on different probability spaces; one box model is used to generate the rolls for $X$ and a separate box model is used to generate the rolls for $Y$.  As we have mentioned a few times, random variables (and events) must all be defined on the same probability space^[If Donny *really* wanted to simulate two independent pairs of rolls, one to compute $X$ and one to compute $Y$, he would still need define the random variables on the same probability space, using `BoxModel([1, 2, 3, 4], size = 2) ** 2` for which an example outcome would be ((3, 2), (1, 1)).  Then he could define `X=RV(P)[0].apply(sum)` and `X=RV(P)[1].apply(max)`.  But it's hard to justify why Donny would want to do this.].
+
+```{example dd-dice-joint-sim, name='(ref:ddwddd)'}
+
+Donny says "I see what you mean about needing the spinner in Figure \@ref(fig:dice-spinners) to simulate $(X, Y)$ pairs.  So then forget the left and middle spinners in Figure \@ref(fig:dice-spinners).  If I want to simulate $X$ values, I could just spin the joint distribution spinner in Figure \@ref(fig:dice-spinners) and ignore the $Y$ values."  Is Donny's method correct?  If not, can you help him see why not?
+
+```
+
+```{solution dd-dice-joint-sim-sol}
+to Example \@ref(exm:dd-dice-joint-sim)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+Donny is correct!  The joint distribution spinner in Figure \@ref(fig:dice-spinners) correctly produces $(X, Y)$ pairs according to the joint distribution in Table \@ref(tab:dice-joint-dist-twoway).  Ignoring the $Y$ values is like "summing the rows" and only worrying about what happens in total for $X$.  For example, in the long run, 1/16 of spins will generate (4, 2) and 2/16 of spins will generate (4, 3), so ignoring the $y$ values, 3/16 of spins will return an $x$ value of 4.  From the joint distribution  you can always find the marginal distributions (e.g., by finding row and column totals).  (Donny's method does work, but it does require more work than necessary.  If you really only needed to simulate $X$ values, you only need the distribution of $X$ and not the joint distribution of $X$ and $Y$, so you could use the $X$ spinner in Figure \@ref(fig:dice-spinners).)
+
+```
+
+
+
+**Some lessons from this example.**
+
+- The joint distribution of two random variables can be represented by a spinner that returns pairs of values.
+- There are two ways to simulate a value of a random variable.
+  - Simulate an outcome from the underlying probability space and evaluate the random variable for the simulated outcome.
+  - Identify the distribution of the random variable, and simulate a value from that distribution (e.g., by constructing a spinner).
+- To simulate an $(X, Y)$ pair it is, in general^[When $X$ and $Y$ are *independent* it is sufficient to simulate values of $X$ and $Y$ separately from their respective marginal distributions.  We will study independence in detail LATER.], *not* sufficient to simulate a value of $X$ from its marginal distribution and a value of $Y$ from its marginal distribution.  Instead, a pair $(X, Y)$ must be simulated from the joint distribution.
+
+## Outcomes on a continuous scale: Uniform distributions {#sec-linear-rescaling}
+
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-uniform-event)"}
+
+dfA <- data.frame(x = c(0, 2, 1, 0),
+                 y = c(0, 1, 1, 0),
+                 v = c(1, 1, 1, 1))
+
+pA <- ggplot(data = dfA, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 2), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+ # theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression(X)) +
+  ylab(expression(Y)) +
+  ggtitle("Joint pdf of sum (X) and max (Y) of two rolls of a fair four-sided die") +
+  theme(plot.title = element_text(hjust = 0.5)) # +
+#  scale_fill_continuous(guide = "colourbar")
+
+
+
+```
+
+Uniform probability measures are the continuous analog of equally likely outcomes.  The standard uniform model is the Uniform(0, 1) distribution corresponding to the spinner in Figure \@ref(fig:uniform-spinner) which returns values between^[Why is the interval $[0, 1]$ the standard instead of some other range of values?  Because probabilities take values in $[0, 1]$.  We will see why this is useful in more detail LATER.] 0 and 1.  Recall that the values in the picture are rounded to two decimal places, but the spinner represents an idealized model where the spinner is infinitely precise so that any real number between 0 and 1 is a possible value. We assume that the (infinitely fine) needle is "equally likely" to land on any value between 0 and 1.
+
+For example, if Cady is "equally likely" to arrive for lunch at any time between noon (time 0) and 1:00PM (time 1), then a Uniform(0, 1) distribution is an appropriate probability model for her arrival time.
+
+The following Symbulate code defines a probability space representing the Uniform(0, 1) model, and a random variable equal to the result of a single spin: $U(\omega)=\omega$.  Recall that the default function used to define a Symbulate `RV` is the identity.
+
+
+```{python}
+
+P = Uniform(0, 1)
+U = RV(P)
+
+U.sim(10)
+
+```
+
+Notice the number of decimal places.  Remember that for a continuous variable, any value in some uncountable interval is possible.  For the Uniform(0, 1) distribution, any value in the continuous interval between 0 and 1 is a distinct possible value: 0.25000000000... is different from 0.25000000001... is distinct from 0.2500000000000000000001... and so on.
+
+The rug plot displays 100 simulated values of $U$.  Note that the values seem to be "evenly spread" between 0 and 1.
+
+
+```{python}
+
+u = U.sim(100)
+
+u.plot('rug')
+plt.show()
+
+```
+
+A **histogram** groups the observed values into "bins" and plots frequencies for each bin^[Symbulate chooses the number of bins automatically, but you can set the number of bins using the `bins` option, e.g., `.plot(bins = 10)`]. 
+
+```{python}
+
+u.plot(['rug', 'hist'], bins = 10, normalize = False)
+plt.show()
+
+```
+
+A histogram is the Symbulate default plot for summarizing values on a continuous scale. Typically, in a histogram *areas* of bars represent relative frequencies; in which case the axis which represents the length of the bars is called "density".  It is recommended that the bins all have the same width so that the ratio of the heights of two different bars is equal to the ratio of their areas. That is, with equal bin widths, bars with the same height represent the same area/relative frequency.  Symbulate will always produces a histogram with equal bin widths.
+
+Now we simulate many values of $U$.  We see that the bars all have roughly the same height, represented by the horizontal line, and hence the same area, though there are some natural fluctuations due to the randomness in the simulation.
+
+```{python}
+
+u = U.sim(10000)
+
+u.plot()
+Uniform(0, 1).plot() # plots the horizontal line of constant height
+plt.show()
+
+```
+
+Recall that in a uniform probability model, the probability of an event is proportional to the size (length, area, volume) of the set comprising the event; two events with the same size will have the same probability.
+
+\[
+\IP(A) = \frac{|A|}{|\Omega|} = \frac{\text{size of } A}{\text{size of } \Omega} \qquad \text{if $\IP$ is a uniform probability measure}
+\]
+
+For example, if $U$ follows a Uniform(0, 1) distribution then $\IP(U < 0.25) = 0.25 = \IP(U > 0.75)$.  We can approximate $\IP(U < 0.25)$ and $\IP(U > 0.75)$ with their corresponding simulated relative frequencies, which are roughly equal to 0.25. (Remember that the simulation margin of error based on 10000 repetitions is roughly $1/\sqrt{10000} = 0.01$.)  That is, the *area* of the histogram corresponding to the region $U<0.25$ is approximately 0.25.
+
+
+
+```{python}
+u.plot()
+plt.axvspan(0, 0.25, alpha = 0.5, color = 'gray'); # shades the plot
+plt.show()
+
+u.count_lt(0.25) / 10000
+
+```
+
+```{python}
+u.plot()
+plt.axvspan(0.75, 1, alpha = 0.5, color = 'gray'); # shades the plot
+plt.show()
+
+u.count_gt(0.75) / 10000
+
+```
+
+As discussed in Section \@ref(sec-uniform-prob), the probability that the continuous random variable $U$ equals any particular value (e.g., 0.25) precisely is 0.
+
+```{python}
+
+u.count_eq(0.25)
+
+```
+
+However, the probability that $U$ is "close to" a value is non-zero.  For example, the probability that $U$ is within 0.01 of 0.25 --- that is, that $U$ lies in the interval (0.24, 0.26) of length 0.02 --- is 0.02.  That is, $\IP(|U - 0.25| < 0.01) = 0.02$.
+
+```{python}
+
+abs(u - 0.25).count_lt(0.01) / 10000
+
+```
+
+We can approximate the long run average value of continuous random variables in the usual way: simulate many values and average.  We see that the long run average is approximately 0.5, the "balance point" of the distribution.
+
+```{python}
+
+u.mean()
+
+```
+
+
+The standard uniform distribution, Uniform(0, 1), is a distribution on the interval $[0, 1]$. The uniform distribution on the interval $[a, b]$, for $a<b$, is called the Uniform($a$, $b$) distribution.
+
+For example, suppose that $X$, the SAT Math score of a randomly selected student, follows a Uniform distribution on the interval $[200, 800]$.  (This is certainly NOT true, and we will consider a more realistic distribution LATER.).  Remember that we can define a random variable by specifying its distribution.
+
+
+
+
+
+```{python}
+
+X = RV(Uniform(200, 800))
+
+x = X.sim(10000)
+
+x.plot()
+Uniform(200, 800).plot()
+plt.show()
+
+print(x.count_lt(300) / 10000, x.count_lt(400) / 10000, x.count_lt(500) / 10000)
+```
+
+The plots show that the values are roughly uniformly distributed between 200 and 800.  Recall from Section \@ref(sec-uniform-prob) that for a continuous uniform distribution in one-dimension, probability is a ratio of lengths.  For example, $\IP(X \le 300)$ $= \frac{300-200}{800-200}$ $= \frac{100}{600}\approx 0.167$.  About 17\% of values are between 200 and 300, about 17% between 300 and 400, and about 17% between 400 and 500.  Each of these intervals is length 100, and the total length of the interval of possible values is 600, so the theoretical probability for each interval is $100/600\approx 0.167$.  The long run average value is 500, the midpoint of the interval $[200, 800]$.
+
+```{python}
+
+x.mean()
+
+```
+
+Remember that in a histogram, *area* represents relative frequency.  The Uniform(200, 800) distribution covers a wider range of possible values than the Uniform(0, 1) distribution.  Notice how the values on the vertical density axis change to compensate for the longer range on the horizontal variable axis.  The histogram bars now all have a height of roughly $\frac{1}{800-200} = \frac{1}{600} = 0.00167$ (aside from natural simulation variability).  The total area of the rectangle with a height of $\frac{1}{800-200}$ and a base of $800-200$ is 1.
+
+**Some lessons from this example.**
+
+
+- A histogram can be used to summarize the distribution of a random variable that takes values on a continuous scale.
+- When plotting values on a continuous scale in a histogram, relative frequencies are represented by areas.
+- For a Uniform($a$, $b$) distribution, the probability of a subinterval of $[a, b]$ is proportional to the length of the interval.
+
+
+## Normal distributions and standard deviation: SAT scores
+
+In the previous section we assumed a Uniform(200, 800) distribution for $X$, the SAT Math score of a single randomly selected student.  The corresponding spinner would be like the one in Figure \@ref(fig:uniform-spinner)  but now labeled with equally spaced values from 200 to 800 (instead of 0 to 1).  However, this would not lead to very realistic SAT scores.  The average SAT Math score is around 500, and a much higher percentage of students score closer to average than to the extreme scores of 200 or 800.
+
+To simulate SAT Math scores, we might use a spinner like the following.  Notice that the values on the spinner axis are *not* equally spaced.  Even though only some values are displayed on the spinner axis, imagine this spinner represents an infinitely fine model where any value between 200 and 800 is possible^[Technically, for a Normal distribution, *any* real value is possible.  But values that are more than 3 or 4 standard deviations occur with small probability.].
+
+
+(ref:cap-sat-normal-spinner) A spinner representing the "Normal(500, 100)" distribution.  The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities.
+
+```{r sat-normal-spinner, echo=FALSE, fig.cap="(ref:cap-sat-normal-spinner)", out.width='50%', fig.show='hold'}
+
+knitr::include_graphics(c("_graphics/spinner-normal-sat.png", "_graphics/spinner-normal-sat-sectors.png"))
+
+```
+
+
+Since the axis values are not evenly spaced, different intervals of the same length will have different probabilities.  For example, the probability that this spinner lands on a value in the interval [400, 500] is about 0.341, but it is about 0.136 for the interval [300, 400]. 
+
+Consider what the distribution of values simulated using this spinner would look like.
+
+- About half of values would be below 500 and half above
+- Because axis values near 500 are stretched out, values near 500 would occur with higher frequency than those near 200 or 800.
+- The shape would be symmetric since the spacing below 500 mirrors that above.  For example, about 34% of values would be between 400 and 500, and also 34% between 500 and 600.
+- About 68% of values would be between 400 and 600.
+- About 95% of values would be between 300 and 700.
+
+And so on.  We could compute percentages for other intervals by measuring the areas of corresponding sectors on the circle to complete the pattern of variability that values resulting from this spinner would follow.  This particular pattern is called a "Normal(500, 100)" distribution. Note that the arguments for a Normal distribution play a different role than those for a Uniform distribution.  In a Uniform($a, b$) distribution, $a$ represents the minimum possible value and $b$ the maximum.  In a Normal($\mu$, $\sigma$) distribution, $\mu$ represents the *long run mean* (a.k.a. long run average) and $\sigma$ the *standard deviation*.  We will discuss standard deviation in more detail soon.
+
+As in the previous section we can define a random variable by specifying its distribution.
+
+
+```{python}
+
+X = RV(Normal(500, 100))
+
+```
+
+We can then simulate values.  Remember that the Normal distribution is only a model for the distribution of SAT Math scores.  In particular, a Normal distribution assumes values on a continuous scale.  Also, it is possible to see values outside of the range $[200, 800]$, though such values do not occur often.
+
+```{python}
+
+x = X.sim(100)
+x
+```
+
+Plotting the values, we see that values near 500 occur more frequently than those near 200 or 800.
+
+```{python}
+
+x.plot('rug')
+plt.show()
+
+```
+
+```{python, eval = FALSE, include = FALSE, echo = FALSE}
+
+x.plot(['rug', 'hist'])
+plt.show()
+
+```
+
+We now simulate many  values.
+
+
+(ref:cap-normal-sat-density) Histogram representing the approximate distribution of values simulated using the spinner in Figure \@ref(fig:sat-normal-spinner).  The smooth solid curve models the theoretical shape of the distribution of $X$, called the "Normal(500, 100)" distribution). 
+
+```{python}
+
+x = X.sim(10000)
+x
+```
+
+We see that the histogram appears like it can be approximated by a smooth, "bell-shaped" curve, called a *Normal density*.
+
+```{python normal-sat-density, fig.cap="(ref:cap-normal-sat-density)"}
+
+x.plot() # plot the simulated values
+Normal(500, 100).plot() # plot the density
+plt.show()
+
+```
+
+The parameter 500 represents the long run average (a.k.a. mean) value.  Calling `x.mean()` will compute an average as usual: sum the 10000 simulated values in `x` and divide by 10000.  This average should be close to 500.  The more simulated values included in the average, the closer we would expect the simulated average value to be to 500.
+
+```{python}
+
+x.mean()
+
+```
+
+### Standard deviation
+
+The parameter 100 represents the standard deviation, which is a measure of degree of variability.  While the average is 500, the values vary about that average.  Many values are close to the average, but some are farther away.  The standard deviation measures, roughly, the average distance of the values from their mean.  Calling `x.sd()` will compute the standard deviation of the simulated values in `x`.
+
+```{python}
+
+x.sd()
+
+```
+
+Roughly, standard deviation measures the average distance from the mean: For each simulated value compute its absolute distance from the mean, and then average these distances.
+
+```{python}
+
+abs(x - x.mean())
+
+```
+
+```{python}
+
+abs(x - x.mean()).mean()
+
+```
+
+
+Unfortunately, the above calculation yields roughly 80 rather than the value of roughly 100 that `x.sd()` returns. The above calculation illustrates the concept of standard deviation as average distance from the mean, but the actual calculation of standard deviation is a little more complicated. Technically, you must first *square* all the distances and  then average; the result is the *variance*.  The standard deviation is then  the square root of the variance.  The standard deviation is measured in the measurement units of the random variable.  For example, if the random variable is measured in inches, then standard deviation is also measured in inches, while variance is measured in square-inches. We will see the theory of variance and standard deviation LATER.
+
+```{python}
+
+(x - x.mean()) ** 2 
+
+```
+
+```{python}
+
+((x - x.mean()) ** 2).mean()
+
+```
+
+```{python}
+
+sqrt(((x - x.mean()) ** 2).mean())
+
+```
+
+For comparison, consider values from the Uniform(200, 800) distribution.  While the Uniform(200, 800) and Normal(500, 100) distributions have the same mean, the Uniform(200, 800) has a larger standard deviation than the Normal(500, 100) distribution.  In comparison to a Normal(500, 100) distribution, a Uniform(200, 800) distribution will give higher probability to ranges of values near the extremes of 200 and 800, as well as lower probability to ranges of values near 500.  Thus, there will be more values far from the mean of 500 and fewer values close, and so the average distance from the mean and hence standard deviation will be larger for the Uniform(200, 800) distribution than for the Normal(500, 100) distribution. 
+
+```{python}
+
+RV(Normal(500, 100)).sim(10000).plot()
+RV(Uniform(200, 800)).sim(10000).plot()
+plt.show()
+
+```
+
+In a Uniform(200, 800) distribution, values are "evenly spread" from 200 to 800, so distances from the mean are "evenly spread" from 0 (for 500) to 300 (for 200 and 800).  We might expect the standard deviation to be about 150; it turns out to be about 173.  While the "average distance" interpretation helps our conceptual understanding of standard deviation, the process of squaring the distances, then averaging, and then taking the square root makes guessing the actual value of standard deviation difficult.
+
+```{python}
+RV(Uniform(200, 800)).sim(10000).sd()
+```
+
+
+**Some lessons from this example.**
+
+
+- Spinners with non-evenly spaced values can be used to generate values from non-Uniform distributions 
+- Normal distributions are common models of situations where the pattern of variability follows a bell-shaped curve centered at the average value.
+- Variability is an essential feature of a distribution.  Standard deviation measures degree of variability in terms of, roughly, the average distance from the mean.
+
+
+
+
+<!-- ## Bivariate Normal; correlation -->
+
+<!-- Start with uniform sum/max. -->
+
+<!-- The BVN.  Then correlation. -->
+
+
+## Transformations of random variables
+
+A function of a random variable is a random variable: if $X$ is a random variable and $g$ is a function then $Y=g(X)$ is a random variable.  In general, the distribution of $g(X)$ will have a different shape than the distribution of $X$.  The exception is when $g$ is a linear rescaling.
+
+### Linear rescaling
+
+
+A **linear rescaling** is a transformation of the form $g(u) = a +bu$.  For example, converting temperature from Celsius to Fahrenheit using $g(u) = 32 + 1.8u$ is a linear rescaling.
+
+A linear rescaling "preserves relative interval length" in the following sense.
+
+  - If interval A and interval B have the same length in the original measurement units, then the rescaled intervals A and B will have the same length in the rescaled units. For example, [0, 10] and [10, 20] Celsius, both length 10 degrees Celsius, correspond to [32, 50] and [50, 68] Fahrenheit, both length 18 degrees Fahrenheit.
+  - If the ratio of the lengths of interval A and B is $r$ in the original measurement units, then the ratio of the lengths in the rescaled units is also $r$. For example, [10, 30] is twice as long as [0, 10] in Celsius; for the corresponding Fahrenheit intervals, [50, 86] is twice as long as [32, 50].
+
+Think of a linear rescaling as just a relabeling of the variable axis.  
+
+```{r, echo = FALSE}
+
+knitr::include_graphics('_graphics/celsius-fahrenheit.png')
+
+```
+
+Suppose that $U$ has a Uniform(0, 1) distribution and define $X = 200 + 600 U$.  Then $X$ is a linear rescaling of $U$, and $X$ takes values in the interval [200, 800].  We can define and simulate values of $X$ in Symbulate.  Before looking at the results, sketch a plot of the distribution of $X$ and make an educated guess for its mean and standard deviation.
+
+```{python}
+
+U = RV(Uniform(0, 1))
+
+X = 200 + 600 * U
+
+(U & X).sim(10)
+
+```
+
+
+```{python}
+
+X.sim(10000).plot()
+plt.show()
+
+```
+
+We see that $X$ has a Uniform(200, 800) distribution.  The linear rescaling changes the range of possible values, but the general shape of the distribution is still Uniform.  We can see why by inspecting a few intervals on both the original and revised scale.
+
+| Interval of $U$ values | Probability that $U$ lies in the interval | Interval of $X$ values | Probability that $X$ lies in the interval |
+|-----------------------:|------------------------------------------:|-----------------------:|------------------------------------------:|
+|             (0.0, 0.1) |                                       0.1 |             (200, 260) |                          $\frac{60}{600}$ |
+|             (0.9, 1.0) |                                       0.1 |             (740, 800) |                          $\frac{60}{600}$ |
+|             (0.0, 0.2) |                                       0.2 |             (200, 320) |                         $\frac{120}{600}$ |
+
+We have seen previously that the long run average value of $U$ is 0.5, and of $X$ is 500.  These two values are related through the same formula mapping $U$ to $X$ values: $500 = 200 + 600\times 0.5$.
+
+The standard deviation of $U$ is about 0.289, and of $X$ is about 173.
+
+```{python}
+
+print(U.sim(10000).sd(), X.sim(10000).sd())
+
+```
+
+The standard deviation of $X$ is 600 times the standard deviation of $U$.  Multiplying the $U$ values by 600 rescales the distance between the values.  Two values of $U$ that are 0.1 units apart correspond to two values of $X$ that are 60 units apart.  However, adding the constant 200 to all values just shifts the distribution and does affect degree of variability.
+
+
+In general, if $U$ has a Uniform(0, 1) distribution then $X = a + (b-a)U$ has a Uniform($a$, $b$) distribution.  Therefore, we can essentially use the Uniform(0, 1) distribution to simulate values from any Uniform distribution.
+
+
+
+
+
+
+
+```{example uniform-linear}
+
+Let $\IP$ be the probabilty space corresponding to the Uniform(0, 1) spinner and let $U$ represent the result of a single spin.  Define $V=1-U$.
+
+```
+
+1. Does $V$ result from a linear rescaling of $U$?
+1. What are the possible values of $V$?
+1. Is $V$ the same random variable as $U$?
+1. Find $\IP(U \le 0.1)$ and $\IP(V \le 0.1)$.
+1. Sketch a plot of what the histogram of many simulated values of $V$ would look like.
+1. Does $V$ have the same distribution as $U$?
+
+```{solution uniform-linear-sol}
+to Example \@ref(exm:uniform-linear)
+```
+
+```{asis, fold.chunk = TRUE}
+
+
+
+1. Yes, $V$ result from the linear rescaling $u\mapsto 1-u$ (intercept of 1 and slope of $-1$.)
+1. $V$ takes values in the interval [0,1].  (Basically, this transformation just changes the direction of the spinner from clockwise to counterclockwise. The axis on the usual spinner has values $u$ increasing clockwise from 0 to 1.  Applying the transformation $1-u$,  the values would decrease clockwise from 1 to 0.)
+1. No. $V$ and $U$ are different random variables.  If the spin lands on $\omega=0.1$, then $U(\omega)=0.1$ but $V(\omega)=0.9$.  $V$ and $U$ return different values for the same outcome; they are measuring different things.
+1. $\IP(U \le 0.1) = 0.1$ and $\IP(V \le 0.1)=\IP(1-U \le 0.1) = \IP(U\ge 0.9) = 0.1$.  Note, however, that these are different events: $\{U \le 0.1\}=\{0 \le \omega \le 0.1\}$ while $\{V \le 0.1\}=\{0.9 \le \omega \le 1\}$.  But each is an interval of length 0.1 so they have the same probability according to the uniform probability measure.
+1. Since $V$ is a linear rescaling of $U$, the shape of the histogram of simulated values of $V$ should be the same as that for $U$.  Also, the possible values of $V$ are the same as those for $U$.  So the histograms should look identical (aside from natural simulation variability).
+1. Yes, $V$ has the same distribution as $U$.  While for any single outcome (spin), the values of $V$ and $U$ will be different, over many repetitions (spins) the pattern of variation of the $V$ values, as depicted in a histogram, will be identical to that of $U$.
+```
+
+```{python}
+
+P = Uniform(0, 1)
+U = RV(P)
+
+V = 1 - U
+
+V.sim(10000).plot()
+plt.show()
+
+```
+
+Let's consider another example.  The spinner below represents a Normal distribution with mean 0 and standard deviation 1.  Technically, with a Normal distribution any value in the interval $(-\infty, \infty)$ is possible.  However, for a Normal(0, 1) distribution, the probability that a value lies outside the interval $(-3, 3)$ is small.
+
+```{r, echo = FALSE}
+
+knitr::include_graphics('_graphics/spinner-normal.png')
+
+```
+
+
+
+Let $Z$ be a random variable with the Normal(0, 1) distribution.
+
+```{python}
+
+Z = RV(Normal(0, 1))
+
+z = Z.sim(10000)
+
+z.plot()
+Normal(0, 1).plot() # plot the density
+plt.show()
+
+print(z.mean(), z.sd())
+
+```
+
+
+Now consider the linear rescaling $X=500 + 100 Z$.  We see that $X$ has a Normal(500, 100) distribution.
+
+```{python}
+
+X = 500 + 100 * Z
+
+(Z & X).sim(10)
+
+```
+
+```{python}
+
+x = X.sim(10000)
+
+x.plot()
+Normal(500, 100).plot() # plot the density
+plt.show()
+
+print(x.mean(), x.sd())
+
+```
+
+The linear rescaling changes the range of observed values; almost all of the values of $Z$ lie in the interval $(-3, 3)$ while almost all of the values of $X$ lie in the interval $(200, 800)$.  However, the distribution of $X$ still has the general Normal shape.  The means are related by the conversion formula: $500 = 500 + 100 \times 0$. Multiplying the values of $Z$  by 100 rescales the distance between values; two values of $Z$ that are 1 unit apart correspond to two values of $X$ that are 100 units apart.  However, adding the constant 500 to all the values just shifts the center of the distribution and does not affect variability.  Therefore, the standard deviation of $X$ is 100 times the standard deviation of $Z$.  
+
+In general, if $Z$ has a Normal(0, 1) distribution then $X = \mu + \sigma Z$ has a Normal($\mu$, $\sigma$) distribution.  Therefore, we can essentially use the Normal(0, 1) distribution to simulate values from any Normal distribution.
+
+
+```{example normal-sat-linear}
+
+Suppose that $X$, the SAT Math score of a randomly selected student, follows a Normal(500, 100) distribution.  Randomly select a student and let $X$ be the student's SAT Math score.  Now have the selected student spin the Normal(0, 1) spinner.  Let $Z$ be the result of the spin and let $Y=500 + 100 Z$.
+
+```
+
+1. Is $Y$ the same random variable as $X$?
+1. Does $Y$ have the same distribution as $X$?
+
+```{solution normal-sat-linear-sol}
+to Example \@ref(exm:normal-sat-linear)
+```
+
+```{asis, fold.chunk = TRUE}
+1. No, these two random variables are measuring different things.  One is measuring SAT Math score; one is measuring what comes out of a spinner.  Taking the SAT and spinning a spinner are not the same thing.
+1. Yes, they do have the same distribution. Repeating the process of randomly selecting a student and measuring SAT Math score will yield values that follow a Normal(500, 100) distribution.  Repeating the process of spinning the Normal(0, 1) spinner to get $Z$ and then setting $Y=500+100Z$ will also yield values that follow a Normal(500, 100) distribution.  Even though $X$ and $Y$ are different random variables they follow the same long run pattern of variability.
+```
+
+**Some lessons from this example.**
+
+
+- A linear rescaling is a transformation of the form $g(u) = a + bu$.
+- A linear rescaling of a random variable does not change the basic shape of its distribution, just the range of possible values.
+- A linear rescaling transforms the mean in the same way the individual values are transformed.
+- Adding a constant to a random variable does not affect its standard deviation.
+- Multiplying a random variable by a constant multiples its standard deviation by the same constant.
+- If $U$ has a Uniform(0, 1) distribution then $X = a + (b-a)U$ has a Uniform($a$, $b$) distribution.
+- If $Z$ has a Normal(0, 1) distribution then $X = \mu + \sigma Z$ has a Normal($\mu$, $\sigma$) distribution.
+- Remember, do NOT confuse a random variable with its distribution.
+  - The RV is the numerical quantity being measured
+  - The distribution is the long run pattern of variation of many observed values of the RV
+
+### Nonlinear transformations {#sim-nonlinear}
+
+
+The preceding section illustrated that a linear rescaling does not change the shape of a distribution, only the range of possible values.  But what about a nonlinear transformation, like a logarithmic or square root transformation?  In contrast to a linear rescaling, a nonlinear rescaling does *not* preserve relative interval length, so we might expect that a nonlinear rescaling can change the shape of a distribution.  We'll investigate by considering the Uniform(0, 1) spinner and a logarithmic^[As in many other contexts and programming languages, in this text any reference to logarithms or $\log$ refers to natural (base $e$) logarithms.  In the instances we need to consider another base, we'll make that explicit.] transformation.
+
+
+
+Let $\IP$ be the probabilty space corresponding to the Uniform(0, 1) spinner and let $U$ represent the result of a single spin.  Attempting the transformation $\log(U)$ leads to two minor technicalities.
+
+- Since $U\in[0, 1]$, $\log(U)\le 0$.  To obtain positive values we consider $-\log(U)$, which takes values in $[0,\infty)$.
+- Technically, applying $-\log(u)$ to the values on the axis of the Uniform(0, 1) spinner, the resulting values would decrease from $\infty$ to 0 clockwise.  To make the values start at 0 and increase to $\infty$ clockwise, we consider $-\log(1-U)$. (We saw in the previous section the transformation $u \to 1-u$ basically just changes direction from clockwise to counterclockwise.)
+
+Therefore, it's a little more convenient to consider the random variable $X=-\log(1-U)$ which takes values in $[0,\infty)$.  Remember: a transformation of a random variable is a random variable.  Also, always be sure to identify the possible values that a random variable can take.
+
+Before proceeding, try sketching a plot of the distribution of $X$.  (Just take a guess; you'll get a chance to make a more educated sketch soon.)
+
+The following code defines $X$ and plots a few simulated values.  
+
+```{python}
+
+P = Uniform(0, 1)
+U = RV(P)
+
+X = -log(1 - U)
+
+x = X.sim(100)
+
+x.plot('rug')
+plt.show()
+
+```
+
+
+Notice that values near 0 occur with higher frequency than larger values.  For example, there are many more simulated values of $X$ that lie in the interval $[0, 1]$ than in the interval $[3, 4]$, even though these intervals both have length 1.  Let's see why this is happening before simulating many values.
+
+```{example uniform-log-transform-calcs}
+
+For each of the intervals in the table below find the probability that $U$ lies in the interval, and identify the corresponding values of $X$.  (You should at least compute a few by hand to see what's happening, but you can use software to fill in the rest.)
+
+```
+
+```{r, echo = FALSE}
+
+u1 = seq(0, 0.9, 0.1)
+u2 = seq(0.1, 1, 0.1)
+
+x1 = -log(1-u1)
+x2 = -log(1-u2)
+
+knitr::kable(
+  data.frame(paste("(", u1, ", ", u2, ")", sep=""), rep("", 10), rep("", 10), rep("", 10), rep("", 10)),
+  col.names = c('Interval of U', 'Length of U interval', 'Probability', 'Interval of X', 'Length of X interval'),
+  digits = c(1,  1, 1, 3, 3)
+)
+
+
+
+```
+
+
+
+```{solution uniform-log-transform-calcs-sol}
+to Example \@ref(exm:uniform-log-transform-calcs)
+```
+
+Plug the endpoints into the conversion formula $u\mapsto -\log(1-u)$ to find the corresponding $X$ interval.  For example, the $U$ interval $(0.1, 0.2)$ corresponds to the $X$ interval $(-\log(1-0.1), -\log(1-0.2))$.  Since $U$ has a Uniform(0, 1) distribution the probability is just the length of the $U$ interval.
+
+```{r, echo = FALSE}
+
+u1 = seq(0, 0.9, 0.1)
+u2 = seq(0.1, 1, 0.1)
+
+x1 = -log(1-u1)
+x2 = -log(1-u2)
+
+knitr::kable(
+  data.frame(paste("(", u1, ", ", u2, ")", sep=""), u2 - u1, u2-u1, paste("(", round(x1, 3), ", ", round(x2, 3), ")", sep=""), x2-x1),
+  col.names = c('Interval of U', 'Length of U interval', 'Probability', 'Interval of X', 'Length of X interval'),
+  digits = c(1,  1, 1, 3, 3)
+)
+
+
+
+```
+
+We see that the logarithmic transformation does not preserve relative interval length.  Each of the original intervals of $U$ values has the same length, but the nonlinear logarithmic transformation "stretches out" these intervals in different ways.  The probability that $U$ lies in each of these intervals is 0.1.  As the transformation stretches the intervals, the 0.1 probability gets "spread" over different lengths of values.  Since probability/relative frequency is represented by area in a histogram, if two regions of differing length have the same area, then they must have different heights.    Thus the shape of the distribution of $X$ will not be Uniform.
+
+The following example provides a similar illustration, but from the reverse perspective.
+
+
+```{example uniform-log-transform-calcs2}
+
+For each of the intervals of $X$ values in the table below identify the corresponding values of $U$, and then find the probability that $X$ lies in the interval.   (You should at least compute a few by hand to see what's happening, but you can use software to fill in the rest.)
+
+```
+
+```{r, echo = FALSE}
+
+x1 = seq(0, 4.5, 0.5)
+x2 = seq(0.5, 5, 0.5)
+
+u1 = 1 - exp(-x1)
+u2 = 1 - exp(-x2)
+
+knitr::kable(
+  data.frame(paste("(", x1, ", ", x2, ")", sep=""), rep("", 10), rep("", 10), rep("", 10), rep("", 10)),
+  col.names = c('Interval of X', 'Length of X interval', 'Probability', 'Interval of U', 'Length of U interval'),
+  digits = c(1,  1, 3, 3, 3)
+)
+
+
+
+```
+
+
+
+```{solution uniform-log-transform-calcs2-sol}
+to Example \@ref(exm:uniform-log-transform-calcs2)
+```
+
+The corresponding $U$ intervals are obtained by applying the inverse transformation $v\mapsto 1-e^{-v}$.  For example, the $X$ interval $(0.5, 1)$ corresponds to the $U$ interval $(1-e^{-0.5}, 1-e^{-1})$.
+
+```{r, echo = FALSE}
+
+x1 = seq(0, 4.5, 0.5)
+x2 = seq(0.5, 5, 0.5)
+
+u1 = 1 - exp(-x1)
+u2 = 1 - exp(-x2)
+
+knitr::kable(
+  data.frame(paste("(", x1, ", ", x2, ")", sep=""), x2 - x1, u2-u1, paste("(", round(u1, 3), ", ", round(u2, 3), ")", sep=""), u2-u1),
+  col.names = c('Interval of X', 'Length of X interval', 'Probability', 'Interval of U', 'Length of U interval'),
+  digits = c(1,  1, 3, 3, 3)
+)
+
+
+
+```
+
+
+
+
+Since $U$ has a Uniform(0, 1) distribution the probability is just the length of the $U$ interval. Each of the $X$ intervals has the same length but they correspond to intervals of differing length in the original $U$ scale, and hence intervals of different probability.  
+
+
+Now we simulate many values of $X$ and summarize the results in a histogram.  But before proceeding, try again to sketch a plot of the distribution of $X$.  (You  should be able to make a much more educated sketch now.)
+
+
+(ref:cap-log-uniform-density) Histogram representing the approximate distribution of $X=-\log(1-U)$, where $U$ has a Uniform(0, 1) distribution.  The smooth solid curve models the theoretical shape of the distribution of $X$, known as the Exponential(1) distribution.
+
+```{python log-uniform-density, fig.cap="(ref:cap-log-uniform-density)"}
+
+X.sim(10000).plot()
+Exponential(1).plot() # overlays the smooth curve
+plt.show()
+
+```
+
+
+<!-- It should be clear that the simulated values of $X$ do not follow a Uniform distribution.  Values near 0 occur with greater frequency than larger values.  The non-linear log transformation changes the shape of the distribution. -->
+
+<!-- To get some intuition behind why the shape changes, consider the following illustration. Consider intervals in increments of 0.1, starting from 0, on the original [0, 1] scale.  These intervals each have length 0.1 and so each have probability 0.1 according to the uniform probability measure.  Now consider the corresponding transformed intervals. -->
+
+<!-- - [0, 0.1] maps to^[Each of these values is obtained from the transformation $u\mapsto-\log(1-u)$, e.g. $-\log(1-0.1)\approx 0.105$.] [0, 0.105], an interval of length 0.105. -->
+<!-- - [0.1, 0.2] maps to [0.105, 0.223], an interval of length 0.118. -->
+<!-- - [0.2, 0.3] maps to [0.223, 0.357], an interval of length 0.134. -->
+<!-- - [0.3, 0.4] maps to [0.357, 0.511], an interval of length 0.154. -->
+<!-- - [0.4, 0.5] maps to [0.511, 0.693], an interval of length 0.182, and so on. -->
+
+
+<!-- - [0, 1] corresponds to^[Each of these values is obtained by applying the inverse transformation $u\mapsto 1-e^{-u}$, e.g. $1-e^{-1}\approx 0.632$] [0, 0.632], and interval with probability 0.632. -->
+<!-- - [1, 2] corresponds to [0.632, 0.865], and interval with probability 0.233. -->
+<!-- - [2, 3] corresponds to [0.865, 0.950], and interval with probability 0.086. -->
+
+
+
+
+
+
+<!-- Notice that the shape of the histogram depicting the simulated values of $X$ appears that it can be approximated by a smooth curve.  This smooth curve is an idealized model of what would happen in the long run if -->
+
+<!--   - we kept simulating more and more values, and -->
+<!--   - made the histogram bin widths smaller and smaller. -->
+
+<!-- The following plot illustrates the results of 100,000 simulated values of $X$ summarized in a histogram with 1000 bins.  -->
+
+Notice that the shape of the histogram depicting the simulated values of $X$ appears that it can be approximated by a smooth curve.  This smooth curve is called the Exponential(1) density.  We will see more properties of Exponential distributions LATER.
+
+
+The following plots illustrate the results of Example \@ref(exm:uniform-log-transform-calcs) (plot on the left) and Example \@ref(exm:uniform-log-transform-calcs2) (plot on the right), and give some insight into the shape of the distribution in Figure \@ref(fig:log-uniform-density).
+
+
+```{r, echo = FALSE, fig.show="hold", out.width="50%"}
+
+set.seed(1)
+
+u = runif(10000)
+
+ubreaks = seq(0, 1, 0.1)
+
+par(mfrow=c(2, 1))
+hist(u, breaks = ubreaks, xlab = "u", xaxt='n', freq = FALSE, main = "U ~ Uniform(0, 1)")
+axis(1, ubreaks)
+
+x = -log(1 - u)
+
+xbreaks = -log(1 - pmin(ubreaks, 0.99999))
+hist(x, breaks = xbreaks, xlab = "x", xaxt='n', freq = FALSE, main = "X = -log(1 - U) where U ~ Uniform(0, 1)")
+axis(1, round(xbreaks, 2))
+
+# Version 2
+
+par(mfrow=c(2, 1))
+
+xbreaks = c(seq(0, 5, 0.5), 15)
+
+hist(x, breaks = xbreaks, xlab = "x", xaxt='n', freq = FALSE, main = "X = -log(1 - U) where U ~ Uniform(0, 1)")
+axis(1, round(xbreaks, 2))
+
+
+ubreaks = 1 - exp(-xbreaks)
+
+hist(u, breaks = ubreaks, xlab = "u", xaxt='n', freq = FALSE, main = "U ~ Uniform(0, 1)")
+axis(1, round(ubreaks, 3))
+
+```
+
+
+For a linear rescaling, we could just plug the mean of the original variable into the conversion formula to find the mean of the transformed variable.  However, this will not work for linear transformations.
+
+```{python}
+
+(U & X).sim(10000).mean()
+
+```
+
+
+We see that the average value of $U$ is about 0.5, the average value of $X$ is about 1, and $-\log(1 - 0.5) \neq 1$.  The nonlinear "stretching" of the axis makes some value relatively larger and others relatively smaller than they were on the original scale, which influences the average. Remember, in general: Average of $g(X)$ $\neq$ $g$(Average of $X$).
+
+What about a spinner which generates values according to the distribution in Figure \@ref(fig:log-uniform-density)?  The "simulate from the probability space" method for simulating of $X$ values entailed
+
+- Spinning the Uniform(0, 1) spinner to get a value $U$
+- Setting $X=-\log(1-U)$
+
+These two steps can be combined by relabeling the values on the axis of the spinner according to the transformation $u\mapsto -\log(1-u)$.  For example, replace 0.1 by $-\log(1-0.1)\approx 0.105$; replace 0.9 by $-\log(1-0.9)\approx 2.30$.  This transformation results in the spinner in Figure \@ref(fig:exponential-spinner).
+
+(ref:cap-exponential-spinner) A spinner representing the distribution in Figure \@ref(fig:log-uniform-density) (the "Exponential(1)" distribution.).  The spinner is duplicated on the right; the highlighted sectors illustrate the non-linearity of axis values and how this translates to non-uniform probabilities.
+
+```{r exponential-spinner, echo=FALSE, fig.cap="(ref:cap-exponential-spinner)", out.width='50%', fig.show='hold'}
+
+knitr::include_graphics(c("_graphics/exponential-spinner.png", "_graphics/exponential-spinner-sectors.png"))
+
+```
+
+
+Pay special attention to the values on the axis; they do not increase in equal increments.  (As with the Uniform(0, 1) spinner, while only certain values are marked on the axis, we consider an idealized model in which any value in the continuous interval $[0, \infty)$ is a possible result of the spin.) The spinner on the right in Figure \@ref(fig:exponential-spinner) is the same as the one on the left, with the intervals [0, 1], [1, 2], and [2, 3] highlighted with their respective probabilities.  Putting a needle on this spinner that is "equally likely" to land anywhere on the axis, the needle will land in the interval [0, 1] with probability 0.632, in the interval [1, 2] with probability 0.233, etc.  Therefore, values generated using this spinner, which represents the "Exponential(1)" distribution, will follow the pattern in Figure \@ref(fig:log-uniform-density).  Figure \@ref(fig:exponential-simulation) illustrations this "simulate from a distribution" method; values of $X$ are generated directly from an Exponential(1) distribution, rather than first generating $U$ and then transforming.
+
+
+
+
+
+(ref:cap-exponential-simulation) Simulated values from an Exponential(1) distribution, correspoding to the results of many spins of the spinner in Figure \@ref(fig:log-uniform-density).
+
+```{python exponential-simulation, fig.cap="(ref:cap-exponential-simulation)"}
+
+X = RV(Exponential(1))
+
+X.sim(10000).plot()
+Exponential(1).plot()
+plt.show()
+
+```
+
+
+
+**Some lessons from this example.**
+
+- Remember: a transformation of a random variable, both mathematically and in Symbulate.
+- Be sure to always specify the possible values a random variable can take.
+- A nonlinear transformation of a random variable changes the shape of its distribution.
+- The shape of the histogram of simulated continuous values can be approximated by a smooth curve.
+- Spinners can be used to generate values from non-uniform distributions by applying nonlinear transformations to values on the spinner axis.
+- In general, Average of $g(X)$ $\neq$ $g$(Average of $X$)
+
+
+<!-- ### Continuous analog of rolling two dice {#uniform-sum-max} -->
+
+### Transformations of multiple random variables
+
+Earlier in this chapter we studied the joint distribution of the sum and max of two fair-four sided dice rolls.  Now we consider a continuous analog.  Instead of rolling a die which is equally likely to take the values 1, 2, 3, 4, we spin a Uniform(1, 4) spinner that lands uniformly in the continuous interval $[1, 4]$.   Let $\IP$ be the probability space corresponding to two spins of the Uniform(1, 4) spinner, and let $X$ be the sum of the two spins, and $Y$ the larger spin (or the common value if a tie).  We saw that in Section \@ref(symbulate-discrete-uniform), we could model two rolls of a fair-four sided die using `DiscreteUniform(1, 4) ** 2`.  Similarly, we can model two spins of the Uniform(1, 4) spinner with `Uniform(1, 4) ** 2`.
+
+We start by looking at the joint distribution of the two spins,  $(U_1, U_2)$, which take values in $[1, 4]\times[1, 4]$.
+
+```{python}
+
+P = Uniform(1, 4) ** 2
+U1, U2 = RV(P)
+
+u1u2 = (U1 & U2).sim(100)
+
+```
+
+
+```{python}
+
+u1u2.plot()
+plt.show()
+
+```
+
+We see that the $(U_1, U_2)$ pairs are roughly "evenly spread" throughout $[1, 4]\times [1, 4]$.  The scatterplot displays each individual pair.  We can summarize the distribution  of many pairs with a two-dimensional histogram.  To construct the histogram, the space of values $[1, 4]\times[1, 4]$ is chopped into rectangular bins and the relative frequency of pairs which fall within each bin is computed. While for a one-dimensional histogram area represents relative frequency, volume represents relative frequency in a two-dimensional histogram, with the height of each rectangular bin on a "density" scale represented by its color intensity.
+
+```{python, warning = FALSE, error = TRUE, message = FALSE}
+
+(U1 & U2).sim(10000).plot('hist')
+plt.show()
+
+```
+
+Now we let $X$ be the sum and $Y$ the max of the two spins^[Remember that a probability space outcome corresponds to the pair of spins, so we can define random variables on this space as we have done.  We could also first define random variables `U1, U2 = RV(P)` corresponding to the individual spins, and then define the sum as `X = U1 + U2`.  For technical reasons the syntax for `max` is a little different: `Y = (U1 & U2).apply(max)`.].  First consider the possible values of $(X, Y)$. Marginally, $X$ takes values in $[2, 8]$ and $Y$ takes values in $[1, 4]$.  However, not every value in $[2, 8]\times [1, 4]$ is possible.  Before proceeding,  sketch a picture representing the possible values of $(X, Y)$ pairs.
+
+- We must have  $Y \ge 0.5 X$, or equivalently, $X \le 2Y$. For example, if $X=4$ then $Y$ must at least 2, because if the larger of the two spins were less than 2, then both spins must be less than 2, and the sum must be less than 4.
+- We must have $Y \le X - 1$, or equivalently, $X \ge Y + 1$. For example, if $Y=3$, then one of the spins is 3 and the other one is at least 1, so the sum must be at least 4.
+
+Therefore, the possible values of $(X, Y)$ lie in the set
+\[
+\{(x, y): 2\le x\le 8, 1 \le y\le 4, 0.5x \le y \le x-1\}
+\]
+which can be simplified slightly as $\{(x, y): 2\le x \le 8, 0.5 x\le y \le \min(4, x-1)\}$.  This set is represented by the triangular region in the plots below.
+
+```{python}
+
+P = Uniform(1, 4) ** 2
+
+U = RV(P)
+X = RV(P, sum)
+Y = RV(P, max)
+
+(U & X & Y).sim(100)
+
+```
+
+```{python}
+
+(X & Y).sim(100).plot()
+plt.show()
+
+```
+
+
+```{python, warning = FALSE, error = TRUE, message = FALSE}
+
+
+(X & Y).sim(10000).plot('hist')
+plt.show()
+
+```
+
+Compare the two-dimensional histogram above to the tile plot in Section 3.2.6.  In the dice rolling situation there are basically two cases.  Each $(X, Y)$ pair that correspond to a tie --- that is each $(X, Y)$ pair with $X = 2Y$ --- has probability 1/16.  Each of the other possible $(X, Y)$ pairs has probability 2/16. 
+
+Back to the continuous analog, the histogram shows that $(X, Y)$ pairs are roughly uniformly distributed within the triangular region of possible values.  Consider a single $(X, Y)$ pair, say (0.8, 0.5).  There are two outcomes --- that is, pairs of spins --- for which $X=0.8, Y=0.5$, namely (0.5, 0.3) and (0.3, 0.5).  Like (0.8, 0.5), most of the possible $(X, Y)$ values correspond to exactly two outcomes.  The only ones that do not are the values with $Y = 0.5X$ that lie along the western border of the triangular region. The pairs $(X, 0.5X)$ only correspond to exactly one outcome.  For example, the only outcome corresponding to (6, 3) is the $(U_1, U_2)$ pair (3, 3); that is, the only way to have $X=6$ and $Y=3$ is to spin 3 on both spins.  In general, the event $\{Y = 0.5X\}$ is the same as the event that both spins are exactly the same, $\{U_1=U_2\}$. However, as discussed in Section \@ref(non-uniform-prob-measure), the probability that $U_1=U_2$ exactly is 0.  Therefore, we don't really need to worry about the ties as we did in the discrete case.  Excluding ties, roughly, each pair in the triangular region of possible $(X, Y)$ pairs corresponds to exactly two outcomes (pairs of spins), and since the outcomes are uniformly distributed (over $[1, 4]\times[1, 4]$) then the $(X, Y)$ pairs are also uniformly distributed (over the triangular region of possible values).
+
+The plot below represents the joint distribution of $(X, Y)$.  This is really a three-dimensional plot.  The base is the triangular region which represents the possible $(X, Y)$ pairs.  There is a surface floating above this region which represents the density at each point.  For a single variable, the density is a smooth curve approximating the idealized shape of the histogram.  Likewise, for two variables, the density is a smooth surface approximating the idealized shape of the two-dimensional histogram. The height of this surface is depicted in the two-dimensional plot via the color intensity.  Since the $(X, Y)$ pairs are uniformly distributed over their range of possible values, the height of the surface and hence the color intensity is constant over the range of possible values, and the height is 0 (white) for impossible $(X, Y)$ pairs.  Careful: this plot is not the same as the ones in Section \@ref(non-uniform-prob-measure).  Those plots were just depicting events, and the color was just used to shade the region of interest. The plot below is depicting a joint distribution, and the color represents the height of the density surface at each $(X, Y)$ pair; white areas correspond to a height of 0.
+
+(ref:cap-dice-continuous-sum-max-joint) Joint distribution of $X$ (sum) and $Y$ (max) of two spins of the Uniform(1, 4) spinner.  The triangular region represents the possible values of $(X, Y)$ the height of the density surface is constant over this region and 0 outside of the region.
+
+```{r dice-continuous-sum-max-joint, echo = FALSE, fig.cap="(ref:cap-dice-continuous-sum-max-joint)"}
+
+dfA <- data.frame(x = c(2, 8, 5, 2),
+                 y = c(1, 4, 4, 1),
+                 v = c(1, 1, 1, 1))
+
+pA <- ggplot(data = dfA, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(2, 8), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(1, 4), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression("X")) +
+  ylab(expression("Y")) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+plot(pA)
+
+```
+
+
+We now consider the marginal distributions of $X$ and $Y$.  Before proceeding, try to sketch the marginal distributions.
+
+
+Here is a plot showing the two-dimensional histogram representing the joint distribution of $(X, Y)$, along with histograms representing each of the marginal distributions.
+
+```{python, warning = FALSE, error = TRUE, message = FALSE}
+
+(X & Y).sim(10000).plot(['hist', 'marginal'])
+plt.show()
+
+```
+
+Let's look a little more closely at the marginal distribution of $X$.
+
+```{python}
+
+X.sim(10000).plot()
+plt.show()
+
+```
+
+
+The marginal distribution of $X$ has highest density near 5 and lowest density near 2 and 8.  Intuitively, there is only one pair of spins --- (1, 1) --- for which the sum is 2; similarly for a sum of 8.  But there are many pairs for which the sum is 5: (2.5, 2.5), (3, 2), (2, 3), (1.2, 2.8), etc.  Recall that for the dice rolls, we could obtain the marginal distribution of $X$ by summing the joint distribution over all $Y$ values.  Similarly, we can find the marginal density of $X$ by aggregating over all possible values of $Y$.  For each possible value of $X$, "collapse" the joint histogram vertically over all possible values of $Y$.  Imagine that within the region of possible $(X, Y)$ pairs, the joint histogram is composed of stacks of blocks, one for each bin, each stack of the same height (because the values are uniformly distributed over the triangular region).  To get the marginal density for a particular $x$, take all the stacks corresponding to that $x$, for different values of $y$, and stack them on top of one another.  There will be the most stacks for $x$ values near 5  and the fewest stacks for $x$ values near 2 or 8.  In other words, the aggregated density along "vertical strips" is largest for the vertical strip for $x=5$.
+
+
+
+Similarly reasoning applies to find the marginal distribution of $Y$.  Now we find the marginal density for a particular $y$ value by collapsing/stacking the histogram horizontally over all possible value of $X$. We see that the density increases with values of $y$.  Intuitively, there is only one pair of spins, (1, 1), for which $Y=1$, but many pairs of spins for which $Y=4$, e.g., (1, 4), (4, 1), (4, 2), (2.5, 4), etc.
+
+
+```{python}
+
+Y.sim(10000).plot()
+plt.show()
+
+```
+
+What about the long run averages?  The sums of the two spins is $X= U_1 + U_2$. The long run average of each of $U_1$ and $U_2$ is 2.5 (the midpoint of the interval [1, 4]).  We can see from its marginal distribution that the long run average of $X$ is 5.  Therefore, the average of the sum is the sum of averages.
+
+```{python}
+
+X.sim(10000).mean()
+
+```
+
+
+However, the average of $Y=\max(U_1, U_2)$ is 3, which is not $\max(2.5, 2.5)$.  Therefore, the average of the maximum is not the maximum of the averages.  Remember that in general, Average of $g(X, Y)$ $\neq$ $g$(Average of $X$, Average of $Y$).
+
+```{python}
+
+Y.sim(10000).mean()
+
+```
+
+
+
+Finally, observe that the plots in this section look like continuous versions of the plots for the dice rolling example earlier in the chapter. However, it took a little more work in this section to think about what the joint or marginal distributions might look like.  When studying continuous random variables, it is often helpful to think about how a discrete analog behaves.
+
+
+```{python, eval = FALSE, include = FALSE,  echo=FALSE, out.width='50%', fig.show='hold'}
+
+P = DiscreteUniform(1, 4) ** 2
+X = RV(P, sum)
+Y = RV(P, max)
+
+(X & Y).sim(10000).plot(['tile', 'marginal'])
+plt.show()
+
+P = Uniform(1, 4) ** 2
+X = RV(P, sum)
+Y = RV(P, max)
+
+(X & Y).sim(10000).plot(['hist', 'marginal'])
+plt.show()
+
+```
+
+
+
+**Some lessons from this example.**
+
+- The joint distribution of values on a continuous scale can be visualized in a two-dimensional histogram.
+- Remember to always identify possible values of random variables, including possible pairs in a joint distribution.
+- The marginal distribution of a single random variable can be obtained from a joint distribution by aggregating or collapsing or stacking over the values of the other random variables.
+- The average of a sum is the sum of the averages.
+- In general, Average of $g(X, Y)$ $\neq$ $g$(Average of $X$, Average of $Y$).
+- When studying continuous random variables, it is often helpful to think about how a discrete analog behaves.
+
+
+
+
+## Joint Normal Distributions: SAT Math and Reading scores {#sec-example-sat-both}
+
+
+
+In previous sections we considered randomly selecting an SAT taker and measuring their Math score.  In particular, we assumed that SAT Math scores follow a Normal distribution with a mean of 500 and a standard deviation of 100.
+
+Now consider randomly selecting an SAT taker and recording both their Math and Reading score.  Suppose we want to conduct an appropriate simulation.
+
+Donny Don't says: "That's easy; just spin the SAT spinner twice, once for Math and once for Reading."  Do you agree?
+
+You should not agree with Donny, for two reasons.
+
+- It's possible that the distribution of SAT Math scores follow a different pattern than SAT Reading scores.  So we might need one spinner to simulate a Math score, and a second spinner to simulate the Reading score.  (In reality, SAT Math and Reading scores do follow pretty similar distributions.  But it's possible that they could follow different distributions.)
+- Furthermore, there is probably some relationship between scores.  It is plausible that students who do well on one test tend to do well on the other.  For example, students who score over 700 on Math are probably more likely to score above than below average on Reading.  If we simulate a pair of scores by spinning one spinner for Math and a separate spinner for Reading, then there will be no relationship between the scores because the spins are physically independent.
+
+What we really need is a spinner that generates a pair of scores simultaneously to reflect their association.  This is a little harder to visualize, but we could imagine spinning a "globe" with lines of latitude corresponding to SAT Math score and lines of longitutde to SAT Reading score.  But this would not be a typical globe:
+
+- The lines of latitude would not be equally spaced, since SAT Math scores are not equally likely.  (We have seen similar issues for one-dimensional spinners like the one in Figure \@ref(fig:sat-normal-spinner) with unequally spaced values around the outside.) Similarly for lines of longitude.
+- The scale of the lines of latitude would not necessarily match the scale of the lines of longitude, since Math and Reading scores could follow difference distributions.  For example, the equator (average Math) might be 500 while the prime meridian (average Reading) might be 520.
+- The "lines" would be tilted or squiggled to reflect the relationship between the scores.  For example, the region corresponding to Math scores near 700 and Reading scores near 700 would be larger than the region corresponding to Math scores near 700 but Reading scores near 200. 
+
+So we would like a model that
+
+- Simulates Math scores that follow a Normal distribution pattern, with some mean and some standard deviation.
+- Simulates Reading scores that follow a Normal distribution pattern, with possibly a different mean and standard deviation.
+- Reflects how strongly the scores are associated.
+
+Such a model is called a "Bivariate Normal" distribution.  There are five parameters: the two means, the two standard deviations, and the *correlation* which reflects the strength of the association between the two scores.  Correlation is a number between $-1$ and $1$ that measures the degree of association, with correlation values closer to $1$ or $-1$ denoting the strongest association^[We will see LATER that correlation measures the strength of a *linear* association: the degree to which pairs of values of the two random variables tend to follow a straight line.].  We will study correlation in more detail LATER.
+
+In Symbulate, a `BivariateNormal` probability space returns a pair of values; we let $X$ be the first coordinate (Math) and $Y$ the second (Reading).  We'll assume, as [suggested by this site](https://blog.prepscholar.com/sat-standard-deviation#targetText=Standard%20deviation%20tells%20you%2C%20on,either%20above%20or%20below%20it), that Math scores have mean 527 and standard deviation 107, Reading scores have mean 533 and standard deviation 100, and the pairs of scores have correlation 0.77.
+
+
+```{python}
+P = BivariateNormal(mean1 = 527, mean2 = 533, sd1 = 107, sd2 = 100, corr = 0.77)
+
+X, Y = RV(P)
+
+xy = (X & Y).sim(100)
+
+xy
+
+```
+
+
+```{python}
+
+xy.plot()
+plt.show()
+
+
+```
+
+
+Notice the strong positive association; students who have high scores on one exam tend to have high scores on the other.  We can simulate lots of values and construct a two-dimensional histogram.
+
+```{python, warning = FALSE, error = TRUE, message = FALSE}
+
+(X & Y).sim(10000).plot('hist')
+plt.show() 
+
+```
+
+Recall that in some of the previous examples the shapes of one-dimensional histograms could be approximated with a smooth density curve.   Similarly, a two-dimensional histogram can sometimes be approximated with a smooth density surface.  As with histograms, the height of the density surface at a particular $(X, Y)$ pair of values can be represented by color intensity.  A Normal distribution is a "bell-shaped curve"; a Bivariate Normal distribution is a "mound-shaped" curve --- imagine a pile of sand.  (Symbulate does not yet have the capability to display densities in a three-dimensional-like plot such as [this plot](https://en.wikipedia.org/wiki/Multivariate_normal_distribution#/media/File:Multivariate_Gaussian.png).)
+
+```{python}
+
+(X & Y).sim(10000).plot('density')
+plt.show() 
+
+```
+
+
+We can find marginal distributions by "aggregating/stacking/collapsing".  The SAT Math scores follow a Normal distribution with mean 527 and standard deviation 107, similarly for Reading.
+
+```{python}
+
+X.sim(10000).plot()
+plt.show()
+
+```
+
+
+The value of correlation measures the strength of the association.  For example, with a correlation of 0.4 the association would not be nearly as strong.
+
+```{python, warning = FALSE, error = TRUE, message = FALSE}
+
+P = BivariateNormal(mean1 = 527, mean2 = 533, sd1 = 107, sd2 = 100, corr = 0.40)
+
+X, Y = RV(P)
+
+xy = (X & Y).sim(10000)
+
+xy.plot('hist')
+plt.show()
+
+```
+
+
+
+A negative correlation represents a negative association: large values of one variable tend to be associated with small values of the other.  (This would not be realistic for SAT scores.)
+
+
+```{python, warning = FALSE, error = TRUE, message = FALSE}
+
+P = BivariateNormal(mean1 = 527, mean2 = 533, sd1 = 107, sd2 = 100, corr = -0.77)
+
+X, Y = RV(P)
+
+xy = (X & Y).sim(10000)
+
+xy.plot('hist')
+plt.show()
+
+```
+
+Note that in all of the above cases, the marginal distribution of Math scores is the same; likewise for Reading scores.  But different correlations lead to different joint distributions.  Remember: it is not possible to simulate $(X, Y)$ pairs simply for the marginal distributions.
+
+
+**Some lessons from this example.**
+
+- "Mound-shaped" Bivariate Normal distributions are the two-dimensional analogs of Normal distributions.
+- Correlation is a measure of the strength of the association between two random variables.
+- Remember: it is not possible to simulate $(X, Y)$ pairs simply for the marginal distributions.
+
+
+
+## One spinner to rule them all? {#univeral-spinner}
+
+In the examples in this section we used different spinners to represent different distributions.  However, all of the examples assumed the same generic spinner: the needle was infinitely precise and "equally likely" to land on any value on the axis around the spinner. We modeled different distributions simply by changing the values on the axis.
+
+Consider the standard continuous spinner in Figure \@ref(fig:uniform-spinner), corresponding to a Uniform(0, 1) distribution.  By relabeling the axes on this spinner, we could have constructed the spinners for any of the other examples.
+
+For example, to obtain the spinner in the middle of Figure \@ref(fig:die-three-spinners), corresponding to a weighted four-sided die, start with the Uniform(0, 1) spinner and map
+
+- The range (0, 0.1] to 1,
+- The range (0.1, 0.3] to 2,
+- The range (0.3, 0.6] to 3,
+- The range (0.6, 1] to 4
+
+Then the probability that the Uniform(0, 1) spinner lands in the range (0.3, 0.6] is 0.3, so the spinner resulting from this mapping would return a value of 3 with probability 0.3.  (The probability of the infinitely precise needle landing on a specific value like 0.3 (that is, $0.300000000\ldots$) is 0, so it doesn't really matter what we do with the endpoints of the intervals.)
+
+
+
+For non-uniform values on a continuous scale, we could construct a spinner according to the distribution of interest by rescaling and stretching/shrinking the axis of the Uniform(0, 1) spinner to correspond to intervals of larger/smaller probability.  For example, if we want to simulate values according to the distribution illustrated in Figure \@ref(fig:log-uniform-density) we could start with the Uniform(0, 1) spinner and then transform the axis values $u \mapsto -\log(1-u)$ to obtain the spinner in Figure \@ref(fig:exponential-spinner).  As discussed in Section \@ref(sim-nonlinear), the spinner in Figure \@ref(fig:exponential-spinner) generates values which follow the distribution is Figure \@ref(fig:log-uniform-density).
+
+In Section \@ref(sim-nonlinear) we started with the transformation $u\mapsto -\log(1-u)$ of the Uniform(0, 1) spinner and saw what distribution the transformed values followed via simulation.  But what about the reverse question: given a particular distribution, how do we find the transformation of Uniform(0, 1) that will generate values according to the specified distribution?  We will return to this question LATER.
+
+The only example in this section where a Uniform(0, 1) spinner could not be used was the SAT example in Section \@ref(sec-example-sat-both), where we described a "globe" for simulating values.  However, we will see LATER that we actually can use a Uniform(0, 1) to generate a pair of SAT scores, but we will need to suitably transform the results of *two* spins. 
+
+
+Through the examples in this chapter we have seen that, in principle, we can start with a Uniform(0, 1) spinner and via a suitable transformation of the axis --- and possibly multiple spins --- generate values according to any distribution of interest.  This is the idea behind what is sometimes referred to as "universality of the uniform", or what we like to call "one spinner to rule them all", and we will explore it further LATER.
+
+
+
+

@@ -1,66 +1,99 @@
 # What is Probability? {#prob-literacy}
 
+You probably have some familiarity with the words "probability" or "chance" or "odds" or from everyday life.  But what do we really mean when talk about "probability"?
+
+This chapter provides a brief but non-technical introduction to randomness and probability.  Many of the topics introduced in this chapter will be covered in more detail in later chapters.
 
 
-This chapter provides a non-technical introduction to randomness and probability.  Many of the topics introduced in this chapter will be covered in more detail in later chapters.
+```{asis, echo = FALSE}
+
+Add a few motivating questions/examples with links - 538 election, hurricane, etc
+
+```
 
 
 
-NO MATH BEYOND TWO WAY TABLES AND BASIC EXPECTED VALUES
-
-Expand chapter 1 with more example of probability/simulation computations with as little math and terminology as possible.  (e.g. Don't define RV or event or sample space.)
-
-Add a few motivating examples with links - 538 election, hurricane, etc
 
 
 
 
 ## Instances of randomness {#randomness}
 
-instances of randomness - examples; include in other sections? (random sampling, random assignment, future/past, etc, physical (coin, die), quantum)
+Probability comes up in a wide variety of situations. Consider just a few examples.
 
-
-
-```{exercise randomness}
-
-Each of the following situations involves a probability. How are the various situations similar, and how are they different?  What is one feature that all of the situations have in common? If you were to estimate the probability in question, how might you do it?  What are some things to consider?  The goal here is not to do any calculations but rather to think about, via these examples, similarities and differences of situations in which probabilities are of interest.
-
-```
-	
 1. The probability that a single flip of a fair coin lands on heads.
-1. The probability that in two flips of a fair coin exactly one flip lands on heads.
-1. The probability that in 10000 flips of a fair coin exactly 5000 flips land on heads.
-1. The probability that in 10000 flips of a fair coin “around” 5000 flips land on heads.
-1.  The probability you win the next [Powerball lottery](https://www.powerball.com/) if you purchase a single ticket, 6-7-16-23-26, plus the Powerball number, 4. (FYI: There are roughly^[The exact count is 292,201,338.  We will see how to compute this number later.] 300 million possible winning number combinations.)
-1. The probability you win the next Powerball lottery if you purchase a single ticket, 1-2-3-4-5, plus the Powerball number, 6.
-1. The probability that someone wins the next Powerball lottery.  (FYI: especially when the jackpot is large, there are hundreds of millions of tickets sold.)
-1. The probability that a “randomly selected” Cal Poly student is from CA.  
-1. The probability that Hurricane Humberto makes landfall in the U.S.
-1. The probability that the Los Angeles Chargers win the next Superbowl.
+1. The probability you win the next [Powerball lottery](https://www.powerball.com/) if you purchase a single ticket, 6-7-16-23-26, plus the Powerball number, 4.
+1. The probability that a “randomly selected” Cal Poly student is a California resident.
+1. The probability that it rains tomorrow in San Luis Obispo.
+1. The probability that Hurricane Paulette makes landfall in the U.S.
+1. The probability that the San Francisco 49ers win the next Superbowl.
 1. The probability that Donald Trump wins the 2020 U.S. Presidential Election.
 1. The probability that extraterrestrial life currently exists somewhere in the universe.
+1. The probability that Alexander Hamilton actually wrote [51](https://www.youtube.com/watch?v=DPgE7PNzXag) of the [Federalist Papers](https://en.wikipedia.org/wiki/The_Federalist_Papers). (The papers were published under a common pseudonym and authorship of some of the papers is disputed.)
 1. The probability that you ate an apple on April 17, 2009.
 
 
+```{example randomness}
 
-- The subject of probability concerns *random* phenomena.
-- A phenomenon is **random** if there are multiple potential outcomes, and there is **uncertainty** about which outcome will occur.  *Uncertainty* is the feature that all the scenarios have in common.
-- Uncertainty does not necessarily mean uncertainty about an occurrence in the future. For example, you either ate or apple or not on April 17, 2009, but you're not certain about it.  But if you tended to eat a lot of apples ten years ago, then you might give a high probability to the event that you ate one on April 17, 2009.
-- Many phenomena involve physical randomness^[We will refer to as "random" any scenario that involves a reasonable degree of uncertainty.  We're avoiding philosophical questions about what is "true" randomness, like the following.  Is a coin flip really random? If all factors that affect the trajectory of the coin were known precisely, then wouldn't the outcome be determined?  Does true randomness only exist in quantum mechanics?], like flipping a coin or drawing powerballs at random from a bin.
-- Statistical applications often involve the planned use of physical randomness
-  - **Random selection** involves selecting a *sample* of individuals at random from a *population* (e.g. via random digit dialing).
-  - **Random assignment** involves assigning individuals at random to groups (e.g. in a randomized experiment).
-- However, in many other situations randomness just vaguely reflects uncertainty.
-- In any case, random does *not* mean haphazard. In a random phenomenon, while
+How are the situations above similar, and how are they different?  What is one feature that all of the situations have in common? Is the interpretation of "probability" the same in all situations?  Take some time to consider these questions before looking at the solution. The goal here is to just think about these questions, and not to compute any probabilities (or to even think about how you would).
+
+```
+
+```{solution randomness-sol}
+to Example \@ref(exm:randomness)
+```
+
+```{asis, fold.chunk = TRUE}
+
+This exercise is intended to motivate discussion, so you might have thought of some other ideas we don't address here.  That's good! And some of the things you considered might come up later in the book.  But here are a few thoughts we specifically want to mention now.
+
+The one feature that all of the situations have in common is *uncertainty*.  Sometimes the uncertainty arises from a repeatedable physical phenomenon that can result in multiple potential outcomes, like flipping a coin or drawing the winning Powerball number.  In other cases, there is uncertainty because the probability concerns the future, like tomorrow's high temperature or the result of the next Superbowl.  But there can also be uncertainty about the past: there are some Federalist papers for which the author is unknown, and you probably don't know for sure whether or not you ate an apple on April 17, 2009.
+
+Whenever there is uncertainty, it is reasonable to consider relative likelihoods of potential outcomes.  For example, even though you don't know for certain whether you ate an apple on April 17, 2009, if you're usually an apple-a-day person you might think the probability is high.  We don't know for sure what team will win the next Superbowl, but we might think that the 49ers are more likely than the Las Vegas (?!?!) Raiders to be the winner.
+
+While all of the situations involve uncertainty, it seems that there are different "types" of uncertainty.  Even though we don't know if a coin flip will land on heads or tails, the notion of "fairness" implies that these two outcomes are "equally likely".   Likewise, there are some rules to how the Powerball drawing works, and it seems like these rules should determine the probability of drawing that particular winning number.
+
+However, there aren't any specific "rules of uncertainty" that govern whether or not you ate an apple on April 17, 2009.  You either did or you didn't, but that doesn't mean the two outcomes are necessarily equally likely.  Regarding the Superbowl, of course there are rules that govern the NFL season and playoffs, but there are no "rules of uncertainty" that tell us with certainty which teams will win individual games. 
+
+
+It also seems that there are different interpretations of probability. Given that a coin is fair, we might all agree that the probability that it lands on heads is 1/2.  Similarly, given the rules of the Powerball lottery, we might all agree on the probability that a drawing results in a particular winning number.  However, there isn't necessarily consensus about the probability that it rains tomorrow in San Luis Obispo.  Different weather forecasters, news stations, or websites might provide different values for this probability.  There seems to be some subjectivity to probability in situations like tomorrow's weather or the next Superbowl. 
+
+Finally, some of these phenomenon are repeatedable. We could (in principle) flip a coin many times and how often the flips land on heads, or repeat the Powerball drawing over and over to see how the winning numbers behave. However, many of these situations involve something that only happens once, like tomorrow or April, 17, 2009 or the next Superbowl. Even when the phenomenon happens only once it reality, we can still develop models of what might happen if we were to hypothetically repeat the phenomenon many times.   For example, meteorologists use historical data and meteorological models to forecast [potential paths of a hurricane](https://www.nhc.noaa.gov/cone_usage.php).
+
+
+
+```
+	
+
+
+
+
+The subject of probability concerns *random* phenomena. A phenomenon is **random** if there are multiple potential outcomes, and there is **uncertainty** about which outcome will occur. Uncertainty is understood in broad terms, and in particular does not only concern future occurrences.
+
+Some phenomena involve physical randomness^[We will refer to as "random" any scenario that involves a reasonable degree of uncertainty.  We're avoiding philosophical questions about what is "true" randomness, like the following.  Is a coin flip really random? If all factors that affect the trajectory of the coin were known precisely, then wouldn't the outcome be determined?  Does true randomness only exist in quantum mechanics?], like flipping a coin or drawing powerballs at random from a bin.  In many other situations randomness just vaguely reflects uncertainty.
+
+Contrary to colloquial uses of the word, random does *not* mean haphazard. In a random phenomenon, while
 individual outcomes are uncertain, there is a *regular distribution of
 outcomes over a large number of (hypothetical) repetitions*.
-  - In two flips of a fair coin we wouldn't necessarily see one head and one tail. But in 10000 flips of a fair coin, we would expect to see close to 5000 heads and 5000 tails. 
-  - We don't know who will win the next Superbowl, but we can and should certainly consider some teams as more likely to win than others.  We could imagine a large number of hypothetical 2019 seasons; how often would we expect the Eagles to win? The Raiders? (Hopefully a lot for the Eagles; probably not much for the Raiders).
-- Also, random does *not* necessarily mean equally likely. In a random
+
+- In two flips of a fair coin we wouldn't necessarily see one head and one tail. But in 10000 flips of a fair coin, we might expect to see close to 5000 heads and 5000 tails. 
+- We don't know who will win the next Superbowl, but we can and should consider some teams as more likely to win than others.  We could imagine a large number of hypothetical 2020-2021 seasons; how often would we expect the Eagles to win? The Raiders? (Hopefully a lot for the Eagles; probably not much for the Raiders).
+
+
+Random also does *not* necessarily mean equally likely. In a random
 phenomenon, certain outcomes or events might be more or less likely than
-others.
-  - It's much more likely that a randomly selected Cal Poly student is from CA than not.
-  - Not all NFL teams are equally likely to win the next Superbowl.
+others.  
+
+- It's much more likely than not that a randomly selected Cal Poly student is a California resident.
+- Not all NFL teams are equally likely to win the next Superbowl.
+
+Finally, randomness is also not necessarily undesirable.  In particular, many statistical applications often employ the planned use of randomness with the goal of collecting "good" data.
+
+- *Random selection* involves selecting a sample of individuals "at random" from a population (e.g., via random digit dialing), with the goal of selecting a representative sample.  
+- *Random assignment* involves assigning individuals at random to groups (e.g., in a randomized experiment), with the goal of constructing groups that are similar in all aspects.
+
+The **probability** of an event associated with a random phenomenon is a number in the interval $[0, 1]$ measuring the event's likelihood or degree of uncertainty. A probability can take any values in the continuous scale from 0% to 100%^[Probabilities are usually defined as decimals, but are often colloquially referred to as percentages.  We're not sticklers; we'll refer to probabilities as decimals and as percentages.]. In particular, a probability requires much more interpretation than "is the probability greater than, less than, or equal to 50%?" As Example \@ref(exm:randomness) suggests, there can be different interpretations of "probability", which we'll start to explore in the next section.
+
 
 
 ## Interpretations of probability {#interpretations}
@@ -68,169 +101,284 @@ others.
 
 In the previous section we encountered a variety of scenarios which involved uncertainty, a.k.a. randomness.  Just as there are a few "types" of randomness, there are a few ways of interpreting probability, namely, *long run relative frequency* and *subjective probability*.
 
-```{exercise probability-intepret}
-
-Revisit the scenarios in Exercise \@ref(exr:randomness).  Now consider how "probability" is interpreted in the different scenarios.  In each scenario, what does "probability" mean?  How might you estimate the probability?  Start to make guesses for the probabilities; are they "high" or "low"?  How high or low? Again, the goal is not to do any calculations but rather to think about, via these examples, similarities and differences of situations in which probabilities are of interest.
-
-```
-
-In particular, compare
-
-a. Scenarios 3 and 4
-a. Scenarios 5 and 6
-a. Scenarios 6 and 7
-a. How are scenarios 1 through 8 (collectively) different from scenarios 9 through 13 (collectively)?
 
 
 
-- The **probability** of an event is a number in the interval $[0, 1]$ measuring the event's likelihood or degree of uncertainty.
-- A probability can take any values in the continuous scale from 0% to 100%^[Probabilities are usually defined as decimals, but are often colloquially referred to as percentages.  We're not sticklers; we'll refer to probabilities as decimals and as percentages.]. In particular, a probability requires much more interpretation than "is the probability greater than, less than, or equal to 50%?"
-- When interpreting probabilities, be careful not to confuse "the particular" with "the general".
-  - ("The particular.") A very specific event, surprising or not, often has low probability.
-    - Even though in 10000 flips of a fair coin we would expect to see about 5000 heads, the probability that *exactly* 5000 out of 10000 flips are heads is fairly small (about^[We will see how to compute probabilities like this one in upcoming chapters.] 0.008).
-    - The probability that the winning powerball number is 6-7-16-23-26-(4) is exactly the same as the probability that the winning powerball number is 1-2-3-4-5-(6).  Each of these sequences is just one of the roughly 300 million possible sequences, and each sequences has about a 1 in 300 million chance of being the winning number.  However, many people think 6-7-16-23-26-(4) is more likely because 1-2-3-4-5-(6) "doesn't look random".
-    - The probability that you get a text from your best friend at 7:43pm on Oct 12, 2019 inviting you to dinner after you've just ordered pizza from your favorite pizza place is probably pretty small.  None of these items --- getting a text, having a friend invite you to dinner, ordering pizza from your favorite pizza place --- is unusual, but the chances of them all combining in this way at this particular time are fairly small. 
-  - ("The general.") However, if there are many like events, their combined probability can be high.
-    - The probability that *around* 5000 out of 10000 coin flips land on heads is fairly large.  For example, if "around" is interpreted as between 4900 and 5100 (for a proportion of heads between 0.49 to 0.51) the probability is about 0.956.
-    - The probability that the winning powerball number is an ordered sequence, like 1-2-3-4-5-(6), is extremely small^[If a "sequence" is defined with the powerball as the last number in the sequence, then the probability is about 21 out of 300 million.  Since the powerball must be a number from 1 to 26, there are only 21 tickets out of 300 million possibilities for which the numbers are in an ordered sequence: 1-2-3-4-5-(6), 2-3-4-5-6-(7), ... 21-22-23-24-25-(26).].  However, the probability that the winning number is not an ordered sequence, like 6-7-16-23-26-(4), is exremely high.  When interpreting probabilities, be careful not to confuse an event like "the winning number is 6-7-16-23-26-(4)" (the particular, low probability) with an event like "the winning number is not an ordered sequence" (the general, high probability).  
-    - The probability that some time in the next month or so a friend invites you for dinner after you've already had dinner on your own is probably fairly high.
-- Even if an event has extremely small probability, given enough
-repetitions of the random phenomenon, the probability that the event occurs
-on *at least one* of the repetitions is high.
-  - The probability that a specific powerball ticket is the winning number is about 1 in 300 million.  So if you buy a single ticket, it is [extremely unlikely](https://www.huffpost.com/entry/chances-of-winning-powerball-lottery_b_3288129) that *you* will win.
-  - However, if hundreds of millions of powerball tickets are sold, the probability that *someone somewhere* wins is pretty high.  For example, if 500 million tickets are sold then there is a roughly 80% chance that at least one ticket has the winning number (under [certain assumptions](https://fivethirtyeight.com/features/new-powerball-odds-could-give-america-its-first-billion-dollar-jackpot/)). 
-
-
-### Relative frequency {#rel-freq}
-
-The probability that a single flip of a fair coin lands on heads is 0.5.  How do we interpret this 0.5?  The notation of "fairness" implies that the two outcomes, heads and tails, should be equally likely, so we have a "50/50 chance".  But how else can we interpret this 50%?  One way is by considering *what would happen if we flipped the coin main times*.  Now, if we would flipped the coin twice, we wouldn't expect to necessarily see one head and one tail.  And we already mentioned that if we flipped the coin 10000 times, the chances of seeing *exactly* 5000 heads is small.  But in many flips, we might expect to see heads on something close to 50\% of flips.
-
-Consider Figure \@ref(fig:coin-sim1) below.  Each dot represents a set of 10,000 fair coin flips.  There are 100 dots displayed, representing 100 different sets of 10,000 coin flips each.  For each set of flips, the proportion of the 10,000 flips which landed on head is recorded.  For example, if in one set 4973 out of 10,000 flips landed on heads, the proportion of heads is 0.4973.  The plot displays 100 such proportions.  We see that only 5 of these 100 proportions are less than 0.49 or greater than 0.51.  So if between 0.49 and 0.51 is considered "close to 0.5", then yes, in 10000 coin flips we would expect the proportion of heads to be close to 0.5.  (In 10000 flips, the probability of heads on between 49\% and 51\% of flips is 0.956, so 95 out of 100 provides a rough estimate of this probability.)    
-
-(ref:cap-coin-sim1) Proportion of flips which are heads in 100 sets of **10,000** fair coin flips.  Each dot represents a set of **10,000** fair coin flips.
-
-
-```{r coin-sim1, echo=FALSE, fig.cap="(ref:cap-coin-sim1)"}
-
-knitr::include_graphics("_graphics/coin-sim1.png")
-
-```
-
-But what if we want to be stricter about what qualifies as "close to 0.5"?  You might suspect that with even more flips we would expect to observe heads on even closer to 50\% of flips.  Indeed, this is the case.  Figure \@ref(fig:coin-sim2) displays the results of 100 sets of 1,000,000 fair coin flips.  The pattern seems similar to Figure \@ref(fig:coin-sim1) but pay close attention to the horizontal axis which covers a much shorter range of values than in the previous figure.  Now 96 of the 100 proportions are between 0.499 and 0.501. So in 1,000,000 flips we would expect the proportion of heads to be between 0.499 and 0.501, pretty close to 0.5. (In 1,000,000 flips, the probability of heads on between 49.9\% and 50.1\% of flips is 0.955, and 96 out of 100 sets provides a rough estimate of this probability.) 
-
-
-(ref:cap-coin-sim2) Proportion of flips which are heads in 100 sets of **1,000,000** fair coin flips. Each dot represents a set of **1,000,000** fair coin flips.
 
 
 
-```{r coin-sim2, echo=FALSE, fig.cap="(ref:cap-coin-sim2)"}
 
-knitr::include_graphics("_graphics/coin-sim2.png")
+### Long run relative frequency {#rel-freq}
+
+We can all agree that the probability that a single flip of a fair coin lands on heads is 1/2, a.k.a., 0.5, a.k.a, 50%.  After all, the notion of "fairness" implies that the two outcomes, heads and tails, should be equally likely, so we have a "50/50 chance" of heads.  But how else can we interpret this 50%?  One interpretation involves considering *what would happen if we flipped the coin main times*.  Now, if we would flipped the coin twice, we wouldn't expect to necessarily see one head and one tail.  But in many flips, we might expect to see heads on something close to 50\% of flips.
+
+```{r, echo = FALSE}
+
+n = 1000
+i = 1:n
+x = sample(c("H", "T"), size = n, replace = TRUE)
+phat_n = cumsum(x == "H") / i
 
 ```
 
 
-In Figure \@ref(fig:coin-sim3) each dot represents a set of  100 millions flips.  The pattern seems similar to the previous figures, but again pay close attention the horizontal access which covers a smaller range of values. Now 96 of the 100 proportions are between 0.4999 and 0.5001. (In 100 million flips, The probability of heads on between 49.99\% and 50.01\% of flips is 0.977, so 96 out of 100 sets provides a rough estimate of this probability.)
+Let's try this out. Table \@ref(tab:coin-flips) displays the results of 10 flips of a fair coin. The first column is the flip number and the second column is the result of the flip.  The third column displays the *running proportion of flips that result in H*. For example, the first flip results in `r x[1]` so the running proportion of H after 1 flip is `r sum(x[1] == "H")`/1; the first two flips result in (`r x[1]`, `r x[2]`) so the running proportion of H after 2 flips is `r sum(x[1:2] == "H")`/2; and so on. Figure \@ref(fig:coin-flips-plot) plots the running proportion of H by the number of flips.  We see that with just a small number of flips, the proportion of H fluctuates considerably and is not guaranteed to be close to 0.5.  Of course, the results depend on the particular sequence of coin flips.  We encourage you to flip a coin 10 times and compare your results.
 
 
-(ref:cap-coin-sim3) Proportion of flips which are heads in 100 sets of **100,000,000** fair coin flips. Each dot represents a set of **100,000,000** fair coin flips.
+(ref:cap-coin-flips) Results and running proportion of H for 10 flips of a fair coin.
+
+```{r, coin-flips, echo = FALSE}
+
+n1 = 10
+
+knitr::kable(
+  data.frame(i[1:n1], x[1:n1], phat_n[1:n1]),
+  align = "r",
+  col.names = c("Flip", "Result", "Running proportion of H"),
+  booktabs = TRUE,
+  caption = "(ref:cap-coin-flips)",
+  digits = 3
+)
+
+```  
 
 
-```{r coin-sim3, echo=FALSE, fig.cap="(ref:cap-coin-sim3)"}
 
-knitr::include_graphics("_graphics/coin-sim3.png")
+(ref:cap-coin-flips-plot) Running proportion of H versus number of flips for the 10 coin flips in Table \@ref(tab:coin-flips).
+
+
+```{r coin-flips-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-coin-flips-plot)"}
+
+plot(i[1:n1], phat_n[1:n1], type = "o",
+     xlab = "Flip number",
+     ylab = "Running proportion of H",
+     ylim = c(0, 1),
+     col = "blue",
+     xaxt = "n")
+axis(1, i[1:n1])
+abline(h = 0.5, lty = 2)
 
 ```
 
-The previous figures illustrate that the more flips there are, the more likely it is that we observe a proportion of flips landing on heads close to 0.5.  We also see that with more flips we can refine our definition of "close to 0.5": increasing the number of flips by a factor of 100 (10,000 to 1,000,000 to 100,000,000) seems to give us an additional decimal place of precision ($0.5\pm0.01$ to $0.5\pm 0.001$ to $0.5\pm 0.0001$.)  These observations illustrate the relative frequency interpretation of probability.  
+
+Now we'll flip the coin 90 more times for a total of 100 flips.  The plot on the left in Figure \@ref(fig:coin-flips-plot2) summarizes the results, while the plot on the right also displays the results for 3 additional sets of 100 flips. The running proportion fluctuates considerably in the early stages, but settles down and tends to get closer to 0.5 as the number of flips increases.  However, even after 100 flips the proportion of flips that result in H isn't guaranteed to be very close to 0.5.
+
+
+(ref:cap-coin-flips-plot2) Running proportion of H versus number of flips for four sets of 100 coin flips.
+
+
+```{r coin-flips-plot2, echo=FALSE, warning=FALSE, message=FALSE, fig.show="hold", out.width="50%", fig.cap="(ref:cap-coin-flips-plot2)"}
+
+n2 = 100
+
+plot(i[1:n2], phat_n[1:n2], type = "o",
+     xlab = "Flip number",
+     ylab = "Running proportion of H",
+     ylim = c(0, 1),
+     col = "blue",
+     xaxt = "n")
+axis(1, seq(0, n2, n2 / 10))
+abline(h = 0.5, lty = 2)
+
+x2 = cbind(as.numeric(x == "H"),
+           matrix(rbinom(3 * n, 1, 0.5), ncol = 3))
+phat_n2 = sweep(apply(x2, 2, cumsum), 1, i, FUN = '/')
+
+matplot(cbind(i, i, i, i)[1:n2, ], phat_n2[1:n2, ], type = "l",
+     xlab = "Flip number",
+     ylab = "Running proportion of H",
+     ylim = c(0, 1),
+     col = c("blue", "orange", "seagreen", "purple"),
+     xaxt = "n")
+axis(1, seq(0, n2, n2 / 10))
+abline(h = 0.5, lty = 2)
 
 
 
-
-- The probability of an event corresponding to the result of a random phenomenon can be interpreted as the proportion of times that the event would occur in a very large number of hypothetical repetitions of the random phenomenon.
-- That is, a probability can be interpreted as a **long run proportion** or **long run relative frequency**.
-- This means that the probability of an event can be approximated by **simulating** the random phenomenon a large number of times and determining the proportion of simulated repetitions on which the event occurred out of the total number of repetitions of the simulation (this proportion is also called the relative frequency of the event.)
-  - A **simulation** involves an artificial recreation of the random phenomenon, usually using a computer.
-  - For example, if a basketball player is successful on 90\% of her free throw attempts, we can simulate the player shooting a single free throw attempt by taking 10 cards and labeling 9 as "success" and 1 as "miss" then shuffling well  and dealing one card.
-- The **long run relative frequency** interpretation of probability can be applied when a situation can be repeated numerous times, at least conceptually, and the outcome can be observed each time.
-- The relative frequency of a particular event will settle down to a single constant value after many repetitions, and that long run value is the probability of that event.
-  - However, what constitutes the random phenomenon or how the simulation is conducted depends on certain assumptions.  Changing those assumptions can affect probabilities of interest.
-    - For example, if you're interested in the probability that a die lands on 1, you need to know if it's a four-sided die or a six-sided die, and if the die is consider "fair".
-    - As a more complicated example, simulating the outcome of the next Superbowl involves many assumptions
-
-### Subjective probability
-
-The relative frequency interpretation is natural in scenarios 1 through 8 of Exercise \@ref(exr:randomness).  We can consider as repeateable situations like flipping a coin, drawing powerballs from a bin, or selecting a student at random.
-
-On the other hand, it is difficult to conceptualize scenarios 8 through 13 of Exercise \@ref(exr:randomness) as relative frequencies.  Superbowl 2020 will only be played once, the 2020 U.S. Presidential Election will only be conducted once (we hope), and there was only one April 17, 2009 on which you either did or did not eat an apple.  But while these situations are not naturally repeatable they still involve randomness (uncertainty) and it is still reasonable to assign probabilities.  At this point in time, the Chargers are less likely than the Patriots (ugh) to win Superbowl 2020, Donald Trump is more likely than Dwayne Johnson to win the U.S. 2020 Presidential Election, and if you've always been an "apple-a-day" person, there's a good chance you ate one on April 17, 2009.  So it still makes sense to talk about probability in uncertain, but not necessarily repeated situations.
-
-However, the *meaning* of probability does seem different in scenarios 9 through 13 compared to 1 through 8.  Consider Superbowl 2020.  As of Sept 16,
-
-- According to [fivethirtyeight.com](https://projects.fivethirtyeight.com/2019-nfl-predictions/), the Patriots have a 19% chance of winning the Superbowl, the highest of any team, while the Chargers have a 4% chance.
-- According to [footballoutsider.com](https://www.footballoutsiders.com/stats/playoffodds), the Patriots have a 26% chance of winning the Superbowl, the highest of any team, while the Chargers have a 6% chance.
-- According to [playoffstatus.com](http://www.playoffstatus.com/nfl/nflpostseasonprob.html) the Patriots have a 7% chance of winning the Superbowl, behind the Chiefs and Packers at 9% each, while the Chargers have a 3% chance.
-
-All three websites, as well as many others, ascribe different probabilities to the Patriots or Chargers winning. Which website, if any, is correct?  In the coin flipping example, we could perform a simulation to see that the long run relative frequency is 0.5.  However, simulating Superbowl 2020 involves first simulating the 2019 season to determine the playoff matchups, then simulating the playoffs to see which teams make the Superbowl, then simulating the Superbowl matchup itself.  And simulating the 2019 involves simulating all the weekly matchups and potential injuries and their effects.  Even just simulating a single game involves many assumptions; differences in opinions with regards to these assumptions can lead to different probabilities.   For example, according to fivethirtyeight, the Chiefs have a 69% chance of beating the Ravens on Sept 22, but according to pickingpros.com it's only 52%.  Unlike in the coin flipping problem, there is no single set of rules for running the simulation, and there is no single relative frequency that determines the probability.  Therefore, in a situation like forecasting the Superbowl we consider *subjective probability*.
-
-- There are many situations where the outcome is uncertain, but it does mnot make sense to consider the situation as repeatable. In such situations, a **subjective (a.k.a. personal) probability** describes the degree of likelihood a given individual ascribes to a certain event.
-- As the name suggests, different individuals might have different subjective (personal) probabilities for the same event.
-  - In contrast to the long run relative frequency situation, in which the probability is agreed to be defined as the long run relative frequency.
-- The [fivethirtyeight NFL predictions](https://fivethirtyeight.com/methodology/how-our-nfl-predictions-work/) are the output of a probabilistic forecast.
-  - **Probabilistic forecasts** combine observed data and statistical models to make predictions.
-  - Rather than providing a single prediction (such as "the Patriots will win Superbowl 2020"), probabilistic forecasts provide a range of scenarios and their relative likelihoods.
-  - Be sure to make a distinction between *assumption* and *observation*.
+```
 
 
-## Proportional reasoning and tables of counts
+Now for each set of 100 flips, we'll flip the coin 900 more times for a total of 1000 flips in each of the four sets.  The plot on the left in Figure \@ref(fig:coin-flips-plot3) summarizes the results for our original set, while the plot on the right also displays the results for the three additional sets from Figure \@ref(fig:coin-flips-plot3). Again, the running proportion fluctuates considerably in the early stages, but settles down and tends to get closer to 0.5 as the number of flips increases.  There is less variability in the proportion of H after 1000 flips than after 100.  Now, even after 1000 flips the proportion of flips that result in H isn't guaranteed to be exactly 0.5, but we see a tendency for the proportion to get closer to 0.5 as the number of flips increases.
+
+
+(ref:cap-coin-flips-plot3) Running proportion of H versus number of flips for four sets of 1000 coin flips.
+
+
+```{r coin-flips-plot3, echo=FALSE, warning=FALSE, message=FALSE, fig.show="hold", out.width="50%", fig.cap="(ref:cap-coin-flips-plot3)"}
+
+n2 = 1000
+
+plot(i[1:n2], phat_n[1:n2], type = "l",
+     xlab = "Flip number",
+     ylab = "Running proportion of H",
+     ylim = c(0, 1),
+     col = "blue",
+     xaxt = "n")
+axis(1, seq(0, n2, n2 / 10))
+abline(h = 0.5, lty = 2)
+
+x2 = cbind(as.numeric(x == "H"),
+           matrix(rbinom(3 * n, 1, 0.5), ncol = 3))
+phat_n2 = sweep(apply(x2, 2, cumsum), 1, i, FUN = '/')
+
+matplot(cbind(i, i, i, i)[1:n2, ], phat_n2[1:n2, ], type = "l",
+     xlab = "Flip number",
+     ylab = "Running proportion of H",
+     ylim = c(0, 1),
+     col = c("blue", "orange", "seagreen", "purple"),
+     xaxt = "n")
+axis(1, seq(0, n2, n2 / 10))
+abline(h = 0.5, lty = 2)
 
 
 
-- In general, knowing probabilities of individual events alone is not enough to determine probabilities of combinations of them.
-- **Two-way tables** (a.k.a. contingency tables) of counts are a useful tool for probability problems dealing with two events.
-- For the purposes of constructing the table and computing related probabilities, any value can be used for the hypothetical total count (as long as you don’t round numbers in between).
+```
 
-Suppose we are interested in the relationship between income and college graduation rates at Cal Poly. Consider the sample space $S = \{\text{all current Cal Poly students}\}$.
-Suppose that the probability^[These number are estimates based on data from <https://projects.propublica.org/colleges/schools/california-polytechnic-state-university-san-luis-obispo>] that a (randomly selected) Cal Poly student graduates within six years is 0.75, and that the probability that a (randomly selected) Cal Poly student has a Pell grant (for low income students) is 0.2.
+In summary, in a large number of flips of a fair coin we expect about 50% of flips to result in H.  That is, the probability that a flip of a fair coin results in H can be interpreted as the *long run proportion of flips that result in H*, or in other words, the *long run relative frequency of H*.
 
-1. Do we have enough information to find the probability that a Cal Poly student both has a Pell Grant and graduates within six years?
-1. Without knowing any other information, what is the *largest* value the probability in (a) could possibly be?  Under what conditions is this value attained? Set up a two-way table corresponding to this scenario.
-1. Without knowing any other information, what is the *smallest* value the probability in (a) could possibly be?  Under what conditions is this value attained? Set up a two-way table corresponding to this scenario.
-1. Suppose that the probability that a Cal Poly student both has a Pell Grant and graduates within six years is 0.11. Construct the corresponding two-way table.
-1. Find the probability that a Cal Poly student does not have a Pell Grant and graduates within six years.
-1. Donny says "75% of CP students graduate within six years while 20% of CP students have a Pell Grant.  So 95% of Cal Poly students graduate within six years or have a Pell Grant." Do you agree?
-1. What would need to be true in order for the Donny's statement in the previous part to be true?
+In general, the probability of an event associated with a random phenomenon can be interpreted as a **long run proportion** or **long run relative frequency**: the probability of the event is the proportion of times that the event would occur in a very large number of hypothetical repetitions of the random phenomenon. A natural question is: "how many repetitions are required to represent the long run?"  We'll return to this question and the idea of long run relative frequency in later chapters.
 
+
+The long run relative frequency interpretation of probability can be applied when a situation can be repeated numerous times, at least conceptually, and the outcome can be observed each time. One benefit of the relative frequency interpretation is that the probability of an event can be *approximated* by simulating the random phenomenon a large number of times and determining the proportion of simulated repetitions on which the event occurred out of the total number of repetitions in the simulation. A **simulation** involves an artificial recreation of the random phenomenon, usually using a computer.  After many repetitions the relative frequency of the event will settle down to a single constant value, and that value is the approximately the probability of that event.
+
+Of course, the accuracy of simulation-based approximations of probabilities depends on how well the simulation represents the actual random phenomenon. Conducting a simulation can involve many assumptions which influence the results. Simulating many flips of a fair coin is one thing; simulating an entire NFL season and the winner of the Superbowl is an entirely different story.
+
+
+```{example interpret-rel-freq}
+
+In each of the following, write a clearly worded sentence interpreting the numerical value of the probability as a long run relative frequency in context.  (Just take the numerical values--- 0.1, 0.25, and 0.73 --- as given. We'll see how to compute probabilities later.)
+
+1. The probability that a roll of a fair ten-sided die lands on 1 is 0.1.
+1. The probability that two flips of a fair coin both land on H is 0.25.
+1. The probability that in 100 flips of a fair coin the proportion of flips that land on H is between 0.45 and 0.55 is 0.73.
+
+```
+
+
+```{solution interpret-rel-freq-sol}
+to Example \@ref(exm:interpret-rel-freq)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1.  About 10% of rolls of a fair ten-sided result in a roll of 1. The phenomenon is a roll of a far ten-sided die and the event of interest is whether or not the die lans on 1. 
+1. In about 25% of sets of two fair coin flips, both flips in the set land on H.   The phenomenon involves *two* flips of a coin, so we consider what would happen over many *sets* of two flips each.
+1. In about 73% of sets of 100 fair coin flips, the proportion of H for the set is between 0.45 and 0.55.  The phenomenon involves 100 coin flips, so we consider many sets of 100 coin flips each, each set resulting in a proportion of H that is either between 0.45 and 0.55 or not.  Imagine adding many more paths to the plot on the right in Figure \@ref(fig:coin-flips-plot2), each corresponding to a set of 100 flips, and seeing how many of the paths result in a value between 0.45 and 0.55 at flip 100.
+
+```
+
+
+### Subjective probability {#subjective-probability}
+
+The long run relative frequency interpretation is natural in  repeatable situations like flipping a coin, drawing Powerballs from a bin, or selecting a Cal Poly student at random.
+
+On the other hand, it is difficult to conceptualize some scenarios in the long run.  Superbowl 2021 will only be played once, the 2020 U.S. Presidential Election will only be conducted once (we hope), and there was only one April 17, 2009 on which you either did or did not eat an apple.  But while these situations are not naturally repeatable they still involve randomness (uncertainty) and it is still reasonable to assign probabilities.  At this point in time, the Kansas City Chiefs are more likely than the [Jacksonville Jaguars](https://tenor.com/0JBf.gif) to win Superbowl 2021, Donald Trump is more likely than Howie Hawkins (the Green Party candidate) to win the U.S. 2020 Presidential Election, and if you've always been an apple-a-day person, there's a good chance you ate one on April 17, 2009.  So it still makes sense to talk about probability in uncertain, but not necessarily repeated, situations.
+
+However, the *meaning* of probability does seem different in a physically repeatable situations like coin flips than in single occurrences like the 2021 Superbowl.  Let's switch sports and consider the 2020 World Series of Major League Baseball.  As of Sept 3,
+
+- According to [FiveThirtyEight](https://projects.fivethirtyeight.com/2020-mlb-predictions/1/34), the Los Angeles Dodgers have a 31% chance of winning the 2020 World Series, the highest of any team, while the New York Yankees have a 10% chance.
+- According to [FanGraphs](https://www.fangraphs.com/standings/playoff-odds/fg/mlb?date=2020-09-03&dateDelta=), the Dodgers have a 18% chance of winning the 2020 World Series, while the Yankees have an 6% chance.
+- According to gambling site [Odds Shark](https://www.oddsshark.com/mlb/world-series-odds), the Dodgers have a 22% chance of winning the 2020 World Series, while the Yankees have an 18% chance.
+
+
+Each website, as well as many others, assigns different probabilities to the Dodgers or Yankees winning. Which website, if any, is "correct"?
+
+When the situation involves a fair coin flip, we could perform a simulation to see that the long run proportion of flips that land on H is 0.5, and so the probability that a fair coin flip lands on H is 0.5.  Even though the actual 2020 World Series will only happen once, we could still perform a simulation involving hypothetical repetitions. However, simulating the World Series involves first simulating the 2020 season to determine the playoff matchups, then simulating the playoffs to see which teams make the World Series, then simulating the World Series matchup itself.  And simulating the 2020 season involves simulating all the individual games. Even just simulating a single game involves many assumptions; differences in opinions with regards to these assumptions can lead to different probabilities.   For example, on Sept 3, according to FiveThirtyEight the Dodgers had a 68% chance of beating the Colorado Rockies in their game on Sept 4, but according to FanGraphs it was 67% and according to Odds Shark it was 72%.  (The Dodgers won.)  Even though these differences might seem small, many small differences over the course of the season could result in large differences in predictions for the World Series champion.
+
+Unlike physically repeatable situations such as flipping a coin, there is no single set of "rules" for conducting a simulation of a season of baseball games or the World Series champion. Therefore, there is no single relative frequency that determines the probability.  Instead we consider *subjective probability*.
+
+A **subjective (a.k.a. personal) probability** describes the degree of likelihood a given individual assigns to a certain event. As the name suggests, different individuals (or probabilistic models) might have different subjective probabilities for the same event.  In contrast, in the long run relative frequency interpretation the probability is agreed to be defined as the long run relative frequency, a single  number.
+
+Think of subjective probabilities as measuring relative degrees of likelihood rather than long run relative frequencies.  For example, in the FiveThirtyEight forecast, the Dodgers are *3.1 times more likely* to win the World Series than the Yankees (3.1 = 0.31 / 0.10).  Relative likelihoods can also be compared across different forecasts or scenarios. For example, FiveThirtyEight believes that the Dodgers are about 1.4 times more likely to win the World Series than Odds Shark does.  Also, FiveThirtyEight believes that the likelihood that a fair coin lands on H is about 5 times larger than the likelihood that the Yankees win the 2020 World Series.
+
+The [FiveThirtyEight MLB predictions](https://fivethirtyeight.com/features/how-our-mlb-predictions-work/) are the output of a probabilistic forecast. A **probabilistic forecast** combines observed data and statistical models to make predictions. Rather than providing a single prediction (such as "the Los Angeles Dodgers will win the 2021 World Series"), probabilistic forecasts provide a range of scenarios and their relative likelihoods.  Such forecasts are subjective in nature, relying upon the data used and assumptions of the model. Changing the data or assumptions can result in different forecasts and probabilities.  In particular, probabilistic forecasts are usually revised over time as more data becomes available.
+
+
+Simulations can also be based on subjective probabilities.  If we were to conduct a simulation consistent with FiveThirtyEight's model (as of Sept 3), then in about 31% of repetitions the Dodgers would win the World Series, and in about 10% of repetitions the Yankees would win.  Of course, different sets of subjective probabilities correspond to different assumptions and different ways of conducting the simulation.  
+
+Subjective probabilities can be calibrated by weighing the relative favorability of different bets, as in the following example.
+
+
+```{example subjective-bet}
+
+What is your subjective probability that Professor Ross has a TikTok account? Consider the following two bets, and suppse you can choose only one.
+
+A)  You win $100 if Professor Ross has a TikTok account, and you win nothing otherwise.
+A)  A box contains 40 green and 60 gold marbles that are otherwise identical.  The marbles are thoroughly mixed and one marble is selected at random. You win $100 if the selected marble is green, and you win nothing otherwise.
+
+1. Which of the above bets would you prefer?  Or are you completely indifferent? What does this say about your subjective probability that Professor Ross has a Tik Tok account?
+1. If you preferred bet B to bet A, consider bet C which has a similar setup to B but now there are 20 green and 80 gold marbles. Do you prefer bet A or bet C? What does this say about your subjective probability that Professor Ross has a Tik Tok account? 
+1. If you preferred bet A to bet B, consider bet D which has a similar setup to B but now there are 60 green and 40 gold marbles. Do you prefer bet A or bet D? What does this say about your subjective probability that Professor Ross has a Tik Tok account?
+1. Continue to consider different numbers of green and gold marbles.  Can you zero in on your subjective probability?
+  
+```
+
+
+```{solution subjective-bet-sol}
+
+to Example \@ref(exm:subjective-bet)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Since the two bets have the same payouts, you should prefer the one that gives you a greater chance of winning! If you choose bet B you have a 40% chance of winning.
+    - If you prefer bet B to bet A, then your subjective probability that Professor Ross has a TikTok account is less than 40%.
+    - If you prefer bet A to bet B, then your subjective probability that Professor Ross has a TikTok account is greater than 40%.
+    - If you're indifferent between bets A and B, then your subjective probability that Professor Ross has a TikTok account is equal to 40%.  
+1. If you choose bet C you have a 20% chance of winning.
+    - If you prefer bet C to bet A, then your subjective probability that Professor Ross has a TikTok account is less than 20%.
+    - If you prefer bet A to bet C, then your subjective probability that Professor Ross has a TikTok account is greater than 20%.
+    - If you're indifferent between bets A and C, then your subjective probability that Professor Ross has a TikTok account is equal to 20%.  
+1. If you choose bet D you have a 60% chance of winning.
+    - If you prefer bet D to bet A, then your subjective probability that Professor Ross has a TikTok account is less than 60%.
+    - If you prefer bet A to bet D, then your subjective probability that Professor Ross has a TikTok account is greater than 60%.
+    - If you're indifferent between bets A and D, then your subjective probability that Professor Ross has a TikTok account is equal to 60%.  
+1. Continuing in this way you can narrow down your subjective probability. For example, if you prefer bet B to bet A and bet A to bet C, your subjective probability is between 20% and 40%.  Then you  might consider bet E corresponding to 30 gold marbles and 70 green to determine if you subjective probability is greater than or less than 30%.  At some point it will be hard to choose, and you will be in the ballpark of your subjective probability.  (Think of it like going to the eye doctor: "which is better: 1 or 2?"  At some point you can't really see a difference.)
+
+
+
+```
+
+
+Of course, the strategy in the above example isn't an exact science, and there is a lot of behavioral psychology behind how people make choices in situations like this.  But the example gives a very rough idea of how you might discern a subjective probability of an event.
+
+
+Disclaimer: we do not advocate gambling.  We merely use gambling contexts to motivate probability concepts.
 
 
 ## Working with probabilities {#consistency}
 
 
-In the previous section we saw two different interpretations of probability: relative frequency and subjective.  Fortunately, the mathematics of probability work the same way regardless of the interpretation.  Also, even with subjective probabilities it is helpful to consider what might happen in a simulation.
+In the previous section we saw two different interpretations of probability: long run relative frequency and subjective.  Fortunately, the mathematics of probability work the same way regardless of the interpretation.  Furthermore, even with subjective probabilities it is helpful to consider what might happen in a simulation.
 
 ### Consistency requirements
 
- With either the relative frequency or personal probability interpretation there are some basic logical consistency requirements^[In Section \@ref(probspace), we will formalize these requirements in the axioms of probability.] which probabilities need to satisfy.
+With either the long run relative frequency or subjective probability interpretation there are some basic logical consistency requirements which probabilities need to satisfy. Put loosely, probabilities cannot be negative and the sum of probabilities over all possible outcomes must be 100%. We will formalize these requirements in mathematical formulas in Section \@ref(probspace).  For now, we just proceed using intuition.
 
 
 
 ```{example worldseries}
 
-As of Sept 18, the website [fivethirtyeight.com](https://projects.fivethirtyeight.com/2019mlb-predictions/) listed the following probabilities for who will 
-win the 2019 World Series.
+As of Sept 3, [FiveThirtyEight](https://projects.fivethirtyeight.com/2019mlb-predictions/) listed the following probabilities for who will 
+win the 2020 World Series.
 
 ```
 
-  --------------------- -----
-  Houston Astros          25%
-  Los Angeles Dodgers     21%
-	New York Yankees        20%
-	Atlanta Braves           8%
-  --------------------- -----
+| Team                | Probability |
+|---------------------|------------:|
+| Los Angeles Dodgers |         31% |
+| New York Yankees    |         10% |
+| Houston Astros      |          9% |
+| Tampa Bay Rays      |          9% |
+| Other               |             |
 
-1. Is the relative frequency or subjective probability interpretation more appropriate here?
-1. According to the site, what must be the probability that the Houston Astros do *not* win?
-1. According to this site, what must be the probability that one of the above four teams is the World Series champion?
-1. According to this site, what must be the probability that a team other than the above four teams is the World Series champion?
+According to FiveThirtyEight (as of Sept 3):
+
+1. What would you expect the results of 10000 repetitions of a simulation of the World Series champion to look like?  Construct a table summarizing what you expect. Is this necessarily what would happen? 
+1. What must be the probability that the Dodgers do *not* win the 2020 World Series?
+1. What must be the probability that one of the above four teams is the World Series champion?
+1. What must be the probability that a team other than the above four teams is the World Series champion?  That is, what value goes in the "Other" row in the table?
 
 ```{solution worldseries-sol}
 
@@ -238,15 +386,79 @@ to Example \@ref(exm:worldseries)
 
 ```
 
-
-1. It is more appropriate to think of the probabilities themselves in application as subjective.  Different websites or models could reasonably assign other probabilities to the teams.  However, we can still imagine the probabilities as relative frequencies, if it helps our intuition.  If we think of this as a simulation, each repetition results in a World Series champion and in the long run the Astros would be the champion in 25% of repetitions.
-1. Either the Astros win or they don't; if there's a 25% chance that the Astros win, there must be a 75% chance that they do not win. If we think of this as a simulation, each repetition results in either the Astros winning or not, so if they win in 25% of repetitions, they must not win in the other 75% to account for 100% of the repetitions.
-1. There is only one World Series champion, so if say the Astros win then no other team can win.  Thinking again of a simulation, the repetitions in which the Astros win are distinct from those in which the Dodgers win.  So if the Astros win in 25% of repetitions and the Dodgers wins in 21% repetitions, then on a total of 46% of repetitions either the Astros or Dodgers win.  Adding the four probabilities, we see that the probability that one of the four teams above wins must be 74%.
-1. Either one of the four teams above wins, or some other team wins.  If there is a 74% chance that the winner is one of the four teams above, then there must be a 26% chance that the winner is not one of these four teams.
+```{asis, fold.chunk = TRUE}
 
 
+1. While these particular probabilities are subjective, imagining probabilities as relative frequencies often helps our intuition.  If we think of this as a simulation, each repetition results in a World Series champion and in the long run we would expect the Dodgers would be the champion in 31%, or 3100, of the 10000 repetitions.  
+
+    | Team                | Winner |
+    |---------------------|-------:|
+    | Los Angeles Dodgers |   3100 |
+    | New York Yankees    |   1000 |
+    | Houston Astros      |    900 |
+    | Tampa Bay Rays      |    900 |
+    | Other               |   4100 |
+    | Total               |  10000 |
+  
+    Of course, there would be some variability from simulation to simulation, just like in the sets of 1000 coin flips in Figure \@ref(fig:coin-flips-plot3).  But the above counts represent about what we would expect.  
+
+1. 69%. Either the Dodgers win or they don't; if there's a 31% chance that the Dodgers win, there must be a 69% chance that they do not win. If we think of this as a simulation with 10000 repetitions, each repetition results in either the Dodgers winning or not, so if they win in 3100 of repetitions then they must not win in the other 6900.
+1. 59%. There is only one World Series champion, so if say the Dodgers win then no other team can win.  Thinking again of the simulation, the repetitions in which the Dodgers win are distinct from those in which the Yankees win.  So if the Dodgers win in 3100 repetitions and the Yankees win in 1000 repetitions, then on a total of 4100 repetitions either the Dodgers or Yankees win.  Adding the four probabilities, we see that the probability that one of the four teams above wins must be 59%.
+1. 41%. Either one of the four teams above wins, or some other team wins.  If one of the four teams above wins in 5900 repetitions, then in 4100 repetitions the winner is not one of these four teams.
+
+``` 
 
 
+```{example worldseries-proportional}
+
+Suppose your subjective probabilities for the 2020 World Series champion satisfy the following conditions.
+
+- The Astros and Rays are equally likely to win
+- The Yankees are 1.5 times more likely than the Astros to win
+- The Dodgers are 2 times more likely than the Yankees to win
+- The winner is as likely to be among these four teams --- Dodgers, Yankees, Astros, Rays --- as not
+
+
+Construct a table like in Example \@ref(exm:worldseries) of your subjective probabilities.
+
+```
+
+
+```{solution worldseries-proportional-sol}
+
+to Example \@ref(exm:worldseries-proportional)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+Here, probabilities are specified indirectly via relative likelihoods.  We need to find probabilities that are in the given ratios and add up to 100%.  It helps to designate one outcome as the "baseline".  It doesn't matter which one; we'll choose the Astros.
+
+- Suppose the Astros account for 1 "unit".  It doesn't really matter what a unit is, but let's say it corresponds to 1000 repetitions of the simulation.  That is, the Astros win in 1000 repetitions.  Careful: we haven't yet specified how many total repetitions we have done, or how many units the entire simulation accounts for.  We're just starting with a baseline of what happens for the Astros.
+- The Astro and Rays are equally like to win, so the Rays also account for 1 unit.
+- The Yankees are 1.5 times more likely than the Astros to win, so the Yankees account for 1.5 units.  If 1 unit is 1000 repetitions, then the Yankees win in 1500 repetitions, 1.5 times more often than the Astros.
+- The Dodgers are 2 times more likely than the Yankees to win, so the Dodgers account for $2\times 1.5=3$ units. If 1 unit is 1000 repetitions, then the Dodgers win in 3000 repetitions.
+- The four teams account for a total of $1+1+1.5+3 = 6.5$ units. Since the winner is as likely to among these four teams as not, then "Other" also accounts for 6.5 units.
+- In total, there are 13 units which account for 100% of the probability.  The Astros account for 1 unit, so their probability of winning is $1/13$ or about 7.7%.  Likewise, the probability that the Dodgers win is $3/13$ or about 23.1%.
+
+
+| Team                | Units | Repetitions | Probability |
+|---------------------|------:|------------:|------------:|
+| Los Angeles Dodgers |   3.0 |        3000 |       23.1% |
+| New York Yankees    |   1.5 |        1500 |       11.5% |
+| Houston Astros      |   1.0 |        1000 |        7.7% |
+| Tampa Bay Rays      |   1.0 |        1000 |        7.7% |
+| Other               |   6.5 |        6500 |       50.0% |
+| Total               |  13.0 |       13000 |      100.0% |
+  
+You should verify that all of the probabilities are in the specified ratios.  For example, the Dodgers are 2 times more likely ($2 = 23.1 / 11.5$) than the Yankees to win, and the Yankees are 1.5 times more likely ($1.5 \approx 11.5 / 7.7$) than the Astros to win.
+
+We could have also solved this problem using algebra.  Let $x$ be the probability, as a decimal, that the Astros are the winner.  Then $x$ is also the probability that the Rays are the winner, $1.5x$ for the Yankees, and $3x$ for the Dodgers.  The probability that one of the four teams wins is $x + x + 1.5x + 3x = 6.5x$, so the probability of Other is also  $6.5x$.  The probabilities in decimal form must sum to 1 (that is, 100%), so $1 = x + x + 1.5x + 3x + 6.5x = 13x$.  Solve for $x=1/13$ and then plug in $x=1/13$ to find the other probabilities.
+
+
+``` 
+
+Example \@ref(exm:worldseries-proportional) illustrates one way of formulating subjective probabilities.  We start by specifying probabilities in relative terms, and then "normalize" these probabilities so that they add up to 100%.  As in the problem, it helps to consider one outcome as a "baseline" and to specify all likelihoods relative to the baseline. 
 
 ### Odds
 
@@ -255,15 +467,16 @@ The words "probability", "chance", "likelihood", and "odds" are colloquially tre
 
 ```{example worldseries-odds}
 
-In Example \@ref(exm:worldseries) the odds that the Astros win the World Series are 3 to 1 against.
+In Example \@ref(exm:worldseries) the odds that the Yankees win the World Series are 9 to 1 against.
 
 ```
 
 
-1. What do you think that "3 to 1 against" means?
-1. What are the odds of the Astros *not* winning?
-1. What are the odds of the Yankees winning?
-1. What are the odds of the Braves winning?
+1. What do you think that "9 to 1 against" means?
+1. What are the odds of the Yankees *not* winning?
+1. What are the odds of the Dodgers winning?
+1. What are the odds of one of the Other teams winning?
+1. The Philadelphia Phillies have 50 to 1 odds against winning.  What is the probability that the Phillies win the World Series?
 
 
 ```{solution worldseries-odds-sol}
@@ -272,53 +485,444 @@ to Example \@ref(exm:worldseries-odds)
 
 ```
 
-1. The probability that the Astros win is 0.25, so the probability that they do not win is 0.75.  These numbers are in a 3 to 1 ratio: the probability of not winning (0.75) is 3 times greater than the probability of winning (0.25).  So the odds *against* the Astros winning the World Series are 3 to 1; "against" because the Astros are less likely to win than to not win.
-1. The probabilities are still in the 3 to 1 ratio, but we can say that the odds are 3 to 1 *in favor* of the Astros *not* winning.
-1. The probability that the Yankees win is 0.2 and that they don't win is 0.8, and $0.8/0.2 = 4$).  So the odds are 4 to 1 against the Yankees winning ("against" because the Yankees are less likely to win than to not win).
-1. The probability that the Braves win is 0.08 and that they don't win is 0.92, and $0.92/0.08 = 11.5$).  So the odds are 11.5 to 1, or 23 to 2, against the Braves winning ("against" because the Braves are less likely to win than to not win).
 
 
-- The **odds** of an event is a ratio involving the probability that the
-event occurs and the probability that the event does not occur
+```{asis, fold.chunk = TRUE}
+
+1. The probability that the Yankees win is 0.1, so the probability that they do not win is 0.9.  These numbers are in a 9 to 1 ratio: the probability of not winning (0.9) is 9 times greater than the probability of winning (0.1).  So the odds *against* the Yankees winning the World Series are 9 to 1; "against" because the Yankees are less likely to win than to not win.
+1. The probabilities are still in the 9 to 1 ratio, but we can say that the odds are 9 to 1 *in favor* of the Yankees *not* winning.  We could also say the odds are 1 to 9 in favor of the Yankees winning, but odds are typically reported with the larger value first --- 9 to 1 instead of 1 to 9.
+1. The probability that the Dodgers win is 0.31 and that they don't win is 0.69, and $0.69/0.31 \approx 2.2$.  So the odds are 2.2 to 1 *against* the Yankees winning; "against" because the Yankees are less likely to win than to not win.  Odds are often reported as whole numbers, so we could say the odds are 11 to 5 against the Dodgers winning.  
+1. The probability that an Other team wins is 0.41 and that an Other team doesn't win is 0.59, and $0.59/0.41 \approx 1.44$.  So the odds are 1.44 to 1 against an Other team winning.
+1. The probability that the Phillies do not win is 50 times greater than the probability that they do win.  Let the event that the Phillies win account for 1 "unit" so that the event that they do not win accounts for 50 units, for a total of 51 units.  So the probability that the Phillies win is $1/51\approx 0.02$. Note that the probability of not winning, 50/51, is 50 times greater than the probability of winning.
+
+    You could also solve this with algebra.  Let $x$ be the probability that the Phillies win, so $50x$ is the probability that they don't win. The probabilities must sum to 1, so set $x + 50x = 1$ and solve for $x$.
+
+
+```
+
+
+
+The **odds** of an event is a ratio involving the probability that the
+event occurs and the probability that the event does not occur.  Odds can be expressed as either "in favor" of or "against" the event occurring.
+
 $$
 \begin{aligned}
 \text{odds in favor} & = \frac{\text{probability that the event occurs}}{\text{probability that the event does not occur}} \\
 & \\
-\text{odds against} & = \frac{\text{probability that the event does not occur}}{\text{probability that the event  occurs}}\end{aligned}
+\text{odds against} & = \frac{\text{probability that the event does not occur}}{\text{probability that the event occurs}}\end{aligned}
 $$
-- In many situations (e.g., gambling) odds are implicitly reported as odds against.
-- Odds are usually expressed as whole numbers, e.g., 11 to 1, 7 to 2.
 
-Ron and Leslie make the following bet. If Boston wins, Leslie will pay
-Ron \$200; if not, Ron will pay Leslie \$100. If both consider this to
-be a fair bet, what have they agreed that the probability that Boston
-wins is?
+In some situations odds are typically reported as odds against.  While the odds of an event is a just a single number, odds are often reported as a ratio of whole numbers, e.g., 11 to 1, 7 to 2.  In Example \@ref(exm:worldseries-odds) the odds against the Dodgers winning the World Series are 1.44, which can be reported as 11 to 5 odds (against).
 
-The odds of a fair bet on whether or not an event will occur imply a
-probability for the event
-$$\text{probability that event occurs} = \frac{\text{odds in favor of the event}}{1+\text{odds in favor of the event}}$$
+As discussed at the end of Section \@ref(subjective-probability) bets can be used to discern probabilities or odds.
+
+```{example bet-EV}
+
+Ron and Leslie agree to the following bet. They'll ask Professor Ross if he has a TikTok account. If he does, Leslie will pay
+Ron $200; if not, Ron will pay Leslie $100.  (Neither has any prior information about whether or not Professor Ross has a TikTok account.)
+
+1. Given this setup, which of the following is being judged as more likely: that Professor Ross has a TikTok account, or that he does not?  Why?
+1. What are this bet's odds?
+1. Ron and Leslie agree that this is a fair bet, and neither would accept worse odds. What is the subjective probability that Professor Ross has a TikTok account?
+1. Suppose they were to hypothetically repeat this bet many times, say 3000 times.  Given the probability from the previous part, how many times would you expect Leslie to win? To lose? What would you expect Leslie's net dollar winnings to be?  In what sense is this bet "fair"?  (Remember: Leslie's winnings are Ron's losses and vice versa.)
+
+```
+
+
+<!-- 1. Leslie would not agree to the bet if her potential payout were less than $100 given her potential loss of $200. What can you say about Leslie's subjective probability that Professor Ross has a TikTok account? -->
+<!-- 1. Ron would not agree to the bet if his potential payout were less than $200 given his potential loss of $100. What can you say about Ron's subjective probability that Professor Ross has a TikTok account? -->
+
+
+```{solution bet-EV-sol}
+
+to Example \@ref(exm:bet-EV)
+
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+1. The larger potential payout corresponds to the *less* likely event.  So Professor Ross is more likely to *not* have a TikTok account than to have one.
+1. The payouts are in a 2 to 1 ratio, so the odds that Professor Ross has a TikTok account are 2 to 1 against.
+1. The odds that Professor Ross has a TikTok account are 2 to 1 against, so Professor Ross is twice as likely to not have a TikTok account than to have one.  This corresponds to a subjective probability^[Technically, Ron and Leslie could still have different subjective probabilities.  Leslie would not agree to worse odds, but she would accept better if Ron offered them.  For example, given a potential loss of $200, Leslie would also agree to a potential payout from Ron of $125 rather than $100. That is, Leslie would accept odds of 1.6 to 1 against ($200/125 = 1.6$), corresponding to a subjective probability of 0.385 ($1/(1 + 1.6)$) .  So Leslie's subjective probability that Professor Ross has a TikTok account is *at least* 1/3.  Similarly, Ron's subjective probability that Professor Ross has a TikTok account is *at most* 1/3.] that Professor Ross has a TikTok account of 1/3 (and a probability that he does not have one of 2/3).
+1. The probability that Leslie wins is 1/3, so you would expect her to win in 1000 of the 3000 repetitions.  She wins $200 each time she wins, so you would expect her to win a total of $200,000 on games she wins.  The probability that she loses is 2/3, so you would expect her to lose in 2000 of the 3000 repetions. She loses $100 each time, so you would expect her to lose a total of $200,000 on the games she wins.  So you would expect Leslie's net winnings to be 0, and likewise for Ron.  The bet is fair in the sense that neither party is expected to profit or lose in the long run.
+
+
+```
+
+
+The previous example illustrates that the odds of a fair bet on whether or not an event will occur imply a
+probability for the event.
+
+\begin{align*}
+\text{probability that event occurs} & = \frac{\text{odds in favor of the event}}{1+\text{odds in favor of the event}}\\
+& \\
+& = \frac{1}{1+\text{odds against the event}}
+\end{align*}
 
 
 
 
 
-### Dutch book
+<!-- ### Dutch book -->
 
-Dutch book^["Book" in the sense of a bookie taking bets]
+Regardless of the interpretation --- long run relative frequency or subjective --- probabilities must follow basic logical consistency requirements. If these requirements are mistakenly not satisfied, bad things can happen.  
 
-Odds give us one way to see why even subjective probabilities most follow basic logical consistency requirements.
+
 
 ```{example dutch}
 
-Donny Dont is pretty sure that the Astros are going to win the World Series.  He thinks their only real competition is the Braves.  The following are Donny's subjective probabilities.
+Donny Don't thinks the Dodgers have a pretty good chance to win the World Series.  He thinks their only real competition is the Yankees.  The following are Donny's subjective probabilities for which team will win the World Series.
 
-  --------------------- -----
-  Houston Astros          60%
-  Atlanta Braves          20%
-  Other                   10%
-  --------------------- -----
+| Team                | Probability |
+|---------------------|------------:|
+| Los Angeles Dodgers |         50% |
+| New York Yankees    |         25% |
+| Other               |         10% |
 
 ```
+
+1. What is wrong with Donny's probabilities?
+1. What are Donny's odds that the Dodgers win? (Consider only Donny's probability that the Dodgers win.)
+1. Would Donny agree to a bet where he pays you $100 if the Dodgers win but you pay him $100 if the Dodgers do not win?
+1. What are Donny's odds that the Yankees win? Would Donny agree to a bet where he pays you $150 if the Yankees win but you pay him $50 if the Yankees do not win?
+1. What are Donny's odds that a team other than the Dodgers or Yankees wins? Would Donny agree to a bet where he pays you $180 if an other team wins but you pay him $20 if the winner is either the Yankees or Dodgers?
+1. Suppose you and Donny agree to make all of the bets in the three previous parts.  Consider your net profit for each of the outcomes (Dodgers win, Yankees win, other wins).  What do you notice?
+
+
+
+
+
+```{solution dutch-sol}
+
+to Example \@ref(exm:dutch)
+
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+1. Donny's probabilities do not add up to 100%.
+1. Donny's odds that the Dodgers win are $\frac{0.5}{0.5}=1$, or even odds
+1. Donny believes that the Dodgers are equally likely to win as to not win so, yes, he would agree to this bet.
+1. Donny's odds that the Yankees do not win are $\frac{0.75}{0.25}=3$, or 3 to 1 odds against the Yankees winning. Donny believes that the Yankees are 3 times more likely to not win than to win.  Since the payouts are in a 3 to 1 ratio with the larger payout corresponding to the Yankees winning (the less likely event), then Donny would agree to this bet.
+1. Donny's odds that an other team does not win are $\frac{0.9}{0.1}=9$, or 9 to 1 odds against an other team winning. Donny believes that an other team is 9 times more likely to not win than to win.  Since the payouts are in a 9 to 1 ratio with the larger payout corresponding to an other team winning (the less likely event), then Donny would agree to this bet.
+1. Given Donny's odds for each outcome, he would agree to each of these bets.
+
+    - If the Dodgers win, you win the first bet but lose the other two, so your net profit is 100 - 50 - 20 = 30.
+    - If the Yankees win, you win the second bet but lose the other two, so your net profit is 150 - 100 - 20 = 30
+    - If an other team wins, you win the third bet but lose the other two, so your net profit is 180 - 100 - 50 = 30.
+    
+    Regardless of the outcome, you are guaranteed to earn a net profit of $30.  That's free money for you with no risk, and pretty bad business on Donny's part.  
+
+
+
+```
+
+The previous problem contained an example of a "Dutch book". A **Dutch book**^["Book" in the sense of a bookie taking bets.] is a set of probabilities and bets which guarantees a profit, regardless of the outcome of the gamble.  Probabilities that fail to satisfy logical consistency requirements allow for the possibility of Dutch books. The fact that no one should ever want to get caught in a Dutch book, like Donny was in the previous problem, is used to justify why even subjective probabilities should satisfy logical consistency requirements.
+
+
+## Proportional reasoning and tables of counts
+
+It is often helpful to think of probabilities as percentages or proportions.  Furthermore, when working with multiple percentages, it is also helpful to construct hypothetical tables of counts.
+
+```{example free-college-twoway}
+
+Are Americans in favor of free tuition at public colleges and universities? Suppose that^[These values are based on a study by the [Pew Research Foundation](https://www.pewresearch.org/fact-tank/2020/02/21/democrats-overwhelmingly-favor-free-college-tuition-while-republicans-are-divided-by-age-education/).]
+
+- 83% of Democrats are in favor of free tuition
+- 60% of Independents are in favor of free tuition
+- 39% of Republicans are in favor of free tuition
+
+Also suppose that^[These values are based on surveys by [Gallup](https://news.gallup.com/poll/15370/party-affiliation.aspx).]
+
+- 32% of Americans are Democrats
+- 42% of Americans are Independents
+- 26% of Americans are Republicans
+
+We'll use this information to investigate the following questions, as well as a few others.
+  
+- What percentage of Americans are in favor of free college tuition?
+- What percentage of Americans who are in favor of free college tuition are Democrats?
+
+  
+  
+```
+
+
+1. Donny Don't says the answer to the question "what percentage of Americans who are in favor of free college tuition are Democrats" is 83%.  Explain why Donny is wrong without doing any calculations.
+1. For the remaining parts, consider a hypothetical group of 10000 Americans and assume the percentages provided apply to this group. How many people in the group are Democrats?
+1. How many Americans in the group are Democrats who are in favor of free college tuition?
+1. Fill in the counts in each of the cells of the following table.
+
+    |                              | Democrat | Independent | Republican | Total |
+    |------------------------------|---------:|------------:|-----------:|------:|
+    | In favor of free tuition     |          |             |            |       |
+    | Not in favor of free tuition |          |             |            |       |
+| Total                        |          |             |            | 10000 |
+
+1. What percentage of Americans in this group who are in favor of free college tuition are Democrats?  (Answer with both an unreduced fraction and a percent.)
+1. Suppose we had started with a hypothetical group of 100,000 Americans.  How would the table of counts change?  Would the answer to the previous part change?
+1. Now answer the original question: What percentage of Americans who are in favor of free college tuition are Democrats? 
+1. What percentage of Americans who are Democrats are in favor of free college tuition?  (Answer with both an unreduced fraction and a percent.)
+1. What percentage of Americans are Democrats in favor of free college tuition? (Answer with both an unreduced fraction and a percent.)
+1. Compare the unreduced fractions for the previous three parts.  What is the same?  What is different?
+1. What percentage of Americans are in favor of free college tuition? 
+
+
+
+
+```{solution free-college-twoway-sol}
+
+to Example \@ref(exm:free-college-twoway)
+
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+1. Donny is confusing two different percentages.  
+
+    - 83% *of Democrats* are in favor of free college tuition.  This percentage applies to Democrats; *among Democrats* what percentage are in favor of free college tuition?
+    - What we want is the percent of *Americans in favor of free tuition* who are Democrats.  This percentage applies to Americans in favor of free tuition; *among Americans in favor of free tuition* what percentage are Democrats?
+  
+1. Of the 10000 Americans, 32%, that is 3200, are Democrats. ($0.32 \times 10000 = 3200$)
+1. Out of the 3200 Democrats, 83%, that is 2656 are in favor of free tuition.  ($3200 \times 0.83 = 2656$)
+1. We fill in the total for each party first.  Then we use the percentages to determine the number who are in favor of free tuition within each party.  For example, 60% of the 4200 Independents are in favor of free tuition. ($4200 \times 0.6 = 2520$)  
+
+    |                              | Democrat | Independent | Republican | Total |
+|------------------------------|---------:|------------:|-----------:|------:|
+    | In favor of free tuition     |     2656 |        2520 |       1014 |  6190 |
+    | Not in favor of free tuition |      544 |        1680 |       1586 |  3810 |
+    | Total                        |     3200 |        4200 |       2600 | 10000 |
+
+1. Out of 6190 Americans in this group who are in favor of free college tuition, 2656 are Democrats.  Since $\frac{2656}{6190}\approx 0.43$, about 43% of Americans in this group who are in favor of free college tuition are Democrats.
+1. If we had started with a hypothetical group of 100,000 Americans then the count in every cell in the table would be 10 times greater.  However, ratios and percentages would still be the same.  The answer to the previous part would not change; it would still be $\frac{26560}{61900} =\frac{2656}{6190}\approx 0.43$.
+1. Now we are interested in Americans in general rather than the 10000 Americans in our hypothetical group.  But as the previous part illustrates, the relative percentages will be the same regardless of the size of the group.  So we can say that 43% of Americans who are in favor of free college tuition are Democrats.
+1. We were provided the percentage of Americans who are Democrats that are in favor of free college tuition, 83%, or from the table, $\frac{2656}{3200}$.  Pay careful attention to the difference in wording between this part and the previous one.
+1. Out of 10000 Americans, 2656 are Democrats in favor of free college tuition, so $\frac{2656}{10000}= 26.56\%$ of Americans are Democrats in favor of free college tuition.
+1. There are subtle but important differences in wording between the percentages of interest in the previous three parts.  Note that the numerator is the same in each part: 2656, the number of Americans in the group who are both Democrats and in favor of free tuition.  But the *denominators* are different, each corresponding to a different reference group 
+  
+    - the percentage *of Americans who favor free tuition*... (denominator of 6190)
+    - the percentage *of Americans who are Democrats*... (denominator of 3200)
+    - the percentage *of Americans*... (denominator of 10000)  
+  
+1. Out of 10000 Americans, 6190 are in favor of free college tuition, so 61.9% of Americans are in favor of free college tuition.
+
+```
+
+**Two-way tables** (a.k.a., contingency tables) of counts are a useful tool for probability problems dealing with two events. For the purposes of constructing the table and computing related probabilities, any value can be used for the hypothetical total count^[You can only run into problems if you round.  Suppose we had started with a group size of 100.  Then the top left cell in the table would have been 26.56.  If we had rounded this to 27, our answers would change.  So when dealing with a *hypothetical* table of counts, don't round.  If you are uncomfortable with decimal counts, just increase the size of your original group].
+
+When dealing with percentages (or proportions or probabilities) be sure to ask "percent *of what*?" Thinking in fraction terms, be careful to identify the correct reference group which corresponds to the denominator.
+
+
+In the previous example, we needed the information about support for free tuition *within in each party* to fill in the table.  That is, it was not enough to know that 61.9% of Americans overall support free tuition. In general, knowing probabilities of individual events alone is not enough to determine probabilities of combinations of them.
+
+
+```{example cats-dogs}
+
+Suppose that 47% of American adults^[These values are based on the 2018 [General Social Survey](https://gss.norc.org/).] have a pet dog and 25% have a pet cat.
+
+```
+
+1. Donny Don't says that 72% (which is 47% + 25%) of American adults have a pet dog or a pet cat.  Is that necessarily true?  If not, is it even possible (in principle anyway) for this to be true?  Under what circumstance (however unrealistic) would this be true?  Construct a corresponding two-way table.
+1. Given only the information provided, what is the smallest possible percentage of American who adults have a pet dog or a pet cat. Under what circumstance (however unrealistic) would this be true?  Construct a corresponding two-way table.
+1. Suppose that 14% of American adults have both a pet dog *and* a pet cat.  What is the percentage of American adults who have a pet dog *or* a pet cat? Construct a corresponding two-way table.
+1. What percentage of American adults who have a pet dog also have a pet cat?
+1. What percentage of American adults who do not have a pet dog have a pet cat?  Is this the same value as in the previous part?
+
+
+```{solution cats-dogs-sol}
+
+to Example \@ref(exm:cats-dogs)
+
+
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+1. Donny's conclusion isn't necessarily true because some people have both a pet dog and a pet cat.  By adding 47% and 25%, Donny has  double-counted the people who have both a dog and a cat.  It’s theoretically possible that 72% have a pet dog or a pet cat, but this would only be true if absolutely no Americans have both a pet dog and a pet cat (which is obviously not realistic).  The two-way table corresponding to Donny's claim is  
+
+    |          | Have dog | No dog | Total |
+    |----------|---------:|-------:|------:|
+    | Have cat |        0 |     25 |    25 |
+    | No cat   |       47 |     28 |    75 |
+    | Total    |       47 |     53 |   100 |
+
+1. The situation in the previous part corresponds to the largest possible value, 72%, which occurs when the percentage who have both a dog and cat is as small as possible (0%). Now we consider the reverse situation.  The largest possible percentage who have both a dog and cat is 25%. Theoretically this is possible, but it would only occur if every person who has a cat also has a dog, which isn't realistic.  The two-way table would be
+
+
+    |          | Have dog | No dog | Total |
+    |----------|---------:|-------:|------:|
+    | Have cat |       25 |      0 |    25 |
+    | No cat   |       22 |     53 |    75 |
+    | Total    |       47 |     53 |   100 |
+
+    Thus the smallest possible percentage of American adults who have a pet dog or a pet cat is 47%.  
+
+1. If 14% of American adults have both a dog and a cat the two-way table is
+
+    |          | Have dog | No dog | Total |
+    |----------|---------:|-------:|------:|
+    | Have cat |       14 |     11 |    25 |
+    | No cat   |       33 |     42 |    75 |
+    | Total    |       47 |     53 |   100 |
+
+    Therefore 58% of American adults have a pet dog or a pet cat (58 = 14 + 11 + 33).  In other words, 42% of of American adults have neither a pet dog nor a pet cat.  (We can see that adding 47% and 25% double counts the 14% who have both.  Subtracting this 14% corrects for the double-counting: 58 = 47 + 25 - 14.)  
+
+1. Out of the 47 (hypothetical) people who have a pet dog, 14 also have a pet cat, and $\frac{14}{47} = 0.298$. So 29.8% of American adults who have a pet dog also have a pet cat.
+1. Out of the 53 (hypothetical) people who do not have a pet dog, 11  have a pet cat, and $\frac{11}{53} = 0.208$. So 20.8% of American adults who do not have a pet dog  have a pet cat.  This is not the same value in the previous part.  People with pet dogs are more likely than people without pet dogs to have a pet cat.
+
+
+``` 
+
+
+
+## Probability of what? {#probofwhat}
+
+A probability takes a value in the sliding scale from 0 to 100%.  Throughout the book we will study how to compute probabilities in many situations.  But don't just focus on computation.  Rather, always remember also to interpret probabilities.  This section covers a few ideas to keep in mind when interpreting probabilities^[[Read this for a humorous take on interpreting probabilities](https://mathwithbaddrawings.com/2015/09/23/what-does-probability-mean-in-your-profession/).].  (We'll see later how to compute probabilities like those in the examples.)
+
+
+```{example probability-interpret1}
+
+In each of the following parts, which of the two probabilities, a or b, is larger, or are they equal?  You should answer conceptually without attempting any calculations.
+
+1. Flip a coin *which is known to be fair* 10 times.  
+
+    a. The probability that the results are, in order, HHHHHHHHHH.
+    a. The probability that the results are, in order, HHTHTTTHHT.
+
+1. Flip a coin which is known to be fair 10 times.  
+
+    a. The probability that all 10 flips land on H.
+    a. The probability that exactly 5 flips land on H.
+
+```
+
+
+```{solution probability-interpret1-sol}
+to Example \@ref(exm:probability-interpret1)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Many people would say the probability in b is larger, but the probabilities in a and b are equal (and both equal to $\frac{1}{1024}$).  The sequence in b seems to look "more random". However, the probability of seeing that particular sequence --- H then H then T then H then T... --- is the same as seeing the sequence H then H then H then H then H...  If the coin is fair and the flips are independent, all possible sequences of flips are equally likely.  Think of it this way: choose any flip, say the third.  Then that flip is equally likely to be H (as in the third flip for a) or T (as in the third flip for b).  No matter which flip it is, or the results of the other flips, any flip is equally likely to be H or T.
+
+    (Of course, the above response assumes that the coin is fair.  If the coin is known to be fair then the sequences in a and b are equally likely.  However, if we actually observed the sequence in a we might suspect that the coin is actually not fair.  There is an important difference between assumption and observation.)  
+
+1. The probability in b is larger. Contrast this to the previous part.  There is only one sequence which results in 10 heads, HHHHHHHHHH.  However, there are many sequences which result in exactly 5 heads --- 252 out of 1024 possibilities --- of which HHTHTTTHHT is just one possibility.
+
+```
+
+
+
+```{example probability-interpret2}
+
+In each of the following parts, which of the two probabilities, a or b, is larger, or are they equal?  You should answer conceptually without attempting any calculations.
+
+1.  In the [Powerball lottery](https://www.powerball.com/) there are roughly^[The exact count is 292,201,338.  We will see how to compute this number later.] 300 million possible winning number combinations, all equally likely.
+
+    a. The probability you win the next Powerball lottery if you purchase a single ticket, 6-7-16-23-26, plus the Powerball number, 4.
+    a. The probability you win the next Powerball lottery if you purchase a single ticket, 1-2-3-4-5, plus the Powerball number, 6.
+
+1. Continuing with the Powerball
+
+    a. The probability that the numbers in the winning number are in a row.
+    a. The probability that the numbers in the winning number are not in a row.
+
+```
+
+
+```{solution probability-interpret2-sol}
+to Example \@ref(exm:probability-interpret2)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Many people would say the probability in a is larger, since the sequence in a looks "more random", but the probabilities in a and b are equal.  Since the outcomes are equally likely, the probability that any single sequence is the winning number is (roughly) 1/300,000,000.
+1. The probability in a is larger. Contrast this to the previous part.  There are only a handful of winning numbers for which the numbers are in a row: 1 through 6, 2 through 7, 3 through 8, etc. However, almost all of the 300 million possibilities do not have numbers in a row.
+
+```
+
+
+When interpreting probabilities, be careful not to confuse "the particular" with "the general".
+
+**"The particular:"** A very specific event, surprising or not, often has low probability.
+
+- For a fair coin, observing the particular sequence HHTHTTTHHT is just as likely as observing HHHHHHHHHH.
+- The probability that the winning powerball number is 6-7-16-23-26-(4) is exactly the same as the probability that the winning powerball number is 1-2-3-4-5-(6).
+- The probability that you get a text from your best friend at 7:43pm on Oct 12, 2020 inviting you to dinner after you've just ordered pizza from your favorite pizza place is probably pretty small.  None of these items --- getting a text, having a friend invite you to dinner, ordering pizza from your favorite pizza place --- is unusual, but the chances of them all combining in this way at this particular time are fairly small. 
+
+
+**"The general:"** While a very specific event often has low probability, if there are many like events their combined probability can be high.
+
+- There are many possible coin flip sequences which result in 5 heads.
+- For almost all of the possible Poweball combinations the numbers are not in order.
+- The probability that some time in the next month or so a friend invites you for dinner is probably fairly high.
+
+
+
+
+
+
+
+
+
+```{example probability-interpret3}
+
+Consider the following two probabilities.
+
+1. The probability you win the next Powerball lottery if you purchase a single ticket.
+1. The probability that someone wins the next Powerball lottery.  (FYI: especially when the jackpot is large, there are hundreds of millions of tickets sold.)
+
+Which of these two probabilities is larger, or are they about that same?  You should answer conceptually without attempting any calculations.
+
+```
+
+
+```{solution probability-interpret3-sol}
+to Example \@ref(exm:probability-interpret3)
+```
+
+```{asis, fold.chunk = TRUE}
+
+The probability in b is much larger.
+
+- The probability that a specific powerball ticket is the winning number is about 1 in 300 million.  So if you buy a single ticket, it is [extremely unlikely](https://www.huffpost.com/entry/chances-of-winning-powerball-lottery_b_3288129) that *you* will win.
+  - However, if hundreds of millions of powerball tickets are sold, the probability that *someone somewhere* wins is pretty high.  For example, if 500 million tickets are sold then there is a roughly 80% chance that at least one ticket has the winning number (under [certain assumptions](https://fivethirtyeight.com/features/new-powerball-odds-could-give-america-its-first-billion-dollar-jackpot/)). 
+
+```
+
+
+Even if an event has extremely small probability, given enough
+repetitions of the random phenomenon, the probability that the event occurs
+on *at least one* of the repetitions is often high^[For a very interesting investigation of this idea check out the [Infinite Monkey Theorem Experiment](https://pudding.cool/2020/04/infinite/) at the site [The Pudding](https://pudding.cool/).].
+
+Consider the headline of this article: ["Man mauled by bear after lightning strike"](https://www.upi.com/Odd_News/2010/06/24/Man-mauled-by-bear-after-lightning-strike/22821277399823/). We certainly feel sorry for this poor man, but just how unlikely is such an occurrence? Let's look a little closer.
+
+The headline seems to imply that the man got struck by lightning and then, while he was trying to reach safety, a bear attacked. But the mauling occurred *four years after* the lightning strike. Getting mauled by a bear and struck by lightning within one's lifetime is certainly much more likely than both happening on the same day.
+
+"Getting struck by lightning" is often colloquially used to describe a rare event, but how unlikely is it? One [study estimates that about 250,000 people in the world are struck by lightning each year](https://www.vaisala.com/sites/default/files/documents/Annual_rates_of_lightning_fatalities_by_country.pdf), and the [National Weather Service](https://www.weather.gov/safety/lightning-odds) estimates that the probability of getting struck by lightning within your lifetime is 1/15,000.  Still not very likely, but maybe not as rare as you might think.
+
+Getting mauled by a bear is much more unlikely than being struck by lightning. There are only [about 40 bear attacks of humans each year](https://www.nature.com/articles/s41598-019-44341-w). However, if the headline had been "Man bitten by shark after lightning strike" or "Man attacked by mountain lion after lightning strike" or "Man trampled by moose after lightning strike" it probably would have been equally newsworthy.  Thus we should account for all similar animal attacks, not just bear attacks, when assessing the likelihood.
+
+The probability that you get struck by lightning and mauled by a bear today is certainly very small.  But considering the above, the probability that someone somewhere within their lifetime gets both struck by lightning and attacked by an animal is orders of magnitude higher. In general, even though the probability that something very specific happens to you today is often extremely small, the probability that something similar happens to someone some time is often quite high.  
+
+
+When assessing a probability, always ask "probability of what"?  Does the probability represent "the particular" or "the general"? Is it the probability that the event happens in a single occurrence of the random phenomenon, or the probability that the event happens at least once in many occurrences?  Keep these questions in mind when assessing numerical probabilities.  Remember that something that has a "one in a million chance" of happening to you today will happen to about 7000 people in the world every day.
+
+
+
+
+
+
+
+
 
 
 
@@ -330,25 +934,52 @@ Here's a seemingly simple problem.  Flip a fair coin four times and record the r
 
 For example, the sequence HHTT means the the first and second flips are heads and the third and fourth flips are tails.  For this sequence there are two flips which immediately followed heads, the second and the third, of which one (the second) was heads.  So the proportion in question for this sequence is 1/2.  
 
-So what value do you expect for this proportion? We think it's safe to say that most people would answer 1/2.  Afterall, it shouldn't matter if a flip follows heads or not, right?  We would expect half of the flips to land on heads regardless of whether the flip follows H, right?  We'll see there are some subtleties lurking behind these questions.
+So what value do you expect for this proportion? We think it's safe to say that most people would answer 1/2.  After all, it shouldn't matter if a flip follows heads or not, right?  We would expect half of the flips to land on heads regardless of whether the flip follows H, right?  We'll see there are some subtleties lurking behind these questions.
 
-To get an idea of what we would expect for this proportion, we could conduct a simulation: flip a coin 4 times and see what happens.  Here are the results of a few repetitions; each repetition consists of an ordered sequence of 4 coin flips for which the proportion in question is measured.  (**Flips which immediately follow H are in bold.**)
+To get an idea of what we would expect for this proportion, we could conduct a simulation: flip a coin 4 times and see what happens.  Table \@ref(tab:mscoin-intro) displays the results of a few repetitions; each repetition consists of an ordered sequence of 4 coin flips for which the proportion in question is measured.  (**Flips which immediately follow H are in bold.**)
 
-Table: (\#tab:mscoin-intro) Simulated outcomes for 6 sets of four flips of a fair coin. 
+Table: (\#tab:mscoin-intro) Simulated outcomes for 10 sets of four flips of a fair coin, each set with at least one fliup following a flip of H. 
 
-| Repetition 	|  Outcome 	| Flips that follow H 	| H that follow H 	| Proportion of H following H 	|
-|-----------:	|---------:	|---------------------	|-----------------	|----------------------------:	|
-|          1 	| H**HT**T 	|                   2 	|               1 	|                         0.5 	|
-|          2 	| H**T**TH 	|                   1 	|               0 	|                           0 	|
-|          3 	|     TTTH 	|                   0 	|              NA 	|                   try again 	|
-|          4 	| TH**HH** 	|                   2 	|               2 	|                           1 	|
-|          5 	| H**HT**T 	|                   2 	|               1 	|                         0.5 	|
-|          6 	| H**HHT** 	|                   3 	|               2 	|                       0.667 	|
+| Repetition |  Outcome | Flips that follow H | H that follow H | Proportion of H following H |
+|-----------:|---------:|:--------------------|:----------------|----------------------------:|
+|          1 | H**HT**T | 2                   | 1               |                         0.5 |
+|          2 | H**T**TH | 1                   | 0               |                           0 |
+|  discarded |     TTTH | 0                   | NA              |                   try again |
+|          3 | H**T**H**T** | 2                   | 0               |                           0 |
+|          4 | TH**HH** | 2                   | 2               |                           1 |
+|          5 | H**HT**T | 2                   | 1               |                         0.5 |
+|          6 | H**HHT** | 3                   | 2               |                       0.667 |
+|          7 | H**T**TH | 1                   | 0               |                           0 |
+|          8 | TH**HT** | 2                   | 1               |                         0.5 |
+|          9 | TH**T**T | 1                   | 0               |                           0 |
+|         10 | H**HHH** | 3                   | 3               |                           1 |
 
-We can keep repeating the above process to investigate what happens in the long run.  Rather than actually flipping coins, we use a computer to run a simulation.  The table and plot below summarize the results of 1,000,000 repetitions of the simulation^[Section XXX covers how to program the simulation and analyze the results.].  While you can't see the individual "dots" in the plot, each dot would represent a sequence of 4 coin flips (with at least one flip following a H) and the value plotted being plotted is the proportion of H following H for that sequence.  The results could be summarized in a table like Table \@ref(tab:mscoin-intro), albeit with 1,000,000 rows (after discarding rows with no flips immediately following H.)
+
+The table and plot below summarize the results of these 10 repetitions of the simulation.
 
 
-(ref:cap-mscoin-intro) Proportion of flips immediately following Heads that result in Heads for 1,000,000 sets of 4 coin flips.  (Each set has at least one flip immediately following H.) For example, the proportion in 429,123 of sets
+```{r ms-sim-10, echo=FALSE, warning=FALSE, message=FALSE, fig.show="hold"}
+
+x = c(0, 0.5, 2/3, 1)
+p = c(4, 3, 1, 2)
+
+knitr::kable(
+  data.frame(x, p, p / sum(p)),
+  col.names = c("Proportion of H following H", "Frequency", "Relative frequency"),
+  booktabs = TRUE,
+  digits = 4
+)
+
+
+stripchart(rep(x, p), method = "stack", pch = 19, offset = .5, at = .15)
+
+```
+
+
+We can keep repeating the above process to investigate what happens in the long run.  Rather than actually flipping coins, we use a computer to run a simulation.  The table and plot below summarize the results of 1,000,000 successful repetitions of the simulation, after discarding the sequences with no flips following H.  (We will see how to program and run simulations in later chapters.) While you can't see the individual "dots" like in the above plot, each dot would represent a sequence of 4 coin flips (with at least one flip following a H) and the value being plotted is the proportion of H following H for that sequence.  The results would look like those in Table \@ref(tab:mscoin-intro), albeit a table with 1,000,000 rows (after discarding rows with no flips immediately following H.)
+
+
+(ref:cap-mscoin-intro) Proportion of flips immediately following Heads that result in Heads for 1,000,000 sets of 4 coin flips.  (Each set has at least one flip immediately following H.) For example, the proportion of H following H is 0 in 429,123 of the sets.
 
 
 
@@ -363,89 +994,75 @@ knitr::include_graphics(c("_graphics/mscoin-intro-table.png", "_graphics/mscoin-
 
 We asked the question: *what would you expect* for the proportion of the flips which immediately follow a H that result in H?  That depends on how we define what's "expected".  If we are interested in the value that is most likely to occur when we flip a coin four times, then the answer is 0: we see that in the long run a little over 40\% of the sets resulted in a proportion of 0, while only about 30\% of sets resulted in a value of 1/2.  We see that the plot is not centered at 1/2; a higher percentage of repetitions resulted in a proportion below 1/2 than above 1/2.  We think that most people would find this surprising. 
 
-Another way to interpret "expected" is as "average". Just as probability can be interpreted as long run relative frequency, there is a concept called *expected value* which can be interpreted  as the *long run average value*. After 1,000,000 repetitions, each involving a set of four fair coin flips, we have 1,000,000 simulated values of the proportion of H following H, as recorded in the rightmost column of Table \@ref(tab:mscoin-intro).  We could then average these values: add up the values in the column and divide by 1,000,000.  It turns out that average value is 0.405, which is not 1/2. Again, we think most people find this surprising.
+Another way to interpret "expected" is as "average". Just as probability can be interpreted as long run relative frequency, there is a concept called *expected value* which can be interpreted  as the *long run average value*. (We will investigate expected value in more detail in later chapters.) After 1,000,000 repetitions, each involving a set of four fair coin flips, we have 1,000,000 simulated values of the proportion of H following H.  We could then average these values: add up all the values in the and divide by 1,000,000.  It turns out that average value is 0.405, which is not 1/2. Again, we think most people find this surprising.
 
 A quick note: the term "expected value" is somewhat of a misnomer.  We are *not* saying that if we flip a coin four times we would expect the proportion of H following H for that set of flips to be 0.405.  In fact, the simulation shows that on any single set of four fair coin flips, the only possible values for the proportion of H following H are 0, 1/2, 2/3, and 1.  So in a set of four coin flips it's not possible to see a proportion of 0.405.  Rather, 0.405 is the *average value of the proportion of H following H that we would expect to see in the long run over many sets of four fair coin flips*.  We will return to this idea later. 
 
 We will return to this example several times throughout the book to investigate these results more closely.   For now, just observe that
 
 - The study of probability can involve some subtleties and our intuition isn't always right.
-- Simulation is an effective way of investigating probability problems, and can reveal interesting and suprising patterns.
-
-In MS coin - add statement about probability of H after H versus proportion of H after H
-
-
-
-## Sliding scale of probability, or Probability of what?
-
-[Here's a funny series of cartoons](https://mathwithbaddrawings.com/2015/09/23/what-does-probability-mean-in-your-profession/)
-
-What does 1/million mean?
-
-At least one, etc.
-
-xkcd/538 benchmarks, put in benchmarks (one in a million, a billion, etc)
-
-probability of coincidences
-
-
-## Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book)
-
-Sally Clark?
-
-Allais paradox?
-
-A famous study^[Source: <https://www.ncbi.nlm.nih.gov/pubmed/7455683>] by Kahneman and Tversky presented a group of people
-with the following scenario.\
-\
-"Imagine that the U.S. is preparing for the outbreak of an unusual Asian
-disease, which is expected to kill 600 people. Two alternative programs
-to combat the disease have been proposed. Assume that the exact
-scientific estimate of the consequences of the programs are as follows:
-
-If Program A is adopted, 200 people will be saved.
-
-If Program B is adopted, there is 1/3 probability that 600 people will
-be saved, and 2/3 probability that no people will be saved.
-
-Which of the two programs would you favor?"\
-
-Which of these two options, A or B, would you choose? Of the 152
-participants, a large majority (72%) favored one of the options; which
-one do you think it was?
-
-A second group was presented with the same set up, but the following
-options instead of A/B.\
-
-If Program C is adopted 400 people will die.
-
-If Program D is adopted there is 1/3 probability that nobody will die,
-and 2/3 probability that 600 people will die.\
-
-Which of these two options, C or D, would you choose? Of the 155
-participants, a large majority (78%) favored one of the options; which
-one do you think it was?
-
-Compute the expected number of people who die and who are saved with
-Program D.
-
-Compute the expected number of people who die and who are saved with
-Program B.
-
-Compare options A and C. Are these the same? How about B and D? Do the
-risk preferences depend on the wording of how the information is
-presented?
-
-Many studies have shown that human intuition does not generally deal
-well with issues of uncertainty.
-
-So it's worthwhile to take a careful study
+- Simulation is an effective way of investigating probability problems, and can reveal interesting and surprising patterns.
+- There is a difference between (1) the probability that a flip following H lands on H and (2) the proportion of flips following H which follow H in a fixed sequence of coin flips.
 
 
 
-```{example, monty-hall, name='Monty Hall problem'}
-MOnty Hall in CHpater 1???
-```
+<!-- ## Common misinterpretation and fallacies (e.g. outbreak of Asian disease, Utts book) -->
+
+<!-- Sally Clark? -->
+
+<!-- Allais paradox? -->
+
+<!-- A famous study^[Source: <https://www.ncbi.nlm.nih.gov/pubmed/7455683>] by Kahneman and Tversky presented a group of people -->
+<!-- with the following scenario.\ -->
+<!-- \ -->
+<!-- "Imagine that the U.S. is preparing for the outbreak of an unusual Asian -->
+<!-- disease, which is expected to kill 600 people. Two alternative programs -->
+<!-- to combat the disease have been proposed. Assume that the exact -->
+<!-- scientific estimate of the consequences of the programs are as follows: -->
+
+<!-- If Program A is adopted, 200 people will be saved. -->
+
+<!-- If Program B is adopted, there is 1/3 probability that 600 people will -->
+<!-- be saved, and 2/3 probability that no people will be saved. -->
+
+<!-- Which of the two programs would you favor?"\ -->
+
+<!-- Which of these two options, A or B, would you choose? Of the 152 -->
+<!-- participants, a large majority (72%) favored one of the options; which -->
+<!-- one do you think it was? -->
+
+<!-- A second group was presented with the same set up, but the following -->
+<!-- options instead of A/B.\ -->
+
+<!-- If Program C is adopted 400 people will die. -->
+
+<!-- If Program D is adopted there is 1/3 probability that nobody will die, -->
+<!-- and 2/3 probability that 600 people will die.\ -->
+
+<!-- Which of these two options, C or D, would you choose? Of the 155 -->
+<!-- participants, a large majority (78%) favored one of the options; which -->
+<!-- one do you think it was? -->
+
+<!-- Compute the expected number of people who die and who are saved with -->
+<!-- Program D. -->
+
+<!-- Compute the expected number of people who die and who are saved with -->
+<!-- Program B. -->
+
+<!-- Compare options A and C. Are these the same? How about B and D? Do the -->
+<!-- risk preferences depend on the wording of how the information is -->
+<!-- presented? -->
+
+<!-- Many studies have shown that human intuition does not generally deal -->
+<!-- well with issues of uncertainty. -->
+
+<!-- So it's worthwhile to take a careful study -->
+
+
+
+<!-- ```{example, monty-hall, name='Monty Hall problem'} -->
+<!-- MOnty Hall in CHpater 1??? -->
+<!-- ``` -->
 
 
 
@@ -486,16 +1103,31 @@ studies is that Miller and Sanjurjo's methods are simulation-based.
 bias in previous studies. Consider again a player who attempts 100 shots
 and makes 50%. Even if there is no hot hand, Miller and Sanjurjo show that we would actually expect the player to have a shooting percentage of *strictly less than* 50% on the attempts which followed streaks, and strictly greater than 50% on the other attempts.  The reason is the same as for the coin flipping problem in Section \@ref(sim): in a fixed number of trials, the proportion of H on trials following H is expected to be less than the true probability of H, even though the trials are independent.  Therefore, for the example player a success rate of 50% on both sets of attempts actually provides directional evidence in favor of the hot hand.  Properly acccounting for this bias leads to substantially different statistical analyses (i.e., p-values) and conclusions.
 
-## List of recurring examples
+<!-- ## List of recurring examples -->
 
-Add references/links to throughout text when book is finished.
+<!-- Add references/links to throughout text when book is finished. -->
 
-```{example}
-Roll a four-sided die^[Why four-sided?  Simply to make the number of possibilities a little more manageable (e.g., for in-class simulation activities).  Rolling a four-sided die twice yields 16 possible pairs, while rolling a six-sided die yields 36 possible pairs.] twice. What can we say about the sum of the two rolls?  The larger of the two rolls? This is an admittedly uninteresting example, but we will use this simple example to introduce many of the ideas in a relatively straightforward setting.
-```
+<!-- ```{example dice-intro} -->
+<!-- Roll a four-sided die^[Why four-sided?  Simply to make the number of possibilities a little more manageable (e.g., for in-class simulation activities).  Rolling a four-sided die twice yields 16 possible pairs, while rolling a six-sided die yields 36 possible pairs.] twice. What can we say about the sum of the two rolls?  The larger of the two rolls? This is an admittedly uninteresting example, but we will use this simple example to introduce many of the ideas in a relatively straightforward setting. -->
+<!-- ``` -->
 
-```{example}
 
-```
+<!-- ```{example matching-intro, name='Matching problem'} -->
+
+<!-- The "matching problem" is one well known probability problem.  The following version is from [FiveThirtyEight](https://fivethirtyeight.com/features/everythings-mixed-up-can-you-sort-it-all-out/). -->
+
+<!-- A geology museum in California has $n$ different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order.  We might be interested in things like the probability that at least one rock is put back in the correct spot, or the expected number of rocks put back in the correct spot.  We might also be interested in how these quantities depend on $n$. -->
+
+<!-- ``` -->
+
+
+
+<!-- ```{example collector-intro, name='Collector problem'} -->
+
+<!-- The "collector problem" is one well known probability problem.  Here is one version of it. -->
+
+<!-- The latest series of collectible Lego Minifigures contains 12 different Minifigures.  Each package contains a single unknown Minifigure.  We buy packages one at a time until we have a complete collection. We might be interested in things like how many packages we needed to buy to complete the collection, or which Minifigure we have the most of. In particular, we might be interest in how how many packages we would expect to buy until we complete a set. -->
+
+<!-- ``` -->
 
 
