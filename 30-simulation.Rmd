@@ -1,8 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Simulation {#simulation}
 
 \newcommand{\IP}{\textrm{P}}
@@ -227,7 +222,7 @@ to Example \@ref(exm:coin-heads-tactile).
 ```
 
 
-### Long run averages
+### Long run averages {#LRA}
 
 A particular event either occurs or not or any single repetition of the simulation. Summarizing simulation results for events involves counting the number of repetitions on which the event occurs and finding related proportions.
 
@@ -853,7 +848,7 @@ and then define `RV(P, rel_freq_six)`.] divide by `n`, the total number of value
 
 Now we simulate and summarize a large number of values of `phat`.  We'll simulate 100 values for illustration.  Be sure not to confuse 100 with `n`.  Remember, the important quantity is `n`, the number of simulated values used in computing each relative frequency.
 
-```{python}
+```{python, eval = FALSE}
 phat.sim(100).plot(normalize = False)
 plt.ylabel('Number of simulations');
 plt.show()
@@ -863,7 +858,7 @@ plt.show()
 
 We see that the 100 relative frequencies are roughly centered around the true probability 0.1875, but there is variability in the relative frequencies from simulation to simulation. From the range of values, we see that most relative frequencies are within about 0.08 or so from the true probability 0.1875. So a value around 0.08 seems like a reasonable value of the margin of error, but the actual value depends on what we mean by "most".  We can get a clearer picture if we run more simulations.  The following plot displays the results of 10000 simulations, each resulting in a value of $\hat{p}$.  Remember that each relative frequency is based on $n=100$ sums of two rolls.
 
-```{python}
+```{python, eval = FALSE}
 phats = phat.sim(10000)
 phats.plot(normalize = False)
 plt.ylabel('Number of simulations');
@@ -875,7 +870,7 @@ Let's see how many of these 10000 simulated proportions are within 0.08 of the t
 
 
 
-```{python}
+```{python, eval = FALSE}
 1 - (phats.count_lt(0.1875 - 0.08) + phats.count_gt(0.1875 + 0.08)) / 10000
 
 ```
@@ -884,7 +879,7 @@ In roughly 95% or so of simulations, the simulated relative frequency was within
 
 Now we repeat the analysis, but with $n=10000$.  In this case, each relative frequency is computed based on 10000 independent values, each value representing a sum of two rolls of a fair four-sided die. As before we start with 100 simulated relative frequencies.
 
-```{python}
+```{python, eval = FALSE}
 
 n = 10000
 P = (DiscreteUniform(1, 4) ** 2).apply(sum) ** n
@@ -899,7 +894,7 @@ plt.show()
 
 Again we see that the 100 relative frequencies are roughly centered around the true probability 0.1875, but there is less variability in the relative frequencies from simulation to simulation for $n=10000$ than for $n=100$. From the range of values, we see that most relative frequencies are now within about 0.008 of the true probability 0.1875.
 
-```{python}
+```{python, eval = FALSE}
 1 - (phats.count_lt(0.1875 - 0.008) + phats.count_gt(0.1875 + 0.008)) / 100
 
 ```
@@ -1445,7 +1440,7 @@ Remember that in a histogram, *area* represents relative frequency.  The Uniform
 - For a Uniform($a$, $b$) distribution, the probability of a subinterval of $[a, b]$ is proportional to the length of the interval.
 
 
-## Normal distributions and standard deviation: SAT scores
+## Normal distributions and standard deviation: SAT scores {#sim-normal}
 
 In the previous section we assumed a Uniform(200, 800) distribution for $X$, the SAT Math score of a single randomly selected student.  The corresponding spinner would be like the one in Figure \@ref(fig:uniform-spinner)  but now labeled with equally spaced values from 200 to 800 (instead of 0 to 1).  However, this would not lead to very realistic SAT scores.  The average SAT Math score is around 500, and a much higher percentage of students score closer to average than to the extreme scores of 200 or 800.
 
@@ -1535,7 +1530,7 @@ x.mean()
 
 ```
 
-### Standard deviation
+### Standard deviation {#sd}
 
 The parameter 100 represents the standard deviation, which is a measure of degree of variability.  While the average is 500, the values vary about that average.  Many values are close to the average, but some are farther away.  The standard deviation measures, roughly, the average distance of the values from their mean.  Calling `x.sd()` will compute the standard deviation of the simulated values in `x`.
 
@@ -1618,7 +1613,7 @@ RV(Uniform(200, 800)).sim(10000).sd()
 
 A function of a random variable is a random variable: if $X$ is a random variable and $g$ is a function then $Y=g(X)$ is a random variable.  In general, the distribution of $g(X)$ will have a different shape than the distribution of $X$.  The exception is when $g$ is a linear rescaling.
 
-### Linear rescaling
+### Linear rescaling {#linear-rescaling}
 
 
 A **linear rescaling** is a transformation of the form $g(u) = a +bu$.  For example, converting temperature from Celsius to Fahrenheit using $g(u) = 32 + 1.8u$ is a linear rescaling.
@@ -2100,7 +2095,7 @@ plt.show()
 
 <!-- ### Continuous analog of rolling two dice {#uniform-sum-max} -->
 
-### Transformations of multiple random variables
+### Transformations of multiple random variables {#sim-transform-joint}
 
 Earlier in this chapter we studied the joint distribution of the sum and max of two fair-four sided dice rolls.  Now we consider a continuous analog.  Instead of rolling a die which is equally likely to take the values 1, 2, 3, 4, we spin a Uniform(1, 4) spinner that lands uniformly in the continuous interval $[1, 4]$.   Let $\IP$ be the probability space corresponding to two spins of the Uniform(1, 4) spinner, and let $X$ be the sum of the two spins, and $Y$ the larger spin (or the common value if a tie).  We saw that in Section \@ref(symbulate-discrete-uniform), we could model two rolls of a fair-four sided die using `DiscreteUniform(1, 4) ** 2`.  Similarly, we can model two spins of the Uniform(1, 4) spinner with `Uniform(1, 4) ** 2`.
 
@@ -2215,7 +2210,9 @@ plt.show()
 
 Let's look a little more closely at the marginal distribution of $X$.
 
-```{python}
+(ref:cap-dice-continuous-sum-marginal) Histogram representing the marginal distribution of the sum ($X$) of two spins of the Uniform(1, 4) spinner.
+
+```{python dice-continuous-sum-marginal, echo = FALSE, fig.cap="(ref:cap-dice-continuous-sum-marginal)"}
 
 X.sim(10000).plot()
 plt.show()
@@ -2230,7 +2227,9 @@ The marginal distribution of $X$ has highest density near 5 and lowest density n
 Similarly reasoning applies to find the marginal distribution of $Y$.  Now we find the marginal density for a particular $y$ value by collapsing/stacking the histogram horizontally over all possible value of $X$. We see that the density increases with values of $y$.  Intuitively, there is only one pair of spins, (1, 1), for which $Y=1$, but many pairs of spins for which $Y=4$, e.g., (1, 4), (4, 1), (4, 2), (2.5, 4), etc.
 
 
-```{python}
+(ref:cap-dice-continuous-max-marginal) Histogram representing the marginal distribution of the larger ($Y$) of two spins of the Uniform(1, 4) spinner.
+
+```{python dice-continuous-max-marginal, echo = FALSE, fig.cap="(ref:cap-dice-continuous-max-marginal)"}
 
 Y.sim(10000).plot()
 plt.show()

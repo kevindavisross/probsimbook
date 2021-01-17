@@ -1,0 +1,2854 @@
+# Conditioning {#cond}
+
+\newcommand{\IP}{\textrm{P}}
+\newcommand{\IQ}{\textrm{Q}}
+\newcommand{\E}{\textrm{E}}
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\SD}{\textrm{SD}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\Corr}{\textrm{Corr}}
+\newcommand{\Xbar}{\bar{X}}
+\newcommand{\Ybar}{\bar{X}}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\ybar}{\bar{y}}
+\newcommand{\ind}{\textrm{I}}
+\newcommand{\dd}{\text{DDWDDD}}
+\newcommand{\ep}{\epsilon}
+\newcommand{\reals}{\mathbb{R}}
+
+
+
+Conditioning concerns how probabilities of events or distributions of random variables are influenced by information about the occurrence of other events or the values of other random variables.
+
+Conditioning is also a useful problem solving tool for breaking problems down into smaller parts.
+
+
+## Conditional probability {#condprob}
+
+A probability is a measure of the likelihood or degree of uncertainty of an event.  A conditional probability revises this measure to reflect any "new" information about the outcome of the underlying random phenomenon.
+
+
+
+
+
+
+```{example impeach}
+
+The probability^[These number are estimates based on [data from polls as of Oct 9](https://fivethirtyeight.com/features/two-weeks-in-impeachment-is-becoming-more-popular/)] that a randomly
+selected American adult supports impeachment of President Trump is 0.49.
+
+```
+
+1. Suppose the randomly selected person is a Democrat.  Do you think the probability that the randomly selected *Democrat* supports impeachment is 0.49?
+1. The probability^[[Estimate as of Sept 2019.](https://news.gallup.com/poll/15370/party-affiliation.aspx)] that a randomly selected American is a Democrat is 0.31. Donny Don't says that the probability that a randomly selected American both (1) is a Democrat, *and* (2) supports impeachment is equal to $0.49\times 0.31$. Do you agree?
+1. Without further information, provide a range of "logically possible" values for the probability in the previous part.  ("Logically possible" means they satisfy the rules of probability, even though they might not be realistic in context.)
+1. Suppose that the probability that a randomly selected American both is a Democrat and supports impeachment is 0.26. Construct an appropriate two-way table of probabilities.
+1. Construct a corresponding two-way table of hypothetical counts.
+1. Find the probability^[The resulting value is estimated based on [data from polls as of Oct 9](https://fivethirtyeight.com/features/two-weeks-in-impeachment-is-becoming-more-popular/) and [party affiliation as of Sept 2019](https://news.gallup.com/poll/15370/party-affiliation.aspx).] that a randomly selected American *who is a Democrat* supports impeachment.
+1. How can the probability in the previous part be written in terms of the probabilities provided in the setup? 
+1. Find the probability that a randomly selected American *who supports impeachment* is a Democrat.
+
+
+
+```{solution, impeach-sol}
+to Example \@ref(exm:impeach)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The probability that the randomly selected *Democrat* supports impeachment is probably a lot larger than 0.49.  Knowing that the selected person is a Democrat would change the probability of supporting impeachment.
+1. No. Consider a hypothetical set of 100 Americans.  We would expect about 31 of these 100 Americans to be Democrats.  However, we would not expect just 15 --- that is, about half ($(0.49)(31)\approx 15$) --- of the 31 Democrats to support impeachment; we'd expect more, say 26 out of the 31.  If 26 of the 100 Americans are Democrats who support impeachment, this would be consistent with a value of 0.26 for the probability that a randomly selected American both (1) is a Democrat, *and* (2) supports impeachment equal.
+1. We could make a table like in the following part and see what values produce valid tables.  If $A$ is the event that the selected person supports impeachment, and $B$ is the event that the person is a Democrat, and $\IP$ corresponds to randomly selecting an American, then $\IP(A) = 0.49$ and $\IP(B) = 0.31$.  By the subset rule $\IP(A\cap B)\le \min(\IP(A), \IP(B)) = 0.31$.  The largest $\IP(A\cap B)$ can be is 0.31, which corresponds to all Democrats supporting impeachment.  In this case, the smallest $\IP(A \cap B)$ can be is 0, which corresponds to no Democrats supporting impeachment.  The extremes are not realistic, but without knowing more information, we do not know where $\IP(A\cap B)$ lies in $0\le \IP(A \cap B) \le 0.31$.  
+1. If the probability that a randomly selected American both is a Democrat and supports impeachment is 0.26, then the two-way table of probabilities is
+
+    |       |  $A$ | $A^c$ | Total |
+    |-------|-----:|------:|------:|
+    | $B$   | 0.26 |  0.05 |  0.31 |
+    | $B^c$ | 0.23 |  0.46 |  0.69 |
+    | Total | 0.49 |  0.51 |  1.00 |
+
+1. It is often much easier to work with counts rather than probabilities.  Start with a nice round total^[For the purposes of constructing a hypothetical table, it doesn't matter what value you use for the total, as long as you don't round any of the counts in the interior cells. If interior cells are decimals, either leave them as decimals, or add a few zeros to the total count and redo.] count like 10000 and then construct a table of hypothetical counts, assuming the counts follow the probabilities in the table above.
+
+    |              | Impeach | Not Impeach | Total |
+    |--------------|--------:|------------:|------:|
+    | Democrat     |    2600 |         500 |  3100 |
+    | Not Democrat |    2300 |        4600 |  6900 |
+    | Total        |    4900 |        5100 | 10000 |
+
+1. Working with counts, there are 3100 Democrats, of which 2600 support impeachment, so $2600/3100=0.839$ is the probability that a randomly selected American *who is a Democrat* supports impeachment.
+1. $\frac{\IP(A\cap B)}{\IP(B)} = \frac{0.26}{0.31}=0.839$ 
+1. There are 4900 who support impeachment, of which 2600 are Democrats, so $\frac{2600}{4900} = \frac{0.26}{0.49}=\frac{\IP(A\cap B)}{\IP(A)} =0.531$ is the probability that a randomly selected American *who supports impeachment* is a Democrat.  Notice that this part and the previous part have the same numerator, $\IP(A\cap B)$, but different *denominators*.  Also notice that the probabilities are quite different in this part and the previous part.
+
+
+```
+
+
+
+
+```{definition cp}
+
+The **conditional probability of event $A$ given event $B$**, denoted $\IP(A|B)$, is defined as ^[Provided $\IP(B)>0$.  We will assume throughout that all events being conditioned on have non-zero probability.  We will discuss some issues related to conditioning on the value of a continuous random variable later.] 
+\[
+\IP(A|B) = \frac{\IP(A\cap B)}{\IP(B)}
+\]
+
+```
+
+The conditional probability $\IP(A|B)$ represents how the likelihood or degree of uncertainty of event $A$ should be updated to reflect information that event $B$ has occurred.  The *unconditional* probability $\IP(A)$ is often called the *prior probability* (a.k.a., base rate) of $A$ (prior to observing $B$).  The *conditional* probability $\IP(A|B)$ is the *posterior probability* of $A$ after observing $B$.
+
+
+In general, knowing whether or not event $B$ occurs influences the probability of event $A$.  That is, 
+\[
+\text{In general, } \IP(A|B) \neq \IP(A)
+\]
+For example, without knowing a person's political party, the probability of supporting impeachment is 0.49, but after learning the person is a Democrat, the probability of supporting impeachment changed to 0.839.
+
+Be careful: order is essential in conditioning.  That is,
+\[
+\text{In general, } \IP(A|B) \neq \IP(B|A)
+\]
+
+
+
+
+
+```{example nba-conditional}
+
+Which of the following is larger - 1 or 2?
+  
+1. The probability that a randomly selected man who is greater than six feet tall plays in the NBA.
+1. The probability that a randomly selected man who plays in the NBA is greater than six feet tall.
+
+```
+
+```{solution, nba-conditional-sol}
+to Example \@ref(exm:nba-conditional)
+```
+
+```{asis, fold.chunk = TRUE}
+
+The probability in (2) is much larger.  The corresponding fractions would have the same numerator --- number of men who are both greater than six feet tall and play in the NBA --- but vastly different denominators. 
+
+
+1. There are over a billion men in the world who are greater than six feet tall, only a few hundred of whom play in the NBA.  The probability that a randomly selected man who is greater than six feet tall plays in the NBA is pretty close to 0.
+1. There only a few hundred men who play in the NBA, almost all of whom are greater than six feet tall.  The probability that a randomly selected man who plays in the NBA is greater than six feet tall is pretty close to 1.
+
+```
+
+When dealing with probabilities, especially conditional probabilities, be sure to ask "probability *of what*?" That is, what is the appropriate *sample space*? Thinking in fraction terms, be sure to identify the total/baseline group which corresponds to the *denominator*.  Be very careful when translating between numbers and words.
+
+
+To emphasize, $\IP(A|B)$ is not the same as $\IP(B|A)$ and they can be vastly different. In particular, the conditional probabilities can be highly influenced by the original unconditional probabilities of the events, $\IP(A)$ and $\IP(B)$, sometimes called the **base rates**.  Don't neglect the base rates when evaluating probabilities.
+
+For example, the probability that a randomly selected man plays in the NBA is pretty close to 0 (the base rate).  Learning that the man is greater than six feet tall is not going to change much our probability that he plays in the NBA.
+
+
+### Simulating conditional probabilities
+
+```{example impeach-sim}
+
+Consider simulating a randomly selected American and determining whether or not the person supports impeachment and whether or not the person is a Democrat, as in the scenario in  Example \@ref(exm:impeach).  Remember we are given $\IP(A) = 0.49$, $\IP(B) = 0.31$, and $\IP(A\cap B) = 0.26$ where $A$ is the event that the selected person supports impeachment and $B$ is the event that the selected person is a Democrat.
+
+```
+
+1. Donny Don't says we need two spinners: One spinner with areas of 0.49 and 0.51 to represent Support/Not support, and another spinner with areas of 0.31 and 0.69 to represent Democrat/Not Democrat.  Then spin each spinner once to simulate one repetition.  Do you agree?
+1. How could you perform one repetition of the simulation using *one* spinner?
+1. How could you perform a simulation, using the spinner in the previous part, to estimate $\IP(A | B)$?
+1. What determines the order of magnitude of the the margin of error for your estimate in the previous part?
+1. What is another method for performing the simulation and estimating $\IP(A |B)$ that has a smaller margin of error?  What is the disadvantage of this method?
+
+
+
+```{solution, impeach-sim-sol}
+to Example \@ref(exm:impeach-sim)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. No, this assumes there is no relationship between party and support.  But we know that Democrats will be much more likely to support impeachment than non-Democrats.  In general, you can not simulate pairs of events simply for the marginal distribution of each.
+1. You need to construct a spinner for the possible occurrences of the pairs of events and their joint probabilities.  See Figure \@ref(fig:impeach-sim-spinner).
+1. The following method fixes the number of total spins, say 10000.
+    - Spin the joint spinner from the previous part once to simulate a (party, support) pair.
+    - Repeat a fixed number of times, say 10000.
+    - Discard the repetitions on which the person was not a Democrat, that is, the repetitions on which $B$ did not occur.  You would expect to have around 3100 repetitions left.
+    - Among the remaining repetitions (on which $B$ occurred), count the number of repetitions on which $A$ also occurred.  So for the roughly 3100 repetitions for which the person was a Democrat, count the repetitions on which the person also supported impeachment; you would expect a count of around 2600.
+    - Estimate $\IP(A|B)$ by dividing the two previous counts.
+    \[
+    \IP(A | B)\approx \frac{\text{Number of repetitions on which both $A$ and $B$ occurred}}{\text{Number of repetitions on which $B$ occurred}}
+    \]
+1. Only those repetitions in which $B$ occurred are used to estimate $\IP(A|B)$.  So the order of magnitude of the margin of error is determined by the number of repetitions on which $B$ occurs.  Roughly this would be around 3100, rather than 10000.
+1. The previous method simulated a fixed number of repetitions first, and then discarded the ones that did not meet the condition.  We could instead discard repetitions that do not meet the condition as we go, and keep performing repetitions until we get a fixed number, say 10000, that do satisfy the condition.  In this way, the estimate $\IP(A |B)$ will be based on the fixed number of repetitions, say 10000, that satisfy event $B$.  The disadvantage is increased computational burden; we will need to simulate and discard many repetitions in order to achieve that the desired number that satisfy the condition.
+
+```
+
+
+(ref:impeach-spinner) Spinner corresponding to Example \@ref(exm:impeach-sim).
+
+```{r impeach-sim-spinner, echo=FALSE, fig.cap="(ref:impeach-spinner)", fig.width=8}
+
+knitr::include_graphics(c("_graphics/spinner-impeach.png"))  
+
+```  
+
+There are two basic ways to use simulation to approximate a conditional probability $\IP(A|B)$.
+
+- Simulate the random phenomenon for a set number of repetitions (say 10000), *discard those repetitions on which $B$ does not occur*, and compute the relative frequency of $A$ among the remaining repetitions (on which $B$ does occur).  
+  - Disadvantage: the margin of error is based on only the number of repetitions used to compute the relative frequency.  So if you perform 10000 repetitions but $B$ occurs only on 2000, then the margin of error for estimate $\IP(A|B)$ is roughly on the order of $1/\sqrt{2000}$.  
+  - Advantage: not computationally intensive.
+- Simulate the random phenomenon *until obtaining a certain number of repetitions (say 10000) on which $B$ occurs*, discarding those repetitions on which $B$ does not occur as you go, and compute the relative frequency of $A$ among the remaining repetitions (on which $B$ does occur).  
+  - Advantage: the margin of error will be based on the set number of repetitions on which $B$ occurs.
+  - Disadvantage: requires more time/computer power. Especially if $\IP(B)$ is small, it will require a large number of repetitions of the simulation to achieve the desired number of repetitions on which $B$ occurs.
+    
+In Symulate, `filter` can be used to extract repetitions that satisfy a condition.  The following simulates impeachment support status and party affiliation for 10000 hypothetical Americans and then applies `filter` to retain only the Democrats.  The function `is_Democrat` takes as an imput a (support status, party affiliation pair) and returns `True` if Democrat (and `False` otherwise).
+
+```{python}
+
+def is_Democrat(Support_Party):
+    return Support_Party[1] == 'Democrat'
+
+
+P = BoxModel([('Support', 'Democrat'), ('Support', 'Not Democrat'), ('Not Support', 'Democrat'), ('Not Support', 'Not Democrat')],
+             probs = [0.26, 0.23, 0.05, 0.46])
+
+P.sim(10000).filter(is_Democrat).tabulate()
+
+```
+
+
+In Symbulate, the given symbol `|` applies the second method to simulate a fixed number of repetitions that satisfy the event being conditioned on.  Be careful when using `|` when conditioning on an event with small probability.  In particular, be careful when conditioning on the value of a continuous random variable.
+
+
+```{python}
+
+P = BoxModel([('Support', 'Democrat'), ('Support', 'Not Democrat'), ('Not Support', 'Democrat'), ('Not Support', 'Not Democrat')],
+             probs = [0.26, 0.23, 0.05, 0.46])
+Support, Party = RV(P)
+
+( (Support & Party) | (Party == 'Democrat') ).sim(10000).tabulate()
+
+```
+
+    
+    
+### Joint, conditional, and marginal probabilities
+
+Within the context of two events, we have joint, conditional, and marginal probabilities.
+
+- Joint: unconditional probability involving both events, $\IP(A \cap B)$.
+- Conditional: conditional probability of one event given the other, $\IP(A | B)$, $\IP(B | A)$.
+- Marginal: unconditional probability of a single event $\IP(A)$, $\IP(B)$.
+
+The relationship $\IP(A|B) = \IP(A\cap B)/\IP(B)$ can  be stated generically as
+\[
+\text{conditional} = \frac{\text{joint}}{\text{marginal}}
+\]
+
+In the previous impeachment problem, we were provided the joint and marginal probabilities and we computed conditional probabilities.  But in many problems conditional probabilities are provided or can be determined directly.
+
+```{example impeach2}
+
+Recent polls^[[As of Oct 9](https://fivethirtyeight.com/features/two-weeks-in-impeachment-is-becoming-more-popular/)] suggest that
+
+- 83% of Democrats support impeachment of President Trump
+- 44% of Independents support impeachment of President Trump
+- 14% of Republicans support impeachment of President Trump
+
+```
+
+1. The average of these three percentages is $(83+44+14) = 47$.  Is it necessarily true that 47% of all Americans support impeachment?
+1. Based on recent polls^[[Party affiliation as of Sept 2019.](https://news.gallup.com/poll/15370/party-affiliation.aspx)]
+
+    - 31% of Americans are Democrats
+    - 40% of Americans are Independent
+    - 29% of Americans are Republicans
+    
+    Define the event $A$ to represent "supports impeachment" and $D, I, R$ to correspond to affiliation in each of the parties.  If the probability measure $\IP$ corresponds to randomly selecting an American, write all the percentages above as probabilities using proper notation.  
+    
+1. Find the probability that a randomly selected American is a Democrat who supports impeachment.  Is this a joint, conditional, or marginal probability?
+1. Construct an appropriate two-way table.
+1. Find the probability that a randomly selected American supports impeachment.  How does this differ from the average of the three percentages in part 1?  Why?
+1. Now suppose that the randomly selected American supports impeachment.  How does this information change the probability that the selected American belongs to a particular political party?  Answer by computing appropriate probabilities (and using proper notation).
+1. How does each of the probabilities from the previous part compare to the respective prior probability?  Does this make sense?
+
+
+
+```{solution, impeach2-sol}
+to Example \@ref(exm:impeach2)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. No, think of extreme cases as illustrations.  If almost all of Americans were Democrats, then the overall probability of supporting impeachment would be close to 0.83, while if almost all of Americans were Republicans, then the overall probability of supporting impeachment would be close to 0.14.  So the overall probability of supporting impeachment depends on the party affiliation breakdown.
+1. If the probability measure $\IP$ corresponds to randomly selecting an American then
+    - $\IP(A|D) = 0.83$
+    - $\IP(A|I) = 0.44$
+    - $\IP(A|R) = 0.14$
+    - $\IP(D) = 0.31$
+    - $\IP(I) = 0.40$
+    - $\IP(R) = 0.29$
+1. The probability that a randomly selected American is a Democrat who supports impeachment is $\IP(A \cap D) = \IP(A|D)\IP(D) = (0.83)(0.31) = 0.2573$, a joint probability.  In 10000 hypothetical Americans, we would expect 3100 to be Democrats, and of those 3100 Democrats we would expect 2573 (or 83%) to support impeachment.  So out of the 10000 Americans, 2573 are Democrats who support impeachment.
+1. Continue in the manner of the previous part to complete a two-way table of counts for 10000 hypothetical Americans.
+
+    |             	| Impeach 	| Not Impeach 	| Total 	|  
+    |-------------	|--------:	|------------:	|------:	|  
+    | Democrat    	|    2573 	|         527 	|  3100 	|  
+    | Independent 	|    1760 	|        2240 	|  4000 	|  
+    | Republican  	|     406 	|        2494 	|  2900 	|  
+    | Total       	|    4739 	|        5261 	| 10000 	|  
+  
+1. Out of the 10000 Americans, 4739 support impeachment, so the probability that a randomly selected American supports impeachment^[This number differs from the one in the previous impeachment problem because of rounding errors in the probabilities reported in the setups.] is $\IP(A)=0.4739$.  This is actually pretty close to the average of the 3 impeachment percentages, but that's just a coincidence.  The overall probability is actually a *weighted average*; in terms of the probabilities given in the setup, the table calculations show
+    \begin{align*}
+    \IP(A) & = \IP(A \cap D) + \IP(A \cap I) + \IP(A \cap R)\\
+    & = \IP(A|D)\IP(D) + \IP(A|I)\IP(I) + \IP(A|R)\IP(R)\\
+    & = (0.83)(0.31) + (0.44)(0.40) + (0.14)(0.29)
+    \end{align*}
+    This is an illustration of the "law of total probability" which we will discuss in more detail soon.
+1. We want $\IP(D|A)$, etc.
+    - $\IP(D|A) = \frac{2573}{4739} = \frac{(0.83)(0.31)}{(0.83)(0.31) + (0.44)(0.40) + (0.14)(0.29)} = 0.543$.
+    - $\IP(I|A) = \frac{1760}{4739} = \frac{(0.44)(0.40)}{(0.83)(0.31) + (0.44)(0.40) + (0.14)(0.29)} = 0.371$.
+    - $\IP(R|A) = \frac{406}{4739} = \frac{(0.14)(0.29)}{(0.83)(0.31) + (0.44)(0.40) + (0.14)(0.29)} = 0.086$.
+1. How does each of the probabilities from the previous part compare to the respective prior probability?  Does this make sense?
+    - $\IP(D|A) = 0.543$, which is greater than the prior probability of Democrat $\IP(D) = 0.31$.  Knowing the person supports impeachment increases the probability that the person is a Democrat.
+    - $\IP(I|A) = 0.371$, which is slightly less than the prior probability of Independent $\IP(I) = 0.40$.  Knowing the person supports impeachment slightly decreases the probability that the person is an Independent.
+    - $\IP(R|A) = 0.086$, which is less than the prior probability of Republican $\IP(R) = 0.29$.  Knowing the person supports impeachment decreases the probability that the person is a Republican.
+
+```
+
+A **mosaic plot** provides a nice visual of joint, marginal, and one-way conditional probabilities, and can be used to illustrate the law of total probability. The mosaic plot^[Unfortunately, mosaic plots are not available in Symbulate yet.] on the left in Figure \@ref(fig:impeach-mosaic) represents conditioning on political party.  The vertical bars represent the conditional probabilities of supporting/not supporting impeachment for each political party.  The widths of the vertical bars are scaled in proportion to the marginal distribution of party; the bar for Independent is a little wider than the others.  The area of each sub-rectangle represents a joint probability.  The single bar to the right of the plot displays the marginal probability of supporting/not supporting impeachment.
+
+The plot on the right in Figure \@ref(fig:impeach-mosaic) represents conditioning on support of impeachment.  Now the widths of the vertical bars represent the distribution of supporting/not supporting impeachment, the heights within the bars represent conditional probabilities for party affiliation given support status, and the single bar to the right represents the marginal distribution of party affiliation.
+
+(ref:cap-impeach-mosaic) Mosaic plots for Example \@ref(exm:impeach2).  The plot on the left represents conditioning on party affiliation, while the plot on the right represents conditioning on support for impeachment.
+
+```{r impeach-mosaic, echo=FALSE, fig.cap="(ref:cap-impeach-mosaic)", out.width='50%', fig.show='hold'}
+
+knitr::include_graphics(c("_graphics/impeach-mosaic.png", "_graphics/impeach-mosaic2.png"))
+
+```
+
+
+
+```{example impeach2-sim}
+
+Consider simulating a randomly selected American and determining whether or not the person supports impeachment and whether or not the person is a Democrat, as in the scenario in  Example \@ref(exm:impeach2).  Remember we are given $\IP(A|D) = 0.83$, $\IP(A|I) = 0.44$, $\IP(A|R) = 0.14$, $\IP(D) = 0.31$, $\IP(I) = 0.40$, and $\IP(R)=0.29$.
+
+```
+
+How could you perform one repetition of the simulation using spinners based solely on the probabilities provided in the problem, without constructing a two-way table?  (Hint: you'll need a few spinners, but you might not spin them all in a single repetition.)
+
+```{solution, impeach2-sim-sol}
+to Example \@ref(exm:impeach2-sim)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+There will be 4 spinners, but only 2 will be spun in any single repetition.
+
+- "Party" spinner: Areas of 0.31, 0.40, and 0.29 correspond to, respectively, Democrat, Independent, Republican.  Spin this to determine party affiliation.
+- "Impeachment" spinners --- only one of the following will be spun in a single repetition:
+    - Impeachment given Democrat: areas of 0.83 and 0.17 corresponding to, respectively, support, not support.  If the result of the "party" spinner is Democrat, spin this spinner to determine support for impeachment.
+    -  Impeachment given Independent: areas of 0.44 and 0.56 corresponding to, respectively, support, not support.  If the result of the "party" spinner is Independent, spin this spinner to determine support for impeachment.
+    -  Impeachment given Republican: areas of 0.14 and 0.86 corresponding to, respectively, support, not support.  If the result of the "party" spinner is Republican, spin this spinner to determine support for impeachment.
+
+```
+
+We can code the above in Symbulate by defining a custom probability space.  An outcome is a (party, impeachment) pair.  Each of the 4 spinners corresponds to a `BoxModel`.  We define a function that defines how to simulate one repetition, using the `draw` method.  Then we use that function to define a custom `ProbabilitySpace`.
+
+```{python}
+
+def party_impeachment_sim():
+    party = BoxModel(['D', 'I', 'R'], probs = [0.31, 0.40, 0.29]).draw()
+    if party == 'D':
+        support = BoxModel(['Imp', 'NotImp'], probs = [0.83, 0.17]).draw()
+    if party == 'I':
+        support = BoxModel(['Imp', 'NotImp'], probs = [0.44, 0.56]).draw()
+    if party == 'R':
+        support = BoxModel(['Imp', 'NotImp'], probs = [0.14, 0.86]).draw()
+    return party, support
+    
+P = ProbabilitySpace(party_impeachment_sim)
+P.sim(10000).tabulate()
+
+```
+
+
+
+The impeachment problem in this section illustrated a few concepts that we will explore in more detail in the next few sections, namely: the multiplication rule, the law of total probability, and Bayes' rule.
+
+
+
+
+### Multiplication rule {#multrule}
+
+**Multiplication rule:** the probability that two events both occur is
+\[\begin{aligned}
+\IP(A \cap B) & = \IP(A|B)\IP(B)\\
+& = \IP(B|A)\IP(A)\end{aligned}\]
+
+The multiplication rule says that you should think "multiply" when you see "and".  However, be careful about *what* you are multiplying: to find a joint probability you need an unconditional and an appropriate conditional probability.  You can condition either on $A$ or on $B$, provided you have the appropriate marginal probability; often, conditioning one way is easier than the other. Be careful: the multiplication rule does *not* say that $\IP(A\cap B)$ is the same as $\IP(A)\IP(B)$.  
+
+Generically, the multiplication rule says
+\[
+\text{joint} = \text{conditional}\times\text{marginal}
+\]
+
+For example:
+
+- 31% *of Americans* are Democrats
+- 83.9% *of Democrats* support impeachment
+- So 26% *of Americans* are Democrats who support impeachment, $0.26 = 0.31\times 0.839$.
+
+\[
+\frac{\text{Democrats who support impeachment}}{\text{Americans}} = \left(\frac{\text{Democrats}}{\text{Americans}}\right)\left(\frac{\text{Democrats who support impeachment}}{\text{Democrats}}\right)
+\]
+
+The multiplication rule extends naturally to more than two events.
+\[
+\IP(A_1\cap A_2 \cap \cdots \cap A_{k}) = \IP(A_1)\IP(A_2|A_1)\IP(A_3|A_1\cap A_2) \times \cdots \times \IP(A_k|A_1 \cap A_2 \cap \cdots \cap A_{k-1})
+\]
+
+The multiplication rule is useful for computing probabilities for a
+random phenomenon that can be broken down into component “stages”.
+
+```{example birthday}
+
+The [birthday problem](https://pudding.cool/2018/04/birthday-paradox/) concerns the probability that at least two people in a group of $n$ people have the same birthday^[You should really click on [this birthday problem link](https://pudding.cool/2018/04/birthday-paradox/).].  In particular, how large does $n$ need to be in order for this probability to be larger than 0.5? Ignore multiple births and February 29 and assume that the other 365 days are all equally likely^[[Which isn't [quite](https://visme.co/blog/most-common-birthday/) [true](http://thedailyviz.com/2016/09/17/how-common-is-your-birthday-dailyviz/). However, a non-uniform distribution of birthdays only increases the probability that at least two people have the same birthday.  To see that, think of an extreme case like if everyone were born in September.].
+
+```
+
+1. Explain how, in principle, you could perform a tactile simulation to estimate the probability that at least two people have the same birthday when $n=30$.  
+1. For $n=30$, find the probability that none of the people have the same birthday.
+1. For $n=30$, find the probability that at least two people have the same birthday.
+1. Write a clearly worded sentence interpreting the probability in the previous part as a long run relative frequency.
+1. Provide an expression of the probability for a general $n$ and find the smallest value of $n$ for which the probability is over 0.5.
+1. When $n=100$ the probability is about 0.9999997.  If you are in a group of 100 people and no one shares your birthday, should you be surprised?
+
+
+```{solution, birthday-sol}
+to Example \@ref(exm:birthday)
+```
+
+```{asis, fold.chunk = TRUE}
+
+
+1. Here is one way.
+    - Get 365 cards and label each one with a distinct birthday.
+    - Shuffle the cards and select 30 *with replacement*.
+    - Record whether or not you selected at least one card more than once.  This corresponds to at least two people sharing a birthday.
+    - Repeat many times; each repetition consists of a selecting a sample of 30 cards with replacement.
+    - Find the proportion of repetitions on which at least two people had the same birthday to approximate the probability.
+    
+    In the simulation below, the random variable $X$ measures the number of distinct birthdays among the 30 people.  So if no one shares a birthday then $X=30$, if there is exactly one day that is the birthday of at least two people then $X=29$, and so on.  
+    
+1. Imagine lining the 30 people up in some order.  Let $A_2$ be the event that the first two people have different birthdays, $A_3$ be the event that the first three people have different birthdays, and so on, until $A_{30}$, the event that all 30 people have different birthdays. Notice $A_{30}\subseteq A_{29} \subseteq \cdots \subseteq A_3 \subseteq A_2$, so $\IP(A_{30}) = \IP(A_2 \cap A_3 \cap \cdots \cap A_{30})$.  
+
+    The first person's birthday can be any one of 365 days.  In order for the second person's birthday to be different, it needs to be on one of the remaining 364 days. So the probability that the second person's birthday is different from the first is $\IP(A_2)=\frac{364}{365}$.  
+  
+    Now if the first two people have different birthdays, in order for the third person's birthday to be different it must be on one of the remaining 363 days.  So $\IP(A_3|A_2) = \frac{363}{365}$.  Notice that this is a conditional probability.  (If the first two people had the same birthday, then the probability that the third person's birthday is different would be $\frac{364}{365}$.)  
+
+    If the first three people have different birthdays, in order for the fourth person's birthday to be different it must be on one of the remaining 362 days.  So $\IP(A_4|A_2\cap A_3) = \frac{362}{365}$.  
+  
+    And so on.  If the first 29 people have different birthdays, in order for the 30th person's birthday to be different it must be on one of the remaining 365-29=336 days.  Then using the multiplication rule
+
+    \begin{align*}
+    \IP(A_{30}) & = \IP(A_{2}\cap A_3 \cap \cdots \cap A_{30})\\
+    & = \IP(A_2)\IP(A_3|A_2)\IP(A_4|A_2\cap A_3)\IP(A_5|A_2\cap A_3 \cap A_4)\cdots \IP(A_{30}|A_2\cap \cdots \cap A_{29})\\
+    & = \left(\frac{364}{365}\right)\left(\frac{363}{365}\right)\left(\frac{362}{365}\right)\left(\frac{361}{365}\right)\cdots \left(\frac{365-30 + 1}{365}\right)\approx 0.294
+    \end{align*}  
+  
+1.  By the complement rule, the probability that at least two people have the same birthday is $1-0.294=0.706$, since either (1) none of the people have the same birthday, or (2) at least two of the people have the same birthday.
+
+1. In about 70% of *groups of 30 people* at least two people in the group will have the same birthday.  For example, if Cal Poly classes all have 30 students, then in about 70% of your classes at least two people in the class will share a birthday.
+
+1. For a general $n$, the probability that at least two people have the same birthday is
+\[
+1 - \prod_{k=1}^{n}\left(\frac{365-k+1}{365}\right)
+\]
+See the plot below, which plots this probability as a function of $n$. When $n=23$ this probability is 0.507.
+
+1. Maybe, but not because of the 0.999997.  That probability is the probability that *at least two people* in the group of 100 share a birthday.  It is NOT the probability that someone shares YOUR birthday.  (We will see later how to compute the probability that no one shares your birthday as $(364/365)^{100}= 0.76$. So it's not very surprising that no one shares your birthday.)
+
+```
+
+(ref:cap-birthday-sim) Simulation of the birthday problem for $n=30$. The plot displays the simulated distribution of the number of distinct birthdays among the 30 people.  There are no birthday matches only when there are 30 distinct birthdays among the 30 people, which happens with probability about 0.3.
+
+```{python birthday-sim, echo=TRUE, fig.cap="(ref:cap-birthday-sim)"}
+def count_distinct_values(list):
+    return len(set(list))
+    
+n = 30
+P = BoxModel(list(range(365)), size = n, replace = True)
+X = RV(P, count_distinct_values)
+
+x = X.sim(10000)
+
+x.plot()
+plt.show()
+```
+
+
+```{python}
+
+x.count_lt(n) / 10000
+
+```
+
+(ref:cap-birthday-plot) Probability of at least one birthday match as a function of the number of people in the room.  For 23 people, the probability of at least one birthday match is 0.507.
+
+```{r birthday-plot, echo=FALSE, fig.cap="(ref:cap-birthday-plot)"}
+
+n = 60
+d = seq(from=365,to=365-n+1,by=-1)/365
+pn = 1-cumprod(d)
+n0 = 23
+
+plot(1:n, pn, type="o", ylim=c(0,1), lwd=1, 
+     xlab="Number of people in room",
+     ylab="Probability of at least one birthday match")
+segments(x0 = n0, y0=0, x1 = n0, y1 = pn[n0], lty=2, lwd=3, col="skyblue") 
+segments(x0 = 0, y0=pn[n0], x1 = n0, y1 = pn[n0], lty=2, lwd=3, col="skyblue") 
+
+```
+
+
+
+
+### Law of total probability {#lawtotalprob}
+
+
+
+The "overall" unconditional probability $\IP(A)$ can be thought of as a weighted average of the "case-by-case" conditional probabilities $\IP(A|B)$ and $\IP(A|B^c)$, where the weights are determined by the likelihood of each case, $\IP(B)$ versus $\IP(B^c)$.
+\[
+\IP(A) = \IP(A|B)\IP(B) + \IP(A|B^c)\IP(B^c)
+\]
+This is an example of the *law of total probability*, which applies even when there are more than two cases.
+
+
+**Law of total probability.**  If $B_1,\ldots, B_k$ are disjoint with $B_1\cup \cdots \cup B_k=\Omega$, then 
+\begin{align*}
+\IP(A) & = \sum_{i=1}^k \IP(A \cap B_i)\\
+& = \sum_{i=1}^k \IP(A|B_i) \IP(B_i)
+\end{align*}
+
+The events $B_1, \ldots, B_k$, which represent the "cases", form a *partition* of the sample space; each outcome $\omega\in\Omega$ lies in exactly one of the $B_i$.  The law of total probability says that we can interpret the unconditional probability $\IP(A)$ as a probability-weighted average of the case-by-case conditional probabilities $\IP(A|B_i)$ where the weights $\IP(B_i)$ represent the probability of encountering each case.
+
+
+
+
+For an illustration of the law of total probability, consider the single bar to the right of the plot on the left in Figure \@ref(fig:impeach-mosaic) which displays the marginal probability of supporting/not supporting impeachment. The height within this bar is the weighted average of the heights within the other bars, with the weights given by the widths of the other bars.
+
+
+The plot on the right in \@ref(fig:impeach-mosaic) represents conditioning on support of impeachment.  Now the widths of the vertical bars represent the distribution of supporting/not supporting impeachment, the heights within the bars represent conditional probabilities for party affiliation given support status, and the single bar to the right represents the marginal distribution of party affiliation.  Now we can see that the marginal probabilities for part affiliation are the weighted averages of the respective conditional probabilities given support status.
+
+
+
+Conditioning and using the law of probability is an effective strategy in solving many problems.  For example, when a problem involves iterations or steps it is often useful to condition on the result of the first step.
+
+```{example lookaway}
+
+You and your friend are playing the ["lookaway challenge"](https://fivethirtyeight.com/features/what-are-your-chances-of-winning-the-u-s-open/).
+
+> In the first round, you point in one of four directions: up, down, left or right. At the exact same time, your friend also looks in one of those four directions. If your friend looks in the same direction you're pointing, you win! Otherwise, you switch roles as the game continues to the next round — now your friend points in a direction and you try to look away. As long as no one wins, you keep switching off who points and who looks.
+
+Suppose that each player is equally likely to point/look in each of the four directions, independently from round to round.  What is the probability that you win the game?
+
+```
+
+1. Why might you expect the probability to not be equal to 0.5?
+1. What is the probability that you win in the first round?
+1. If $p$ denotes the probability that the player who goes first (you) wins, what is the probability that the other player wins?
+1. Condition on the result of the first round and set up an equation to solve for $p$.
+
+
+```{solution, lookaway-sol}
+to Example \@ref(exm:lookaway)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The player who plays first has the advantage of going first; that player can win the game in the first round, but cannot lose the game in the first round.  So we might expect the player who goes first to be more likely to win than the other player.
+1. 1/4. If we represent an outcome in the first round as a pair (point, look) then there are 16 possible equally likely outcomes, of which 4 represent pointing and looking in the same direction.  Alternatively, whichever direction you point, the probability that your friend looks in the same direction is 1/4.
+1. $1-p$, since the game keeps going until someone wins.
+1. Here is where we use conditioning and the law of total probability. Let $A$ be the event that you win the game, and $B$ be the event that you win in the first round.  By the law of total probability
+\[
+\IP(A) = \IP(A|B)\IP(B) + \IP(A|B^c)\IP(B^c)
+\]
+Now $\IP(A)=p$, $\IP(B)=1/4$, $\IP(B^c)=3/4$, and $\IP(A|B)=1$ since if you win in the first round then you win the game.  Now consider $\IP(A|B^c)$.  If you don't win in the first round, it is like the game starts over with the other playing going first.  In this scenario, you play the role of the player who does not go first, and we saw above that the probability that the player who does not go first wins is $1-p$.  That is, $\IP(A|B^c) = 1-p$. Therefore
+\[
+p = (1)(1/4)+ (1-p)(3/4)
+\]
+Solve to find $p=4/7\approx 0.57$.  
+
+``` 
+
+The following is one way to code the lookaway challenge.  In each round an outcome is a (point, look) pair, coded with a `BoxModel` with `size=2` (and choices labeled 1, 2, 3, 4).  The `** inf` assumes the rounds continue indefinitely, so the outcome of a game is a sequence of (point, look) pairs for each round.   The random variable $X$ counts the number of rounds until there is a winner, which occurs in the first round that point = look.  The player who goes first wins the game if the game ends in an odd number of rounds, so to estimate the probability that the player who goes first wins we find the proportion of repetitions in which $X$ is an odd number.
+
+```{python}
+def is_odd(x):
+    return (x % 2) == 1
+
+def count_rounds(sequence):
+    for r, pair in enumerate(sequence):
+        if pair[0] == pair[1]:
+            return r + 1 # +1 for 0 indexing
+
+P = BoxModel([1, 2, 3, 4], size = 2) ** inf
+X = RV(P, count_rounds)
+x = X.sim(10000)
+
+
+x.plot()
+plt.show()
+
+```
+
+
+```{python}
+
+print(x.count(is_odd) / 10000)
+
+```
+
+
+
+
+### Bayes rule {#bayes}
+
+
+**Bayes' rule** specifies how a prior probability $\IP(B)$ is updated in response to information that event $B$ has occurred to obtain the posterior probability $\IP(B|A)$.
+\[
+\IP(B|A) = \IP(B)\left(\frac{\IP(A|B)}{\IP(A)}\right)
+\]
+
+Bayes' rule is often used in conjunction with the law of total probability.  If $B_1,\ldots, B_k$ are disjoint with $B_1\cup \cdots \cup B_k=\Omega$, then for any $j$
+
+\begin{align*}
+\IP(B_j|A) & = \frac{\IP(A|B_j)\IP(B_j)}{\sum_{j=1}^k \IP(A|B_i) \IP(B_i)}
+\end{align*}
+
+Each of the $B_j$ represents a different "hypothesis" or "case", while $A$ represents "evidence".  So Bayes' rule gives a way of updating $\IP(B_j)$, the prior probability of hypothesis $B_j$, in light of evidence $A$ to obtain the posterior probability $\IP(B_j|A)$.
+
+
+```{example bayes-false-positive}
+
+A woman's chances of giving birth to a child with Down syndrome increase
+with age. The CDC estimates^[Source:
+    <http://www.cdc.gov/ncbddd/birthdefects/downsyndrome/data.html>] that a woman in her mid-to-late 30s has
+a risk of conceiving a child with Down syndrome of about 1 in 250. A
+nuchal translucency scan, which involves a blood draw from the mother
+and an ultrasound, is often performed around the 13th week of pregnancy
+to test for the presence of Down syndrome (among other things). If the
+baby has Down syndrome, the probability that the test is positive is
+about 0.9. However, when the baby does not have Down syndrome, there is
+still a probability that the test returns a (false) positive of about^[Estimates of these probabilities vary between different sources.
+    The values in the exercise were based on
+    <https://www.ncbi.nlm.nih.gov/pubmed/17350315>]
+0.05. Suppose that the NT test for a pregnant woman in her mid-to-late
+30s comes back positive for Down syndrome. What is the probability that
+the baby actually has Down syndrome?
+
+ 
+```
+
+1. Before proceeding, make a guess for the probability in question.
+\[
+\text{0-20%} \qquad \text{20-40%} \qquad \text{40-60%} \qquad \text{60-80%} \qquad \text{80-100%}
+\]
+1. Donny Don't says: 0.90 and 0.05 should add up to 1, so there must be a typo in the problem.  Do you agree?
+1. Let $D$ be the event that the baby has Down Syndrome, and let $T$ be the event that the test is positive.  Represent the probabilities provided using proper notation.  Also, denote the probability that we are trying to find.
+1. Considering a hypothetical population of babies (of pregnant women in this demographic), express the probabilities as percents in context.
+1. Construct a hypothetical two-way table of counts.
+1. Use the table to find the probability in question.
+1. Using the probabilities provided in the setup, and without using the two-way table, find the probability that the test is positive.
+1. Using the probabilities provided in the setup, and without using the two-way table, find the probability that
+the baby actually has Down syndrome given that the test is positive.
+1. The probability in the previous part might seem very low to you.  Explain why the probability is so low.
+1. Compare the probability of having Down Syndrome before and after the positive test.  How much more likely is a baby who tests positive to have Down Syndrome than a baby for whom no information about the test is available?
+
+
+```{solution, bayes-false-positive-sol}
+to Example \@ref(exm:bayes-false-positive)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. We don't know what you guessed, but from experience many people guess 80-100%.  Afterall, the test is correct for most of the babies who have Down Syndrome, and also correct for the most of the babies who do not have Down Syndrome, so it seems like the test is correct most of the time.  But this argument ignores one important piece of information that has a huge impact on the results: most babies do not have Down Syndrome.
+1. No, these probabilities apply to different groups: 0.9 to babies with Down Syndrome, and 0.05 to babies without Down Syndrome.  Donny is using the complement rule wrong.  For example, if 0.9 is the probability that a baby with Down Syndrome tests positive, then 0.1 is the probability that a baby with Down Syndrome *does not test positive*; both probabilities apply to babies with Down Syndrome, and each baby with Down Syndrome either tests positive or not.   
+1. If $D$ is the event that the baby has Down Syndrome, and $T$ is the event that the test is positive, then we are given
+    - $\IP(D) = 1/250 = 0.004$
+    - $\IP(T|D) = 0.9$
+    - $\IP(T|D^c) = 0.05$
+    - We want to find: $\IP(D|T)$.
+1. Considering a hypothetical population of babies (of pregnant women in this demographic):
+    - 0.4% *of babies* have Down Syndrome
+    - 90% *of babies with Down Syndrome* test positive
+    - 5% *of babies without Down Syndrome* test positive
+    - We want to find the percentage *of babies who test positive* that have Down Syndrome.  
+1. Assuming 10000 babies (of pregnant women in this demographic)
+
+    |                   | Has Down Syndrome | Does Not have Down Sydrome | Total |
+    |-------------------|------------------:|---------------------------:|------:|
+    | Tests positive    |                36 |                        498 |   534 |
+    | Not test positive |                 4 |                       9462 |  9466 |
+    | Total             |                40 |                       9960 | 10000 | 
+
+1. Among the 534 babies who test positive, 36 have Down Syndrome, so the probability that a baby who tests positive has Down Syndrome is 36/534 = 0.067.
+1. Use law of total probability: the probability of testing positive is the weighted average of 0.9 and 0.05; 0.05 gets more weight because there are many more babies without Down Syndrome
+\[
+\IP(T) = \IP(T|D)\IP(D) + \IP(T|D^c)\IP(D^c) = 0.9(0.004) + 0.05(0.996) = 0.0534
+\]
+1. Use Bayes' rule
+\[
+\IP(D|T) = \frac{\IP(T|D)\IP(D)}{\IP(T)} = \frac{0.9(0.004)}{0.0534} = 0.067.
+\]
+1. The result says that only 6.7% *of babies who test positive* actually have Down Syndrome.  It is true that the test is correct for most babies with Down Syndrome (36 out of 40) and incorrect only for a small proportion of babies without Down Syndrome (498 out of 9960).  But since so few babies have Down Syndrome, the sheer *number* of false positives (498) swamps the *number* of true positives (36).
+1. Prior to observing the test result, the prior probability that a baby has Down Syndrome is 0.004.  The posterior probability that a baby has Down Syndrome given a positive test result is 0.067. A baby who tests positive  is about 17 times (0.067/0.004) more likely to have Down Syndrome than a baby for whom the test result is not known.  So while 0.067 is still small in absolute terms, the posterior probability is much larger relative to the prior probability.
+
+```
+
+Remember, the conditional probability of $A$ given $B$, $\IP(A|B)$,  is not the same as the conditional probability of $B$ given $A$, $\IP(B|A)$, and they can be vastly different.  Remember to ask "percentage of what"?  For example, the percentage of *babies who have Down syndrome* that test positive is a very different quantity than the percentage of *babies who test positive* that have Down syndrome.
+
+Conditional probabilities ($\IP(D|T)$) can be highly influenced by the original unconditional probabilities ($\IP(D)$) of the events, sometimes called the **base rates**.  Don't neglect the base rates when evaluating probabilities. The example illustrates that when the base rate for a condition is very low and the test for the condition is less than perfect there will be a relatively high probability that a positive test is a *false positive.*
+
+
+
+(ref:cap-DS-mosaic) Mosaic plots for Example \@ref(exm:bayes-false-positive).  The plot on the left represents conditioning on Down Syndrome status, while the plot on the right represents conditioning on test result.
+
+```{r DS-mosaic, echo=FALSE, fig.cap="(ref:cap-DS-mosaic)", out.width='50%', fig.show='hold'}
+
+knitr::include_graphics(c("_graphics/DS-mosaic2.png", "_graphics/DS-mosaic.png"))
+
+```
+
+
+Recall Bayes rule for multiple cases.
+\begin{align*}
+\IP(B_j|A) & = \frac{\IP(A|B_j)\IP(B_j)}{\sum_{j=1}^k \IP(A|B_i) \IP(B_i)}\\
+& = \frac{\IP(A|B_j)\IP(B_j)}{\IP(A)}\\
+& \propto \IP(A|B_j)\IP(B_j)
+\end{align*}
+
+Recall that $B_j$ represents a "hypothesis" and $A$ represents "evidence".  The probability $\IP(A |B_j)$ is called the *likelihood*^["Likelihood" here is used in the statistical sense, as in "maximum likelihood estimation", rather than as a loose synonymn for the word probability.] of observing evidence $A$ given hypothesis $B_j$.
+
+The marginal probability of the evidence, $\IP(A)$, in the denominator (which can be calculated using the law of total probability) simply normalizes the numerators to ensure that the updated probabilities $\IP(B_j|A)$ sum to 1 when summing over all the cases.  Thus Bayes rule says that the posterior probability $\IP(B_j|A)$ is proportional to the product of the likelihood $\IP(A | B_j)$ and the prior probability $\IP(B_j)$
+\begin{align*}
+\IP(B_j | A) & \propto \IP(A|B_j)\IP(B_j)\\
+\text{posterior} & \propto \text{likelihood} \times \text{prior}
+\end{align*}
+
+As an illustration, consider Example \@ref(exm:impeach2).  Suppose we are given that the randomly selected person supports impeachment, and we want to update our probabilities for the person's party affiliation.  The following organizes the calculations in a *Bayes' table* which illustrates  "posterior is proportion to likelihood times prior".
+
+
+|             | Prior | Likelihood (of supporting impeachment) | Prior $\times$ Likelihood |                       Posterior |
+|-------------|------:|---------------------------------------:|--------------------------:|--------------------------------:|
+| Democrat    |  0.31 |                                   0.83 |     (0.31)(0.83) = 0.2573 | $\frac{0.2573}{0.4739} = 0.543$ |
+| Independent |  0.40 |                                   0.44 |     (0.40)(0.44) = 0.1760 | $\frac{0.1760}{0.4739} = 0.371$ |
+| Republican  |  0.29 |                                   0.14 |     (0.29)(0.14) = 0.0406 | $\frac{0.4060}{0.4739} = 0.086$ |
+| Sum         |  1.00 |                                     NA |                    0.4739 |                           1.000 |
+
+
+The product of prior and likelihood for Democrats (0.2573) is 6.34 (0.2573/0.0406) times higher than the product of prior and likelihood for Republicans (0.0406).  Therefore, Bayes rule implies that the conditional probability that the person is a Democrat given support for impeachment should be 6.34 times higher than the conditional probability that the person is a Republican given support for impeachment.  Similarly, the conditional probability that the person is a Democrat given support for impeachment should be 1.46 (0.2573/0.1760) times higher than the conditional probability that the person is an Independent given support for impeachment, and the conditional probability that the person is an Independent given support for impeachment should be 4.33 (0.1760/0.0406) times higher than the conditional probability that the person is a Republican given support for impeachment.  The last column just translates these relative relationships into probabilities that sum to 1.
+
+
+
+
+### Conditioning is "slicing and renormalizing"
+
+
+The process of conditioning can be thought of as **"slicing and renormalizing".**
+
+- Extract the "slice" corresponding to the event being conditioned on (and discard the rest).  For example, a slice might correspond to a particular row or column of a two-way table.  
+- "Renormalize" the values in the slice so that corresponding probabilities add up to 1.
+
+We will see that the "slicing and renormalizing" interpretation also applies when dealing with *conditional distributions* of random variables, and corresponding plots.  Slicing determines the *shape*; renormalizing determines the *scale*.  Slicing determines relative probabilities; renormalizing just makes sure they add up to 1.
+
+```{example, impeach-slicing}
+
+Recall Example \@ref(exm:impeach).  Remember we are given $\IP(A) = 0.49$, $\IP(B) = 0.31$, and $\IP(A\cap B) = 0.26$ where $A$ is the event that the selected person supports impeachment and $B$ is the event that the selected person is a Democrat.
+
+``` 
+
+1. How many times more likely is it for an *American* to be a Democrat who supports impeachment than to be a Democrat who does not support impeachment?
+1. How many times more likely is it for a *Democrat* to support impeachment than to not support impeachment?
+1. What do you notice about the answers to the two previous parts?
+
+
+```{solution, impeach-slicing-sol}
+to Example \@ref(exm:impeach-slicing)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. Note that the probability that an American is a Democrat who does not support impeachment is $\IP(A^c \cap B) = \IP(B) - \IP(A\cap B) = 0.31 - 0.26 = 0.05$. The ratio in question is $\frac{\IP(A \cap B)}{\IP(A^c \cap B)} = \frac{0.26}{0.05} = 5.2$. An *American* is 5.2 times more likely to be a Democrat who supports impeachment than to be a Democrat who does not support impeachment.
+1. Recall that $\IP(A|B) = 0.839$ and $\IP(A^c|B) = 0.161$. The ratio in question is $\frac{\IP(A |B)}{\IP(A^c | B)} = \frac{0.839}{0.161} = 5.2$. A *Democrat* is 5.2 times more likely to support impeachment than to not support impeachment.
+1. The ratios are the same! Conditioning on Democrat just slices out the Americans who are Democrats.  The ratios are determined by the overall probabilities for Americans, as in part 1.  The conditional probabilities, given Democrat, in part 2 simply rescale the probabilities for Americans who are Democrats to add up to 1.
+
+```
+
+The following is a Venn diagram type example of slicing and renormalizing.
+
+
+```{example venn-conditional}
+
+Each of the three Venn diagrams below represents a sample space with 16 equally likely outcomes.  Let $A$ be the yellow `/`  event, $B$ the blue `\` event, and their intersection $A\cap B$ the green $\times$ event. Suppose that areas represent probabilities, so that for example $\IP(A) = 4/16$.
+
+Find $\IP(A|B)$ for each of the scenarios.  Be sure to indicate what represents the "slice" in each scenario.
+
+``` 
+
+
+
+```{r venn-conditional-plot, echo = FALSE}
+
+knitr::include_graphics(c("_graphics/venn-conditional.png"))
+
+```
+
+
+
+```{solution, venn-condition-sol}
+to Example \@ref(exm:venn-conditional)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+In each case, the slice represents the 4 blue outcomes.
+
+1. Left: $\IP(A|B)=0$. After conditioning on $B$, there are now 4 equally likely outcomes, of which none satisfy $A$.
+1. Middle: $\IP(A|B) = 2/4$. After conditioning on $B$, there are now 4 equally likely outcomes, of which 2 satisfy $A$.
+1. Right: $\IP(A|B) = 1/4$. After conditioning on $B$, there are now 4 equally likely outcomes, of which 1 satisfies $A$.
+
+```
+
+
+### Conditional probabilities are probabilities
+
+Conditioning on an event $E$ can be viewed as a *change in the probability measure*^[Conditioning on event $E$ can also be viewed as a restiction of the sample sample from $\Omega$ to $E$.  However, we prefer to keep the sample space as $\Omega$ and only view conditioning as a change in probability measure.  In this way, we can consider conditioning on various events as representing different probability measures all defined for the same collection of events corresponding to the same sample space.] on $\Omega$, from $\IP(\cdot)$ to $\IP(\cdot|E)$.  That is, the original probability measure $\IP(\cdot)$ assigns probability $\IP(A)$, a number, to event $A$, while the conditional probability measure $\IP(\cdot |E)$ assigns probability $\IP(A|E)$, a possibly different number, to event $A$.  Switching to $\IP(\cdot |E)$ resembles the following. 
+
+- Outcomes^[Remember: probabilities are assigned to events, so we are speaking loosely when we say probabilities of outcomes.] in $E^c$ are assigned probability 0 under $\IP(\cdot|E)$.
+If $A$ consists only of outcomes not in $E$, i.e., if $A\subseteq E^c$, then $\IP(A\cap E)=0$ so $\IP(A|E)=0$.
+- The probabilities of outcomes in $E$ are rescaled so that they comprise 100\% of the probability conditional on $E$, i.e.\ so that $\IP(E|E)=1$. This is the effect of dividing by $\IP(E)$.  For example, if $A, B\subseteq E$ and $\IP(A)=2\IP(B)$, then also $\IP(A|E)=2\IP(B|E)$.  That is, if event $A$ is twice as likely as event $B$ according to $\IP(\cdot)$, then the same will be true according to $\IP(\cdot|E)$ provided that the probabilities of none of the outcomes satisfying the events has been zeroed out due to conditioning on $E$.
+
+
+
+
+
+**Conditional probabilities are probabilities.**  Given an event $E$, the function $\IP(\cdot|E)$ defines a valid probability measure.  Analogous versions of probability rules hold for conditional probabilities.
+
+- $0 \le \IP(A|E) \le 1$ for any event $A$.
+- $\IP(\Omega|E)=1$.  Moreover, $\IP(E|E) = 1$.
+- If events $A_1, A_2, \ldots$ are disjoint (i.e.\ $A_i \cap A_j = \emptyset, i\neq j$) then
+\[
+\IP(A_1 \cup A_2 \cup \cdots |E) = \IP(A_1|E) + \IP(A_2|E) + \cdots
+\]
+- $\IP(A^c|E) = 1-\IP(A|E)$. (Be careful!  Do not confuse $\IP(A^c|E)$ with $\IP(A|E^c)$.)
+
+
+
+
+### Conditional versus unconditional probability {#conditional-versus-unconditional}
+
+
+```{example harry-second}
+
+Consider a group of 5 people: Harry, Bella, Frodo, Anakin, Katniss.  Suppose each of their names is written on a slip of paper and the 5 slips of paper are placed into a hat.  The papers are mixed up and 2 are pulled out, one after the other *without* replacement.
+
+```
+
+1. What is the probability that Harry is the first name selected?
+1. What is the probability that Harry is the second name selected?
+1. If you were asked question (2) before question (1), would your answer change?  Should it?
+1. If Bella is the first name selected, what is the probability that Harry is the second name selected?
+1. If Harry is the first name selected, what is the probability that Harry is the second name selected?
+1. How is the probability that Harry is the second name selected related to the probabilities in the two previous parts?
+1. If Bella is the second name selected, what is the probability that Harry was the first name selected?
+
+
+```{solution, harry-second-sol}
+to Example \@ref(exm:harry-second)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The probability that Harry is the first name selected is 1/5, which is an answer we think most people would agree with.  There are 5 names which are equally likely to be the first one selected, 1 of which is Harry.
+1. The probability that Harry is the second name selected is also 1/5.  Many people might answer this as 1/4, since after selecting the first person there are now 4 names left.  But we show and discuss below that the *unconditional* probability is 1/5.
+1. Your answer to question (2) certainly shouldn't change depending on whether we ask question (1) first.    But perhaps after seeing question (1) you are implicitly assuming that Harry has not been selected first?  But there is nothing in question (2) that gives you any information about what happened on the first card.
+1. If Bella is the first name selected, the probability that Harry is the second name selected is 1/4.  We think most people find this intuitive.  If Bella is first, there are 4 cards remaining, equally likely to be the next card, of which 1 is Harry.
+1. If Harry is the first name selected, the probability that Harry is the second name selected is 0 since the cards are drawn *without* replacement.
+1. The probabilities in the two previous parts are *conditional* probabilities.  The probability in (2) is an *unconditional* probability.  By the law of total probability, we know that the unconditional probability that Harry is the second name selected is the weighted average of the two conditional probabilities from the previous parts.  Let $A$ be the event that Harry is first, $B$ be the event that Harry is second.  So $\IP(A) = 1/5$, $\IP(B|A) = 0$, $\IP(B|A^c) = 1/4$, and
+\[
+\IP(B) = \IP(B|A)\IP(A) + \IP(B|A^c)\IP(A^c) = (0)(1/5) + (1/4)(4/5) = 1/5 
+\]
+Claiming that $\IP(B)$ is 1/4 ignores the outcomes in which Harry is the first name selected.
+1. If Bella is the second name selected, the probability that Harry was the first name selected is 1/4.  It doesn't really matter what is "first" and what is "second", but rather the information conveyed.  In (4), what's important is that you know that one of the cards selected was Bella, so the probability that the other card selected is Harry is 1/4.  But this part conveys the same information
+
+```
+
+Here is a two-way table of 1000 hypothetical draws; note that Harry is second in 200 of them.
+
+|                  | Harry first | Harry not first | Total |
+|------------------|------------:|----------------:|------:|
+| Harry second     |           0 |             200 |   200 |
+| Harry not second |         200 |             600 |   800 |
+| Total            |         200 |             800 |  1000 |
+
+
+Be careful to distinguish between conditional and unconditional probabilities.  A conditional probability reflects "new" information about the outcome of the random phenomenon.  In the absence of such information, we must continue to account for all the possibilities. When computing probabilities, be sure to only reflect information that is known.  Especially when considering a phenomenon that happens in stages, don't assume that when considering "what happens second" that you know what happened first.
+
+In the example above, imagine shuffling the five cards and putting two on a table face down.  Now point to one of the cards and ask "what is the probability that THIS card is Harry?"  Well, all you know is that this card is one of the five cards, each of the 5 cards is equally likely to be the one you're pointing to, and only one of the cards is Harry.  Should it matter whether the face down card you're pointing to was the first or second card you laid on the table?  No, the probability that THIS card is Harry should be 1/5, regardless of whether you put it down first or second.
+
+Now turn over the other card that you're not pointing to, and see what name is on it.  The probability that the card you're pointing to is Harry has now changed, because you have some information about the outcome of the shuffle.  If the card you turned over says Harry, you know the probability that the card you're pointing to is Harry is 0.  If the card you turned over is not Harry, then you know that the probability that the card you're pointing to is Harry is 1/4.  It is not "first" or "second" that matters; it is whether or not you have obtained new information by revealing one of the cards.
+
+Another way of asking the question is: Shuffle the five cards; what is the probability that Harry is the second card from the top?  Without knowing any information about the result of the shuffle, all you know is that Harry should be equally likely to be in any one of the 5 positions, so the probability that he is the second card from the top should be 1/5.  It is only after revealing information about the result of the shuffle, say the top card, that the probability that Harry is in the second position changes.
+
+
+
+## Conditional distributions
+
+Most interesting problems involve two or more^[We mostly focus on the case of two random variables, but analogous definitions and concepts apply for more than two (though the notation can get a bit messier).] random variables defined on the same probability space. In these situations, we can consider how the variables vary together, or jointly, and study their relationships. The *joint distribution* of random variables $X$ and $Y$ (defined on the same probability space) is a probability distribution on $(x, y)$ *pairs*, and describes how the values of $X$ and $Y$ vary together or jointly.
+
+We can also study the *conditional distribution* of one random variable given the value of another.  How does the distribution of $Y$ change for different values of $X$ (and vice versa)?
+
+### Discrete random variables: Conditional probability mass functions
+
+
+
+```{example, dice-conditional}
+Roll a fair four-sided die twice.  Let $X$ be the sum of the two rolls, and let $Y$ be the larger of the two rolls (or the common value if a tie). We found the joint and marginal distributions of $X$ and $Y$ in Example \@ref(exm:dice-probspace), displayed in the table below.
+
+```
+
+| $p_{X, Y}(x, y)$ |      |      |      |      |            |
+|------------------|-----:|-----:|-----:|-----:|-----------:|
+| $x$ \\ $y$       |    1 |    2 |    3 |    4 | $p_{X}(x)$ |
+| 2                | 1/16 |    0 |    0 |    0 |       1/16 |
+| 3                |    0 | 2/16 |    0 |    0 |       2/16 |
+| 4                |    0 | 1/16 | 2/16 |    0 |       3/16 |
+| 5                |    0 |    0 | 2/16 | 2/16 |       4/16 |
+| 6                |    0 |    0 | 1/16 | 2/16 |       3/16 |
+| 7                |    0 |    0 |    0 | 2/16 |       2/16 |
+| 8                |    0 |    0 |    0 | 1/16 |       1/16 |
+| $p_Y(y)$         | 1/16 | 3/16 | 5/16 | 7/16 |            |
+
+
+1. Compute $\IP(Y=4|X=6)$.
+1. Find the conditional pmf of $Y$ given $X=6$.
+1. Find the conditional pmf of $Y$ given $X=5$.
+1. Find the conditional pmf of $Y$ given $X=4$.
+1. Find the conditional pmf of $Y$ given $X=3$.
+1. Compute $\IP(X=6|Y=4)$.
+1. Find the conditional pmf of $X$ given $Y=4$.
+1. Find the conditional pmf of $X$ given $Y=3$.
+
+
+
+
+```{solution, dice-conditional-sol}
+to Example \@ref(exm:dice-conditional)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Remember that $\{Y=4\}$ and $\{X=6\}$ are events.
+    \[
+     \IP(Y = 4 | X = 6) =\frac{\IP(X = 6, Y = 4)}{\IP(X=6)} = \frac{p_{X, Y}(6, 4)}{p_X(6)} = \frac{2/16}{3/16} = 2/3 
+    \]
+1. Slice the row of the joint distribution table corresponding to $X=6$, and then renormalize.  If $X = 6$ then $Y$ is either 3 or 4, and $Y$ is twice as likely to be 4 than 3.   Let $p_{Y|X}(y|6) = \IP(Y = y|X = 6)$.  The table below displays the conditional pmf.
+
+    | $y$ |   $p_{Y|X}(y|6)$ |
+    |----:|-----------------:|
+    |   3 |              1/3 |
+    |   4 |              2/3 |
+  
+1. Slice the row of the joint distribution table corresponding to $X=5$, and then renormalize.
+
+    | $y$ |   $p_{Y|X}(y|5)$ |
+    |----:|-----------------:|
+    |   3 |              1/2 |
+    |   4 |              1/2 |
+  
+1. Slice the row of the joint distribution table corresponding to $X=4$, and then renormalize.  If $X=4$ then $Y$ is twice as likely to be 3 than 2.
+
+    | $y$ |   $p_{Y|X}(y|4)$ |
+    |----:|-----------------:|
+    |   2 |              1/2 |
+    |   3 |              1/2 |
+  
+1. If $X = 3$ then $Y$ must be 2; $p_{Y|X}(y | 3) = 1$.
+1. Remember that $\IP(X = 6 | Y = 4)$ and $\IP(Y = 4 | X = 6)$ measure different probabilities.
+    \[
+     \IP(X = 6 | Y = 4) =\frac{\IP(X = 6, Y = 4)}{\IP(Y=4)} = \frac{p_{X, Y}(6, 4)}{p_Y(4)} = \frac{2/16}{7/16} = 2/16 
+    \]
+1. Slice the column of the joint distribution table corresponding to $Y=4$, and then renormalize.  If $Y = 4$ then $X$ is either 5, 6, 7, or 8; $Y$ is equally likely to be 5, 6, or 7, and each of those values is twice as likely as 8.   Let $p_{X|Y}(x|4) = \IP(X = x|Y = 4)$.  The table below displays the conditional pmf.
+
+    | $x$ |   $p_{X|Y}(x|4)$ |
+    |----:|-----------------:|
+    |   5 |              2/7 |
+    |   6 |              2/7 |
+    |   7 |              2/7 |
+    |   8 |              1/7 |
+  
+1. Slice the column of the joint distribution table corresponding to $Y=3$, and then renormalize.
+
+    | $x$ |   $p_{X|Y}(x|3)$ |
+    |----:|-----------------:|
+    |   4 |              2/5 |
+    |   5 |              2/5 |
+    |   6 |              1/5 |
+  
+  
+```
+
+
+
+(ref:cap-dice-mosaic) Mosaic plots for Example \@ref(exm:dice-conditional), where $X$ is the sum and $Y$ is the max of two rolls of a fair four-sided die. The plot on the left represents conditioning on values of the sum $X$, and the plot on the right represents conditioning on values of the max $Y$.
+
+```{r dice-mosaic, echo=FALSE, fig.cap="(ref:cap-dice-mosaic)", out.width='50%', fig.show='hold'}
+
+knitr::include_graphics(c("_graphics/dice-mosaic1.png", "_graphics/dice-mosaic2.png"))
+
+```
+
+The **conditional distribution of $Y$ given $X=x$** is the distribution of $Y$  values over only those outcomes for which $X=x$.   It is a distribution on values of $Y$ only; treat $x$ as a fixed constant when conditioning on $\{X=x\}$.
+
+
+```{definition conditional-pmf}
+
+Let $X$ and $Y$ be two *discrete* random variables defined on a probability space with probability measure $\IP$.  For any fixed $x$ with $\IP(X=x)>0$, the **conditional probability mass function (pmf)** of $Y$ given $X=x$ is a function $p_{Y|X}:\reals \mapsto [0, 1]$ defined by $p_{Y|X}(y|x)=\IP(Y=y|X=x)$.
+\begin{align*}
+p_{Y|X}(y|x) = \IP(Y=y|X=x) & = \frac{\IP(X=x,Y=y)}{\IP(X=x)}  = \frac{p_{X,Y}(x,y)}{p_X(x)}& &  \text{a function of $y$ for fixed $x$}
+\end{align*}
+
+```
+
+To emphasize, the notation $p_{Y|X}(\cdot|x)$ represents the distribution of the random variable $Y$ given a fixed value $x$ of the random variable $X$.
+
+Notice that the pmfs satisfy
+\[
+\text{conditional} = \frac{\text{joint}}{\text{marginal}}
+\]
+
+Conditional distributions can be obtained from a joint distribution by *slicing and renormalizing*. The conditional pmf of $Y$ given $X=x^*$ can be thought of as:
+
+- the slice of the joint pmf $p_{X, Y}(x^*, y)$ of $(X, Y)$ corresponding to $X=x^*$, a function of $y$ alone;
+- renormalized --- by dividing by the number $p_X(x^*)$ --- so that the sum of the heights, corresponding to different $y$ values, for the slice is 1. 
+\[
+1 = \sum_y p_{Y|X}(y|x^*) \quad \text{for any fixed } x^*
+\]
+
+The shape of the conditional distribution of $Y$ given $X=x^*$ is determined by the slice of $p_{X, Y}(x^*, y)$.  That is,
+
+\[
+\text{As a function of values of $Y$}, \quad p_{Y|X}(y|x^*) \propto p_{X, Y}(x^*, y)
+\]
+
+For each fixed $x$, the conditional pmf $p_{Y|X}(\cdot |x)$ is a different distribution on values of the random variable $Y$.  There is not one "conditional distribution of $Y$ given $X$", but rather a family of conditional distributions of $Y$ given different values of $X$.
+
+
+```{python}
+
+P = DiscreteUniform(1, 4) ** 2
+
+U1, U2 = RV(P)
+
+X = U1 + U2
+
+Y = (U1 & U2).apply(max)
+
+( (X & Y) | (X == 6) ).sim(10)
+
+```
+
+
+```{python}
+
+(Y | (X == 6) ).sim(10000).tabulate()
+
+```
+
+```{python}
+
+(Y | (X == 6) ).sim(10000).plot()
+(Y | (X == 5) ).sim(10000).plot(jitter = True)
+(Y | (X == 4) ).sim(10000).plot(jitter = True)
+plt.show()
+
+```
+
+Rearranging the definition of a conditional pmf yields the **multiplication rule for pmfs of discrete random variables**
+\begin{align*}
+p_{X,Y}(x,y) & = p_{Y|X}(y|x)p_X(x)\\
+& = p_{X|Y}(x|y)p_Y(y)\\
+\text{joint} & = \text{conditional}\times\text{marginal} 
+\end{align*}
+
+
+```{example, dice-coin-pmf}
+
+Roll a fair four-sided die once and let $X$ be the number rolled.  Then flip a fair coin $X$ times and let $Y$ be the number of heads.
+
+```
+
+1. Find the conditional distribution of $Y$ given $X=4$.
+1. Find the conditional distribution of $Y$ given $X=3$.
+1. Find the probability that $X=3$ and $Y=2$.
+1. Find the joint distribution of $X$ and $Y$.
+1. Find the marginal distribution of $Y$.
+1. Find the conditional distribution of $X$ given $Y=2$.
+
+
+
+
+```{solution, dice-coin-pmf-sol}
+to Example \@ref(exm:dice-coin-pmf)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. If $X=4$ we flip the coin four times. We can use Table \@ref(tab:mscoin). Given $X=4$, $Y$ takes values 0, 1, 2, 3, 4, with respective probability 1/16, 4/16, 6/16, 4/16, 1/16.
+1. If $X=3$ we flip the coin three times. We can use Table \@ref(tab:coin-transform-tab2).  Given $X=3$, $Y$ takes values 0, 1, 2, 3, with respective probability 1/8, 3/8, 3/8, 1/8.
+1. $p_{X, Y}(3, 2) = \IP(X=3, Y = 2) = \IP(Y = 2|X = 3)\IP(X=3) = p_{Y|X}(2|3)p_X(3) = (3/8)(1/4) = 3/32$
+1. Find the joint pmf as the product of the marginal distribution of $X$ and the family of conditional distributions of $Y$ given values $X$.
+
+    | $p_{X, Y}(x, y)$ |       |       |       |      |      |          |
+    |------------------|------:|------:|------:|-----:|-----:|---------:|
+    | $x$ \\ $y$       |     0 |     1 |     2 |    3 |    4 | $p_X(x)$ |
+    | 1                |  8/64 |  8/64 |     0 |    0 |    0 |      1/4 |
+    | 2                |  4/64 |  8/64 |  4/64 |    0 |    0 |      1/4 |
+    | 3                |  2/64 |  6/64 |  6/64 | 2/64 |    0 |      1/4 |
+    | 4                |  1/64 |  4/64 |  6/64 | 4/64 | 1/64 |      1/4 |
+    | $p_Y(y)$         | 15/64 | 26/64 | 16/64 | 6/64 | 1/64 |          |
+
+    Note that the possible pairs of $(X, Y)$ satisfy: $x = 1, 2, 3, 4$, $y = 0, \ldots, x$.
+
+1. Marginally, $Y$ can take values 0, 1, 2, 3, 4.  Find the corresponding probabilies by summing over $x$ values: 15/64, 26/64, 16/64, 6/64, 1/64.
+1. Given $Y=2$, $X$ can take values 2, 3, 4, and $Y$ is equally likely to be 3 and 4 and each of these values is 1.5 times more likely than 2.
+
+    | $x$ | $p_{X|Y}(x|2)$ |
+    |----:|-----------------:|
+    |   2 |              2/8 |
+    |   3 |              3/8 |
+    |   4 |              3/8 |
+  
+```
+
+
+
+Marginal distributions can be obtained from the joint distribution by collapsing/stacking using the law of total probability. The **law of total probability for pmfs** is
+
+\begin{align*}
+p_{Y}(y) & =  \sum_x p_{X,Y}(x, y)\\
+& =\sum_x p_{Y|X}(y|x)p_X(x)
+\end{align*}
+
+
+**Bayes rule for pmfs** is
+
+\begin{align*}
+p_{X|Y}(x|y) & = \frac{p_{Y|X}(y|x)p_X(x)}{p_Y(y)}
+\\
+p_{X|Y}(x|y)  & \propto p_{Y|X}(y|x)p_X(x)
+\end{align*}
+
+
+Be sure to distinguish between joint, conditional, and marginal distributions.
+
+- The joint pmf $p_{X, Y}$ is a function of both values of $X$ and values of $Y$.
+- The conditional pmf $p_{Y|X}$ is a function of values of $Y$ for a fixed value of $x$.  Treat $x$ like a constant and $y$ as the variable.  Note: the possible values of $Y$ might depend on the value of $x$.
+- The marginal pmf $p_Y$ is a function of values of $Y$ only.  The marginal pmf of $Y$ is a distribution over all the possible values of $Y$, regardless of the value of $X$. The marginal pmf of $Y$ should not have any $x$'s in it.
+
+### Continuous random variables: Conditional probability density functions
+
+Remember that continuous random variables are described by probability density functions which can be integrated to find probabilities.
+
+
+```{definition conditional-pdf}
+
+Let $X$ and $Y$ be two *continuous* random variables with joint pdf $f_{X,Y}$ and marginal pdfs $f_X, f_Y$.  For any fixed $x$ with $f_X(x)>0$, the **conditional probability density function (pdf)** of $Y$ given $X=x$ is a function $f_{Y|X}:\reals \mapsto [0, \infty)$ defined by
+\begin{align*}
+f_{Y|X}(y|x) &= \frac{f_{X,Y}(x,y)}{f_X(x)}& &  \text{a function of $y$ for fixed $x$}
+\end{align*}
+
+```
+
+To emphasize, the notation $f_{Y|X}(y|x)$ represents a conditional distribution of the random variable $Y$ for a fixed value $x$ of the random variable $X$.  In the expression $f_{Y|X}(y|x)$, $x$ is treated like a constant and $y$ is treated as the variable.
+
+Notice that the pdfs satisfy
+\[
+\text{conditional} = \frac{\text{joint}}{\text{marginal}}
+\]
+
+The conditional pdf of $Y$ given $X=x^*$ can be thought of as:
+
+- the slice of the joint pdf $f_{X, Y}(x^*, y)$ of $(X, Y)$ corresponding to $X=x^*$, a function of $y$ alone,
+- renormalized --- by dividing by $f_X(x)$ --- so that the density heights, corresponding to different $y$ values, for the slice are such that the total area under the density slice is 1. 
+\[
+1 = \int_{-\infty}^\infty f_{Y|X}(y|x^*)\, dy \quad \text{for any fixed } x^*
+\]
+
+
+
+
+
+```{example, uniform-sum-max-conditional}
+
+Recall Example \@ref(exm:uniform-sum-max-pdf). Consider the probability space corresponding to two spins of the Uniform(1, 4) spinner and let $X$ be the sum of the two spins and $Y$ the larger to the two spins (or the common value if a tie). Recall that the joint pdf is
+    \[
+    f_{X, Y}(x, y) =
+      \begin{cases}
+    2/9, & 2<x<8,\; 1<y<4,\; x/2<y<x-1,\\
+    0, & \text{otherwise,}
+    \end{cases}
+    \]
+the marginal pdf of $Y$ is
+    \[
+      f_Y(y) =
+      \begin{cases}
+      (2/9)(y-1), &   1<y<4,\\
+      0, & \text{otherwise,}
+      \end{cases}
+    \]
+and the marginal pdf of $X$ is
+    \[
+     f_X(x) = 
+       \begin{cases}
+       (1/9)(x-2), & 2 < x< 5,\\
+       (1/9)(8-x), & 5<x<8,\\
+       0, & \text{otherwise.}
+       \end{cases}
+    \]
+
+```
+
+
+
+
+1. Find $f_{X|Y}(\cdot|3)$, the conditional pdf of $X$ given $Y=3$.
+1. Find $\IP(X > 5.5 | Y = 3)$.
+1. Find $f_{X|Y}(\cdot|4)$, the conditional pdf of $X$ given $Y=4$.
+1. Find $\IP(X > 5.5 | Y = 4)$.
+1. Find $f_{X|Y}(\cdot|y)$, the conditional pdf of $X$ given $Y=y$.
+1. Find $f_{Y|X}(\cdot|3.5)$, the conditional pdf of $Y$ given $x=3.5$.
+1. Find $f_{Y|X}(\cdot|6)$, the conditional pdf of $Y$ given $x=6$.
+1. Find $f_{Y|X}(\cdot|x)$, the conditional pdf of $Y$ given $x$.
+
+
+
+```{solution, uniform-sum-max-conditional-sol}
+to Example \@ref(exm:uniform-sum-max-conditional)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. See the top left plot of Figure \@ref(fig:uniform-sum-max-conditional-plot); the conditional pdf corresponds to the renormalized slice of the joint pdf along $Y=3$. If $Y=3$ then $X$ takes values between 4 and 6, and the density is constant over this interval of length 2.
+\[
+ f_{X|Y}(x| 3) = 
+   \begin{cases}
+ \frac{1}{2}, & 4 < x < 6,\\
+ 0, & \text{otherwise.}
+ \end{cases}
+\]
+    We could also use "conditional is joint divided by marginal".  The marginal density of $Y$ at $y=3$ is $f_Y(3) = (2/9)(3-1) = 4/9$. For the slice of the joint pdf along $y=3$, be careful to note that $f_{X, Y}(x, 3)=2/9$ only if $4<x<6$ and $f_{X, Y}(x, 3) = 0$ for $x$ outside of this range.
+      \[
+       f_{X|Y}(x| 3) = \frac{f_{X, Y}(x, 3)}{f_Y(3)} =  
+         \begin{cases}
+       \frac{2/9}{4/9}, & 4 < x< 6\\
+       0, & \text{othewise.}
+       \end{cases}
+      \]
+1. Use the conditional pdf of $X$ given $Y=3$ to compute $\IP(X > 5.5 | Y = 3)$.  Since the conditional pdf is Uniform(4, 6), the probability should just be $(6-5.5)/(6-4) = 0.25$.  Via integration; note we integrate over values of $X$
+\[
+\IP(X > 5.5 | Y = 3) = \int_{5.5}^6 \frac{1}{2}dx = \frac{x}{2}\Bigg|_{x=5.5}^{x=6} = 0.25 
+\]
+1. See the top right plot of Figure \@ref(fig:uniform-sum-max-conditional-plot); the conditional pdf corresponds to the renormalized slice of the joint pdf along $Y=4$. If $Y=4$ then $X$ takes values between 5 and 8, and the density is constant over this interval of length 3.
+\[
+ f_{X|Y}(x| 3) = 
+   \begin{cases}
+ \frac{1}{3}, & 5 < x < 8,\\
+ 0, & \text{otherwise.}
+ \end{cases}
+\]
+1. Use the conditional pdf of $X$ given $Y=4$ to compute $\IP(X > 5.5 | Y = 4)$.  Since the conditional pdf is Uniform(5, 8), the probability should just be $(8-5.5)/(8-5) = 5/6$.  Via integration; note we integrate over values of $X$
+\[
+\IP(X > 5.5 | Y = 4) = \int_{5.5}^8 \frac{1}{3}dx = \frac{x}{3}\Bigg|_{x=5.5}^{x=8} = 5/6 
+\]
+1. Treat $y$ as a constant, like in the previous parts. The conditional pdf corresponds to the renormalized slice of the joint pdf along $Y=y$. If $Y=y$ then $X$ takes values between $y+1$ and $2y$, and the density is constant over this interval of length $2y - (y +1) = y - 1$.
+\[
+ f_{X|Y}(x| y) = 
+   \begin{cases}
+ \frac{1}{y-1}, & y+1 < x < 2y,\\
+ 0, & \text{otherwise.}
+ \end{cases}
+\]
+    We could also use "conditional is joint divided by marginal".  The marginal density of $Y$ at $y$ is $f_Y(y) = (2/9)(y-1)$. For the slice of the joint pdf along $y$, be careful to note that $f_{X, Y}(x, y)=2/9$ only if $y+1<x<2y$ and $f_{X, Y}(x, y) = 0$ for $x$ outside of this range.
+      \[
+       f_{X|Y}(x| y) = \frac{f_{X, Y}(x, y)}{f_Y(y)} =  
+         \begin{cases}
+       \frac{2/9}{2/9(y-1)}, & y+1 < x< 2y\\
+       0, & \text{othewise.}
+       \end{cases}
+      \]
+    Remember, we are treating $y$ as given and fixed.  The conditional pdf of $X$ given $Y=y$ is a density on values of $X$.
+1. See the bottom left plot of Figure \@ref(fig:uniform-sum-max-conditional-plot); the conditional pdf corresponds to the renormalized slice of the joint pdf along $X=3.5$. If $X=3.5$ then $Y$ takes values between 1.75 and 2.5, and the density is constant over this interval of length 0.75.
+\[
+ f_{Y|X}(y| 4) = 
+   \begin{cases}
+ \frac{1}{0.75}, & 1.75 < y < 2.5,\\
+ 0, & \text{otherwise.}
+ \end{cases}
+\]
+    We could also use "conditional is joint divided by marginal".  The marginal density of $X$ at $x=3.5$ is $f_X(3.5) = (1/9)(3.5-2) = 1.5/9$. For the slice of the joint pdf along $x=3.5$, be careful to note that $f_{X, Y}(3.5, y)=2/9$ only if $1.75< y <2.5$ and $f_{X, Y}(3.5, y) = 0$ for $y$ outside of this range.
+      \[
+       f_{Y|X}(y| 3.5) = \frac{f_{X, Y}(3.5, y)}{f_X(3.5)} =  
+         \begin{cases}
+       \frac{2/9}{1.5/9}, & 1.75 < y< 2.5\\
+       0, & \text{othewise.}
+       \end{cases}
+      \]
+1. See the bottom right plot of Figure \@ref(fig:uniform-sum-max-conditional-plot); the conditional pdf corresponds to the renormalized slice of the joint pdf along $X=6$. If $X=6$ then $Y$ takes values between 3 and 4, and the density is constant over this interval of length 1.
+\[
+ f_{Y|X}(y| 6) = 
+   \begin{cases}
+ 1, & 3 < y < 4,\\
+ 0, & \text{otherwise.}
+ \end{cases}
+\]
+1. There are two general cases.  If $2<x<5$ then $Y$ takes values between $0.5x$ and $x-1$, and $f_X(x) = (1/9)(x-2)$. If $5<x<8$ then $Y$ takes values between $0.5x$ and $4$, and $f_X(x) = (1/9)(8-x)$.
+      \[
+       f_{Y|X}(y| x) = \frac{f_{X, Y}(x, y)}{f_X(x)} =  
+         \begin{cases}
+       \frac{2/9}{(1/9)(x-2)}, & 2<x<5, 0.5x< y< x-1\\
+       \frac{2/9}{(1/9)(8-x)}, & 5<x<8, 0.5x< y< 4\\
+       0, & \text{othewise.}
+       \end{cases}
+      \]
+    Therefore,
+      \[
+       f_{Y|X}(y| x) =   
+         \begin{cases}
+       \frac{1}{0.5x - 1}, & 2<x<5, 0.5x< y< x-1\\
+       \frac{1}{4 - 0.5x}, & 5<x<8, 0.5x< y< 4\\
+       0, & \text{othewise.}
+       \end{cases}
+      \]
+    Even though the above expression involves both $x$ and $y$, we are treating $x$ as fixed as $y$ as the variable.  For a given $x$, the conditional pdf of $Y$ given $X=x$ is a density of values of $Y$ only.
+    
+```
+
+(ref:cap-uniform-sum-max-conditional) Illustration of the joint pdf and conditional pdfs in Example \@ref(exm:uniform-sum-max-conditional).
+
+
+```{r uniform-sum-max-conditional-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-uniform-sum-max-conditional)"}
+
+dfA <- data.frame(x = c(2, 8, 5, 2),
+                 y = c(1, 4, 4, 1),
+                 v = c(1, 1, 1, 1))
+
+p <- ggplot(data = dfA, aes(x = x, y = y)) +
+  geom_polygon(fill="cornflowerblue", show.legend = FALSE) +
+  scale_x_continuous(limits = c(2, 8), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(1, 4), expand = c(0, 0)) +
+  theme_classic() +
+  theme(panel.border = element_rect(linetype = "solid", fill = NA)) +
+  theme(plot.margin=unit(c(1,1,1,1),"cm")) +
+  xlab(expression("X")) +
+  ylab(expression("Y")) +
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+pA <- p +
+  geom_hline(yintercept=3, size=2, color = "orange")
+
+pB <- p +
+  geom_hline(yintercept=4, size=3, color = "orange")
+
+pC <- p +
+  geom_vline(xintercept=3.5, size=2, color = "orange")
+
+pD <- p +
+  geom_vline(xintercept=6, size=2, color = "orange")
+
+ggarrange(pA, pB, pC, pD, ncol = 2, nrow = 2)
+
+
+```
+
+The conditional pdf of $Y$ given $X=x$ can be integrated to find conditional probabilities of events involving $Y$ given $X=x$.  
+\begin{align*}
+\IP(a \le Y \le b \vert X = x) & =\int_a^b f_{Y|X}(y|x) dy, \qquad \text{for all } -\infty \le a \le b \le \infty
+\end{align*}
+In the above, $x$ is treated as fixed and $y$ as the variable being integrated over.  The resulting probability $\IP(a<Y<b|X=x)$ will be a function of $x$.  For a given $x$, $\IP(a<Y<b|X=x)$ is a single number.
+
+**Be careful** when conditioning with continuous random variables. Remember to specify possible values!  And to note how conditioning can change the possible values
+
+Remember that the probability that a continuous random variable is equal to a particular value is 0; that is, for continuous $X$, $\IP(X=x)=0$. When we condition on $\{X=x\}$ we are really conditioning on $\{|X-x|<\ep\}$ and seeing what happens in the idealized limit when $\ep\to0$.
+
+When simulating, *never* condition on $\{X=x\}$; rather, condition on $\{|X-x|<\ep\}$ where $\ep$ represents some suitable degree of precision (e.g. $\ep=0.005$ if rounding to two decimal places).
+
+Remember pdfs do not return probabilities directly; $f_{Y|X}(y|x)$ is not a probability of anything. But $f_{Y|X}(y|x)$ is related to the probability that $Y$ is "close to" $y$ given that $X$ is "close to" $x$:
+\[
+\IP(y-\ep/2<Y < y+\ep/2\; \vert\; x-\ep/2<X <  x+\ep/2) \approx \ep f_{Y|X}(y|x)
+\]
+
+
+```{python}
+
+U1, U2 = RV(Uniform(1, 4) ** 2)
+
+X = U1 + U2
+
+Y = (U1 & U2).apply(max)
+
+( (X & Y) | (abs(Y - 3) < 0.01) ).sim(10)
+
+```
+
+```{python}
+
+( X | (abs(Y - 3) < 0.05) ).sim(1000).plot()
+plt.show()
+
+```
+
+
+Rearranging the definition of a conditional pdf yields the **multiplication rule for pdfs of continuous random variables**
+\begin{align*}
+f_{X,Y}(x,y) & = f_{Y|X}(y|x)f_X(x)\\
+& = f_{X|Y}(x|y)f_Y(y)\\
+\text{joint} & = \text{conditional}\times\text{marginal} 
+\end{align*}
+
+Given a joint pdf $f_{X, Y}$, it is sometimes possible to identify the  conditional pdfs in one direction just by inspection.  Remember that the conditional pdf of $Y$ given $X=x$ is a distribution of values of $Y$ alone.  Therefore, treat $x$ as fixed and view $f_{X, Y}$ as a function of $y$ alone; is the resulting function a recognizable pdf?  By "recognizable" we mean is it among a common named family of distributions like Uniform, Exponential, Normal, etc.  If the conditional pdf $f_{Y|X}$ can be identified, then the marginal pdf $f_X$ can be found without any calculus.  If fixing $x$ does not lead to a recognizable pdf, try fixing $y$ instead.
+
+```{example, exponential-uniform-joint}
+
+Suppose $X$ and $Y$ are continuous RVs with joint pdf
+\[
+f_{X, Y}(x, y) = \frac{1}{x}e^{-x}, \qquad x > 0,\quad 0<y<x.
+\]
+
+```
+
+1. Identify by name the one-way conditional distributions that you can obtain from the joint pdf (without doing any calculus or computation).
+1. Identify by name the marginal distribution you can obtain without doing any calculus or computation.
+1. Describe how could you use the Exponential(1) spinner and the Uniform(0, 1) spinner to generate an $(X, Y)$ pair.
+1. Sketch a plot of the joint pdf.
+1. Sketch a plot of the marginal pdf of $Y$.
+1. Set up the calculation you would perform to find the marginal pdf of $Y$.
+
+
+
+```{solution, exponential-uniform-joint-sol}
+to Example \@ref(exm:exponential-uniform-joint)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Since $x$ shows up in more places, try conditioning on $x$ first and treat it as fixed. The conditional density of $Y$ given $X=x$, as a function of $y$ has the form
+\[
+f_{Y|X}(y|x) \propto \text{constant}, 0<y<x
+\]
+The height along the $x$ slice is constant as a function of $y$, but don't forget to include the possible values.  That is, the conditional pdf of $Y$ is constant for values of $y$ between 0 and $x$ (and 0 otherwise).  Therefore, given $X=x$ the conditional distribution of $Y$ is the Uniform(0, $x$) distribution.  Now we just we need to fill in the correct constant that makes the density integrate to 1.  
+\[
+f_{Y|X}(y|x) = \frac{1}{x}, 0<y<x
+\]
+Remember this is a density on values of $Y$ with $x$ fixed.  
+1. Since we have the joint pdf and the conditional pdfs of $Y$ given each value of $X$, we can find the marginal pdf of $X$.
+\begin{align*}
+\text{Joint} & = \text{Conditional}\times \text{Marginal}\\
+f_{X, Y}(x, y) & = f_{Y|X}(y|x)f_X(x) \\
+ \left(\frac{1}{x}\right)\left(e^{-x}\right) & = \frac{1}{x} f_X(x) 
+\end{align*}
+Therefore
+\[
+f_X(x) = e^{-x}, \qquad x>0
+\]
+That is, the marginal distribution of $X$ is  the Exponential(1) distribution.
+1. Spin the Exponential(1) spinner to generate $X$.  For example, if $X=2$ we want to generate $Y$ from a Uniform(0, 2) distribution.  Remember that we can generate values from any Uniform distribution by generating a value from a Uniform(0, 1) distribution and then applying an appropriate linear rescaling. Spin the Uniform(0, 1) spinner to generate $U$, and let $Y=XU$.  For example, if $X=2$ then $Y=2U$ follows a Uniform(0, 2) distribution.
+1. See the simulation output below for an illustration. Start by sketching $X$ values; the density will be highest near 0 and decrease as $x$ increases.  Then, for each value of $x$ sketch $y$ values uniformly between 0 and $x$.
+1. Overall, $Y$ can take any positive value $y>0$. For each $y$, collapse the joint pdf over all $x$ values.  The density will be highest at $y=0$ and then decrease as $y$ increases. 
+1. We can find the marginal pdf of $Y$ by integrating out the $x$'s in the joint pdf.  Remember that the joint pdf is 0 unless $y<x$. For $y>0$, 
+\begin{align*}
+f_Y(y) & = \int_{y}^\infty \frac{1}{x}e^{-x} \, dx 
+\end{align*}
+There is no simple closed form expression, but it is a function of $y$ alone, for $y>0$; the $x$'s have been integrated out.
+
+```
+
+```{python}
+
+X, U = RV(Exponential(1) * Uniform(0, 1))
+
+Y = X * U
+
+(X & Y).sim(1000).plot()
+plt.show()
+
+```
+
+```{python}
+
+Y.sim(10000).plot()
+plt.show()
+
+```
+
+The **law of total probability for pdfs** is
+
+\begin{align*}
+f_{Y}(y) & =  \int_{-\infty}^\infty f_{X,Y}(x, y)\, dx\\
+& =\int_{-\infty}^\infty f_{Y|X}(y|x)f_X(x)\, dx
+\end{align*}
+
+
+**Bayes rule for pmfs** is
+
+\begin{align*}
+f_{X|Y}(x|y) & = \frac{f_{Y|X}(y|x)f_X(x)}{f_Y(y)}
+\\
+f_{X|Y}(x|y)  & \propto f_{Y|X}(y|x)f_X(x)
+\end{align*}
+
+
+Be sure to distinguish between joint, conditional, and marginal distributions.
+
+- The joint pdf $f_{X, Y}$ is a function of both values of $X$ and values of $Y$.
+- The conditional pdf $f_{Y|X}$ is a function of values of $Y$ for a fixed value of $x$.  Treat $x$ like a constant and $y$ as the variable.  Note: the possible values of $Y$ might depend on the value of $x$.
+- The marginal pdf $p_Y$ is a function of values of $Y$ only.  The marginal pdf of $Y$ is a distribution over all the possible values of $Y$, regardless of the value of $X$. The marginal pdf of $Y$ should not have any $x$'s in it.
+
+
+## Independence {#independence}
+
+
+In general, the conditional probability of event $A$ given some other event $B$ is usually different from the unconditional probability of $A$.  That is, in general $\IP(A | B) \neq \IP(A)$.   Knowledge of the occurrence of event $B$ typically influences the probability of event $A$, and vice versa.  If so, we say that events $A$ and $B$ are *dependent*.
+
+Likewise, the conditional distribution of a random variable $X$ given the value of another random variable $Y$ is usually different from the unconditional, marginal distribution of $X$. That is, in general $\IP(X\le x | Y=y) \neq \IP(X\le x)$.   Knowledge of the value of $Y$ typically influences the distribution of $X$, and vice versa.  If so, we say that random variables $X$ and $Y$ are *dependent*.
+
+However, in some situations knowledge of the occurrence of one event does not influence the probability of another.  For example, if a coin is flipped twice then knowing that the first flip landed on Heads does not change the probability that the second flips lands on Heads.  In these situations we say the events are independent.
+
+Likewise, in some situations knowledge of the value of one random variable does not influence the distribution of another.  For example, if a coin is flipped twice and a die is rolled twice, then knowing the number of heads flipped does not change the distribution of the sum of the two dice rolls.  In these situations we say the random variables are independent.
+
+### Independence of events
+
+```{example puppy}
+Consider the following hypothetical data.
+
+|                               | Democrat ($D$) | Not Democrat ($D^c$) | Total |
+|-------------------------------|---------------:|---------------------:|------:|
+| Loves puppies ($L$)           |            180 |                  270 |   450 |
+| Does not love puppies ($L^c$) |             20 |                   30 |    50 |
+| Total                         |            200 |                  300 |   500 |
+
+Suppose a person is randomly selected from this group.  Consider the events
+\begin{align*}
+L & = \{\text{person loves puppies}\}\\
+D & = \{\text{person is a Democrat}\}
+\end{align*}
+
+```
+
+1. Compute and interpret $\IP(L)$.
+1. Compute and interpret $\IP(L|D)$.
+1. Compute and interpret $\IP(L|D^c)$.
+1. What do you notice about $\IP(L)$, $\IP(L|D)$, and $\IP(L|D^c)$?
+1. Compute and interpret $\IP(D)$.
+1. Compute and interpret $\IP(D|L)$.
+1. Compute and interpret $\IP(D|L^c)$.
+1. What do you notice about $\IP(D)$, $\IP(D|L)$, and $\IP(D|L^c)$?
+1. Compute and interpret $\IP(D \cap L)$.
+1. What is the relationship between $\IP(D \cap L$) and $\IP(D)$ and $\IP(L)$?
+1. When randomly selecting a person from this particular group, would you say that events $D$ and $L$ are independent?  Why?
+
+
+```{solution, puppy-sol}
+to Example \@ref(exm:puppy)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+
+1. The probability that the randomly selected person loves puppies is $\IP(L)=450/500=0.9$.
+1. The conditional probability that the randomly selected person loves puppies given that the person is a Democrat is $\IP(L|D)=270/300=0.9$.
+1. The conditional probability that the randomly selected person loves puppies given that the person is not a Democrat is $\IP(L|D^c)=180/200=0.9$.
+1. $\IP(L)=\IP(L|D)=\IP(L|D^c)=0.9$.  Regardless of whether or not the person is a Democrat the probability that they love puppies is 0.9, the overall probability that a person loves puppies.
+1. The probability that the randomly selected person is a Democrat is $\IP(D)=200/500=0.4$.
+1. The conditional probability that the randomly selected person is a Democrat given that the person loves puppies is $\IP(D|L)=180/450=0.4$.
+1. The conditional probability that the randomly selected person is a Democrat given that the person does not love puppies is $\IP(D|L^c)=20/50=0.4$.
+1. $\IP(D)=\IP(D|L)=\IP(D|L^c)=0.4$.  Regardless of whether or not the person loves puppies the probability that the person is a Democrat is 0.4, the overall probability that a person is a Democrat.
+1. The probability that the randomly selected person is a Democrat and loves puppies is $\IP(D \cap L)=180/500=0.36$.
+1. $\IP(D \cap L) = 0.36 = (0.4)(0.9)=\IP(D)\IP(L)$.  The joint probability is a product of the marginal probabilities.
+1. Yes, the events $D$ and $L$ are independent.  Knowing whether or not the person is a Democrat does not change the probability that the person loves puppies, and vice versa.
+
+```
+
+As in the example,events $A$ and $B$ are independent if the knowing whether or not one occurs does not change the probability of the other.
+
+
+```{definition independent-events}
+
+Two events $A$ and $B$ defined on a probability space with probability measure $\IP$ are **independent** if $\IP(A\cap B) = \IP(A)\IP(B)$.  That is, two events are independent if their joint probability is the product of their marginal probabilities.
+
+```
+
+In general, the multiplication rule says
+\begin{align*}
+\IP(A \cap B) & = \IP(A|B)\IP(B)\\
+\text{Joint} & = \text{Conditional}\times\text{Marginal}
+\end{align*}
+For independent events, the multiplication rule simplifies
+
+\begin{align*}
+\text{If $A$ and $B$ are independent then } && \IP(A \cap B) & = \IP(A)\IP(B)\\
+\text{If independent then } && \text{Joint} & = \text{Product of Marginals}
+\end{align*}
+
+```{example, independent-mosaic}
+Figure \@ref(fig:independent-mosaic-plot) displays four mosaic plots, each representing probabilities corresponding to two events $A$ and $B$.  Which of the mosaic plots represent independent events?
+  
+```
+
+```{solution, independent-mosaic-sol}
+to Example \@ref(exm:independent-mosaic)
+```
+
+
+```{asis, fold.chunk = TRUE}
+The bottom two plots represent independent events.  In these situations $\IP(B|A) = \IP(B|A^c) = \IP(B)$.
+
+```
+
+(ref:cap-independent-mosaic) Four different mosaic plots for two events $A$ and $B$.  In which of the plots are the events $A$ and $B$ independent?
+
+```{r independent-mosaic-plot, echo=FALSE, fig.cap="(ref:cap-independent-mosaic)"}
+
+knitr::include_graphics(c("_graphics/independent-mosaic.png"))
+
+```
+
+
+
+```{theorem independent-events-equivalent}
+For events $A$ and $B$ with $0<\IP(A)<1$ and $0<\IP(B)<1$, the following are equivalent.  That is, if one is true then they all are true; if one is false, then they all are false.
+
+\begin{align*}
+\text{$A$ and $B$} & \text{ are independent}\\
+\IP(A \cap B) & = \IP(A)\IP(B)\\
+\IP(A^c \cap B) & = \IP(A^c)\IP(B)\\
+\IP(A \cap B^c) & = \IP(A)\IP(B^c)\\
+\IP(A^c \cap B^c) & = \IP(A^c)\IP(B^c)\\
+\IP(A|B) & = \IP(A)\\
+\IP(A|B) & = \IP(A|B^c)\\
+\IP(B|A) & = \IP(B)\\
+\IP(B|A) & = \IP(B|A^c)\\
+
+\end{align*}
+
+```
+
+
+```{example venn-independent}
+
+Each of the three Venn diagrams below represents a sample space with 16 equally likely outcomes.  Let $A$ be the yellow `/`  event, $B$ the blue `\` event, and their intersection $A\cap B$ the green $\times$ event. Suppose that areas represent probabilities, so that for example $\IP(A) = 4/16$.
+
+In which of the scenarios are events $A$ and $B$ independent?
+
+``` 
+
+
+
+```{r venn-independent-plot, echo = FALSE}
+
+knitr::include_graphics(c("_graphics/venn-conditional.png"))
+
+```
+
+
+```{solution, venn-independent-sol}
+to Example \@ref(exm:venn-independent)
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+In each case, $\IP(A)=4/16$.  Condition on event $B$, by zooming in on the blue slice, and see if $\IP(A|B)$ is the same as $\IP(A)$. 
+
+1. Left: $\IP(A|B)=0\neq 4/16 = \IP(A)$.  Therefore, events $A$ and $B$ are not independent.
+1. Middle: $\IP(A|B) = 2/4\neq 4/16 = \IP(A)$.  Therefore, events $A$ and $B$ are not independent.
+1. Right: $\IP(A|B) = 1/4= 4/16 = \IP(A)$.  Therefore, events $A$ and $B$ are independent. The *ratio of yellow to total* is the same as the *ratio of the green part of blue to blue*.  If we zoom into the blue part of the picture (slice) and then resize it to the size of the original picture (renormalize), then the green part takes up 1/4 of the area just as the yellow part did in the original picture.
+
+```
+
+
+Do not confuse "disjoint" with "independent".  Disjoint means two events do not "overlap". Independence means two events *"overlap in just the right way"*.  You can pretty much forget "disjoint" exists; you will naturally apply the addition rule for disjoint events correctly without even thinking about it.  Independence is much more important and useful, but also requires more care.
+
+
+```{example, dice-independent}
+Roll two fair six-sided dice, one green and one gold.  There are 36 total possible outcomes (roll on green, roll on gold), all equally likely.  Consider the event $E=\{\text{the green die lands on 1}\}$.
+
+```
+
+
+1. Consider $A=\{\text{the gold die lands on 6}\}$.  Are $A$ and $E$ independent?
+1. Consider $B=\{\text{the sum of the dice is 2}\}$.  Are $B$ and $E$ independent?
+1. Consider $C=\{\text{the sum of the dice is 7}\}$.  Are $C$ and $E$ independent?
+
+```{solution, dice-independent-sol}
+to Example \@ref(exm:dice-independent)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+$\IP(E)=6/36=1/6$ since there are six pairs of rolls which satisfy event $E$: $E=\{(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6)\}$
+
+
+1. There are 6 outcomes which satisfy event $A=\{(1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6)\}$, all equally likely, only one, (1, 6), of which also satisfies event $E$.  $\IP(E|A) = 1/6 = 6/36 = \IP(E)$, so events $A$ and $E$ are independent.  The ratio of the $E$ part of $A$ to $A$ is equal to the ratio of $E$ to the sample space.
+1. There is only 1 outcome which satisfies event $B=\{(1, 1)\}$ and it also satisfies event $E$.  $\IP(E|B) = 1 \neq 6/36 = \IP(E)$, so events $A$ and $E$ are not independent. If you know the sum of the dice is 2, then the green die must have landed on 1.
+1. There are 6 outcomes which satisfy event $C=\{(1, 6), (2, 5), (3, 4), (4, 3), (5, 2), (6, 1)\}$, all equally likely, only one, (1, 6), of which also satisfies event $E$.  $\IP(E|C) = 1/6 = 6/36 = \IP(E)$, so events $C$ and $E$ are independent.  The ratio of the $E$ part of $C$ to $C$ is the ratio of $E$ to the sample space.
+
+
+```
+
+Independence concerns whether or not the occurrence of one event affects the *probability* of the other. Conditioning involves slicing and renormalizing; independence concerns whether the renormalized slice matches the original picture. Given two events it is not always obvious whether or not they are independent.  When there is any doubt, be sure to check any of the conditions in \@ref(thm:independent-events-equivalent) to see if two events are independent.
+
+
+Independence is often a reasonable assumption based on the physical properties of the random phenomenon. But remember that it is an *assumption*, which might or might not match reality. Be sure to make a distinction between *assumption* and *observation*.
+
+For example, flip a coin some number of times. It might be reasonable to assume the coin is fair and flips are independent.  In this case, the probability that the next flip lands on heads is 1/2 regardless of what you observed on  the previous flips. However, if you flip a coin twenty times and it lands on heads each time, this might cast doubt on your assumption that the coin is fair.
+
+
+
+```{example, independent-probmeasure}
+
+Consider a sample space with four outcomes, labeled 1, 2, 3, 4; $\Omega = \{1, 2, 3, 4\}$. Let $A=\{1, 2\}$ be the event that outcome 1 or 2 occurs, and let $B=\{1, 3\}$ be the event that outcome 1 or 3 occurs.
+
+``` 
+
+1. Specify a probability measure on $\Omega$ under which the events $A$ and $B$ are independent.
+1. Specify a different probability measure on $\Omega$ under which the events $A$ and $B$ are independent.
+1. Specify a probability measure on $\Omega$ under which the events $A$ and $B$ are not independent.
+
+
+```{solution, independent-probmeasure-sol}
+to Example \@ref(exm:independent-probmeasure)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+For a finite sample space, we can specify the probability measure by providing the probability of each of the outcomes.
+
+1. If the 4 outcomes are equally likely $A$ and $B$ are independent.  Let $\IP$ represent this probability measure. $\IP(A \cap B) = 1/4 = (2/4)(2/4)=\IP(A)\IP(B)$.
+1. The previous part involves a situation where $(1/2)(1/2)=1/4$.  We try to construct a situation where $(1/3)(1/3)=1/9$. Consider
+
+    | Outcome     |   1 |   2 |   3 |   4 |
+    |-------------|----:|----:|----:|----:|
+    | Probability | 1/9 | 2/9 | 2/9 | 4/9 |
+
+    Let $\IQ$ represent this probability measure. Then $\IQ(A \cap B) = 1/9 = (3/9)(3/9)=\IQ(A)\IQ(B)$, so events $A$ and $B$ are independent.
+
+1. Independence requires probabilities to overlap in just the right way.  Aside from equally likely situations, if we blindly write down four numbers that sum to 1 we will probably not luck into a probability measure where the events are independent. 
+
+    | Outcome     |   1 |   2 |   3 |   4 |
+    |-------------|----:|----:|----:|----:|
+    | Probability | 0.1 | 0.4 | 0.3 | 0.2 |
+
+    Let $\tilde{\IQ}$ represent this probability measure. Then $\tilde{\IQ}(A \cap B) = 0.1 \neq (0.5)(0.4)=\tilde{\IQ}(A)\tilde{\IQ}(B)$, so events $A$ and $B$ are not independent.
+
+
+```
+
+
+Remember, independence is a statement about probabilities, not outcomes themselves.  Given two events it is not always obvious whether or not they are independent.
+
+Independence depends on the underlying probability measure.  Events that are independent under one probability measure might not be independent under another.
+
+The probability measure represents all the underlying assumptions about the random phenomenon. Independence is often assumed.  Whether or not independence is a valid assumption depends on the underlying random phenomenon.
+
+
+
+
+```{example, coin-multiple-events-independent}
+Flip a fair coin twice. Let
+
+- $A$ be the event that the first flip lands on heads
+- $B$ be the event that the second flip lands on heads,
+- $C$ be the event that both flips land on the same side.
+  
+```
+
+1. Are the two events $A$ and $B$ independent?
+1. Are the two events $A$ and $C$ independent?
+1. Are the two events $B$ and $C$ independent?
+1. Are the three events $A$, $B$, and $C$ independent?
+
+
+
+```{solution, coin-multiple-events-independent-sol}
+to Example \@ref(exm:coin-multiple-events-independent)
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+There are four equally likely outcomes $\{HH, HT, TH, TT\}$.
+
+- $A = \{HH, HT\}$, so $\IP(A) = 2/4$
+- $B = \{HH, TH\}$, so $\IP(B) = 2/4$
+- $C = \{HH, TT\}$, so $\IP(C) = 2/4$
+
+1. Yes, events $A$ and $B$ are independent. $A\cap B=\{HH\}$, $\IP(A\cap B)=1/4$, and $\IP(A\cap B)=\IP(A)\IP(B)$.
+1. Yes, events $A$ and $C$ are independent. $A\cap C=\{HH\}$, $\IP(A\cap C)=1/4$, and $\IP(A\cap C)=\IP(A)\IP(C)$.
+1. Yes, events $B$ and $C$ are independent. $B\cap C=\{HH\}$, $\IP(B\cap C)=1/4$, and $\IP(B\cap C)=\IP(B)\IP(C)$.
+1. No, even though each pair of events is independent, the collection of the three events is not.  If $A$ and $B$ occur then we know event $C$ occurs.  That is, $\IP(C|A \cap B)=1$ but $\IP(C) = 1/2$.
+
+```
+
+
+Events $A_1, A_2, A_3, \ldots$ are **independent** if:
+
+- any pair of events $A_i, A_j, (i \neq j)$ satisfies $\IP(A_i\cap A_j)=\IP(A_i)\IP(A_j)$,
+- and any triple of events $A_i, A_j, A_k$ (distinct $i,j,k$) satisfies $\IP(A_i\cap A_j\cap A_k)=\IP(A_i)\IP(A_j)\IP(A_k)$,
+- and any quadruple of events satisfies $\IP(A_i\cap A_j\cap A_k \cap A_m)=\IP(A_i)\IP(A_j)\IP(A_k)\IP(A_m)$,
+- and so on.
+
+Intuitively, a collection of events is independent if knowing whether or not any combination of the events in the collection occur does not change the probability of any other event in the collection.
+
+In particular, three events $A$, $B$, $C$ are independent if and only if *all* of the following are true
+\[
+\IP(A\cap B) = \IP(A)\IP(B), \quad  \IP(A\cap C) = \IP(A)\IP(C),\quad  \IP(B\cap C) = \IP(B)\IP(C),\quad \IP(A\cap B\cap C) = \IP(A)\IP(B)\IP(C)
+\] 
+Equivalently, it can be shown that three events $A$, $B$, $C$ are independent if and only if *all* of the following^[Some of these conditions are redundant.  For example, $\IP(A|B)=\IP(A)$ if and only if $\IP(B|A)=\IP(B)$ so technically only one of those conditions needs to be verified.] are true.
+
+\begin{align*}
+& \IP(A| B) = \IP(A), \quad \IP(A| C) = \IP(A), \quad \IP(B|A) = \IP(B), \quad \IP(B| C) = \IP(B), \quad \IP(C|A) = \IP(C),\\
+& \IP(C|B) = \IP(C), \quad
+\IP(A| B\cap C) = \IP(A), \quad \IP(B|A\cap C) = \IP(B), \quad \IP(C|A\cap B) = \IP(C)
+\end{align*}
+
+Remember the general multiplication rule involves successive conditional probabilities
+\[
+\IP(A_1\cap A_2 \cap A_3 \cap \cdots \cap A_{n}) = \IP(A_1)\IP(A_2|A_1)\IP(A_3|A_1\cap A_2) \times \cdots \times \IP(A_n|A_1 \cap A_2 \cap \cdots \cap A_{n-1})
+\]
+The multiplication rule simplifies greatly for independent events.
+\[
+\IP(A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n) = \IP(A_1)\IP(A_2)\IP(A_3)\cdots\IP(A_n) \quad \text{if $A_1, A_2, A_3, \ldots, A_n$ are independent}
+\]
+
+
+```{example, system-fail}
+A certain system consists of four identical components.  Suppose that the probability that any particular component fails is 0.1, and failures of the components occur independently of each other.  Find the probability that the system fails if:
+
+1. The components are connected in *parallel*: the system fails only if *all* of the components fail.
+1. The components are connected in *series*: the system fails whenever *at least one* of the components fails.
+
+```
+
+
+```{solution, system-fail-sol}
+to Example \@ref(exm:system-fail)
+```
+
+```{asis, fold.chunk = TRUE}
+
+Let $F$ be the event the system fails, and $F_i$ the event that component $i$ fails.
+
+1. If the components are connected in parallel, $F=F_1 \cap F_2 \cap F_3 \cap F_4$.
+    \begin{align*}
+    \IP(F) & = \IP(F_1\cap F_2\cap F_3 \cap F_4) & & \\
+    & = \IP(F_1)\IP(F_2)\IP( F_3)\IP(F_4) & & \text{independence}\\
+    & = (0.1)(0.1)(0.1)(0.1) = 0.0001
+    \end{align*}
+1. "At least one fails" is an "or" event: $F= F_1 \cup F_2 \cup F_3 \cup F_4$.  With independence you want "and" events. Use the complement rule
+    \begin{align*}
+    \IP(F) & = \IP(\text{at least one fails}) & & \\
+    & = 1 - \IP(\text{none fails})\ & & \\
+    & = 1 - \IP(F_1^c\cap F_2^c \cap F_3^c\cap F_4^c) & & \\
+    & = 1 - \IP(F_1^c)\IP(F_2^c)\IP( F_3^c)\IP(F_4^c) & & \text{independence}\\
+    & = 1-(0.9)(0.9)(0.9)(0.9) = 0.3439
+\end{align*}
+
+```
+
+When a problem involves independence, you will want to take advantage of it. Work with "and" events whenever possible in order to use the multiplication rule. For example, for problems involving "at least one" (an "or" event) take the complement to obtain "none" (an "and" event).
+
+
+### Independence of random variables
+
+
+```{example, independent-rv-event}
+
+Suppose $X$ and $Y$ are random variables whose joint pmf is represented by the following table.
+
+|             | $p_{X, Y}(x, y)$ |      |      |      |          |
+|------------:|-----------------:|-----:|-----:|-----:|---------:|
+|  $x$ \\ $y$ |                  |    1 |    2 |    3 | $p_X(x)$ |
+|           0 |                  | 0.20 | 0.50 | 0.10 |     0.80 |
+|           1 |                  | 0.05 | 0.10 | 0.05 |     0.20 |
+|    $p_Y(y)$ |                  | 0.25 | 0.60 | 0.15 |          |
+
+```
+
+1. Are the events $\{X=0\}$ and $\{Y=1\}$ independent?
+1. Are the random variables $X$ and $Y$ are independent?  Why?
+1. What would the joint pmf need to be in order for random variables with these marginal pmfs to be independent?
+
+
+
+```{solution, independent-rv-event-sol}
+to Example \@ref(exm:independent-rv-event)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Yes. $\IP(X=0, Y=1) = p_{X, Y}(0, 1) = 0.20 = (0.80)(0.25) = p_X(0)p_Y(1) = \IP(X=0)\IP(Y=1)$.
+1. No. In particular, $\IP(X = 0) = 0.8$, but $\IP(X = 0|Y=3) = 0.10/0.15 = 2/3$. Knowing the value of one of the variables changes the distribution of the other.
+1. We need each joint probability to be the product of the corresponding marginal probability as in part 1.
+
+    |             | $p_{X, Y}(x, y)$ |      |      |      |          |
+    |------------:|-----------------:|-----:|-----:|-----:|---------:|
+    |  $x$ \\ $y$ |                  |    1 |    2 |    3 | $p_X(x)$ |
+    |           0 |                  | 0.20 | 0.48 | 0.12 |     0.80 |
+    |           1 |                  | 0.05 | 0.12 | 0.03 |     0.20 |
+    |    $p_Y(y)$ |                  | 0.25 | 0.60 | 0.15 |          |
+
+``` 
+
+
+
+
+```{definition independent-rvs}
+
+Two random variables $X$ and $Y$ defined on a probability space with probability measure $\IP$ are **independent** if $\IP(X\le x, Y\le y) = \IP(X\le x)\IP(Y\le y)$ for all $x, y$.  That is, two random variables are independent if their joint cdf is the product of their marginal cdfs.
+
+```
+
+Random variables $X$ and $Y$ are independent if and only if the joint distribution factors into the product of the marginal distributions. The definition is in terms of cdfs, but analogous statements are true for pmfs and pdfs. Intuitively, random variables $X$ and $Y$ are independent if and only if the conditional distribution of one variable is equal to its marginal distribution  regardless of the value of the other.
+
+
+Discrete random variables are independent if and only if the joint pmf is the product of the marginal pmfs, and if and only if the conditional pmfs are equal to the corresponding marginal pmfs. For discrete random variables $X$ and $Y$, the following are equivalent.
+
+\begin{align*}
+\text{Discrete RVs $X$ and $Y$} & \text{ are independent}\\
+\Longleftrightarrow p_{X,Y}(x,y) & = p_X(x)p_Y(y) & & \text{for all $x,y$}\\
+\Longleftrightarrow p_{X|Y}(x|y) & = p_X(x)  & &  \text{for all $x,y$}
+\\
+\Longleftrightarrow p_{Y|X}(y|x)  & = p_Y(y)  & &  \text{for all $x,y$}
+\end{align*}
+
+
+Continuous random variables are independent if and only if the joint pdf is the product of the marginal pdfs, and if and only if the conditional pdfs are equal to the corresponding marginal pdfs. For continuous random variables $X$ and $Y$, the following are equivalent.
+
+\begin{align*}
+\text{Continuous RVs $X$ and $Y$} & \text{ are independent}\\
+\Longleftrightarrow f_{X,Y}(x,y) & = f_X(x)f_Y(y) & & \text{for all $x,y$}\\
+\Longleftrightarrow f_{X|Y}(x|y) & = f_X(x)  & &  \text{for all $x,y$}
+\\
+\Longleftrightarrow f_{Y|X}(y|x)  & = f_Y(y)  & &  \text{for all $x,y$}
+\end{align*}
+
+
+
+```{example, poisson-hr-conditional}
+
+Recall Example \@ref(exm:poisson-hr-joint). Let $X$ be the number of home runs hit by the home team, and $Y$ the number of home runs hit by the away team in a randomly selected MLB game.  Suppose that $X$ and $Y$ have joint pmf
+
+\[
+p_{X, Y}(x, y)
+=
+\begin{cases}
+e^{-2.3}\frac{x^{1.2}y^{1.1}}{x!y!}, & x = 0, 1, 2, \ldots; y = 0, 1, 2, \ldots,\\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+The marginal pmf of $X$ is
+\[
+p_{X}(x) = e^{-1.2}\frac{x^{1.2}}{x!},\quad  x = 0, 1, 2, \ldots
+\]
+
+The marginal pmf of $Y$ is
+\[
+p_{Y}(y) = e^{-1.1}\frac{y^{1.1}}{y!},\quad  y = 0, 1, 2, \ldots
+\]
+
+```
+
+1. Are $X$ and $Y$ independent?  (Note: we're asking about independence in terms of the assumed probability model, not for your opinion based on your knowledge of baseball.)
+1. Find the probability that the home teams hits 2 home runs and the away team hits 1 home run.
+1. Find the probability that the home teams hits 2 home runs given the away team hits 1 home run.
+1. Find the probability that the home teams hits 2 home runs given the away team hits at least 1 home run.
+
+
+```{solution poisson-hr-conditional-sol}
+to Example \@ref(exm:poisson-hr-conditional)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Yes, the joint pmf is the product of the marginal pmfs.
+1. Since $X$ and $Y$ are independent $\IP(X = 2, Y = 1) = p_{X, Y}(2, 1) = p_{X}(2)p_{Y}(1) = e^{-1.2}\frac{1.2^2}{2!}e^{-1.1}\frac{1.1^1}{1!}= 0.0794$.
+1. Since $X$ and $Y$ are independent $\IP(X = 2|Y = 1) = \IP(X = 2) = p_{X}(2) =e^{-1.2}\frac{1.2^2}{2!}= 0.217$.
+1. Since $X$ and $Y$ are independent $\IP(X = 2|Y \ge 1) = \IP(X = 2) = p_{X}(2) =e^{-1.2}\frac{1.2^2}{2!}= 0.217$.
+
+```
+
+Are home and away team home runs in baseball games really independent? See Figure \@ref(fig:poisson-hr-mosaic). The mosaic plot on the left represents Example \@ref(exm:poisson-hr-conditional) in which $X$ and $Y$ are independent.  The mosaic plot on the right is based on actual data from the 2018 MLB season.  While there is not an exact match, the model from Example \@ref(exm:poisson-hr-conditional) seems to describe the data reasonably well.  In particular, there does not appear to be much dependence between home runs hit by the two teams in a game.
+
+(ref:cap-poisson-hr-mosaic) The plot on the left is a mosaic plot for Example \@ref(exm:poisson-hr-conditional) where $X$ and $Y$ are independent.  The plot on the right is a mosaic plot based on data from the 2018 MLB season. The colors represent different values of away team home runs.
+
+```{r poisson-hr-mosaic, echo=FALSE, fig.cap="(ref:cap-poisson-hr-mosaic)", fig.show="hold", out.width="50%"}
+
+knitr::include_graphics(c("_graphics/hr-mosaic-poisson.png", 
+                          "_graphics/hr-mosaic-2018.png"))
+
+```
+
+```{example, exponential-uniform-independent}
+Let $X$ and $Y$ be continuous random variables with joint pdf
+
+\[
+f_{X, Y}(x, y) = e^{-x}, \qquad x>0,\; 0<y<1. 
+\]
+
+```
+
+1. Without doing any calculations, find the conditional distributions and marginal distributions.
+1. Are $X$ and $Y$ independent?
+1. Sketch a plot of the joint pdf of $X$ and $Y$.
+1. Find $\IP(X<0.2, Y<0.4)$.
+1. Find $\IP(X<0.2| Y<0.4)$.
+
+```{solution exponential-uniform-independent-sol}
+to Example \@ref(exm:exponential-uniform-independent)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Fix $y$.  Then as a function of $x$, the conditional pdf of $X$ given $Y=y$ is proportional to $e^{-x}, x>0$.  That is true for any $0<y<1$. So regardless of the value of $Y$, $X$ follows an Exponential(1) distribution.  Similarly, regardless of the value of $X$, $Y$ follows a Uniform(0, 1) distribution.
+1. Yes, because of the previous part. The joint pdf factors in the product of marginal pdfs. By carefully inspecting the joint pdf, we can determine, without any calculations, that $X$ and $Y$ are independent, $X$ has a marginal Exponential(1) distribution, and $Y$ has a Uniform(0, 1) distribution.
+1. See the simulation results below.  Each vertical slice, corresponding to the distribution of values of $Y$ for a given value of $X$, has constant Uniform(0, 1) density. Each horizontal slice, corresponding to the distribution of values of $X$ for a given value of $Y$, has an Exponential(1) density.
+1. $X$ and $Y$ are independent so $\IP(X<0.2, Y<0.4)=\IP(X<0.2)\IP(Y<0.4) = (1-e^{-0.2})(0.4)$.
+1. $X$ and $Y$ are independent so $\IP(X<0.2| Y<0.4)=\IP(X<0.2) = 1-e^{-0.2}$.
+
+```
+
+
+Continuous random variables $X$ and $Y$ are independent if and only if their joint pdf can be factored into a function of values of $X$ alone times a function of values of $Y$ alone.  That is, $X$ and $Y$ are independent if and only if there exist functions $g$ and $h$ for which
+\[
+f_{X,Y}(x,y) \propto g(x)h(y) \qquad \text{ for all $x$, $y$}
+\]
+Aside from normalizing constants, $g$ determines the shape of the marginal pdf for $X$, and $h$ for $Y$. Be careful: when determining if the pdfs can be factored, be sure to consider the range of possible $x$ and $y$ values. Random variables are not independent if the possible values of one variable can change given  the value of the other.
+
+
+Some Symbulate code for Example \@ref(exm:exponential-uniform-independent) follows.  We can define two independent random variables by specifying their joint distribution as the product `*` of their marginal distributions.
+
+
+```{python}
+
+X, Y = RV(Exponential(1) * Uniform(0, 1))
+
+(X & Y).sim(10000).plot('density')
+plt.show()
+
+```
+
+We can also simulate conditional distributions.  Remember: be careful when conditioning on the value of a continuous random variable.
+
+```{python}
+
+(X | (abs(Y - 0.1) < 0.05) ).sim(1000).plot(bins = 20) # given Y "=" 0.1
+(X | (abs(Y - 0.5) < 0.05) ).sim(1000).plot(bins = 20) # given Y "=" 0.5
+(X | (abs(Y - 0.7) < 0.05) ).sim(1000).plot(bins = 20) # given Y "=" 0.7
+plt.show()
+
+```
+
+
+```{python}
+
+(Y | (abs(X - 0.1) < 0.05) ).sim(1000).plot(bins = 20) # given X "=" 0.1
+(Y | (abs(X - 0.5) < 0.05) ).sim(1000).plot(bins = 20) # given X "=" 0.5
+(Y | (abs(X - 0.7) < 0.05) ).sim(1000).plot(bins = 20) # given X "=" 0.7
+plt.show()
+
+```
+
+Donny Dont wants to code this example in Symbulate as 
+
+```{python, eval = FALSE, }
+
+X = RV(Exponential(1))
+Y = RV(Uniform(0, 1))
+
+```
+
+Unfortunately, the above code returns an error when attempting `(X & Y).sim(1000)`.  The reason is that the above code only specifies the marginal distributions of $X$ and $Y$, but the joint distribution is needed to generate $(X, Y)$ pairs.  If you want $X$ and $Y$ to be independent, you need to make that explicit.  One way to fix Donny's code is to add a line which tells Symbulate that $X$ and $Y$ are independent, in which case it is enough to specify the marginal distributions.
+
+
+```{python}
+
+X = RV(Exponential(1))
+Y = RV(Uniform(0, 1))
+
+X, Y = AssumeIndependent(X, Y)
+
+(X & Y).sim(10000).plot('density')
+plt.show()
+
+```
+
+
+
+### Independent versus uncorrelated
+
+The condition for independence of random variables is fairly strict.  Random variables are independent only if the joint distribution is determined by the product of the marginal distributions for all values of the random variables.  Otherwise, the random variables are not independent.  However, you can imagine that there are different degrees of dependence.  For example, the mosaic plot on the right in Figure \@ref(fig:poisson-hr-mosaic) displays a situation  where $X$ and $Y$ are "not too dependent".
+
+We wish to measure degree of dependence in a single number.  Unfortunately, there are many different ways two random variables can be related, and there is no single measure that works well in all cases.
+
+The most commonly used measure of the degree of an association between two random variables is covariance, or its standardized counterpart, correlation.  While covariance does have many uses and nice properties, it does NOT measure whether two random variables are independent.
+
+```{example, zero-covariance}
+Find $\Cov(X,Y)$ in
+each of the following situations. Notice that the marginal distribution
+of $X$ is the same for each part, and similarly for $Y$.
+
+```
+
+1.
+    |            | $p_{X, Y}(x, y)$ |     |     |     |          |
+    |-----------:|-----------------:|----:|----:|----:|---------:|
+    | $x$ \\ $y$ |                  |  -1 |   0 |   1 | $p_X(x)$ |
+    |          0 |                  | 1/6 | 1/6 | 1/6 |      1/2 |
+    |          1 |                  | 1/6 | 1/6 | 1/6 |      1/2 |
+    |   $p_Y(y)$ |                  | 1/3 | 1/3 | 1/3 |          |
+
+1. 
+    |            | $p_{X, Y}(x, y)$ |      |      |      |          |
+    |-----------:|-----------------:|-----:|-----:|-----:|---------:|
+    | $x$ \\ $y$ |                  |   -1 |    0 |    1 | $p_X(x)$ |
+    |          0 |                  | 5/24 | 2/24 | 5/24 |      1/2 |
+    |          1 |                  | 3/24 | 6/24 | 3/24 |      1/2 |
+    |   $p_Y(y)$ |                  |  1/3 |  1/3 |  1/3 |          |
+
+1. In which of the previous parts are $X$ and $Y$ independent?  Why?
+
+```{solution zero-covarance-sol}
+to Example \@ref(exm:zero-covariance)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $\Cov(X, Y) = \E(XY) - \E(X)\E(Y) = \E(XY)$ since $\E(Y)=0$. $\E(XY) = 0 + (1)(1)(1/6) + (1)(-1)(1/6) = 0$. So the covariance is 0.
+1. Again, $\Cov(X, Y) = \E(XY)$ since $\E(Y)=0$. $\E(XY) = 0 + (1)(1)(3/24) + (1)(-1)(3/24) = 0$. So the covariance is 0.
+1. $X$ and $Y$ are independent in part 1 because the joint pmf is the product of the marginal pmfs.  However, $X$ and $Y$ in part 2 are not independent even though the covariance is 0.
+
+```
+
+If $X$ and $Y$ are independent then $X$ and $Y$ are uncorrelated, that is, $\Cov(X, Y) = 0$. However, the converse is not true in general: there are many situations in which $\Cov(X, Y) = 0$ but $X$ and $Y$ are not independent. Independence means there is no probabilistic relationship between two random variables. Covariance only measures a particular kind of probabilistic relationship, namely: how closely do the $(X, Y)$ pairs tend to follow a single straight line with non-zero slope?
+
+## Conditional expected value {#ce}
+
+Conditioning on the value of a random variable $X$ in general changes the distribution of another random variable $Y$.  If a distribution changes, its summary characteristics like expected value and variance can change too.
+
+
+```{example, dice-ce}
+Roll a fair four-sided die twice.  Let $X$ be the sum of the two rolls, and let $Y$ be the larger of the two rolls (or the common value if a tie). We found the joint and marginal distributions of $X$ and $Y$ in Example \@ref(exm:dice-probspace), displayed in the table below.
+
+```
+
+| $p_{X, Y}(x, y)$ |      |      |      |      |            |
+|------------------|-----:|-----:|-----:|-----:|-----------:|
+| $x$ \\ $y$       |    1 |    2 |    3 |    4 | $p_{X}(x)$ |
+| 2                | 1/16 |    0 |    0 |    0 |       1/16 |
+| 3                |    0 | 2/16 |    0 |    0 |       2/16 |
+| 4                |    0 | 1/16 | 2/16 |    0 |       3/16 |
+| 5                |    0 |    0 | 2/16 | 2/16 |       4/16 |
+| 6                |    0 |    0 | 1/16 | 2/16 |       3/16 |
+| 7                |    0 |    0 |    0 | 2/16 |       2/16 |
+| 8                |    0 |    0 |    0 | 1/16 |       1/16 |
+| $p_Y(y)$         | 1/16 | 3/16 | 5/16 | 7/16 |            |
+
+
+1. Find $\E(Y)$. How could you find a simulation-based approximation?
+1. Find $\E(Y|X=6)$.  How could you find a simulation-based approximation?
+1. Find $\E(Y|X=5)$.  How could you find a simulation-based approximation?
+1. Find $\E(Y|X=x)$ for each possible value of $x$ of $X$.
+1. Find $\E(X|Y = 4)$. How could you find a simulation-based approximation?
+1. Find $\E(X|Y = y)$ for each possible value $y$ of $Y$.
+
+
+
+
+
+```{solution, dice-ce-sol}
+to Example \@ref(exm:dice-ce)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $\E(Y) = 1(1/16) + 2(3/16) + 3(5/16) + 4(7/16) = 3.125$.  Approximate this long run average value by simulating many values of $Y$ and computing the average.
+1. The conditional pmf of $Y$ given $X=6$ places probability 2/3 on the value 4 and 1/3 on the value 3.  Compute the expected value using this conditional distribution: $\E(Y|X=6) = 3(1/3) + 4(2/3) = 3.67$.  This conditional long run average value could be approximated by simulating many $(X, Y)$ pairs from the joint distribution, discarding the pairs for which $X\neq 6$, and computing the average value of the $Y$ values for the remaining pairs.
+1. The conditional pmf of $Y$ given $X=5$ places probability 1/2 on the value 4 and 1/2 on the value 3.  Compute the expected value using this conditional distribution: $\E(Y|X=5) = 3(1/2) + 4(1/2) = 3.5$.  This conditional long run average value could be approximated by simulating many $(X, Y)$ pairs from the joint distribution, discarding the pairs for which $X\neq 5$, and computing the average value of the $Y$ values for the remaining pairs.
+1. Proceed as in the previous two parts. Find $\E(Y|X=x)$ for each possible value of $x$ of $X$.
+
+    | $x$ |            $\E(Y|X=x)$ |
+    |----:|-----------------------:|
+    |   2 |               1(1) = 1 |
+    |   3 |               2(1) = 2 |
+    |   4 |  2(1/3) + 3(2/3) = 8/3 |
+    |   5 |  3(1/2) + 4(1/2) = 3.5 |
+    |   6 | 3(1/3) + 4(2/3) = 11/3 |
+    |   7 |               4(1) = 4 |
+    |   8 |               4(1) = 4 |
+  
+1. The conditional pmf of $X$ given $Y=4$ places probability 2/7 on each of the values 5, 6, 7, and 1/7 on the value 8.  Compute the expected value using this conditional distribution: $\E(X|Y=4) = 5(2/7) + 6(2/7) +7(2/7) + 8(1/7)= 6.29$.  This conditional long run average value could be approximated by simulating many $(X, Y)$ pairs from the joint distribution, discarding the pairs for which $Y\neq 4$, and computing the average value of the $X$ values for the remaining pairs.
+1. Proceed as in the previous part.
+
+    | $y$ |                             $\E(X|Y=y)$ |
+    |----:|----------------------------------------:|
+    |   1 |                                2(1) = 2 |
+    |   2 |                  3(2/3) + 4(1/3) = 10/3 |
+    |   3 |          4(2/5) + 5(2/5) + 6(1/5) = 4.8 |
+    |   4 | 5(2/7) + 6(2/7) +7(2/7) + 8(1/7) = 44/7 |
+
+
+```
+
+
+```{python}
+
+U1, U2 = RV(DiscreteUniform(1, 4) ** 2)
+
+X = U1 + U2
+
+Y = (U1 & U2).apply(max)
+
+y_given_Xeq6 = (Y | (X == 6) ).sim(3000)
+
+y_given_Xeq6
+
+```
+
+
+```{python}
+
+y_given_Xeq6.tabulate()
+
+```
+
+```{python}
+
+y_given_Xeq6.mean()
+
+```
+
+
+
+```{definition ce}
+
+The **conditional expected value** (a.k.a. *conditional expectation* a.k.a. *conditional mean*), of a random variable $Y$ given the event $\{X=x\}$, defined on a probability space with measure $\IP$, is a *number* denoted $\E(Y|X=x)$ representing the probability-weighted average value of $Y$, where the weights are determined by the conditional distribution of $Y$ given $X=x$.
+
+\begin{align*}
+	& \text{Discrete $X, Y$ with conditional pmf $p_{Y|X}$:} & \E(Y|X=x) & = \sum_y y p_{Y|X}(y|x)\\
+	& \text{Continuous $X, Y$ with conditional pdf $f_{Y|X}$:} & \E(Y|X=x) & =\int_{-\infty}^\infty y f_{Y|X}(y|x) dy
+\end{align*}
+
+```
+
+
+Remember, when conditioning on $X=x$, $x$ is treated as a fixed constant. The conditional expected value  $\E(Y | X=x)$ is  a *number* representing the mean of the conditional distribution of $Y$ given $X=x$. The conditional expected value $\E(Y | X=x)$ is the long run average value of $Y$ over only those outcomes for which $X=x$.
+To approximate $\E(Y|X = x)$, simulate many $(X, Y)$ pairs, discard the pairs for which $X\neq x$, and average the $Y$ values for the pairs that remain. 
+
+
+
+
+
+
+
+```{example, uniform-sum-max-ce}
+
+Recall Example \@ref(exm:uniform-sum-max-conditional). Consider the probability space corresponding to two spins of the Uniform(1, 4) spinner and let $X$ be the sum of the two spins and $Y$ the larger to the two spins (or the common value if a tie).
+
+```
+
+
+1. Find $\E(X | Y = 3)$.
+1. Find $\E(X | Y = 4)$.
+1. Find $\E(X | Y = y)$ for each value $y$ of $Y$.
+1. Find $\E(Y | X = 3.5)$.
+1. Find $\E(Y | X = 6)$.
+1. Find $\E(Y | X = x)$ for each value $x$ of $X$.
+
+
+
+```{solution, uniform-sum-max-ce-sol}
+to Example \@ref(exm:uniform-sum-max-ce)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Recall Figure \@ref(fig:uniform-sum-max-conditional-plot).  All the conditional distributions (slices) are Uniform, but over different ranges of possible values. Remember, the mean of any Uniform distribution is the midpoint of the possible range of values. The conditional distribution of $X$ given $Y=3$ is the Uniform(4, 6) distribution, which has mean 5.  Therefore, $\E(X | Y = 3)=5$.  As an integral, since $f_{X|Y}(x|3) = 1/2, 4<x<6$,
+\[
+\E(X | Y = 3) = \int_4^6  x (1/2)dx = \frac{x^2}{4}\Bigg|_{x=4}^{x=6} = \frac{6^2}{4} - \frac{4^2}{4} = 5.
+\]
+1. The conditional distribution of $X$ given $Y=4$ is the Uniform(5, 8) distribution, which has mean 6.5.  Therefore, $\E(X | Y = 4)=6.5$.
+1. For a given $y$, the conditional distribution of $X$ given $Y=y$ is the Uniform($y+1$, $2y$) distribution, which has mean $\frac{y+1+2y}{2}=1.5y + 0.5$.  Therefore, $\E(X | Y = y)=1.5y + 0.5$. As an integral, since $f_{X|Y}(x|y) = \frac{1}{y-1}, y+1 < x< 2y$,
+\[
+\E(X | Y = y) = \int_{y+1}^{2y}  x \left(\frac{1}{y-1}\right)dx = \frac{x^2}{2(y-1)}\Bigg|_{x=y+1}^{x=2y} = \frac{(2y)^2}{2(y-1)} - \frac{(y+1)^2}{2(y-1)} = 1.5y + 0.5.
+\]
+In the above, $y$ is treated like a fixed constant, and we are averaging over values of $X$ by taking a $dx$ integral. For a given value of $y$ like $y=3$, $1.5y + 0.5$ is a number like $1.5(3)+0.5=5$.
+1. The conditional distribution of $Y$ given $X=3.5$ is the Uniform(1.75, 2.5) distribution, which has mean 2.125.  Therefore, $\E(Y | X = 3.5)=2.125$.  As an integral, since $f_{Y|X}(y|3.5) = 1/0.75, 1.75<y<2.5$,
+\[
+\E(Y | X = 3.5) = \int_{1.75}^{2.5}  y (1/0.75)dy = \frac{y^2}{1.5}\Bigg|_{x=1.75}^{x=2.5} = \frac{2.5^2}{1.5} - \frac{1.75^2}{1.5} = 2.125.
+\]
+1. The conditional distribution of $Y$ given $X=6$ is the Uniform(3, 4) distribution, which has mean 3.5.  Therefore, $\E(Y | X = 6)=3.5$.
+1. There are two general cases.  If $2<x<5$ then the conditional distribution of $Y$ given $X=x$ is Uniform($0.5x$, $x-1$) so $\E(Y|X = x) = \frac{0.5x + x - 1}{2} = 0.75x - 0.5$. If $5<x<8$ then the conditional distribution of $Y$ given $X=x$ is Uniform($0.5x$, 4) so $\E(Y|X = x) = \frac{0.5x + 4}{2} = 0.25x +2$.  The two cases can be put together as
+\[
+\E(Y | X = x) = 0.25x + 0.5\min(4, x-1).  
+\]
+In the above, $x$ is treated like a fixed constant, and we are averaging over values of $Y$ by taking a $dy$ integral. For a given value of $x$ like $x=3.5$, $0.25x + 0.5\min(4, x-1)$ is a number like $0.25(3.5) + 0.5\min(4, 3.5-1)=2.125$.
+    
+```
+
+
+
+Remember that the probability that a continuous random variable is equal to a particular value is 0; that is, for continuous $X$, $\IP(X=x)=0$. When we condition on $\{X=x\}$ we are really conditioning on $\{|X-x|<\ep\}$ and seeing what happens in the idealized limit when $\ep\to0$.
+
+When simulating, *never* condition on $\{X=x\}$ for a continuous random variable $X$; rather, condition on $\{|X-x|<\ep\}$ where $\ep$ represents some suitable degree of precision (e.g. $\ep=0.005$ if rounding to two decimal places).
+
+To approximate $\E(Y|X = x)$ for continuous random variables, simulate many $(X, Y)$ pairs, discard the pairs for which $X$ *is not close to* $x$, and average the $Y$ values for the pairs that remain. 
+
+```{python}
+
+U1, U2 = RV(Uniform(1, 4) ** 2)
+
+X = U1 + U2
+
+Y = (U1 & U2).apply(max)
+
+x_given_Yeq3 = (X | (abs(Y - 3) < 0.05) ).sim(1000)
+
+x_given_Yeq3
+
+```
+
+
+
+```{python}
+
+x_given_Yeq3.plot()
+plt.show()
+
+x_given_Yeq3.mean()
+
+```
+
+### Conditional expected value as a random variable
+
+
+Given a value $x$ of $X$, the conditional expected value $\E(Y|X=x)$ is a *number*.  However, since $X$ can take different values $x$, then $\E(Y|X=x)$ can also take different values depending on the value of $x$.  That is, $\E(Y|X=x)$ is a function of $x$. Moreover, since $X$ is a random variable, $\E(Y|X=x)$ is a function of values of a random variable.
+
+
+```{example, dice-ce-rv}
+Continuing Example \@ref(exm:dice-ce).  Let $X$ be the sum of the two rolls, and let $Y$ be the larger of the two rolls (or the common value if a tie).
+
+```
+
+1. Let $\ell(x)$ denote the function that maps values $x$ of $X$ to $\E(Y|X=x)$.  Find the distribution of the *random variable* $Z=\ell(X)$.
+1. Find $\IP(Z\le 3)$.
+1. Let $\E(X|Y)$ denote the *random variable* that takes value $\E(X|Y=y)$ when $Y=y$.  Find the distribution of $\E(X|Y)$.
+1. Find $\IP(\E(X|Y)\le 4)$.
+
+
+
+
+```{solution, dice-ce-rv-sol}
+to Example \@ref(exm:dice-ce-rv)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. We have already found $\E(Y|X=x)$ for each $x$.  The table below defines the function $\ell$. 
+
+    | $x$ |  $\ell(x) = \E(Y|X =x)$ |
+    |----:|------------------------:|
+    |   2 |                       1 |
+    |   3 |                       2 |
+    |   4 |                     8/3 |
+    |   5 |                     3.5 |
+    |   6 |                    11/3 |
+    |   7 |                       4 |
+    |   8 |                       4 |
+    
+    The random variable $Z=\ell(X)$ takes values 1, 2, 8/3, 3.5, 11/3, and 4.  Since $Z$ is a function of $X$, the distribution of $Z$ is determined by the distribution of $X$.  For example, $\IP(Z = 8/3) = \IP(X=4) = 3/16$, and $\IP(Z = 4) = \IP(X=7)+\IP(X = 8)=3/16$.  The following table displays the pmf of $Z$.
+
+    |  $z$ | $p_Z(z)$ |
+    |-----:|---------:|
+    |    1 |     1/16 |
+    |    2 |     2/16 |
+    |  8/3 |     3/16 |
+    |  3.5 |     4/16 |
+    | 11/3 |     3/16 |
+    |    4 |     3/16 |
+  
+1. Use the table above. The possible values of $Z$ that are at most 3 are 1, 2, 8/3, so $\IP(Z\le 3) = 6/16$.
+1. This is similar to the previous parts, but now we are conditioning the other way and using different notation.  Let $w$ denote a generic possible value of the random variable $\E(X|Y)$.  The possible values of $\E(X|Y)$ are determined by $\E(X|Y=y)$ for each possible value $y$ of $Y$, and the corresponding probabilities are determined by the distribution of $Y$.  The following table displays the pmf of $\E(X|Y)$.
+
+    |  $w$ | $p_{\E(X|Y)}(w)$ |
+    |-----:|-----------------:|
+    |    2 |             1/16 |
+    | 10/3 |             3/16 |
+    |  4.8 |             5/16 |
+    | 44/7 |             7/16 |
+
+1. Use the table above. $\IP(\E(X|Y)\le 4) = 4/16$.
+
+```
+
+```{definition, ce-rv}
+
+The **conditional expected value of $Y$ given $X$** is the *random variable*, denoted $\E(Y|X)$, which takes value $\E(Y|X=x)$ on the occurrence of the event $\{X=x\}$.  The random variable $\E(Y|X)$ is a *function of* $X$.
+
+```
+
+For a given value $x$ of $X$, $\E(Y|X=x)$ is a *number*. Let $\ell$ denote the function which maps $x$ to the number $\ell(x)=\E(Y|X=x)$. The random variable  $\E(Y|X)$ is a function of $X$, namely $\E(Y|X)=\ell(X)$.
+
+Roughly, $\E(Y|X)$ can be thought of as the "best guess" of the value of $Y$ given only the information available from $X$.
+
+Since $\E(Y|X)$ is a random variable, it has a distribution.  And since $\E(Y|X)$ is a function of $X$, the distribution of $X$ will be depend on the distribution of $X$.  However, remember that a transformation generally changes the shape of a distribution, so the distribution of $\E(Y|X)$ will usually have a different shape than that of $X$.
+
+
+```{example, uniform-sum-max-ce-rv}
+
+Continuing Example \@ref(exm:uniform-sum-max-ce). Consider the probability space corresponding to two spins of the Uniform(1, 4) spinner and let $X$ be the sum of the two spins and $Y$ the larger to the two spins (or the common value if a tie).
+
+```
+
+
+1. Find an expression for $\E(X | Y)$.
+1. Find $\IP(\E(X|Y) \le 5)$.
+1. Find the pdf of $\E(X|Y)$.
+1. Find an expression for $\E(Y | X)$.
+
+
+```{solution, uniform-sum-max-ce-rv-sol}
+to Example \@ref(exm:uniform-sum-max-ce-rv)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The conditional distribution of $X$ given $Y=y$ is Uniform($y+1$, $2y$) distribution, which has mean $\frac{y+1+2y}{2}=1.5y + 0.5$.  This is true for any value $y$ of $Y$.  Therefore, $\E(X|Y) = 1.5Y + 0.5$, a function of $Y$.
+1. Remember that the pdf of $Y$ is $f_Y(y) = (2/9)(y-1), 1<y<4$.
+    \[
+    \IP(\E(X|Y) \le 5)   = \IP(1.5Y + 0.5 \le 5) = \IP(Y \le 3) = \int_1^3 (2/9)(y-1)dy = 4/9
+    \]
+1. $E(X|Y)=1.5Y+0.5$ is a linear transformation of $Y$, so the shape of its distribution will be the same as the shape of the distribution of $Y$.  The possible values of $\E(X|Y)$ are 2 to 6.5.  We can use the cdf method.  For $2<w<6.5$,
+
+    \begin{align*}
+    F_{\E(X|Y)}(w) & = \IP(\E(X|Y)\le w)\\
+    & = \IP(1.5Y + 0.5 \le w)\\
+    & = \IP(Y \le (w - 0.5)/1.5)\\
+    F_{\E(X|Y)}(w)& = F_Y((w-0.5)/1.5)
+    \end{align*}
+    
+    Differentiate both sides with respect to $w$; remember the chain rule.
+    \[
+    f_{\E(X|Y)}(w) = f_Y((w-0.5)/1.5)(1/1.5) = (2/9)((w-0.5)/1.5 - 1)/1.5 = (8/81)(w - 2)
+    \]
+
+    That is, the pdf of $\E(X|Y)$ is $f_{\E(X|Y)}(w) = (8/81)(w - 2), 2<w<6.5$.
+    
+1. For each $2<x<8$,
+\[
+\E(Y | X = x) = 0.25x + 0.5\min(4, x-1).  
+\]
+Therefore, $\E(Y | X) = 0.25X + 0.5\min(4, X-1)$, a function of $X$.
+    
+```
+
+### Linearity of conditional expected value
+
+Conditional expected value, whether viewed as a number $\E(Y|X=x)$ or a random variable $\E(Y|X)$, possesses properties analogous to those of (unconditional) expected value.  In particular, we have **linearity of conditional expected value.**
+
+
+If $X, Y_1, \ldots, Y_n$ are RVs and $a_1, \ldots, a_n$ are non-random constants then
+\begin{align*}
+\E(a_1Y_1+\cdots+a_n Y_n|X=x) & = a_1\E(Y_1|X=x)+\cdots+a_n\E(Y_n|X=x)\\
+\E(a_1Y_1+\cdots+a_n Y_n|X) & = a_1\E(Y_1|X)+\cdots+a_n\E(Y_n|X)
+\end{align*}
+The first line above is an equality involving *numbers*; the second line is an equality involving *random variables* (i.e., functions).
+
+
+```{example, uniform-sum-max-ce-rv-linear}
+
+Continuing Example \@ref(exm:uniform-sum-max-ce-rv). Spin the Uniform(1, 4) spinner twice, let $U_1$ be the result of the first spin, $U_2$ the second, and let $X=U_1+U_2$ and $Y=\max(U_1, U_2)$.
+
+```
+
+1. Use linearity to show $\E(U_1|Y) = 0.75Y + 0.25$.
+1. Explain intuitively why $\E(U_1|Y) = 0.75Y + 0.25$.
+
+
+```{solution, uniform-sum-max-ce-rv-linear-sol}
+to Example \@ref(exm:uniform-sum-max-ce-rv-linear)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. By symmetry, $\E(U_1|Y) = \E(U_2|Y)$. By linearity of conditional expected value
+\[
+\E(X|Y) = \E(U_1 + U_2|Y) = \E(U_1|Y) + \E(U_2|Y) = 2\E(U_1|Y)  
+\]
+So $\E(U_1|Y) = 0.5\E(X|Y) = 0.5(1.5Y + 0.5)=0.75Y + 0.25$.
+1. Given the larger value $Y$, there are two cases.  Either the first spin is the larger, which happens with probability 0.5, in which case $U_1=Y$ so $\E(U_1|Y) = Y$.  Otherwise, the second spin is the larger, which happens with probability 0.5, in which case $U_1$ is Uniformly distributed between 1 and $Y$ with mean $(Y+1)/2$.  Therefore, $\E(U_1|Y) = 0.5Y + 0.5(Y+1)/2 = 0.75Y + 0.25$.
+
+```
+
+### Law of total expectation
+
+Analogous to the law of total probability, the law of total expectation 
+ provides a way of computing an expected value by breaking down a problem into various cases, computing the conditional expected value given each case, and then computing the overall expected value as a probability-weighted average of these case-by-case conditional expected value.  
+
+```{example, dice-lte}
+Continuing Example \@ref(exm:dice-ce-rv).  Let $X$ be the sum of the two rolls, and let $Y$ be the larger of the two rolls (or the common value if a tie).
+
+```
+
+1. Find the expected value of the random variable $\E(X|Y)$.  That is, find $\E(\E(X|Y))$.  How does it relate to $\E(X)$?
+1. Find the expected value of the random variable $\E(Y|X)$.  That is, find $\E(\E(Y|X))$.  How does it relate to $\E(Y)$?
+
+```{solution, dice-lte-sol}
+to Example \@ref(exm:dice-lte)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $\E(X|Y)$ is a discrete random variable with pmf
+
+    |  $w$ | $p_{\E(X|Y)}(w)$ |
+    |-----:|-----------------:|
+    |    2 |             1/16 |
+    | 10/3 |             3/16 |
+    |  4.8 |             5/16 |
+    | 44/7 |             7/16 |
+  
+    Therefore,
+    \[
+    \E(\E(X|Y)) = (2)(1/16) + (10/3)(3/16) + (4.8)(5/16) + (44/7)(7/16) = 5
+    \]
+    We see that $\E(\E(X|Y)) = 5 = \E(X)$.
+    
+1. $\E(Y|X)$ is a discrete random variable with pmf
+
+    |  $z$ | $p_{\E(Y|X)}(z)$ |
+    |-----:|-----------------:|
+    |    1 |             1/16 |
+    |    2 |             2/16 |
+    |  8/3 |             3/16 |
+    |  3.5 |             4/16 |
+    | 11/3 |             3/16 |
+    |    4 |             3/16 |
+
+  
+    Therefore,
+    \[
+    \E(\E(Y|X)) = (1)(1/16) + (2)(2/16) + (8/4)(3/16) + (3.5)(4/16) +(11/3)(3/16)+(4)(3/16)= 3.125
+    \]
+    We see that $\E(\E(Y|X)) = 3.125 = \E(Y)$.
+
+```
+
+
+```{theorem LTE, name="Law of Total Expectation (LTE)"}
+For any two random variables $X$ and $Y$ (defined on the same probability space)
+\[
+\E(Y) = \E(\E(Y|X))
+\]
+```
+
+Remember that $\E(Y|X)$ is a *random variable* and so it has an expected value $\E(\E(Y|X))$ representing the long run average value of the random variable $\E(Y|X)$. Also remember that $\E(Y|X)$ is a function of $X$ and so $\E(\E(Y|X))$ can be computed using LOTUS. For two discrete random variables $X$ and $Y$
+\[
+\E(\E(Y|X)) = \sum_x \E(Y|X=x)p_X(x)
+\]
+
+Here is a proof of the LTE for discrete random variables. (The proof for continuous random variables is analogous).
+\begin{align*}
+\E(\E(Y|X)) & = \sum_x \E(Y|X=x)p_X(x) & & \text{LOTUS}\\
+& = \sum_x \left(\sum_y y p_{Y|X}(y|x)\right) p_X(x) & & \text{definition of CE}\\
+& = \sum_x \sum_y y p_{X, Y}(x, y) & & \text{joint = conditional $\times$ marginal}\\
+& = \sum_y y \sum_x p_{X, Y}(x, y) & & \text{interchange sums}\\
+& = \sum_y y p_Y(y) & & \text{collapse joint to get marginal}\\
+& = \E(Y) & & \text{definition of expected value}
+\end{align*}
+
+```{example, uniform-sum-max-lte}
+
+Continuing Example \@ref(exm:uniform-sum-max-ce-rv). Consider the probability space corresponding to two spins of the Uniform(1, 4) spinner and let $X$ be the sum of the two spins and $Y$ the larger to the two spins (or the common value if a tie).
+
+```
+
+
+1. Use the distribution of the random variable $E(X|Y)$ to compute $\E(\E(X|Y))$.  Compare to $\E(X)$.
+1. Use the expression for $\E(X|Y)$ and properties of expected value to compute $\E(\E(X|Y))$.
+
+
+```{solution, uniform-sum-max-lte-sol}
+to Example \@ref(exm:uniform-sum-max-lte)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The continuous random variable $\E(X|Y)$ has pdf $f_{\E(X|Y)}(w) = (8/81)(w - 2), 2<w<6.5$.  So the expected value is
+    \[
+    \E(\E(X|Y))  = \int_2^{6.5} w \left((8/81)(w-2)\right)dw = 5
+    \]
+1. $E(X|Y)=1.5Y+0.5$ so $\E(E(X|Y))=\E(1.5Y+0.5)=1.5\E(Y) + 0.5=1.5(3)+0.5$.  We can find $\E(Y)=3$ using its pdf: $\E(Y) = \int_1^4 y (2/9)(y-1)dy = 3$.
+
+```
+
+Conditioning can be used as a problem solving strategy.  Conditioning can be used with the law of total probability to compute unconditional probabilities.  Likewise, conditioning can be used with the law of total expectation to compute unconditional expected values.
+
+
+
+```{example, coin-lte}
+Flip a fair coin  repeatedly.
+
+```
+
+
+1. What is the expected value of the number of tosses until a flip lands on H?  (Count the tosses that result in H, so H is 1 flip, TH is 2 flips, TTH is 3 flips, etc).
+1. What is the expected value of the number of flips until you see H followed immediately by T?  (HT is 2 flips, HHT is 3 flips, THT is 3 flips, HHHT is 4 flips, etc)
+1. What is the expected value of the number of flips until you see H followed immediately by H?  (HH is 2 flips, THH is 3 flips, HTHH is 4 flips, HTTHH is 5 flips, etc)
+1. Which of the previous two parts has the larger expected value?  Can you explain why?
+
+
+
+```{solution, coin-lte-sol}
+to Example \@ref(exm:coin-lte)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Let $\mu$ be the expected value in question.  Condition on the result of the first flip.  Either the first flip is H, with probability 1/2, in which case you're done with 1 flip.  Otherwise, the first flip is T in which case the process starts over after the first flip and the expected number of additional flips is also $\mu$.  Use the law of total expectation to put the two expected values together.
+    \[
+    \mu = (1/2)(1) + (1/2)(1+\mu)
+    \]
+    Solve for $\mu=2$.
+1. To achieve the pattern HT, we first need to flip until we get H, and then we complete the pattern once we get the first T after that. The expected number of flips until the first H is 2 (from the previous part).  By symmetry, the expected number of additional flips until the first T is also 2.  By linearity of expected value, the expected value of the number of flips to achieve HT is 4.
+1. Let $\mu$ denote the expected value in question.  Condition on the result of the first flip.  If we get T, we're right back where we started after 1 flip, and the expected number of additional flips is $\mu$.  If the first flip is H, consider the second flip.  If it's H, then we're done in 2 flips.  If the second flip is T, then after 2 flips we're back at the beginning again and the expected number of additional flips is $\mu$.  Use the law of total expectation to put it all together.
+    \[
+    \mu = (1/2)(1 + \mu) + (1/2)((1/2)(2) + (1/2)(2+\mu))
+    \]
+    Solve to find $\mu = 6$.
+1. It takes longer on average to see HH than HT. When trying for HH, any T that follows H destroys our progress and takes us back to the beginning.  But when trying for HT, any H that follows H just maintains our current position.
+
+```
+
+### Taking out what is known
+
+
+
+
+
+```{example random-rectangle-height}
+
+Suppose you construct a "random rectangle" as follows. The base $X$  is a random variable with a Uniform(0, 1) distribution.  The height $Y$ is a random variable whose conditional distribution given $X=x$ is  Uniform(0, $x$). We are interested in $\E(Y)$ the expected value of the height of the rectangle.
+
+```
+
+1. Explain how you could use the Uniform(0, 1) spinner to simulate an $(X, Y)$ pair.
+1. Explain how you could use simulation to approximate $\E(Y)$.
+1. Find $\E(Y|X=0.5)$.
+1. Find $\E(Y|X=0.2)$.
+1. Find $\E(Y|X=x)$ for a generic $x\in(0, 1)$.
+1. Identify the random variable $\E(Y|X)$.
+1. Use LTE to find $\E(Y)$.
+1. Sketch a plot of the joint distribution of $(X, Y)$.
+1. Sketch a plot of the marginal distribution of $Y$.  Be sure to specify the possible values.  Is it Uniform?
+1. What would you need to do to find $\E(Y)$ using the definition of expected value?
+
+```{solution, random-rectangle-height-sol}
+to Example \@ref(exm:random-rectangle-height)
+```
+
+1. Spin the spinner twice and let $U_1$ be the result of the first spin and $U_2$ the result of the second.  Let $X=U_1$.  Now consider an example. Given $X=0.2$, we want $Y$ to have a Uniform(0, 0.2) distribution. So we could take the result of the second spin (on a (0, 1) scale) and multiply by 0.2 to get a value on a (0, 0.2) scale.  (Remember: linear rescaling only changes the possible value and not the shape of the distribution; see Section \@ref(sec-linear-rescaling).)  That is, conditional on $X=0.2$, $0.2U_2$ will have a Uniform(0, 0.2) distribution.  Conditional on a general $x$, $xU_2$ will have a Uniform(0, $x$) distribution.  So if we define the random variable $Y$ as $Y=XU_2$, then the conditional distribution of $Y$ given $X=x$ will be Uniform(0, $x$).
+1. Simulate many $(X, Y)$ pairs in the above manner, and find the average of the simulated $Y$ values to approximate $\E(Y)$.
+1. The conditional distribution of $Y$ given $X=0.5$ is Uniform(0, 0.5) so $\E(Y|X=0.5)=0.5/2 = 0.25$.
+1. The conditional distribution of $Y$ given $X=0.2$ is Uniform(0, 0.2) so $\E(Y|X=0.2)=0.2/2 = 0.10$.
+1. For $x\in(0, 1)$, the conditional distribution of $Y$ given $X=x$ is Uniform(0, $x$) so $\E(Y|X=0.2)=x/2$.  Note that for any particular $x$, $\E(Y|X=x)$ is a *number* (e.g., $\E(Y|X=0.2)= 0.10$).
+1. $\E(Y|X)=X/2$.  Recall that $\E(Y|X)$ is a random variable, and moreover a function of $X$.  From the previous part we can see that $x/2$ maps $x\mapsto\E(Y|X=x)$, so $\E(Y|X) = X/2$.
+1. Use LTE.  Remember that non-random constants pop out of expected values.
+\[
+\E(Y) = \E(\E(Y|X)) = \E(X/2) = \E(X)/2 = (0.5)/2 = 0.25
+\]
+1. The $x$ values will be uniformly distributed between 0 and 1.  For each $x$, the $y$ values will be uniformly distributed along the vertical strip between 0 and $x$.  The $(X, Y)$ pairs will lie in the triangular region, $\{(x,y):0<y<x<1\}$, but since the vertical strips are shorter for smaller values of $x$, the density will be higher when $x$ is small than when $x$ is large.  The joint pdf is
+\[
+f_{X,Y}(x,y) = f_{Y|X}(y|x)f_X(x) = \frac{1}{x}(1), \qquad 0<y<x<1
+\]
+1. Unconditionally, $Y$ can take any value between 0 and 1.  Collapse $x$ values in the joint pdf.  By looking the horizontal strips in the joint pdf plot, we see that the density of $Y$ will be higher when $y$ is near 0.  We can find the marginal pdf by integrating out the $x$.  For a fixed $y$ in (0, 1) the joint density is positive only if $x$ is in $(y, 1)$.
+\[
+f_Y(y) = \int f_{X,Y}(x,y) dx = \int_y^1 \frac{1}{x} dx = -\log(y), \qquad 0<y<1
+\]
+1. In order to find $\E(Y)$ using the definition of expected value, you would need to (1) find the joint pdf of $(X, Y)$, (2) integrate the joint pdf with respect to $x$ to find the marginal pdf of $Y$, and (3) then integrate $\int y f_Y(y) dy$ to find $\E(Y)$:
+\[
+\int_0^1 y \left(-\log(y)\right)dy=0.25
+\]
+
+
+
+```{example random-rectangle-area}
+
+Continuing the previous example. Suppose you construct a "random rectangle" as follows. The base $X$  is a random variable with a Uniform(0, 1) distribution.  The height $Y$ is a random variable whose conditional distribution given $X=x$ is  Uniform(0, $x$). We are interested in $\E(XY)$ the expected value of the area of the rectangle.
+
+```
+
+1. Explain how you could use simulation to approximate $\E(XY)$.
+1. Find $\E(XY|X=0.5)$.
+1. Find $\E(XY|X=0.2)$.
+1. Find $\E(XY|X=x)$ for a generic $x\in(0, 1)$.  How does $\E(XY|X=x)$ relate to $\E(Y|X=x)$?
+1. Identify the random variable $\E(XY|X)$. How does $\E(XY|X)$ relate to $\E(Y|X)$?
+1. Use LTE to find $\E(XY)$.
+1. Find $\Cov(X, Y)$.  Does the sign of the covariance make sense?
+
+```{solution, random-rectangle-area-sol}
+to Example \@ref(exm:random-rectangle-area)
+```
+
+```{asis, fold.chunk = TRUE}
+
+
+1. Generate an $(X, Y)$ pair as in the previous part: spin the Uniform(0, 1) spinner twice, let $X$ be the result of the first spin and let $Y=XU$ where $U$ is the result of the second spin. Simulate many $(X, Y)$ pairs, for each pair compute the product $XY$, and find the average of the simulated $XY$ values to approximate $\E(XY)$.
+1. The conditional distribution of $XY$ given $X=0.5$ is the same as the conditional distribution of $0.5Y$ given $X=0.5$.  Conditional on $X=0.5$ we treat $X$ like the constant 0.5.  So $\E(XY|X=0.5)=\E(0.5Y|X=0.5) = 0.5\E(Y|X=0.5) = 0.5(0.25)=0.125$.  $\E(Y|X=0.5)=0.25$ because the conditional distribution of $Y$ given $X=0.5$ is Uniform(0, 0.5), with mean 0.25.
+1. Similar to the previous part, $\E(XY|X=0.2)=\E(0.2Y|X=0.2) = 0.2\E(Y|X=0.2) = 0.2(0.1) = 0.02$.  Notice that even after replacing $X$ with 0.2 we can't drop the conditioning, since the condition $X=2$ changes the distribution of $Y$; $\E(Y|X=0.2)=0.1$ is not the same as $\E(Y)=0.25$.
+1. Observe the pattern in the two previous parts and replace 0.5 and 0.2  with a generic $x$: $\E(XY|X=x)=\E(xY|X=x) = x\E(Y|X=x)$.  So we have $\E(XY|X=x)=x\E(Y|X=x)$; conditioning on $X=x$, we treat $X$ as the non-random constant $x$ and so it pops out of the expected value, just like 0.5 and 0.2 did.    Since $\E(Y|X=x)=x/2$ we have $\E(XY|X=x)=x\E(Y|X=x)=x(x/2)=x^2/2$. Note that for any particular $x$, $\E(XY|X=x)$ is a *number* (e.g., $\E(XY|X=0.2)= 0.2^2/2 = 0.02$).
+1. $\E(XY|X)=X\E(Y|X)$ and moreover $\E(XY|X)=X^2/2$.  Recall that $\E(XY|X)$ is a random variable, and moreover a function of $X$.  From the previous part we can see that $x^2/2$ maps $x\mapsto\E(Y|X=x)$, so $\E(XY|X) = X^2/2$.
+1. Use LTE.  Remember that non-random constants pop out of expected values.
+\[
+\E(XY) = \E(\E(XY|X)) = \E(X\E(Y|X))) = \E(X^2/2) = \E(X^2)/2 = (1/3)/2 = 1/6
+\]
+$\E(X^2)=1/3$ follows either by LOTUS, $\int_0^1 x^2(1)dx=1/3$, or since $\E(X^2) = \Var(X) + (\E(X))^2 = 1/12 + (1/2)^2=1/3$ where $\E(X)=1/12$ and $\Var(X)=1/12$ since $X$ has a Uniform(0, 1) distribution.
+
+```
+
+
+
+
+```{theorem TOWIK, name="Taking out what is known (TOWIK)"}
+\[
+\E(g(X)Y|X) = g(X)\E(Y|X)
+\]
+```
+
+In particular, $\E(XY|X) = X\E(Y|X)$, $\E(X|X)=X$, and $\E(g(X)|X)=g(X)$.
+Intuitively, when we condition on $X$ we treat it as though its value is known, so it behaves like a non-random constant. For example, $\E(XY|X)=X\E(Y|X)$ is the conditional, random variable analog of the unconditional, numerical relationship $\E(cY) = c\E(Y)$ where $c$ is a constant. Note that TOWIK is a relationship between *random variables*.
+
+Let $x$ be a particular possible value of $X$.  Then $g(x)$ is just a number.
+Remember that given $X=x$, the random variable $X$ is treated as the fixed constant $x$. Therefore, the conditional distribution of the random variable $g(X)Y$ given $X=x$ is the same as the conditional distribution of the random variable $g(x)Y$ given $X=x$.  Therefore $\E(g(X)Y|X=x) = \E(g(x)Y|X=x)= g(x)\E(Y|X=x)$, where $g(x)$ pops out of the expected value since it is just a number.
+
+
+
+
+A rectangle example like the one in Example \@ref(exm:random-rectangle-area) illustrates the ideas behind the law of total expectation and taking out what is known. Suppose $X$ represents the base of a rectangle and $Y$ its height; the product $XY$ represents the area of the rectangle. We can simulate a rectangle by simulating an $(X, Y)$ from the joint distribution, which might be specified by a marginal distribution of one variable and the conditional distribution of the other.  After simulating many rectangles, we can compute the average height to estimate $\E(Y)$ and the average area to estimate $\E(XY)$.
+
+To estimate $\E(Y)$ and $\E(XY)$ by conditioning on $X$ and using the law of total expectation, we first sort and group the rectangles according to the value of their base $X$.
+
+- One group consists of all the rectangles with a base of $X=0.1$.  The heights of the rectangles in this group are distributed according to the conditional distribution of $Y$ given $X=0.1$.  The average height of the rectangles in this group is $\E(Y|X=0.1)$.  Since all areas in this group have a base of 0.1, the average area of rectangles in this group is $(0.1)\E(Y|X=0.1)$.
+- Similarly, the average height of the rectangles with base of $X=0.2$ is $\E(Y|X=0.2)$ and the average area is $(0.2)\E(Y|X=0.2)$.
+- Generally, the average height of the rectangles with base of $X=x$ is $\E(Y|X=x)$ and the average area is $(x)\E(Y|X=x)$.
+
+
+We now have the average height and average area of the rectangles in each group.  But not all groups have the same number of rectangles.  So when computing the overall average height and average area groups with more rectangles get more weight.
+
+
+
+
+### Independent, uncorrelated, and something in between
+
+```{theorem}
+For any random variables $X$ and $Y$,
+
+1. If $X$ and $Y$ are independent then $\IP(\E(Y|X)=\E(Y))=1$ and $\IP(\E(X|Y)=\E(X)) = 1$.
+1. If either $\IP(\E(Y|X)=\E(Y))=1$ or $\IP(\E(X|Y)=\E(X)) = 1$ then $X$ and $Y$ are uncorrelated.
+
+```
+
+Roughly, if $X$ and $Y$ are independent then $\E(Y|X)=\E(Y)$.  However, this is a  nonsensical statement: on the left is $\E(Y|X)$ a random variable (a function), and on the right is $\E(Y)$ a number.  If $X$ and $Y$ are independent, then the conditional distribution of $Y$ is the same for all values of $X$, and so the mean of $Y$ is the same for all values of $X$.
+
+If, roughly, $\E(Y|X)=\E(Y)$, then the average value of $Y$ does not change with $X$.  This is enough for $X$ and $Y$ to be uncorrelated.  Since the average value of $Y$ does not change with $X$ there is no overall positive or negative association.  Here is a proof; suppose $\IP(\E(Y|X)=\E(Y))=1$, then
+
+\begin{align*}
+\E(XY) & = \E(\E(XY|X)) & & \text{LTE}\\
+& = \E(X\E(Y|X)) & & \text{TOWIK}\\
+& = \E(X\E(Y)) & & \text{by assumption}\\
+& = \E(X)\E(Y) & & \text{$\E(Y)$ is a number}
+\end{align*}
+
+So if $\IP(\E(Y|X)=\E(Y))=1$ then $X$ and $Y$ are uncorrelated.
+
+In short, if $X$ and $Y$ are independent then $\E(Y|X)=\E(Y)$, and if $\E(Y|X)=\E(Y)$ then $X$ and $Y$ are uncorrelated.  By the converses are not true.
+
+```{example uncorrelated-not-orthogonal}
+
+Let $X$ and $Y$ be discrete random variables with joint pmf
+
+|             |       |       |       |
+|------------	|-----:	|-----:	|-----:	|
+| $x$ \\ $y$ 	|   -1 	|    0 	|    1 	|
+| -1        	| 0.10 	|    0 	| 0.25 	|
+| 0          	| 0.30 	|    0 	|    0 	|
+| 1          	|    0 	| 0.20	| 0.15 	|
+
+```
+
+1. Find $\E(Y)$.
+1. Find $\E(Y|X=x)$ for each $x$.  Is $\E(Y|X)$ constant?
+1. Find $\E(X)$.
+1. Find $\E(X|Y=y)$ for each $y$.  Is $\E(X|Y)$ constant?
+1. Find $\Cov(X, Y)$. Are $X$ and $Y$ uncorrelated?
+1. Are $X$ and $Y$ independent?
+
+
+
+```{solution, uncorrelated-not-orthogonal-sol}
+to Example \@ref(exm:uncorrelated-not-orthogonal)
+```
+
+1. $\E(Y)= (-1)(0.40) + (0)(0.20)+(1)(0.40) = 0$.
+1. No, as is true in general, $\E(Y|X)$ is not constant in this example.
+\begin{align*}
+\E(Y|X=-1) & = (-1)(10/35) + (0)(0)+(1)(20/35) = 2/7\\
+\E(Y|X=0) & = (-1)(1) + (0)(0)+(1)(0) = -1\\
+\E(Y|X=1) & = (-1)(0) + (0)(20/35)+(1)(10/35) = 2/7\\
+\end{align*}
+1.$\E(X)= (-1)(0.40) + (0)(0.20)+(1)(0.40) = 0$.
+1. No, as is true in general, $\E(X|Y)$ is not constant in this example.
+\begin{align*}
+\E(X|Y=-1) & = (-1)(1/4) + (0)(3/4)+(1)(0) = -1/4\\
+\E(X|Y=0) & = (-1)(0) + (0)(0)+(1)(1) = 1\\
+\E(X|Y=1) & = (-1)(25/40) + (0)(0)+(1)(15/40) = -1/4\\
+\end{align*}
+1. $\E(XY)= (-1)(-1)(0.1)+(1)(-1)(0.25) + (1)(-1)(0)+(1)(1)(0.15)+0=0$ so $\Cov(X, Y)=\E(XY)-\E(X)\E(Y)=0$. Yes, $X$ and $Y$ are uncorrelated.
+1. No, $X$ and $Y$ are not independent.  For example $\E(Y|X=-1)=2/7$ but $\E(Y|X=0)=-1$.
+
+
+<!-- $X$ and $Y$ are independent if and only if -->
+<!-- $$\textrm{E}[g(X)h(Y)] = \textrm{E}[g(X)]\textrm{E}[h(Y)] \qquad \text{for all functions $g, h$}$$\ -->
+
+
+
+
+
+
+
+<!-- ## Conditional independence -->
+
+<!-- LATER -->
+
+

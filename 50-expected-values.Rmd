@@ -1,0 +1,2238 @@
+# Expected Values {#EV}
+
+\newcommand{\IP}{\textrm{P}}
+\newcommand{\IQ}{\textrm{Q}}
+\newcommand{\E}{\textrm{E}}
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\SD}{\textrm{SD}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\Corr}{\textrm{Corr}}
+\newcommand{\Xbar}{\bar{X}}
+\newcommand{\Ybar}{\bar{X}}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\ybar}{\bar{y}}
+\newcommand{\ind}{\textrm{I}}
+\newcommand{\dd}{\text{DDWDDD}}
+\newcommand{\ep}{\epsilon}
+\newcommand{\reals}{\mathbb{R}}
+
+
+The distribution of a random variable specifies the possible values and the probability of any event that involves the random variable.  The distribution of a random variable contains all the information about its long run behavior. It is also useful to summarize some key features of a distribution. 
+
+Chapter \@ref(simulation) introduced  how simulation can be used to approximate the **long run average value** of a random variable.  We also saw how variance and standard deviation can be used to summarize the overall degree of variability of a random variable by measuring, roughly, the long run average distance from the mean.  We saw a brief introduction to correlation, a number which measures the degree of the relationship between two jointly distributed random variables.  Correlation is also based on certain long run averages.
+
+In this chapter we will see how characteristics based on long run averages can be defined as "expected" values.  We will some properties and some strategies for computing expected values. We will also discuss how to interpret expected values, where we'll see that the "expected" in expected value is, unfortunately, a misnomer (hence the quotes).
+
+
+
+
+## "Expected" value
+
+
+```{example, matching-ev, name='Matching problem'}
+
+Recall the "matching problem" from Example \@ref(exm:matching-indicator). A geology museum in California has four different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is. An earthquake hits and the rocks all fall off the shelf and get mixed up. A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in random order.   Let the random variable $Y$ count the number of rocks that are put back in the correct spot.
+
+```
+
+
+
+1. Identify the distribution of $Y$.
+1. Describe two ways for simulating values of $Y$.
+1. The table below displays 10 simulated values of $Y$.  How could you use the results of this simulation to approximate the long run average value of $Y$? How could you get a better approximation of the long run average?
+    ```{r, matching-sim-10-ev, echo = FALSE}
+
+
+    knitr::kable(
+      data.frame(1:10, c(0, 1, 0, 0, 2, 0, 1, 1, 4, 2)),
+      booktabs = TRUE,
+      col.names = c("Repetition", "Y"),
+      caption = "Results of the number of matches ($Y$) in 10 repetitions of the matching problem."
+    )
+
+    ```
+1. Rather than adding the 10 values and dividing by 10, how could you simplify the calculation in the previous part?
+1. The table below summarizes 24000 simulated values of $Y$.  Approximate the long run average value of $Y$.
+    ```{r, matching-sim-ev, echo = FALSE}
+
+    knitr::kable(
+      data.frame(c(0, 1, 2, 4), c(8979, 7993, 6068, 960)),
+      booktabs = TRUE,
+      col.names = c("Value of Y", "Number of repetitions"),
+      caption = "Results of the number of matches ($Y$) in 24000 repetitions of the matching problem."
+    )
+
+    ```
+1. Recall the distribution of $Y$. What would be the corresponding mathematical formula for the theoretical long run average value of $Y$?  This number is called the "expected value" of $Y$.
+1. Is the expected value the most likely value of $Y$?
+1. Is the expected value of $Y$ the "value that we would expect" on a *single* repetition of the phenomenon?
+1. Explain in what sense the expected value is "expected".
+
+```{solution matching-ev-sol}
+to Example \@ref(exm:matching-ev)
+
+```
+
+
+
+
+
+```{asis, fold.chunk = TRUE}
+
+1. Recall the solution to Example \@ref(exm:matching-indicator).  The distribution of $Y$ is displayed in Table \@ref(tab:matching-distribution-table) below.
+1. We could shuffle cards labeled 1 through 4 and then distribute them into boxes labeled 1 through 4, and count the number of matches; that's one simulated value of $Y$.  Or we could construct a spinner corresponding to the distribution of $Y$ in the previous part and spin it once to obtain one simulated value of $Y$.  We could then repeat either method many times to obtain many simulated values of $Y$.
+1. Compute the average of the 10 values simply by summing the values and dividing by 10.
+    \[
+    \frac{0 + 1 + 0 + 0 + 2 + 0 + 1 + 1 + 4 + 2}{10} = 1.1
+    \]
+    We could get a better approximation to the *long run* average value by simulating *many* values of $Y$ and then taking the average.
+1. To compute the sum of the simulated values, multiply each possible value by the number of repetitions on which it occurs and then add these terms.  Then the average of the 10 values is equal to the sum of each possible value times its relative frequency
+    \[
+    \frac{0 \times 4 + 1 \times 3 + 2 \times 2 + 4 \times 1}{10} = 0\left(\frac{4}{10}\right)+ 1\left(\frac{3}{10}\right) + 2\left(\frac{2}{10}\right)+ 4\left(\frac{1}{10}\right)
+    \]
+1. Sum the 24000 values and divide by 24000. The only possible values of $Y$ are 0, 1, 2, 4 so the sum of simulated values will be of the form
+    \[
+    0 + 0 + \cdots 0 + 1 + 1 + \cdots + 1 + 2 + 2 +\cdots + 2 + 4 + 4 + \cdots + 4.
+    \]
+      As in the previous part, since each of the 24000 values is either 0, 1, 2, or 4, the calculation of the sum can be simplified by multiplying each of the possible values by its frequency
+    \begin{align*}
+    & \qquad \frac{0 \times 8979 + 1 \times 7993 + 2 \times 6068 + 4 \times 960}{24000}\\ &= \frac{23969}{24000} = 0.99870\\
+    & = 0\left(\frac{8979}{24000}\right)+ 1\left(\frac{7993}{24000}\right) + 2\left(\frac{6068}{24000}\right)+ 4\left(\frac{960}{24000}\right)
+    \end{align*}
+    Based on the results of this simulation, the long run average value of $Y$ is approximately 0.9987.
+1. Theoretical probabilities are long run relative frequencies.  In the long run, the simulated relative frequency of 0 will approach 9/24, of 1 will approach 8/24, etc.  So in the long run, the calculation from the previous part should approach
+    \[
+    0\left(\frac{9}{24}\right)+ 1\left(\frac{8}{24}\right)  + 2\left(\frac{6}{24}\right)+ 4\left(\frac{1}{24}\right) = 1
+    \]
+    That is, we compute the *probability-weighted average value*. The expected value of $Y$ is 1.
+1. No, the most likely value of $Y$ is 0, not 1.
+1. No, 1 is not the value of $Y$ we would expect on a single repetition. The value 1 occurs with probability 1/3 and does not occur with probability 2/3.  So it's twice as likely to see a value other than 1 than to see 1.  In particularly, 0 has a higher probability of occuring than 1.
+1. 1 is the value of $Y$ that would we expect to see *on average in the long run.* If the matching scenario were repeated many times, then the long run average number of matches would be (close to) 1. 
+
+```
+
+
+(ref:matching-distribution-table-cap) The distribution of the number of matches ($Y$) in the matching problem in Example \@ref(exm:matching-ev).
+
+```{r, matching-distribution-table, echo = FALSE}
+
+    knitr::kable(
+      data.frame(c(0, 1, 2, 4), round(c(9, 8, 6, 1) / 24, 4)),
+      booktabs = TRUE,
+      col.names = c("y", "P(Y=y)"),
+      caption = '(ref:matching-distribution-table-cap)'
+    )
+
+```
+
+The following Symbulate code simulates the matching problem.  The main programming aspect is to write the `count_matches` function which takes as an input a sequence of prizes and returns as an output the number of matches.  This function can then be used to define a `RV` (just as we use built in functions like `sum` and `max`).  With Python's zero-based indexing, the rocks/spots are labeled 0, 1, 2, 3.
+
+```{python}
+
+n = 4
+labels = list(range(n)) # list of labels [0, ..., n-1]
+
+# define a function which counts number of matches
+def count_matches(x):
+    count = 0
+    for i in range(0, n, 1):
+        if x[i] == labels[i]:
+            count += 1
+    return count
+
+P = BoxModel(labels, size = n, replace = False)
+
+Y = RV(P, count_matches)
+
+(RV(P) & Y).sim(10)
+
+```
+
+
+```{python}
+
+y = Y.sim(24000)
+
+y.tabulate()
+
+```
+
+
+```{python}
+
+y.plot()
+plt.show()
+
+```
+
+The average of the 24000 simulated values is founded by summing all the values and then by dividing by 24000, or just by using `mean`.
+
+```{python}
+
+y.sum(), y.sum() / 24000, y.mean()
+
+```
+
+
+The previous example illustrates that the long run average value is also the *probability-weighted average value*.  That is, we multiplied each value by its corresponding probability, determined by the pmf, and then summed.  We can find the probability-weighted average value for continuous random variables analogously: multiply each possible value by its corresponding *density*, determined by the *pdf*, and then *integrate*.
+
+
+
+```{example exponential-discrete-ev}
+
+Let $X$ be a random variable which has the Exponential(1) distribution. To motivate the computation of the expected value of a continuous random variable,  we'll first consider a discrete version of $X$.
+
+```
+
+
+1. How could you use simulation to approximate the long run average value of $X$?
+1. Suppose the values of $X$ are truncated^[We could also round to the nearest integer.  Whether we truncate or round won't matter as we consider what happens in the limit.] to integers.  That is, 0.73 is recorded as 0, 1.15 is recorded as 1, 2.999 is recorded as 2, 3.001 is recorded as 3, etc.  The following table summarizes 10000 simulated values of $X$, truncated.  Using just these values, how would you approximate the long run average value of $X$?
+    ```{r, exponential-discrete-sim, echo = FALSE}
+    ff = c(6302, 2327, 915, 287, 94, 43, 22, 5, 4, 1)
+
+    knitr::kable(
+      data.frame(0:9, ff),
+      booktabs = TRUE,
+      col.names = c("Truncated value of X", "Number of repetitions"),
+      caption = '10000 simulated values of X, truncated, for X with an Exponential(1) distribution'
+    )
+
+    ```
+1. How could you *approximate* the probability that the truncated value of $X$ is 0? 1? 2? Suggest a formula for the (approximate) long run average value of $X$.  (Don't worry if the approximation isn't great; we'll see how to improve it.)
+1. Truncating to the nearest integer turns out not to yield a great approximation of the long run average value of $X$.  How could we get a better approximation?
+1. Suppose instead of truncating to an integer, we truncate to the first decimal.  For example 0.73 is recorded as 0.7, 1.15 is recorded as 1.1, 2.999 is recorded as 2.9, 3.001 is recorded as 3.0, etc.  Suggest a formula for the (approximate) long run average value of $X$.
+1. We can continue this way, truncating to the second decimal place, then the third, and so on. Considering what happens in the limit, suggest a formula for the theoretical long run average value of $X$.
+
+
+
+```{solution exponential-discrete-ev-sol}
+to Example \@ref(exm:exponential-discrete-ev)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Simulate many values of $X$, e.g., using the Exponential(1) spinner, and average: sum the simulated values and divide by the number of simulated values.  You can always approximate the long run average value of a random variable by simulating many values and averaging; it doesn't matter if the random variable is discrete or continuous.
+1. The truncated random variable is a discrete random variable, so we can compute the average as in the matching problem
+\[
+0\left(\frac{6302}{10000}\right)+ 1\left(\frac{2327}{10000}\right)+2\left(\frac{915}{10000}\right) + 3\left(\frac{287}{10000}\right)+ \cdots + 9\left(\frac{1}{10000}\right)
+\]
+1. If $X$ is between 0 and 1 then the truncated value is 1.  We could find the probability that $X$ is between 0 and 1 by integrating the pdf over this range.  But we can *approximate* the probability by multiplying the pdf evaluated at 0.5 (the midpoint^[In the limit, any value in (0, 1) would work.  We use the midpoint mostly because just using using 0 results in an approximate probability of $e^{-0}(1)=1$, an egregious approximation of the true probability $1-e^{-1}\approx 0.632$]) by the length of the (0, 1) interval: $f(0.5)(1-0) = e^{-0.5}(1)\approx 0.607$.  Recall the end of Section \@ref(pdf).  Technically, the approximation is not great unless the interval is short, but it's the idea that is important for now.  Similarly the approximate probability that the truncated value is 1 is $f(1.5)(2-1) = e^{-1.5}(1)\approx 0.223$, and the approximate probability that the truncated value is 2 is $f(2.5)(3-2) = e^{-2.5}(1)\approx 0.082$.  Following this pattern, a reasonable formula for the (approximate) long run average value of $X$ seems to be
+\begin{align*}
+& \qquad 0\left(f(0+ 0.5)(1)\right)+ 1\left(f(1 + 0.5)(1)\right)+2\left(f(2+0.5)(1)\right) + 3\left(f(3 + 0.5)(1)\right) + \cdots
+\\
+& = \sum_{x=0}^\infty x f(x + 0.5) (1)\\
+& = \sum_{x=0}^\infty x e^{-(x + 0.5)} (1)
+\end{align*}
+where the sum is over values $x = 0, 1, 2, \ldots$.  Plugging in $f(x) = e^{-x}$ to the above yields 0.558. (This is a bad approximation, but the following parts refine it.  Using the left endpoint instead of the midpoint, that is, replacing $f(x)=e^{-x}$ instead of $f(x+0.5)$, yields 0.92.)
+1. Rather than truncating to integers, truncate to the first decimal, or the second, or the third. Or better yet don't truncate; $X$ is continuous after all.  But it helps to consider what would happen if $X$ were discrete first.  
+1. Now the possible values would be 0, 0.1, 0.2, etc.  The truncated value would be 0 if $X$ lies in the interval (0, 0.1).  We could approximate this probability with $f(0.05)(0.1-0) = e^{-0.05}(0.1)$. We could approximate the probability that $X$ lies in the interval (0.1, 0.2), so the truncated value is 0.1, with $f(0.15)(0.2-0.1) = e^{-0.15}(0.1)$.  Following this pattern, a reasonable formula for the (approximate) long run average value of $X$ seems to be
+\begin{align*}
+& \qquad 0\left(f(0+ 0.05)(0.1)\right)+ 0.1\left(f(0.1 + 0.05)(0.1)\right)+0.2\left(f(0.2+0.05)(0.1)\right) + 0.3\left(f(0.3 + 0.05)(0.1)\right) + \cdots
+\\
+& = \sum_{x=0}^\infty x f(x + 0.05) (0.1)\\
+& = \sum_{x=0}^\infty x e^{-(x + 0.05)} (0.1)
+\end{align*}
+where the sum is over values $x = 0, 0.1, 0.2, \ldots$.  Plugging in $f(x) = e^{-x}$ to the above yields 0.950. 
+1. Truncating to the second decimal place suggests a formula for the long run average of
+\begin{align*}
+& \qquad 0\left(f(0+ 0.005)(0.01)\right)+ 0.01\left(f(0.01 + 0.005)(0.01)\right)+0.02\left(f(0.02+0.005)(0.01)\right) + 0.03\left(f(0.03 + 0.005)(0.01)\right) + \cdots
+\\
+& = \sum_{x=0}^\infty x f(x + 0.005) (0.01)\\
+& = \sum_{x=0}^\infty x e^{-(x + 0.005)} (0.01)
+\end{align*}
+where the sum is over values $x = 0, 0.01, 0.02, \ldots$.  Plugging in $f(x) = e^{-x}$ to the above yields 0.995.  
+    If $\Delta x$ represents the level of truncation, e.g., $\Delta x = 0.01$ for truncating to the second decimal place, then a general formula is
+    \begin{align*}
+    & \qquad \sum_{x=0}^\infty x f(x + \Delta x / 2) \Delta x\\
+    & = \sum_{x=0}^\infty x e^{-x + \Delta x / 2} \Delta x\\
+    & \approx \sum_{x=0}^\infty x e^{-x} \Delta x
+    \end{align*}
+    In the limit as $\Delta x$ approaches 0, $f(x + \Delta x /2)$ approaches $f(x)=e^{-x}$, there are more and more terms in the sum, and the sum approaches an integral over $x$ values, 
+    \begin{align*}
+     & \qquad \int_0^\infty x f(x) dx\\
+     & = \int_0^\infty x e^{-x} dx
+    \end{align*}
+```
+
+
+```{definition ev}
+
+The **expected value** (a.k.a. *expectation* a.k.a. *mean*), of a random variable $X$ defined on a probability space with measure $\IP$, is a number denoted $\E(X)$ representing the probability-weighted average value of $X$. Expected value is defined as
+
+\begin{align*}
+	& \text{Discrete $X$ with pmf $p_X$:} & \E(X) & = \sum_x x p_X(x)\\
+	& \text{Continuous $X$ with pdf $f_X$:} & \E(X) & =\int_{-\infty}^\infty x f_X(x) dx
+\end{align*}
+
+```
+
+Note well that $\E(X)$ represents *a single number*.
+
+For a discrete random variable, the sum is over all possible values of $X$, that is, values of $x$ with $p_X(x)>0$.  For a continuous random variable, the generic bounds $(-\infty, \infty)$ should be replaced with the possible values of $X$; that is, the bounds correspond to intervals of $X$ with $f_X(x)>0$.
+
+
+
+<!-- Note: expected value weighted average of area under the curve of x, not $f(x)$.  $f(x)$ is the weight, not the function -->
+
+
+
+
+```{example exponential-ev}
+
+Let $X$ be a random variable which has the Exponential(1) distribution.
+
+```
+
+
+
+
+
+1. Donny Dont says $\E(X) = \int_0^\infty e^{-x}dx = 1$.  Do you agree?
+1. Compute $\E(X)$.
+1. Compute $\IP(X = \E(X))$.
+1. Compute $\IP(X \le \E(X))$.
+1. Find the median value of $X$.  Is the median less than, greater than, or equal to the mean?  Why does this make sense?
+
+
+```{solution exponential-ev-sol}
+to Example \@ref(exm:exponential-ev)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Donny happened to get the correct value, but that's just coincidence.  His method is wrong.  Donny integrated $\int_{-\infty}^\infty f_X(x)dx$ which will always be 1.  To get the expected value, you need to find the probability weighted average value of $x$: $\int_{-\infty}^\infty x f_X(x)dx$. Forgetting the $x$ is a common mistake. Don't forget the $x$.
+1. Since $X$ is continuous, with pdf $f_X(x) = e^{-x}, x > 0$, we integrate^[If you really wanted to, you could compute this integral using integration by parts.]
+\[
+\E(X) = \int_0^\infty x e^{-x}dx = 1
+\]
+    Notice that the bounds of the integral correspond to the interval of possible values of $X$.
+1. The notation $\IP(X = \E(X))$ might seem strange at first.  But keep in mind that $\E(X)$ is a single number, so $\IP(X = \E(X))$ makes as much sense as $\IP(X = 1)$.  Since $X$ is a continuous random variable, the probability that it equals any particular number is 0.
+1. We can use the cdf of $X$: $\IP(X \le \E(X))=\IP(X \le 1)=F_X(1) = 1-e^{-1}$.
+1. The cdf is $1-e^{-x}$, so setting the cdf to 0.5 and solving for $x$ yields the median: $0.5=1-e^{-x}$ implies $x=\log(2)\approx 0.693$.  The mean is greater than the median because the large values in the right tail "pull the average up".
+
+```
+
+
+```{python}
+
+X = RV(Exponential(1))
+
+x = X.sim(10000)
+
+x
+
+```
+
+
+```{python}
+
+x.sum(), x.sum() / 10000, x.mean()
+
+```
+
+
+
+The expected value is the "balance point" (center of gravity) of a
+distribution.  Imagine the impulse plot/histogram is constructed by stacking blocks on a board.  Then $\E(X)$ represents where you would need to place a stand underneath the board so that it doesn't tip to one side.
+
+
+
+
+
+
+The probability of an event $A$, $\IP(A)$, is defined by the underlying probability measure $\IP$.  However, $\IP(A)$ can be interpreted as a long run relative frequency and can be approximated via a simulation consisting of many repetitions of the random phenomenon.  Similarly, the expected value of a random variable $X$ is defined by the probability-weighted average according to the underlying probability measure.  But the expected value can also be interpreted as the **long-run average value**, and so can be approximated via simulation. The fact that the long run average is equal to the probability-weighted average is known as the *law of large numbers*.  (We will see the law of large numbers in more detail LATER.)
+
+The plots below illustrate the running average of $Y$ is  Example \@ref(exm:matching-ev).  As the number of repetitions increases, the running average of the number of matches would tend to stabilize around the expected value of 1.
+
+(ref:cap-matching-lln-10) Running average for number of matches in the matching problem based on the simulation results in Table \@ref(tab:matching-sim-10-ev).
+
+```{r, matching-lln-10, echo = FALSE}
+
+x = c(0, 1, 0, 0, 2, 0, 1, 1, 4, 2)
+
+n = length(x)
+
+xbar = cumsum(x) / (1:n)
+
+knitr::kable(
+  data.frame(1:n, x, xbar),
+  align = "r",
+  col.names = c("Repetition", "Value of Y", "Running average of Y"),
+  booktabs = TRUE,
+  caption = "(ref:cap-matching-lln-10)",
+  digits = 3
+)
+
+```  
+
+
+(ref:cap-matching-lln-10-plot) Running average for number of matches in the matching problem based on the simulation results in Table \@ref(tab:matching-sim-10-ev).
+
+
+```{r matching-lln-10-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-matching-lln-10-plot)"}
+
+plot(1:n, xbar, type = "o",
+     xlab = "Repetition",
+     ylab = "Running average of Y",
+     ylim = c(0, 4),
+     col = "blue",
+     xaxt = "n")
+axis(1, 1:n)
+abline(h = 1, lty = 2, col = "orange")
+
+```
+
+
+<!-- (ref:cap-matching-lln) An illustration of the law of large numbers for the matching problem with $n=4$.  The plot displays the running average of simulated values of $Y$, the number of matches, as the number of simulated values increases (from 1 to 100) for each of five separate simulations.  We can see that when the number of simulated values is small, the averages vary a great deal from simulation to simulation.  But as the number of simulated values increases, the average for each simulation starts to settle down to 1, the theoretical expected value. -->
+
+
+```{python, matching-lln, eval = FALSE, echo=FALSE, fig.cap="(ref:cap-matching-lln)"}
+
+rmax = 100
+
+P = BoxModel([0, 1, 2, 4], probs = [9/24, 8/24, 6/24, 1/24]) ** rmax
+
+X = RV(P)
+
+Xbar_r = RandomProcess(P)
+
+for r in range(rmax):
+    Xbar_r[r] = X[0:(r + 1)].apply(mean)
+
+Xbar_r.sim(5).plot(tmax = rmax)
+plt.ylim(0, 4);
+plt.show()
+
+```
+
+An expected value is defined as a probability-weight average value, but it often helps to interpret expected value as a long run average value. From a simulation perspective, you can read the symbol $\E(\cdot)$ as
+
+- Simulate lots of values of what's inside $(\cdot)$
+- Compute the average.  This is a "usual" average; just sum all the simulated values and divide by the number of simulated values.
+
+
+
+
+
+```{example coin-heads-tails-streak-ev}
+
+Recall Example \@ref(exm:coin-HT-same-dist). Consider the probability space corresponding to a sequence of three
+flips of a fair coin. Let $X$ be the number of heads, $Y$ the number of
+tails, and $Z$ the length of the longest streak of heads.
+
+
+```
+
+1. Compute $\E(X)$.
+1. Find and interpret $\IP(X=\E(X))$.
+1. Is \(E(X)\) the "value that we would expect" on a \emph{single} repetition of the process?
+1. Write a clearly worded sentence interpreting $\E(X)$ in context.
+1. Here is Donny Dont's response to the previous part: "1.5 is the long run average value."  Does he get full credit?  If not, what is wrong/missing? 
+1. Donny tries again: "1.5 is the average number of heads in three flips."  Does he get full credit?  If not, what is wrong/missing?
+1. Donny tries yet again: "If a coin is flipped three times and the number of heads is recorded and this process is repeated many times, then the number of heads is close to 1.5 in the long run." Does he get full credit?  If not, what is wrong/missing?
+1. Without doing any calculations, find $\E(Y)$.  Explain.
+1. Without doing any calculations determine if $\E(Z)$ will be greater than, less than, or equal to $\E(X)$.  Confirm your guess by computing $\E(Z)$.
+1. Suppose now that the coin is biased and has a probability of 0.6 of landing on heads.  Without doing any calculations: Would $\E(X)$ change?  Would $\E(X)$ be equal to $\E(Y)$?
+
+
+```{solution coin-heads-tails-streak-ev-sol}
+to Example \@ref(exm:coin-heads-tails-streak-ev)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $\E(X)=0(1/8) + 1(3/8) + 2(3/8) + 3(1/8) = 1.5$.
+1. $\IP(X=\E(X))=\IP(X = 1.5) = 0$. Remember, $\E(X)$ is just a number.
+1. $E(X)$ is not the "value that we would expect" on a \emph{single} repetition of the process; it's not even possible to observe an  $X$ of 1.5 on a single repetition. You can't flip a coin 3 times and observed 1.5 heads in the 3 flips.
+1. Over many sets of 3 fair coin flips, we expect 1.5 heads per set on average in the long run.
+1. Donny only gets partial credit; he's missing the *context*.  The long run average value of what?
+1. Donny only gets partial credit; he's missing any reference to the *long run*.
+1. Donny only gets partial credit.  His sentence is pretty good with reference to the context and a long run description. But he's missing one extremely important word: *average*.
+1. If the coin is fair then $X$ and $Y$ have the same distribution and so $\E(Y) =\E(X) = 1.5$.  If $X$ and $Y$ have the same long run pattern of variability, then they will have the same long run average value.
+1. Since for each outcome $X\ge Z$ we have $\E(X) \ge \E(Z)$.  If for every outcome $X$ is at least as large as $Z$, then the long run average value of $X$ should be at least as large as the long run average value of $Z$. $\E(Z)=0(1/8) + 1(4/8) + 2(2/8) + 3(1/8) = 11/8$.
+1. The sample space and the RVs would not change.  But the probability measure $\IP$ would change and so would the distribution of $X$ and $\E(X)$.  Also, the distribution of $X$ and $Y$ would not be the same anymore, and neither would the expected values.
+
+```
+
+
+If two random variables $X$ and $Y$ have the same distribution
+(i.e., same long run pattern of variation) then they have the same
+expected value (i.e., same long run average value).
+
+But the converse is not true: $\E(X) = \E(Y)$ does NOT
+imply that $X$ and $Y$ have the same distribution. For example, the random variables in Example \@ref(exm:matching-ev) and Example  \@ref(exm:exponential-ev) both have expected value 1, but they are two very different random variables. Expected value is just one summary characteristic of a  distribution,
+i.e., the average. But there can be much more to the pattern of
+variation, i.e., the distribution.  The following plot illustrates just a few different distributions that all have expected value 0.5.  (Don't worry about what these distributions are for now; we'll encounter some of them later.  Just know that they represent different patterns of variability.)
+
+```{python, echo=FALSE}
+
+plt.figure()
+Normal(0.5, 0.3).plot()
+Uniform(0, 1).plot()
+Beta(0.9, 0.9).plot()
+Beta(2, 2).plot()
+Gamma(shape=2.8, rate=5.6).plot()
+plt.show()
+```
+
+
+If $X\le Y$ --- that is, if $X(\omega)\le Y(\omega)$ for all^[This is sufficient, but technically not necessary. If $X\le Y$ *almost surely* --- that is, if $\IP(X\le Y)=1$ --- then $\E(X)\le \E(Y)$.]
+$\omega\in\Omega$ --- then $\E(X)\le\E(Y)$.  That is, if for every outcome the value of $X$ is no bigger than the value of $Y$, then the long run average value of $X$ can't be any bigger than the long run average value of $Y$.
+
+The distribution of a RV and its expected value depend on the
+probability measure $\IP$. If the probability measure changes
+(e.g., from representing a fair coin to a biased coin) then distributions
+and expected values of RVs will change.  Remember that $\IP$ represents a probability measure that incorporates all the underlying assumptions about the random phenomenon (the symbol $\IP$ is more than just shorthand for "probability").  In the same way, the symbol $\E$ is more than just shorthand for "expected value".  Rather $\E$ represents the probability-weighted/long run average value according to all the underlying assumptions of the random phenonemon as specified by the probability measure $\IP$.  In fact, a more appropriate symbol might be $\E_{\IP}$ to emphasize the dependence on the probability measure.  We will only use such notation if multiple probability measures are being considered on the same sample
+space, e.g., $\E_{\IP}$ represents the expected value according to probability measure $\IP$ (e.g., fair coin), while $\E_{\IQ}$ represents expected value according to probability measure $\IQ$ (e.g., biased coin).
+
+
+
+```{example homerun-poisson-ev}
+
+Recall Example \@ref(exm:homerun-poisson) in which we assume that $X$, the number of home runs hit (in total by both teams) in a randomly selected Major League Baseball game, has a Poisson(2.3) distribution with pmf
+
+\[
+p_X(x) =
+\begin{cases}
+e^{-2.3} \frac{2.3^x}{x!}, & x = 0, 1, 2, \ldots\\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+Compute and interpret $\E(X)$.
+
+```
+
+
+
+
+```{solution homerun-poisson-ev-sol}
+to Example \@ref(exm:homerun-poisson-ev)
+```
+
+```{asis, fold.chunk = TRUE}
+
+$X$ is a discrete random variable that takes infinitely many possible values.  The sum in the expected value definition is now an infinite series.
+
+\begin{align*}
+\E(X) & = \sum_{x = 0}^\infty x p_X(x) & & \\
+& = \sum_{x = 0}^\infty x \left(e^{-2.3} \frac{2.3^x}{x!}\right) & & \\
+& = \sum_{x = 1}^\infty e^{-2.3} \frac{2.3^x}{(x-1)!}& & (x=0 \text{ term is 0})\\
+& = 2.3 \sum_{x = 1}^\infty e^{-2.3} \frac{2.3^{x-1}}{(x-1)!} & & \\
+& = 2.3(1) & & \text{Taylor series for $e^u$ at $u=2.3$}
+\end{align*}
+
+So $\E(X)=2.3$.  Over many MLB games, there are 2.3 home runs hit per game on average in the long run.  Note that 2.3 is the observed average number of home runs per game in the 2018 MLB season data, displayed in Figure \@ref(fig:poisson-hr-data).
+
+```
+
+
+
+
+
+In general, if $X$ has a Poisson($\mu$) distribution, then $\E(X)=\mu$.
+
+```{example, uniform-ev}
+
+Let $X$ be a random variable with a Uniform(0, 1) distribution.  Compute $\E(X)$.  Then suggest a general formula for the expected value of a random variable with a Uniform($a$, $b$) distribution.
+
+```
+
+
+```{solution uniform-ev-sol}
+to Example \@ref(exm:uniform-ev)
+```
+
+```{asis, fold.chunk = TRUE}
+
+Since the expected value is the balance point, it seems that the expected value for a Uniform distribution should just be the midpoint of the interval of possible values.
+
+For Uniform(0, 1), the pdf is a constant of 1 between 0 and 1.
+
+\[
+\E(X) = \int_0^1 x \left(1\right) dx  = x^2/2 \Bigg|_{0}^{1}  = \frac{1}{2}
+\]
+
+For Uniform($a$, $b$) the pdf is a constant of $\frac{1}{b-a}$ between $a$ and $b$.
+
+\[
+\E(X) = \int_a^b x \left(\frac{1}{b-a}\right) dx  = \frac{1}{2(b-a)} x^2 \Bigg|_{a}^{b}  =  \frac{b^2 - a^2}{2(b-a)} = \frac{a+b}{2}
+\]
+
+```
+
+
+
+Recall that the indicator random variable corresponding to event $A$ is defined as
+\[
+\ind_A(\omega) =
+\begin{cases}
+1, & \omega \in A,\\
+0, & \omega \notin A
+\end{cases}
+\]
+
+Indicators provide the bridge between events (sets) and random variables (functions), and between probabilities (of events) and expected values (of random variables).
+
+\[
+\E\left(\ind_A\right) = \IP(A)
+\]
+
+
+
+## "Law of the unconscious statistician" (LOTUS)
+
+<!-- Rename to Expected Values of Transformations -->
+
+A distribution is the complete picture of the long run pattern of variability of random variable.  An expected value is just one particular characteristic of a distribution, namely, the long run average value.  We can often compute expected values without first finding the entire distribution.
+
+```{example rw-lotus}
+
+Recall Example \@ref(exm:coin-transform). Flip a coin 3 times and let $X$ be the number of flips that result in H, and let $Y=(X-1.5)^2$. (We will see later why we might be interested in such a transformation.)
+
+```
+
+1. Find the distribution of $Y$.
+1. Compute $\E(Y)$.
+1. How could we have computed $\E(Y)$ without first finding the distribution of $Y$?
+1. Is $\E((X-1.5)^2)$ equal to $(\E(X)-1.5)^2$?
+
+
+```{solution rw-lotus-sol}
+to Example \@ref(exm:rw-lotus)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The possible values of $X$ are 0, 1, 2, 3, so the possible values of $Y$ are $(0 - 1.5)^2= 2.25$, $(1 - 1.5)^2= 0.25$, $(2 - 1.5)^2=0.25$, $(3 - 1.5)^2=2.25$.  That is, the possible values of $Y$ are  0.25 and 2.25.  $\IP(Y = 2.24) = \IP(X = 0)+\IP(X = 3) = 2/8$.  The following table provides the distribution of $Y$.  
+
+    |  $y$ | $p_Y(y)$ |
+    |-----:|---------:|
+    | 0.25 |      6/8 |
+    | 2.25 |      2/8 |
+  
+1. $\E(Y) = 0.25(6/8) + 2.25(2/8) = 0.75$.
+1. Since $X$ takes the value 0 with probability 1/8, 1 with probability 3/8, 2 with probability 3/8, 3 with probability 1/8, then the random variable $(X - 1.5)^2$ takes value $(0 - 1.5)^2$ with probability 1/8, $(1 - 1.5)^2$ with probability 3/8, $(2 - 1.5)^2$ with probability 3/8, and $(3 - 1.5)^2$ with probability 1/8. Therefore
+    \[
+    \E((X-1.5)^2) = (0 - 1.5)^2(1/8)+ (1 - 1.5)^2(3/8) + (2 - 1.5)^2(3/8) + (3 - 1.5)^2(1/8) = 0.75.
+    \]
+    Finding the distribution of $Y$ and then using it to compute the expected value of $Y$ basically just groups some of the terms in the calculation in the previous sentence together.
+1. NO! $\E(X) = 1.5$ so $(\E(X)-1.5)^2=0$.
+
+
+```
+
+
+
+
+The calculation of $\E((X-1.5)^2)$ in part 3 of the previous example probably seemed pretty natural, and only required working with the distribution of $X$ rather than first finding the distribution of a transformed random variable.  It's so natural, we could probably do it without thinking; this is the idea behind the following.
+
+```{definition lotus, name='Law of the unconscious statistician ( LOTUS)'}
+
+The **"law of the unconscious statistician" (LOTUS)** says that the expected value of a transformed RV can be found without finding the distribution of the transformed RV, simply by applying the probability weights of the original RV to the transformed values.
+
+\begin{align*}
+	& \text{Discrete $X$ with pmf $p_X$:} & \E[g(X)] & = \sum_x g(x) p_X(x)\\
+	& \text{Continuous $X$ with pdf $f_X$:} & \E[g(X)] & =\int_{-\infty}^\infty g(x) f_X(x) dx
+\end{align*}
+
+```
+
+The left-hand side of LOTUS, $\E[g(X)]$, represents finding the expected value the "long way": define $Y=g(X)$, find the distribution of $Y$ (e.g., using the cdf method in Section \@ref(cdf-method)), then use the definition of expected value to compute $\E(Y)$.  LOTUS says we don't have to first find the distribution of $Y=g(X)$ to find $\E[g(X)]$; rather, we just simply apply the transformation $g$ to each possible value $x$ of $X$ and then apply the corresponding weight for $x$ to $g(x)$.
+
+
+LOTUS is much more useful for continuous random variables.
+
+```{example uniform-lotus}
+
+Let $X$ be a random variable with a Uniform(-1, 1) distribution and let $Y=X^2$.
+Recall  that in Example \@ref(exm:uniform-square-cdf-method) we found the pdf of $Y$: $f_Y(y) = \frac{1}{2\sqrt{y}}, 0<y<1$.
+
+```
+
+1. Find $\E(X^2)$ using the distribution of $Y$ and the definition of expected value.  Remember: if we did not have the distribution of $Y$, we would first have to derive it as in Example \@ref(exm:uniform-square-cdf-method).
+1. Find $\E(X^2)$ using LOTUS.
+1. Is $\E(X^2)$ equal to $(\E(X))^2$?
+
+
+
+```{solution uniform-lotus-sol}
+to Example \@ref(exm:uniform-lotus)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. If we have the distribution of $Y$, we compute expected value according to the definition, weighting $y$ values by the pdf of $Y$, $f_Y(y)$ and then integrating over possible $y$ values.
+    \[
+    \E(X^2) = \E(Y) = \int_{-\infty}^\infty y f_Y(y) dy = \int_0^1 y\left(\frac{1}{2\sqrt{y}}\right)dy = 1/3
+    \]
+1. The pdf of $X$ is $f_X(x) = 1/2, -1<x<1$. Now we just work with the distribution of $X$, but average the squared values $x^2$, instead of the $x$ values.  Notice that the integral below is a $dx$ integral.  Using LOTUS
+    \[
+    \E(X^2) = \int_{-\infty}^\infty x^2 f_X(x) dx = \int_{-1}^1 x^2 (1/2)dx = 1/3
+    \]
+    We hope you recognize that this calculation is much easier than first calculating the pdf as in Example \@ref(exm:uniform-square-cdf-method).
+1. NO!!!  $\E(X)= 0$, but $\E(X^2)=1/3$.
+  
+```
+
+Recall Section \@ref(LRA).  Whether in the short run or the long run, in general
+\begin{align*}
+\text{Average of $g(X)$} & \neq g(\text{Average of $X$})
+\end{align*}
+
+In terms of expected values, in general
+\begin{align*}
+\E(g(X)) & \neq g(\E(X))
+\end{align*}
+The left side $\E(g(X))$ represents first transforming the $X$ values and then averaging the transformed values. The right side $g(\E(X))$ represents first averaging the $X$ values and then plugging the average (a single number) into the transformation formula.  
+
+```{python}
+
+X = RV(Uniform(-1, 1))
+
+Y = X ** 2
+
+y = Y.sim(10000)
+
+y.plot()
+
+plt.show()
+
+y.mean()
+
+```
+
+```{example, exponential-lotus}
+
+We want to find $\E(X^2)$ if $X$ has an Exponential(1) distribution.  Donny Dont says: "I can just use LOTUS and replace $x$ with $x^2$, so $\E(X^2)$ is $\int_{-\infty}^{\infty} x^2 e^{-x^2} dx$".  Do you agree?
+
+```
+
+
+
+```{solution exponential-lotus-sol}
+to Example \@ref(exm:exponential-lotus)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+No, $x^2$ is multiplied by the density at $x$, $f_X(x)=e^{-x}$, not at $x^2$.  Think of the discrete random variable in Example \@ref(exm:rw-lotus).  There we had $(x-1.5)^2 p_X(x)$, e.g., $(3-1.5)^2(1/8)$ because $p_X(3)= 1/8$.  If we had squared the $x$ values inside the pmf, we would have $p_X(3^2)$ which is 0.  The correct use of LOTUS is
+
+\[
+\E(X^2) = \int_0^\infty x^2 e^{-x} dx = 2 
+\]
+
+```
+
+The whole point of LOTUS is that you can work with the distribution of the original random variable $X$.  Keep the pdf of $X$, $f_X(x)$, as is, and only transform the values being averaged.
+
+```{example, dice-2d-lotus}
+
+Roll a fair four-sided die twice.  Let $X$ be the sum of the two rolls, and let $W$ be the number of rolls that are equal to 4. 
+
+```
+
+1. Find the joint distribution of $X$ and $W$.
+1. Let $Z = XW$ be the product of $X$ and $W$.  Find the distribution of $Z$.
+1. Find $\E(Z)$.
+1. How could you find $\E(XW)$ without first finding the distribution of $Z = XW$?
+1. Is $\E(XW)$ equal to the product of $\E(X)$ and $\E(W)$?
+
+```{solution dice-2d-lotus-sol}
+to Example \@ref(exm:dice-2d-lotus)
+```
+
+```{asis, fold.chunk = TRUE}
+
+
+1.  The table displays the joint pmf $p_{X, W}(x, w)$.  
+
+    | $x$ \\ $w$             |    0 |    1 |    2 | $p_X(x)$ |
+    |:-----------------------|-----:|-----:|-----:|-----------------------:|
+    | 2                      | 1/16 |    0 |    0 |                   1/16 |
+    | 3                      | 2/16 |    0 |    0 |                   2/16 |
+    | 4                      | 3/16 |    0 |    0 |                   3/16 |
+    | 5                      | 2/16 | 2/16 |    0 |                   4/16 |
+    | 6                      | 1/16 | 2/16 |    0 |                   3/16 |
+    | 7                      |    0 | 2/16 |    0 |                   2/16 |
+    | 8                      |    0 |    0 | 1/16 |                   1/16 |
+    | $p_{W}(w)$ | 9/16 | 6/16 | 1/16 |                        |
+1. The table displays the pmf of $Z$.  
+
+    | $z$ | $p_Z(z)$ |
+    |----:|---------:|
+    |   0 |     9/16 |
+    |   5 |     2/16 |
+    |   6 |     2/16 |
+    |   7 |     2/16 |
+    |  16 |     1/16 |
+    
+1. Since we have the distribution of $Z$ we can just use the definition of expected value.
+    \[
+    0(9/16) + 5(2/16)+6(2/16) + 7(2/16)  + 16(1/16) = 3.25
+    \]
+    So $\E(XW) = 3.25$.
+1. We can use the joint pmf of $X$ and $W$, find the product for each possible pair, and multiply by the probability of that pair.
+    \begin{align*}
+    & \quad (2)(0)(1/16) + (3)(0)(2/16) +  (4)(0)(3/16) + (5)(0)(2/16) + (6)(0)(1/16) \\
+    & + (5)(1)(2/16)+(6)(1)(2/16) + (7)(1)(2/16)  + (8)(2)(1/16) 
+    \end{align*}
+    Finding the distribution of $Z$ and then using it to compute the expected value of $Z$ basically just groups some of the terms in the calculation in the previous sentence together.
+1. No!.  $\E(X)= 5$ and $\E(W) = 0.5$, so the expected value of the product is not equal to the product of the expected values.
+
+```
+
+Recall Section \@ref(LRA).  Whether in the short run or the long run, in general
+\begin{align*}
+\text{Average of $g(X, Y)$} & \neq g(\text{Average of $X$}, \text{Average of $Y$})
+\end{align*}
+
+In terms of expected values, in general
+
+\begin{align*}
+\E\left(g(X, Y)\right) & \neq g\left(\E(X), \E(Y))\right)
+\end{align*}
+
+There is also LOTUS for two random variables.
+\begin{align*}
+& \text{Discrete $X, Y$ with joint pmf $p_{X, Y}$:} & \E[g(X, Y)] & = \sum_{x}\sum_{y} g(x, y) p_{X, Y}(x, y)\\
+& \text{Continuous $X, Y$ with joint pdf $f_{X, Y}$:} & \E[g(X, Y)] & = \int_{-\infty}^\infty\int_{-\infty}^\infty g(x, y) f_{X, Y}(x, y)\,dxdy
+\end{align*}
+
+LOTUS for two continuous random variables requires double integration.  However, we will LATER see  other tools for computing expected values, and using such tools it is often possible to avoid double integration.
+
+Of course, LOTUS only gives a shortcut to computing expected values of transformations.  Remember that expected values are only summary characteristics of a distribution.  If we want more information about a distribution, e.g., its pdf or cdf, then LOTUS will not be enough.
+
+
+## Variance and standard deviation
+
+The values of a random variable vary.  The distribution of a random variable describes its pattern of variability. The expected value of a random variable summarizes the distribution in just a single number, the long run average value.  But the expected value does not tell us much^[You might think that the expected value doesn't tell us *anything* about the degree of variability.  But knowing the expected value does put a very rough limit on the probability that the random variable takes very large values.  We'll discuss this idea when we cover *Markov's inequality* LATER.  In any case, the expected value alone tells us very little about the degree of variability.] about the degree of variability of the random variable.  Do the values of the random variable tend to be close to the expected value, or are they spread out?  Variance and standard deviation are numbers that address these questions.
+
+
+```{example, roulette-black}
+A roulette wheel has 18 black spaces, 18 red spaces, and 2 green spaces, all the same size and each with a different number on it.  Guillermo bets \$1 on black.  If the wheel lands on black, Guillermo wins his bet back plus an additional \$1; otherwise he loses the money he bet.  Let $W$ be Guillermo's net winnings (net of the initial bet of \$1.)
+
+```
+
+1. Find the distribution of $W$.
+1. Compute $\E(W)$.
+1. Interpret $\E(W)$ in context.
+1. An expected profit *for the casino* of 5 cents per \$1 bet seems small.  Explain how casinos can turn such a small profit into billions of dollars.
+1. In Section \@ref(sd) we introduced  variance as the long run average squared distance from the mean.  Describe how you could use simulation to approximate the variance of $W$.  What would you expect the simulation results to look like?
+1. Without doing any further calculations, provide a ballpark estimate of the variance.  Explain.  What are the measurement units for the variance?
+1. The random variable $(W-\E(W))^2$ represents the squared deviation from the mean.  Find the distribution of this random variable and its expected value.
+1. In Section \@ref(sd) we introduced standard deviation as the square root of the variance.  Why would we want to take the square root of the variance?  Compute and interpret the standard deviation of $W$.
+1. Compute $\E(W^2)$. (For this $W$ you should be able to compute $\E(W^2)$ without any calculations; why?) Then compute $\E(W^2) - (\E(W))^2$; what do you notice?
+
+
+
+
+```{solution roulette-black-sol}
+to Example \@ref(exm:roulette-black)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Assuming the wheel is equally likely to land on any of the 38 spaces, Guillermo wins with probability 18/38 in which case his net winnings are \$1; otherwise, his net winnings are $-1$ dollar.
+
+    | $w$ |              $p_W(w)$ |
+    |----:|----------------------:|
+    |  -1 | 20/38 $\approx$ 0.5263 |
+    |   1 | 18/38 $\approx$ 0.4737 |
+  
+1. Use the definition of expected value of a discrete random variable.
+    \[
+    \E(W) =  (-1)(20/38) + (1)(18/38) = -2/38 \approx -0.05
+    \]
+1. Over many \$1 bets on black in roulette, Guillermo expects to lose on average about \$0.05 per bet.
+1. Casinos operate in the long run, so over millions of bets they expect an essentially guaranteed profit of \$0.05 per bet on average.  A nickle isn't much, but billions of free nickles are nice.
+1. Set up a spinner than lands on 1 with probability 18/38, and $-1$ with probability 20/38.  Spin the spinner many times, recording the result (1 or $-1$) each time.  Compute the average of the simulated values; it should be close to $-2/38$.  Take each simulated value, subtract the mean (about $-2/38$) and square, then average those values. If you simulate 38000 values of $W$, about 18000 will be 1, and 20000 will be $-1$, and the average will be about
+    \[
+    \frac{(1)(18000) + (-1)(20000)}{38000} \approx -0.05.
+    \]
+    Then about 18000 of the squared deviations will be $(1-(-0.05))^2 \approx 1.1$ and about 20000 will be $(-1 - (-0.05))^2\approx 0.9$, and the average will be about
+    \[
+    \frac{(1-(0.05))^2(18000) + (-1-(-0.05))^2(20000)}{38000} \approx 0.997.
+    \]
+    See simulation results below.
+1. The mean is pretty close to 0.  The values of $-1$ and $1$ all are 1 unit away from the mean, so all the squared deviations are about 1, so the average squared deviation should be about 1.  The measurement units are squared-dollars.
+1. The table summarizes the distribution of the random variable $(W-\E(W))^2$.  
+
+    |                       Value |           Probability |
+    |----------------------------:|----------------------:|
+    | $(-1-(-2/38))^2\approx 0.9$ | 20/38 $\approx$ 0.5263 |
+    |  $(1-(-2/38))^2\approx 1.1$ | 18/38 $\approx$ 0.4737 |  
+    
+    The expected value is
+    \[
+    \E\left((W-\E(W))^2\right) = (1-(-2/38))^2(18/38) +(-1-(-2/38))^2(20/38) = 1 - 1/19^2 \approx 0.9972
+    \]
+1. The measurement units of variance are squared-dollars, which aren't very practical.  We take the square root to get back to the original units of dollars.  The standard deviation of $W$ is $\sqrt{1-1/19^2}\approx 0.9986$ dollars.  The standard deviation measures roughly the average distance of the values of the $W$ from the mean.
+1. In this case, since $W$ is either 1 or $-1$, then $W^2$ is just the constant 1 so its expected value is just 1. $\E(W^2) - (\E(W))^2 = 1 - (2/38)^2 = 1 - 1/19^2$, which is equal to the variance.
+
+``` 
+
+The following simulation corresponds to Example \@ref(exm:roulette-black).
+
+```{python}
+
+W = RV(BoxModel([-1, 1], probs = [20 / 38, 18 / 38]))
+
+(W & (W + 2 / 38) ** 2).sim(10)
+
+```
+
+We simulate many values of $W$ and save them.
+
+```{python}
+
+w = W.sim(38000)
+
+w
+
+```
+
+```{python}
+
+w.tabulate()
+
+```
+
+```{python}
+
+w.plot()
+plt.show()
+
+```
+
+
+```{python}
+
+w.mean()
+
+```
+
+For each simulated value, compute the squared deviation from the mean.
+
+```{python}
+
+(w - w.mean()) ** 2
+
+```
+
+Summarize the squared deviations.
+
+```{python}
+
+((w - w.mean()) ** 2).tabulate()
+
+```
+
+Approximate the variance by computing the average squared deviation.
+
+```{python}
+
+((w - w.mean()) ** 2).mean(), w.var()
+
+```
+
+
+Variance is also equal to the average of the squared values of $W$ minus the square of the average value of $W$.
+
+```{python}
+
+(w ** 2).mean() - (w.mean()) ** 2
+
+```
+
+
+The standard deviation is the square root of the variance.
+
+```{python}
+
+sqrt(w.var()), w.sd()
+
+```
+
+
+```{definition, variance}
+
+The **variance** of a random variable $X$ is
+\begin{align*}
+  \Var(X) & = \E\left(\left(X-\E(X)\right)^2\right)\\
+& = \E\left(X^2\right) - \left(\E(X)\right)^2
+\end{align*}
+The **standard deviation** of a random variable is
+\begin{equation*}
+  \SD(X) = \sqrt{\Var(X)}
+\end{equation*}
+```
+
+Variance is, roughly, the long run average squared deviation from the mean.  We square the deviations because when measuring distance from the mean it doesn't matter if a value is above or below the mean.  For example, a value that is 3 units above the mean has the same squared deviation as a value that is 3 units below the mean ($3^2 = (-3)^2$). You  might think, why not just consider the absolute value of the deviations?  It turns out that squaring leads to nicer mathematical properties^[Think Pythagorean theorem: it's $a^2 + b^2 = c^2$. On the other hand, the triangle inequality says $|a + b| \le |a| + |b|$.].
+
+
+Standard deviation measures, roughly, the long run average distance from the mean.  The measurement units of the standard deviation are the same as for the random variable itself.
+
+The definition $\E((X-\E(X))^2)$ represents the concept of variance. However, variance is usually computed using the following equivalent but slightly simpler formula.
+
+\[
+\Var(X) = \E\left(X^2\right) - \left(\E\left(X\right)\right)^2
+\]
+
+That is, variance is the expected value of the square of $X$ minus the square of the expected value of $X$.  The above formula basically allows us to subtract $\E(X)$ once rather than subtracting it from each value.  The expected value of the square, $\E(X^2)$, can be computed with LOTUS.
+
+We will see that variance has many nice theoretical properties.  Whenever you  need to compute a standard deviation, first find the variance and then take the square root at the end.
+
+
+```{example, roulette-number}
+
+Continuing with roulette, Nadja bets \$1 on number 7.  If the wheel lands on 7, Nadja wins her bet back plus an additional \$35; otherwise she loses the money she bet.  Let $X$ be Nadja's net winnings (net of the initial bet of \$1.)
+
+```
+
+1. Find the distribution of $X$.
+1. Compute $\E(X)$.   
+1. How do the expected values of the two \$1 bets --- bet on black versus bet on 7 --- compare?  Explain what this means.
+1. Are the two \$1 bets --- bet on black versus bet on 7 --- identical?  If not, explain why not.
+1. Before doing any calculations, determine if $\SD(X)$ is greater than, less than, or equal to $\SD(W)$. Explain.
+1. Compute $\Var(W)$ and $\SD(W)$.
+1. Which \$1 bet --- betting on black or betting on 7 --- is "riskier"?  How is this reflected in the standard deviations?
+
+
+
+```{solution roulette-number-sol}
+to Example \@ref(exm:roulette-number)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Assuming the wheel is equally likely to land on any of the 38 spaces, Nadja wins with probability 1/38 in which case her net winnings are \$35; otherwise, her net winnings are $-1$ dollar.
+
+    |  $x$ |              $p_X(x)$ |
+    |-----:|----------------------:|
+    |   -1 | 37/38 $\approx$ 0.9737 |
+    |   35 |  1/38 $\approx$ 0.0263 |  
+  
+1. Use the definition of expected value of a discrete random variable.
+    \[
+    \E(X) =  (-1)(37/38) + (35)(1/38) = -2/38 \approx -0.05
+    \]
+1. The two expected values are the same.  If Guillermo makes many \$1 bets on black and Nadja makes many \$1 bets on 7 then each will have  long run average losses of about 5 cents per bet.
+1. No, these are very different bets even though their expected values are the same.  Guillermo wins about half the time, but his winnings are small.  Nadja is much less likely to win, but when she does she wins big.
+1. $\SD(X)$ is greater than $\SD(W)$. The mean is the same in both cases, but $X$ can take values that are about 35 units away from the mean, so the average distance from the mean will be greater for $X$ than for $W$.
+1. We use the computational formula.
+    \[
+    \Var(X) = E(X^2) - (\E(X))^2 = \left[(-1)^2(37/38) + (35)^2(1/38)\right] - (-2/38)^2  \approx 33.2
+    \]
+    So $\SD(X) = \sqrt{33.2} = 5.76$ dollars.
+1. Betting on 7 is riskier; it's less likely to win, but when it does the winnings are big.  The riskier bet has the larger standard deviation.
+
+```
+
+The definition of variance is the same for discrete and continuous random variables.  But remember that for continuous random variables expected values are computed via integration.
+
+```{example, uniform-sd}
+
+Let $X$ be a Uniform($a$, $b$) distribution.
+
+
+```
+
+1. First, suppose $X$ has a Uniform(0, 1) distribution.  Make a ballpark estimate of the standard deviation.
+1. Compute $\SD(X)$ if $X$ has a Uniform(0, 1) distribution.
+1. Now suggest a rough formula for the standard deviation for the general Uniform($a$, $b$) case.
+1. Compute $\SD(X)$ if $X$ has a Uniform($a$, $b$) distribution.
+
+```{solution uniform-sd-sol}
+to Example \@ref(exm:uniform-sd)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The expected value is 0.5.  The deviations from the mean range from 0 (corresponding to a value of 0.5) to 0.5 (corresponding to a value of 0 or 1).  Since the $X$ values are uniformly distributed, the absolute deviations will also be uniformly distributed between 0 and 0.5.  Therefore, we might guess that the average deviation from the mean is around 0.25.
+1. We computed $E(X^2) = 1/3$ using LOTUS in Example \@ref(exm:uniform-lotus).  $\Var(X) = \E(X^2) - (\E(X))^2 = 1/3 - (1/2)^2 = 1/12$.  $\SD(X) = 1/\sqrt{12}\approx 0.289$.  The standard deviation isn't quite 0.25 because squaring then averaging then taking the square root isn't the same as just averaging the deviations. But 0.25 is not that far off.
+1. In general, the deviations range from 0 to $(b-a)/2$ (half the length of the interval), so we might guess the standard deviation is $(b-a)/4$
+1. The pdf of $X$ is $f_X(x) = \frac{1}{b-a}, a<x<b$.  Compute $\E(X^2)$ using LOTUS.
+    \[
+    \E(X^2) = \int_a^b x^2 \left(\frac{1}{b-a}\right)dx = \frac{x^3}{3(b-a)}\Bigg|_a^b = \frac{b^3 - a^3}{3(b-a)}
+    \]
+    Then, after some algebra,
+    \[
+    \Var(X) = \E(X^2) - (\E(X))^2 = \frac{b^3 - a^3}{3(b-a)} - \left(\frac{a+b}{2}\right)^2 = \frac{(b-a)^2}{12}
+    \]
+    The standard deviation is
+    \[
+    \SD(X) = \frac{b- a}{\sqrt{12}} \approx 0.289 (b-a)
+    \]
+    So our guess of 0.25 times the length of the interval was not too far off.  Thinking of variability just in terms of the overall range of values, it makes sense that the standard deviation should depend on the length of the interval.  That is, the standard deviation should only depend on $a$ and $b$ through their difference $b-a$.
+
+```
+
+```{example, sd-matching}
+
+The plots below summarize hypothetical distributions of quiz scores in six classes. All plots are on the same scale.  Each quiz score is a whole number between 0 and 10 inclusive.
+
+```
+
+
+
+```{r, sd-matching-plot, echo = FALSE}
+
+x1 = 0:10
+p1 = c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1)
+p1 = p1/sum(p1)
+
+x2 = 0:10
+p2 = c(6, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6)
+p2 = p2/sum(p2)
+
+x3 = 0:10
+p3 = rep(1/11, 11)
+
+x4 = c(0, 10)
+p4 = c(0.5, 0.5)
+
+x5 = 3:7
+p5 = c(1, 2, 3, 2, 1)
+p5 = p5/sum(p5)
+
+x6 = c(6, 7, 8)
+p6 = c(0.1, 0.8, 0.1)
+
+xlimits = c(0, 10)
+xs = 0:10
+par(mfrow=c(2,3), mar=c(4, 4, 1, 1) + 0.1)
+plot(x1, p1, xlim=xlimits, ylim=c(0,1), xlab="", ylab="Probability", main="A", type="h", lwd=2, xaxt="n")
+axis(1, xs)
+plot(x2, p2, xlim=xlimits, ylim=c(0,1), xlab="", ylab="Probability", main="B", type="h", lwd=2, xaxt="n")
+axis(1, xs)
+plot(x3, p3, xlim=xlimits, ylim=c(0,1), xlab="", ylab="Probability", main="C", type="h", lwd=2, xaxt="n")
+axis(1, xs)
+plot(x4, p4, xlim=xlimits, ylim=c(0,1), xlab="", ylab="Probability", main="D", type="h", lwd=2, xaxt="n")
+axis(1, xs)
+plot(x5, p5, xlim=xlimits, ylim=c(0,1), xlab="", ylab="Probability", main="E", type="h", lwd=2, xaxt="n")
+axis(1, xs)
+plot(x6, p6, xlim=xlimits, ylim=c(0,1), xlab="", ylab="Probability", main="F", type="h", lwd=2, xaxt="n")
+axis(1, xs)
+
+# sqrt(sum(x1^2*p1)-sum(x1*p1)^2)
+# sqrt(sum(x2^2*p2)-sum(x2*p2)^2)
+# sqrt(sum(x3^2*p3)-sum(x3*p3)^2)
+# sqrt(sum(x4^2*p4)-sum(x4*p4)^2)
+# sqrt(sum(x5^2*p5)-sum(x5*p5)^2)
+# sqrt(sum(x6^2*p6)-sum(x6*p6)^2)
+
+```
+
+
+
+1. What is the smallest *possible* value the SD of quiz scores could be?  What would need to be true about the distribution for this to happen?
+1. Arrange the classes in order based on their SDs from smallest to largest.  
+1. In one of the classes, the SD of quiz scores is 5.  Which one?  Why?
+1. Is the SD in F greater than, less than, or equal to 1?  Why?
+1. Provide a ballpark estimate of SD in each case.
+
+
+```{solution sd-matching-sol}
+to Example \@ref(exm:sd-matching)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The smallest possible value of SD is 0, which occurs only if the random variable is a constant (with probability 1).  In this context, if every student had the same quiz score, e.g., if 100\% of students scored an 8, then the SD would be 0.
+1. Remember that values of the variable are along the horizontal axis, so SD measures average distance from the mean horizontally.  The distribution in F represents the smallest SD.  The mean is 7, most of the scores are 7, and some of the scores are only 1 unit of from the mean. In all other situations, the probability that the random variable is equal to its mean is smaller, and the probability that the random variables takes a value more than 1 unit away from its mean is larger than in F. Also, in all other situations the mean is 5, so the smallest SD occurs where the values tend to be close to 5, and the largest occurs where the values tend to be far from 5.  In order from smallest to largest SD: F, E, A, C, B, D.
+1. D. In D, the score takes values 0  and 10 with probability 0.5.  The mean is 5, and all deviations are 5 units away from the mean, so the SD will be 5.
+1. Less than 1.  Don't forget that there is a high probability of a deviation of 0 in this case.  So the average deviation will be somewhere between 0 and 1.
+1.  Some of these are harder than others.  In E, many values are 0 units away from mean, many values are 1 unit away, and some values are 2.  So the SD in E is maybe around 1.  In C, there are values that are 0 units away, and about as many values that are each 1, 2, 3, 4, and 5 units away; we might expect SD to be around 2.5.
+    The actual values are: 	F = 0.45, E = 1.15, A = 2.4, C = 3.1, B = 3.7, D = 5.
+
+```
+
+Variance and standard deviation can not be negative. $\Var(X) = 0$ if and only if $X$ is constant with probability 1, i.e., $\IP(X = \E(X)) = 1$.
+
+<!-- You enter a casino with \$1000 and decide to bet black on roulette until you have either won \$1000 (leaving the casino with \$2000 total), or you have lost all your money (leaving with \$0).  Which of the following is a better strategy for you: bet \$1000  on a single game of roulette, or bet \$1 each time on many games of roulette (until hitting either \$2000 or \$0)?  Why? -->
+
+<!-- If we bet \$1000 on black (in a single bet), what is the expected value of our net profit?  The standard deviation?  -->
+
+```{example, exponential-sd}
+Let $X$ have an Exponential(1) distribution.  Make a ballpark estimate for $\SD(X)$, and then compute it.
+
+```
+
+
+```{solution exponential-sd-sol}
+to Example \@ref(exm:exponential-sd)
+```
+
+```{asis, fold.chunk = TRUE}
+
+It's hard to make an estimate since $X$ is continuous and the distribution is asymmetric, but we should at least get an idea of what might be a reasonable value.  The mean is 1.  The highest density occurs near 0, where values are about 1 unit away from the mean. But there is a high percentage of values that are less than 1 unit away from the mean.  While there can be some extreme values, most of the values of $X$ are at most 4, so at most 3 units above the mean.  We might guess a SD of around 1.  In particular, a guess of 2 would seem too high, since the only values that are more than 2 SDs above the mean are the $X$ values that are greater than 3, and this is a relatively small percentage of values.  A guess too close to 0 would be unreasonable because of the high density near 0 of values that are 1 unit below the mean.
+
+We did all the hard work already: in Example \@ref(exm:exponential-ev) we found $\E(X) = 1$ and in Example \@ref(exm:exponential-lotus) we found $\E(X^2) = 1$.  Therefore, $\Var(X) = \E(X^2) - \E(X)^2 = 2 - (1)^2 = 1$ and $\SD(X) = 1$.
+
+```
+
+```{python}
+
+X = RV(Exponential(1))
+
+X.sim(10000).sd()
+
+```
+
+
+
+
+### Standardization
+
+Standard deviation provides a "ruler" by which we can judge a particular realized value of a random variable relative to the distribution of values.  This idea is particularly useful when comparing random variables with different measurement units but whose distributions have similar shapes.
+
+```{example sat-z-score}
+SAT scores have, approximately, a Normal distribution with a mean of 1050 and a standard deviation of 200. ACT scores have, approximately, a Normal distribution with a mean of 21 and a standard deviation of 5.5.  Darius's score on the SAT is 1500.  Alfred's score on the ACT is 31.  Who scored relatively better on their test?
+
+```
+
+1. Compute the deviation from the mean for Darius's SAT score.  How does this compare to the average deviation from the mean for SAT scores?
+1. Compute the deviation from the mean for Alfred's ACT score.  How does this compare to the average deviation from the mean for ACT scores?
+1. Who scored relatively better on their test?
+
+```{solution sat-z-score-sol}
+to Example \@ref(exm:sat-z-score)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Darius's score is $1500-1050 = 450$ points above the mean SAT score.  The average deviation of SAT scores from the mean is 200 points.  So the deviation of Darius's score from the mean is $450/200 = 2.25$ times larger the average deviation.  
+1. Alfred's score is $31-21 = 10$ points above the mean ACT score.  The average deviation of ACT scores from the mean is 5.5 points.  So the deviation of Alfred's score from the mean is $10/5.5 = 1.82$ times larger than the average deviation.
+1. Both scores are above average, but Darius's is farther above average than Alfred's.  Both distributions are Normal, so the probability that an SAT score is greater than Darius's is smaller than the probabilitu that an ACT score is greater than Alfred's. That is, Darius scored relatively better. See Figure \@ref(fig:sat-z-score-plot).
+
+```
+
+(ref:cap-sat-z-score-plot) Comparison of the Normal distributions in Example \@ref(exm:sat-z-score). The blue mark indicated Darius's SAT score and the orange mark indicated Alfred's ACT score.
+
+
+```{r, sat-z-score-plot, echo=FALSE, fig.cap="(ref:cap-sat-z-score-plot)", fig.width=8}
+
+
+par(mfrow=c(2, 1))
+
+za = seq(-3, 3, 0.5)
+z = seq(-3, 3, 0.001)
+
+x1a = 1050 + 200 * za 
+
+plot(z, dnorm(z), xlim=range(z), ylim=c(0,dnorm(0)),
+     type = "l",
+      yaxt='n', xaxt='n', ylab = "", xlab = "", lwd = 2,
+      main = "SAT scores: Normal distribution with mean 1050 and SD 200") 
+axis(1, at = za, labels = x1a, line=0.5,cex.axis=1.0)
+axis(1, at = za, labels = za, line=2.7,cex.axis=1.0)
+# axis(1, at = xa, labels = seq(-4, 4, 1), line=2.7,cex.axis=1.0)
+mtext("SDs", cex = 0.80, side = 1, line = 3.5, at = -3.5)
+mtext("Score", cex = 0.80, side = 1, line = 1.3, at= -3.5)
+mtext(c("|"), side=1, line=0, at=c((1500 - 1050) / 200), cex = 2, col = "blue")
+
+x2a = 21 + 5.5 * za 
+
+plot(z, dnorm(z), xlim=range(z), ylim=c(0,dnorm(0)),
+     type = "l",
+      yaxt='n', xaxt='n', ylab = "", xlab = "", lwd = 2,
+      main = "ACT scores: Normal distribution with mean 21 and SD 5.5") 
+axis(1, at = za, labels = x2a, line=0.5,cex.axis=1.0)
+axis(1, at = za, labels = za, line=2.7,cex.axis=1.0)
+# axis(1, at = xa, labels = seq(-4, 4, 1), line=2.7,cex.axis=1.0)
+mtext("SDs", cex = 0.80, side = 1, line = 3.5, at = -3.5)
+mtext("Score", cex = 0.80, side = 1, line = 1.3, at= -3.5)
+mtext(c("|"), side=1, line=0, at=c((31 - 21) / 5.5), cex = 2, col = "orange")
+
+```
+
+
+Standard deviation provides a "ruler" by which we can judge a particular realized value of a random variable relative to the distribution of values.  Consider the plot for SAT scores in Figure \@ref(fig:sat-z-score-plot). The are two scales on the variable axis: one representing the actual measurement units, and one representing "standardized units".  In the standardized scale, values are measured in terms of standard deviations away from the mean:
+
+- The mean corresponds to a value of 0.
+- A one unit increment on the standardized scale corresponds to an increment equal to the standard deviation in the measurement unit scale.
+
+For example, each one unit increment in the standardized scale corresponds to a 200 point increment in the measurement unit scale for SAT scores, and a 5.5 point increment in the measurement unit scale for ACT scores.  An SAT score of 1250 is "1 standard deviation above the mean"; an ACT score of 10 is "2 standard deviations below the mean. Given a distribution, the more standard deviations a particular value is away from its mean, the more extreme or "unusual" it is.
+
+```{definition, z-score}
+
+If $X$ is a random variable with expected value $\E(X)$ and standard deviation $\SD(X)$, then the **standardized random variable** is
+\[
+Z = \frac{X - \E(X)}{\SD(X)}
+\]
+
+```
+
+For each outcome $\omega$, the standardized value $Z(\omega)$ measures how far the value $X(\omega)$ is away from the expected value relative to the degree of variability of values of the random variable. The random variable $X$ itself is measured in measurement units (feet, inches, dollars, etc), and the standardized random variable $Z$ is measured in standardized units --- "standard deviations away from the mean".
+
+Standardization --- that is, subtracting the mean and dividing by the standard deviation --- is a linear rescaling.  Therefore, the shape of the distribution of the standardized random variable will be the same as the shape of the distribution of the original random variable. However, the possible values will be different, and so will the mean and standard deviation. Regardless of the original measurement units, a standardized random variable has mean 0 and standard deviation 1.
+
+
+```{example dd-z-score}
+
+For which spinner --- Uniform(0, 1) or Exponential(1) --- is it more unsual to see a value smaller than 0.15?
+
+```
+
+1. Standardize the value 0.15 relative to the Uniform(0, 1) distribution.
+1. Standardize the value 0.15 relative to the Exponential(1) distribution.
+1. Donny Dont says: "For the Uniform(0, 1) distribution, a value of 0.15 is 1.2 SDs below the mean.  For the Exponential(1) distribution, a value of 0.15 is 0.85 SDs below the mean.  So a value smaller than 0.15 is more unusual for a Uniform(0, 1) distribution."  Do you agree with his conclusion?  Explain.
+1. How can you answer the original question in the setup?
+
+```{solution dd-z-score-sol}
+to Example \@ref(exm:dd-z-score)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The mean of the Uniform(0, 1) distribution is 0.5, and the standard deviation is $1/sqrt{12}\approx 0.289$. (See Example \@ref(exm:uniform-sd).) The standardized value for 0.15 is $(0.15 - 0.5)/(1/\sqrt{12})\approx -1.2$.  Relative to the Uniform(0, 1) distribution, a value of 0.15 is about 1.2 SDs below the mean.
+1. The mean of the Exponential(1) distribution is 1, and the standard deviation is $1$. (See Example \@ref(exm:exponential-sd).) The standardized value for 0.15 is $(0.15 - 1)/1 = -0.85$.  Relative to the Exponential(1) distribution, a value of 0.15 is 0.85 SDs below the mean.
+1. Donny's statements about the standardized values are fine, but his conclusion is not.  The distributions here have different shapes, so for example, 1 SD below the mean does not correspond to the same percentile for the two distributions.
+1. We can see what percentile a value of 0.15 represents for each distribution.  The Uniform(0, 1) cdf is $F(x) = x, 0<x<1$, so $F(0.15) = 0.15$.  For the Uniform(0, 1) distribution, the probability of a value smaller than 0.15 is 0.15; 0.15 is the 15th percentile.
+    The Exponential(1) cdf is $F(x) = 1-e^{-x}, x>0$, so $F(0.15) = 1-e^{-0.15} \approx 0.14$.  For the Exponential(1) distribution, the probability of a value smaller than 0.15 is 0.14; 0.15 is the 14th percentile.
+    While it's close, it is a little less likely to see a value smaller than 0.15 for the Exponential(1) distribution than for the Uniform(0, 1) distribution.  Notice that this is true despite the fact that the standardized value for 0.15 is farther from 0 for the Uniform(0, 1) distribution than for the Exponential(1) distribution.  
+
+``` 
+
+Standardization is useful when comparing random variables with different measurement units but whose distributions have similar shapes.  However, standardized values are only based on two features of a distribution --- mean and standard deviation --- rather than the complete pattern of variability.  Distributions with different shapes have different patterns of variability. Therefore, when comparing distributions with different shapes, it is better to compare percentiles rather than standardized values to determine what is "extreme" or "unusual".
+
+See Figure \@ref(fig:dd-z-score-plot) for an illustration.  The figure displays the cdf of each of the Normal(0, 1), Exponential(1), and Uniform(0, 1) distributions as a function of standardized values.  Notice how the standardized values correspond to different percentiles for the three distributions. In particular, a standardized value of 0 corresponds to the median for the Normal(0, 1) and Uniform(0, 1) distributions, but it represents the 63rd percentile for the Exponential(1) distribution.  For another example, a standardized value of $-0.95$ corresponds to:
+
+- a value of $-0.95$ from the Normal(0, 1) distribution, which is about the 17th percentile
+- a value of $1-0.95(1) = 0.05$ from the Exponential(1) distribution, which is about the 5th percentile
+- a value of $0.5-0.95(1/\sqrt{12}) = 0.226$ from the Uniform(0, 1) distribution, which is about the 23rd percentile.
+
+Among these three distributions, a value 0.95 SDs below the mean is most extreme for the Exponential(1) distribution and least extreme for the Uniform(0, 1) distribution.
+<!-- As another example, a standardized value of $0.5$ corresponds to: -->
+
+<!-- - a value of $0.5$ from the Normal(0, 1) distribution, which is about the 69th percentile -->
+<!-- - a value of $1+0.5(1) = 1.5$ from the Exponential(1) distribution, which is about the 77th percentile -->
+<!-- - a value of $0.5+0.5(1/\sqrt12) = 0.644$ from the Uniform(0, 1) distribution, which is about the 64th percentile. -->
+
+
+<!-- Among these three distributions, a value 0.5 SDs above the mean is most extreme for the Uniform(0, 1) distribution and least extreme for the Uniform(0, 1) distribution. -->
+
+(ref:dd-sat-z-score-plot) Comparison of cdf, as a function of standardized value, for the Normal(0, 1), Exponential(1), and Uniform(0, 1) distributions.
+
+```{r, dd-z-score-plot, echo=FALSE, fig.cap="(ref:dd-sat-z-score-plot)"}
+
+
+za = seq(-3, 3, 0.5)
+z = seq(-3, 3, 0.001)
+
+plot(z, pnorm(z), xlim = range(z), ylim = c(0, 1), type = "l",
+     xaxt = "n", ylab = "", xlab = "",
+     lty = 1, lwd = 2, col = "skyblue")
+par(new = T)
+plot(z, pexp(1 + z, 1), xlim = range(z), ylim = c(0, 1), type = "l",
+     xaxt = "n", ylab = "", xlab = "",
+     lty = 2, lwd = 2, col = "orange")
+par(new = T)
+plot(z, punif(0.5 + z / sqrt(12), 0, 1), type = "l",
+     xaxt = "n", ylab = "cdf (as function of standardized value)",
+     xlab="standardized value",
+     xlim = range(z), ylim = c(0, 1),
+     lty = 3, lwd = 2, col = "seagreen")
+axis(1, za)
+abline(v = c(-0.95, 0), lty = 1, lwd = 1, col = "gray")
+legend("topleft",
+       c("Normal(0, 1)", "Exponential(1)", "Uniform(0, 1)"),
+       col = c("skyblue", "orange", "seagreen"), lwd = 2, lty = 1:3)
+
+```
+
+
+Any random variable can be standardized, but keep in mind that just how extreme any particular standardized value is depends on the shape of the distribution.  We will see LATER that standardization is most natural for random variables that follow a Normal distribution.
+
+## Probability inequalitlies
+
+
+The distribution of a random variable is a complete description of its pattern of variability.  Knowing the distribution of  a random variable allows you to compute the probability of any event involving it, but the full distribution is often unavailable or difficult to obtain.  However, certain summary characteristics, like the mean or standard deviation, might be available.  What can we say about a distribution based on only information about its mean or standard deviation?
+
+### Markov's inequality
+
+```{example, markov-income}
+
+According to 2019 data from the [U.S. Census Bureau](https://www.census.gov/data/tables/time-series/demo/income-poverty/cps-hinc/hinc-01.2019.html), the mean^[The mean is closer to \$98,000 but we're rounding to simplify a little. It is often more appropriate to consider median income, rather than mean income.  The median annual income for U.S. households in 2019 was about \$69,000.] annual income for U.S. households is about \$100,000.
+Suppose that you know nothing else about the distribution of income, other than income can't be negative. What can you say about the percent of households with incomes of at least \$1 million?
+
+```
+
+1. Can 100% of households have income of at least \$1 million?
+1. Can 50% of households have income of at least \$1 million?
+1. What is the largest possible percentage of households with incomes of at least \$1 million?
+
+
+```{solution markov-income-sol}
+to Example \@ref(exm:markov-income)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. No, if 100\% of households have incomes of least 1 million, then the mean must be at least 1 million.  If every household had an income of exactly 1 million, then the mean would be 1 million.  
+1. No, if 50\% of households have incomes of at least 1 million, then the mean must be at least 500,000.  Even if 50% of households have incomes of exactly 1 million and the rest have incomes of 0 (the smallest possible value), the mean would be 500,000.
+1. The idea is that if too many households have incomes above 1 million then the average can't be 100,000. Classify each household as either having an income of at least 1 million or not.  The mean will be smallest in the extreme case where each household has an income of either 1 million or 0; allowing other values will just pull the mean up.  In this extreme scenario, let $p$ be the  proportion of households with an income of 1 million.  Then the mean is $1000000p + 0(1-p) = 1000000p$, and setting it equal to 100000 yields $p=0.1$.  Therefore, given a mean of \$100,000 it is theoretically possible for 10\% of households to have incomes of at least \$1 million.  But 10\% is the maximum possible percentage; if more than 10\% of households have incomes above \$1 million, than the mean would be strictly greater than \$100,000.
+    Knowing only that the mean is 100,000, all we can say is that between 0% and 10% of households have incomes of at least \$1 million.
+
+```
+
+The scenario corresponding to 10\% in the previous example is hypothetical, and in reality much less than 10\% of U.S. households have incomes of at least \$1 million.  (Only about 10\% of households have incomes above \$200,000, so the percentage of households with incomes above \$1 million is much smaller than 10\%.) However, the scenario is theoretically possible so we must account for it. We can't do any better based on knowing just the mean alone without any additional information about the distribution of incomes.
+
+The previous example illustrates *Markov's inequality.*
+
+```{theorem, markov, name = "Markov\'s inequality"}
+For any random variable $X$ and any constant $c>0$
+\[
+\IP(|X|\ge c) \le \frac{\E(|X|)}{c}.
+\]
+In particular, if $\IP(X\ge0)=1$ then $\IP(X > c) \le \E(X)/c$.
+
+```
+
+
+The idea behind Markov's inequality is that large values pull the mean up, so given a fixed value of the mean there is a limit on the probability that the random variable takes large values. The proof uses the same strategy as \@ref(exm:markov-income). Each value of $|X|$ is either at least $c$ or not.  Consider the extreme situation where each value of $|X|$ is either 0 or $c$. That is, define the random variable $Y=c\ind\{|X|\ge c\}$. Then $|X|\ge Y$; if $|X|\ge c$ then $Y=c$; if $|X|<c$ then $Y=0$.
+Therefore $\E(|X|)\ge \E(Y)$ and 
+\[
+\E(|X|)\ge\E(Y) = \E(c\ind\{|X|\ge c\}) = c\IP(|X| \ge c).
+\]
+Divide by $c>0$ to get the result.
+
+
+Think of $c$ as a large value in the measurement units of the random variable, so Markov's inequality provides a very crude upper bound on the probability that $X$ takes extreme values in the absolute sense.  Probabilities like $\IP(|X| \ge c)$ are called "tail probabilities" because they depend on the "tail" of the distribution which describes the pattern of variability for extreme values.
+
+We can also express Markov's inequality in relative terms.  If $X\ge 0$, then for any constant $k$
+\[
+\IP(X \ge k \E(X)) \le \frac{\E(X)}{k\E(X)} = \frac{1}{k} 
+\]
+Think of $k$ as a multiplier: what is the probability that the random variable takes a value at least $k$ *times* larger than the average value? Markov's inequality says that at most $1/k$ of values are at least $k$ times greater than the mean.  For example, at most 1/2 of values are at least 2 times as large as the mean; at most 1/3 of values are at least 3 times as large as the mean; etc.
+
+
+```{example, markov-compare}
+
+Suppose $X$ is a random variable with an Exponential(1) distribution.  What does Markov's inequality say about $\IP(X > 5)$?  How does this compare to the true probability?
+
+```
+
+
+```{solution markov-compare-sol}
+to Example \@ref(exm:markov-compare)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+The mean of an Exponential(1) distribution is 1, so Markov's inequality says 
+\[
+\IP(X\ge 5) \le \frac{\E(X)}{5} = \frac{1}{5} = 0.2.
+\]
+The true probability is $e^{-5}\approx 0.0067$.  The true probability is about 30 times smaller than the bound provided by Markov's inequality.  Markov's inequality only uses the fact the mean is 1; it provides a bound that works for any distribution with a mean of 1.  But it is not guaranteed to work well for any particular distribution.
+
+```
+
+
+The upper bound provided by Markov's inequality often grossly overestimates the tail probability.  However, without further information, we cannot rule out the extreme but theoretically possible case in which the tail probability $\IP(|X|\ge c)$ is equal to the upper bound $\E(|X|)/c$.  Markov's inequality provides a bound that works for any distribution with a given mean, but it is not guaranteed to work well for any particular distribution.
+
+If the upper bound is so bad, how is Markov's inequality useful? Think of reading a news article involving some numerical variable.  The article might mention the mean, but have you ever read a news article that mentions the standard deviation?  At best, you might get a range of "typical" values, maybe a percentile or two, or a graph if you're really lucky.  But in many situations, the mean might be all that is available, and Markov's inequality at least tells you something about the distribution based on the mean alone (even if it doesn't tell you much).
+
+
+### Chebyshev's inequality
+
+Markov's inequality only relies on the mean, but it provides very rough bounds on tail probabilities.  If we have more information, then we can do better.  In particular, if we also know the standard deviation then we can put better bounds on the probability that a random variable takes a value far from its mean.
+
+
+
+
+```{theorem, chebyshev, name = "Chebyshev\'s inequality"}
+
+For any random variable $X$ and any constant $c>0$
+
+\[
+\IP\left(|X-\E(X)|\ge c\right)\le \frac{\Var(X)}{c^2}.
+\]
+
+Equivalently, for any constant $z>0$,
+\[
+\IP\left(\frac{|X-\E(X)|}{\SD(X)}\ge z\right)\le \frac{1}{z^2}.
+\]
+
+```
+  
+The first version of Chebyshev's inequality bounds the probability
+that a random variable is at least $c$ *measurement units* away from its mean.  The proof is an application of Markov's inequality to the squared deviation random variable $|X-\E(X)|^2$:
+\[
+\IP\left(|X-\E(X)|\ge c\right) = \IP\left(|X-\E(X)|^2\ge c^2\right) \le \frac{\E\left(|X-\E(X)|^2\right)}{c^2}=  \frac{\Var(X)}{c^2}.
+\]
+
+
+```{example, chebyshev-income}
+
+Continuing Example \@ref(exm:markov-income), suppose again that annual income for U.S. households is about \$100,000. Now assume the standard deviation of income is about \$230,000.
+What can you say about the percent of households with incomes of at least \$1 million?
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+We first need to relate the probability of interest to one that is of the form^[The form we have stated bounds the probability that $X$ is far away from the mean.  There are also one-sided Chebyshev's inequalities that bound the probability that $X$ is far above (or below) its mean. If we recognize that $X$ in this example can't be 900000 units below its mean, a one-sided Chebyshev's inequality yields a bound of $(1/(1+900000/230000))^2\approx 0.042$.] in Chebyshev's inequality. An income of 1 million is 900,000 dollars above the mean of 100,000.
+
+\[
+\IP(\left(X \ge 1000000\right) = \IP\left(X-100000\ge 900000\right) \le \IP\left(|X-100000|\ge 900000\right).
+\]
+Now use Chebyshev's inequality with $c=900000$, $\E(X) = 100000$, and $\Var(X) = 230000^2$.
+\[
+\IP(\left(X \ge 1000000\right) \le  \IP\left(|X-100000|\ge 900000\right)\le \frac{230000^2}{900000^2} = 0.065.
+\]
+
+Alternatively, a value of 1000000 is $z=(1000000 - 100000) / 230000 = 3.91$ SDs above the mean, so the probability that the standardized random variable is at least 3.91 is less than $1/3.91^2\approx 0.065$.
+
+With information about the mean and standard deviation, we can say that at most 6.5\% of households have income above \$1 million.  This is still probably a vast overestimate, but it does improve on the bound of 10\% from Markov's inequality.
+
+```
+
+The bound in Markov's inequality is on the order of $1/c$ and the bound in Chebyshev's inequality is on the order of $1/c^2$.  Therefore, Chebyshev's inequality usually provides a tighter bound, but you need to know the standard deviation in order to use it.
+
+
+The second version of Chebyshev's inequality follows by taking $c = z\SD(X)$ in the first version. The second version bounds the probability that a random variable
+is at least $z$ *standard deviations* away from its mean.  Chebyshev's inequality says that for any distribution, the probability that the random variable takes a value within $z$ SDs of its mean is at least $1 - 1 / z^2$.  For any distribution,
+
+- ($z = 2$.) At least 75% of values fall within 2 standard deviations of the mean.
+- ($z = 3$.) At least 88.8% of values fall within 3 standard deviations of the mean.
+- ($z = 4$.) At least 93.75% of values fall within 4 standard deviations of the mean.
+- ($z = 5$.) At least 96% of values fall within 5 standard deviations of the mean.
+- ($z = 6$.) At least 97.\% of values fall within 6 standard deviations of the mean.
+- and so on, for different values of $z$.
+
+This universal "empirical rule" works for any distribution, but will tend to be very conservative when applied to any particular distribution.
+
+In short, Chebyshev's inequality says that if a value is more than a few standard deviations away from the mean then it is a fairly extreme value, regardless of the shape of the distribution.
+
+
+```{example, chebyshev-compare}
+Let $X$ be a random variable with an Exponential(1) distribution.
+What does Chebyshev's inequality say about $\IP(X > 5)$?  How does this compare to the bound from Markov's inequality? To the true probability?
+  
+```
+
+
+```{solution chebyshev-compare-sol}
+to Example \@ref(exm:chebyshev-compare)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+Both the mean and the standard deviation of an Exponential(1) distribution are 1.  A value of 5 is $(5-1)/1=4$ units above the mean.  Chebyshev's inequality says that the probability that a value is at least 4 units away from the mean is at most $1/4^2 = 0.0625$.  This bound is 3 times smaller than 0.2, the bound from Markov's inequality.  It's still not close to the true probability of $0.0067$, but at least it's an improvement over Markov's inequality. 
+
+```
+
+
+
+
+Another situation where bounds like Markov's or Chebyshev's inequality are useful is in proofs.  Many theorems in probability consider what happens in the long run.  For example, various results say certain probabilities approach 0 in the long run.  (The law of large numbers, which we will see LATER, is of this form.) To prove such theorems, you don't necessarily need to compute the probabilities to show they approach 0.  It is enough to show that some rough upper bound on the probability converges to 0.
+
+
+
+
+
+## Covariance and correlation
+
+
+Quantities like expected value and variance summarize characteristics of the *marginal* distribution of a single random variable. When there are multiple random variables their *joint* distribution is of interest.  Covariance summarizes in a single number a characteristic of the joint distribution of two random variables, namely, the degree to which they "co-deviate from the their respective means".
+
+```{definition, covariance}
+The **covariance** between two random variables $X$ and $Y$ is
+\begin{align*}
+\Cov(X,Y) & = \E\left[\left(X-\E[X]\right)\left(Y-\E[Y]\right)\right]\\
+& = \E(XY) - \E(X)\E(Y)
+\end{align*}
+
+```
+
+The first line above defines covariance as the long run average product of paired deviations from the mean.  The second provides an equivalent formula that simplifies computation.  Namely, covariance is the expected value of the product minus the product of expected values.  (Remember that in general $\E(XY)$ is not equal to $\E(X)\E(Y)$.)
+
+
+
+
+
+
+
+```{example, dice-covariance}
+Consider the probability space corresponding to two rolls of a fair four-sided die.  Let $X$ be the sum of the two rolls, $Y$ the larger of the two rolls, $W$ the number of rolls equal to 4, and $Z$ the number of rolls equal to 1.
+
+``` 
+
+1. Specify the joint pmf of $X$ and $Y$. (These first few parts are review of things we have covered before.)
+1. Find the marginal pmf of $X$ and $\E(X)$.
+1. Find the marginal pmf of $Y$ and $\E(Y)$.
+1. Find $\E(XY)$.  Is it equal to $\E(X)\E(Y)$?
+1. Find $\Cov(X, Y)$.  Why is the covariance positive?
+1. Is $\Cov(X, W)$ positive, negative, or zero? Why?
+1. Is $\Cov(X, Z)$ positive, negative, or zero? Why?
+1. Let $V=W+Z$. Is $\Cov(X, V)$ positive, negative, or zero? Why?
+1. Is $\Cov(W, Z)$ positive, negative, or zero? Why?
+
+
+```{solution dice-covariance-sol}
+to Example \@ref(exm:dice-covariance)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. See Example \@ref(exm:dice-probspace) for the joint and marginal distributions.
+1. $\E(X)= 5$.
+1. $\E(Y) = 1(1/16) + 2(3/16) + 3(5/16) + 4(7/16) = 3.125$.
+1. $\E(XY)=(2)(1)(1/16) + (3)(2)(2/16) + \cdots (8)(4)(1/16) = 16.875$.  This is not equal to  $\E(X)\E(Y) = (5)(3.125) = 15.625.$
+1. $\Cov(X, Y) = \E(XY) -  \E(X)\E(Y) = 16.875 - 15.625 = 1.25.$  There is an overall positive association; above average values of $X$ tend to be associated with above average values of $Y$ (e.g., (7, 4), (8, 4)), and below average values of $X$ tend to be associated with below average values of $Y$ (e.g., (2, 1), (3, 2)).
+1. $\Cov(X, W)>0$.  If $W$ is large (roll many 4s) then $X$ (sum) tends to be large.
+1. $\Cov(X, Z)<0$.  If $W$ is large (roll many 1s) then $X$ (sum) tends to be small.
+1. $\Cov(X, W + Z)=0$. Basically, the positive association between $X$ and $W$ cancels out with the negative association of $X$ and $Z$.  $V$ is large when there are many 1s or many 4s, or some mixture of 1s and 4s.  
+1. $\Cov(W, Z)>0$.  There is a fixed number of rolls.  If you roll lots of 4s then there must be few rolls of 1s.
+
+
+
+```
+
+The sign of the covariance indicates the overall direction of the association between $X$ and $Y$.
+
+- $\Cov(X,Y)>0$ (positive association) if above average values of $X$ tend to be associated with above average values of $Y$
+- $\Cov(X,Y)<0$ (negative association) if above average values of $X$ tend to be associated with below average values of $Y$
+
+Random variables $X$ and $Y$ are **uncorrelated** if $\Cov(X, Y) = 0$.  For uncorrelated random variables there is no overall tendency for above/below average values of one variable to be associated with above/below average values of the other.  But be careful: if $X$ and $Y$ are  uncorrelated there can still be a relationship between $X$ and $Y$; there is just no overall positive or negative association.  (We will see LATER than being uncorrelated does not necessarily imply that random variables are independent.)
+
+
+
+```{example, dd-dice-covariance-sim}
+In Example \@ref(exm:dice-covariance), how could we use simulation to approximate $\Cov(X, Y)$?  Donny Dont's Symbulate code is below.   Explain to Donny in words the correct simulation process, and why his  code does not reflect that process.  What is the correct code? 
+
+```
+
+
+```{python, eval = FALSE}
+
+P = DiscreteUniform(1, 4) ** 2
+X = RV(P, sum)
+Y = RV(P, max)
+
+x = X.sim(10000)
+y = Y.sim(10000)
+
+(x * y).mean() - x.mean() * y.mean()
+
+```
+
+
+```{solution dd-dice-covariance-sim-sol}
+to Example \@ref(exm:dd-dice-covariance-sim)
+```
+
+```{asis, fold.chunk = TRUE}
+
+Donny's code attempts to simulate values of $X$ and values of $Y$ separately, from each of their marginal distributions.  However, to approximate the covariance we need to simulate $(X, Y)$ *pairs* from the *joint* distribution.  See the code below. (Otherwise, Donny's code is fine.)
+
+```
+
+
+Since $\Cov(X, Y)$ is based on expected values, it can be approximated by simulating appropriate long run averages.
+
+- Simulate an $(X, Y)$ pair from the joint distribution.
+- Find the value of the product $XY$ for the simulated pair.
+- Repeat many times, simulating many $(X, Y)$ pairs and finding their product $XY$.
+- Average the simulated values of the product $XY$ to approximate $\E(XY)$.
+- Average the simulated values of $X$ to approximate $\E(X)$.
+- Average the simulated values of $Y$ to approximate $\E(Y)$.
+- $\Cov(X, Y)$ is approximately the average of the product minus the product of the averages.
+
+The following code illustrates how to approximate covariance via simulation.  The key is to first simulate $(X, Y)$ pairs with the proper joint distribution.
+
+```{python, eval = TRUE}
+
+P = DiscreteUniform(0, 1) ** 2
+
+U1, U2 = RV(P)
+
+X = U1 + U2
+Y = (U1 & U2).apply(max)
+
+xy = (X & Y).sim(10000)
+
+xy
+
+```
+
+
+```{python, eval = TRUE}
+
+xy.plot('tile')
+plt.show()
+
+```
+
+The simulated $(X, Y)$ pairs are stored as `xy`, a matrix with two columns (one for $X$ and one for $Y$) and a row for each repetition of the simulation.  The simulated $X$ values in the first column of `xy` can be extracted with `x = xy[0]`.  (Remember Python's zero-based indexing.) The simulated $Y$ values in the second column of `xy` can be extracted with `y = xy[1]`.  The product `x * y` will multiply $XY$ for each simulated $(X, Y)$ pair, row by row.
+
+
+```{python, eval = TRUE}
+
+x = xy[0]
+y = xy[1]
+
+x * y
+
+```
+
+We can then approximate the covariance with the average of the product minus the product of the averages.
+
+```{python, eval = TRUE}
+
+(x * y).mean() - x.mean() * y.mean()
+
+```
+
+The `.cov()` command performs the above calculation.
+
+```{python, eval = TRUE}
+
+xy.cov()
+
+```
+
+
+```{example}
+Recall Example \@ref(sim-transform-joint).  Spin the Uniform(1, 4) spinner twice and let $X$ be the sum and $Y$ the larger of the two spins.  Sketch a plot of the joint distribution; is $\Cov(X, Y)$ positive, negative, or zero?  Then use simulation to approximate the covariance.
+  
+```
+
+```{asis, fold.chunk = TRUE}
+
+Covariance is positive as above average values of $X$ tend to be associated with above average values of $Y$.  Simulation show the covariance is about 0.75.
+
+```
+
+
+```{python, eval = TRUE}
+
+P = Uniform(1, 4) ** 2
+
+U1, U2 = RV(P)
+
+X = U1 + U2
+Y = (U1 & U2).apply(max)
+
+xy = (X & Y).sim(10000)
+
+xy.plot('density')
+plt.show()
+
+```
+
+
+```{python, eval = TRUE}
+xy.cov()
+```
+
+
+
+For two continuous random variables, $\E(XY)$ involves a double integral over possible $(x, y)$ pairs of the product $xy$ weighted by the joint density.  We will see LATER some strategies for computing $\E(XY)$ and $\Cov(X, Y)$ that avoid double integration.
+
+
+```{example}
+What is another name for $\Cov(X, X)$?
+```
+
+
+```{asis, fold.chunk = TRUE}
+The variance of $X$ is the covariance of $X$ with itself.
+\[
+ \Cov(X, X) = \E\left((X-\E(X))(X-\E(X))\right) 
+  = \E\left((X-\E(X))^2\right) = \Var(X)
+\]
+```
+
+
+```{example}
+
+The covariance between height in inches and weight in pounds for football players is 96.
+
+```
+
+1. What are the measurement units of the covariance?
+1. Suppose height were measured in feet instead of inches. Would the shape of the joint distribution change?  Would the strength of the association between height and weight change?  Would the value of covariance change?
+
+```{asis, fold.chunk = TRUE}
+
+1. Covariance deals with products, so the covariance is 96 inches$\times$pounds.
+1. A linear rescaling does not change the shape of the distribution or the strength of the association. However, a linear rescaling does relabel the axis and change measurements.  A covariance of 96 inches$\times$pounds corresponds to a covariance of 8 feet$\times$pounds.
+
+```
+
+The numerical value of the covariance depends on the measurement units of both variables, so interpreting it can be difficult. Covariance is a measure of joint association between two
+random variables that has many nice theoretical properties, but the *correlation
+coefficient* is often a more practical measure. (We saw a similar idea with variance and standard deviation. Variance has many nice theoretical properties. However, standard
+deviation is often a better practical measure of variability.)
+
+
+```{definition, correlation}
+
+The **correlation (coefficient)** between random variables $X$ and $Y$ is
+
+\begin{align*}  
+\Corr(X,Y) & = \Cov\left(\frac{X-\E(X)}{\SD(X)},\frac{Y-\E(Y)}{\SD(Y)}\right)\\
+& = \frac{\Cov(X, Y)}{\SD(X)\SD(Y)}
+\end{align*}
+  
+```
+  
+The correlation for two random variables is the covariance between the corresponding standardized random variables.  Therefore, correlation is a *standardized* measure of the association between two random variables.
+
+Subtracting the means doesn't change the scale of the possible pairs of values; it merely shifts the center of the joint distribution. Therefore, correlation is the covariance divided by the product of the standard deviations.
+
+
+A correlation coefficient has no units and is measured on a universal scale. Regardless of the original measurement units of the random variables $X$ and $Y$
+\[
+-1\le \textrm{Corr}(X,Y)\le 1
+\]
+
+- $\textrm{Corr}(X,Y) = 1$ if and only if $Y=aX+b$ for some $a>0$
+- $\textrm{Corr}(X,Y) = -1$ if and only if $Y=aX+b$ for some $a<0$
+
+
+Therefore, correlation is a standardized measure of the strength of the *linear* association between two random variables.
+
+```{example}
+
+The covariance between height in inches and weight in pounds for football players is 96.  Heights have mean 74 and SD 3 inches.  Weights have mean 250 pounds and SD 45 pounds.  Find the correlation between weight and height.  
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+\[
+ \Corr(X, Y) = \frac{\Cov(X, Y)}{\SD(X)\SD(Y)} = \frac{96}{(3)(45)} = 0.71 
+\]
+
+(The means are useful to have, but they don't effect the correlation.)
+```
+
+
+Because correlation is computed between standardized random variables,  correlation is not affected by a linear rescaling of either variable.  One standard deviation above the mean is one standard deviation above the mean, whether that's measured in feet or inches or meters.
+
+In many problems we are given the correlation directly and need to find the covariance. Covariance is the correlation times the product of the standard deviations.
+
+\[
+\Cov(X, Y) = \Corr(X, Y)\SD(X)\SD(Y)
+\]
+
+## Expected values of linear combinations of random variables
+
+
+Remember that in general
+
+\begin{align*}
+\E(g(X)) & \neq g(\E(X))\\
+\E(g(X, Y)) & \neq g(\E(X), \E(Y))
+\end{align*}
+
+In this section we will introduce certain transformations of random variables for which the expected value of the transformation is the transformation of the expected value.  We will also study variance of certain transformations of random variables.
+
+### Linear rescaling
+
+
+A linear rescaling is a transformation of the form $g(u) = au + b$. Recall that in Section \@ref(linear-rescaling) we observed, via simulation, that
+
+- A linear rescaling of a random variable does not change the basic shape of its distribution, just the range of possible values.
+- A linear rescaling transforms the mean in the same way the individual values are transformed.
+- Adding a constant to a random variable does not affect its standard deviation.
+- Multiplying a random variable by a constant multiples its standard deviation by the same constant.
+
+
+Formally, if $X$ is a random variable and $a, b$ are non-random constants then
+
+\begin{align*}
+\E(aX + b) & = a\E(X) + b\\
+\SD(aX + b) & = |a|\SD(X)\\
+\Var(aX + b) & = a^2\Var(X)
+\end{align*}
+
+
+
+### Linearity of expected value
+
+```{example}
+Spin the Uniform(1, 4) spinner twice and let $U_1$ be the first spin, $U_2$ the second, and $X = U_1 + U_2$ the sum.
+```
+
+1. Find $\E(U_1)$ and $\E(U_2)$.
+1. Find $\E(X)$.
+1. How does $\E(X)$ relate to $\E(U_1)$ and $\E(U_2)$?  Suggest a simpler way of finding $\E(U_1 + U_2)$.
+
+```{asis, fold.chunk = TRUE}
+
+1. $\E(U_1) = \frac{1+4}{2} = 2.5 = \E(U_2)$.
+1. We found the pdf of $X$ in Example \@ref(exm:uniform-sum-max-pdf). Since the pdf of $X$ is symmetric about $5$ we should have $\E(X)=5$, which integrating confirms.
+    \[
+    \E(X) = \int_2^5 x \left((x-2)/9\right)dx + \int_5^8 x \left((8-x)/9\right) dx = 5.
+    \]
+1. We see that $\E(U_1+U_2) = 5 = 2.5 + 2.5 = \E(U_1) + \E(U_2)$.  Finding the expected value of each of $U_1$ and $U_2$ and adding these two numbers is much easier than finding the pdf of $U_1+U_2$ and then using the definition of expected value.
+
+```
+
+In the previous example, the values $U_1$ and $U_2$ came from separate spins so they were unrelated.  What about the expected value of $X+Y$ when $X$ and $Y$ are correlated?
+
+```{example}
+Recall the Colab activity where you simulated pairs of SAT Math ($X$) and Reading ($Y$) scores from Bivariate Normal distributions with different correlations. You considered the distribution of the sum $T=X+Y$ and difference $D= X - Y$.  Did changing the correlation affect the *distribution* of $T$? of $D$?  Did changing the correction affect the *expected value* of $T$? Of $D$?
+  
+```
+
+```{asis, fold.chunk = TRUE}
+You should have observed that, yes, changing the correlation affected the distribution of $T$ and $D$ mainly by changing the degree of variability.  However, you should have also observed that the expected value of $T$ did not change as the correlation changed (after accounting for simulation margin of error).  Similarly, the expected value of $D$ did not change as the correlation changed.
+
+```
+
+
+**Linearity of expected value.** For *any* two random variables $X$ and $Y$,
+\begin{align*}
+\E(X + Y) & = \E(X) + \E(Y)
+\end{align*}
+That is, the expected value of the sum is the sum of expected values, regardless of how the random variables are related.  Therefore, you only need to know the marginal distributions of $X$ and $Y$ to find the expected value of their sum.  (But keep in mind that the *distribution* of $X+Y$ will depend on the joint distribution of $X$ and $Y$.)
+
+
+Linearity of expected value follows from simple arithmetic properties of numbers. Whether in the short run or the long run,
+\begin{align*}
+\text{Average of $X + Y$ } & = \text{Average of $X$} + \text{Average of $Y$}
+\end{align*}
+regardless of the joint distribution of $X$ and $Y$.  For example, for the two $(X, Y)$ pairs (4, 3) and (2, 1)
+\[
+\text{Average of $X + Y$ } = \frac{(4+3)+(2+1)}{2} = \frac{4+2}{2} + \frac{3+1}{2} = \text{Average of $X$} + \text{Average of $Y$}.
+\]
+
+A **linear combination** of two random variables $X$ and $Y$ is of the form $aX + bY$ where $a$ and $b$ are non-random constant.  Combining properties of linear rescaling with linearity of expected value yields the expected value of a linear combination
+\[
+\E(aX + bY) = a\E(X)+b\E(Y)
+\]
+For example, $\E(X - Y) = \E(X) - \E(Y)$. The left side above, $\E(aX + bY) $, represents the "long way": find the distribution of $aX + bY$, which will depend on the joint distribution of $X$ and $Y$, and then use the definition of expected value.  The right side above, $a\E(X)+b\E(Y)$, is the "short way": find the expected values of $X$ and $Y$, which only requires their marginal distributions, and plug those numbers into the transformation formula.  Similar to LOTUS, linearity of expected value provides a way to find the expected value of certain random variables without first finding the distribution of the random variables.
+
+
+Linearity of expected value extends naturally to more than two random variables.
+
+```{example, matching-ev-n}
+Recall the matching problem in Example \@ref(exm:matching-ev). We showed that the expected value of the number of matches $Y$ is $\E(Y)=1$ when $n=4$.  Now consider a general $n$: there are $n$ rocks that are shuffled and placed uniformly at random in $n$ spots with one rock per spot.  Let $Y$ be the number of matches.  Can you find a general formula for $\E(Y)$? 
+
+```
+
+1. How do you think $\E(Y)$ depends on $n$?
+1. Recall the indicator random variables from Example \@ref(exm:matching-indicator).  Let $\ind_1$ be the indicator that rock 1 is placed correctly in spot 1.  Find $\E(\ind_1)$.
+1. Let $\ind_i$ be the indicator that rock $i$ is placed correctly in spot $i$, $i=1, \ldots, n$.  Find $\E(\ind_i)$.
+1. What is the relationship between $Y$ and $\ind_1, \ldots, \ind_n$? 
+1. Find $\E(Y)$.  Be amazed.
+
+```{asis, fold.chunk = TRUE}
+
+1. There are two common guesses.  (1) As $n$ increases, there are more chances for a match, so maybe $\E(Y)$ increases with $n$. (2) But as $n$ increases the chance that any particular rock goes in the correct spot decreases, so maybe $\E(Y)$ decreases with $n$.  These considerations move $\E(Y)$ in opposite directions; how do they balance?
+1. Recall that the expected value of an indicator random variable is just the probability of the corresponding event. There are $n$ rocks which are equally likely to be placed in spot 1, only 1 of which is correct.  The probability that rock 1 is correctly placed in spot 1 is $1/n$.  That is, $\E(\ind_1) = (1)(1/n) + (0)(1 - 1/n) = 1/n$.
+1. If the rocks are placed uniformly at random then no rock is more or less likely than any other to be placed in its correct spot, so the probability and expected value should be the same for all $i$. Given any spot $i$, any of the $n$ rocks is equally likely to be placed in spot $i$, and only one of those is the correct rock, so $\IP(\ind_i = 1) = 1/n$, and $\E(I_i) = 1/n$.
+1. Recall Section \@ref(indicators).  We can count the total number of matches by incrementally adding 1 to our counter each time rock $i$ matches spot $i$ for $i=1, \ldots, n$.  That is, the total number of matches is the sum of the indicator random variables: $Y=\ind_1 + \cdots + \ind_n$.
+1. Use linearity of expected value
+\begin{align*}
+\E(Y) & = \E(\ind_1 + \ind_2 + \cdots + \ind_n)\\
+& = \E(\ind_1) + \E(\ind_2) + \cdots + \E(\ind_n)\\
+& = \frac{1}{n} + \frac{1}{n} + \cdots + \frac{1}{n}\\
+& = n\left(\frac{1}{n}\right) = 1
+\end{align*}
+
+```
+
+The answer to the previous problem is not an approximation: the expected value of the number of matches is equal to 1 for any $n$.  We think that's pretty amazing.  (We'll see some even more amazing results for this problem LATER.)  Notice that we computed the expected value without first finding the distribution of $Y$.
+
+
+Intuitively, if the rocks are placed in the spots uniformly at random, then the probability that rock $i$ is placed in the correct spot should be the same for all the rocks, $1/n$. But you might have said: "if rock 1 goes in spot 1, there are only $n-1$ rocks that can go in spot 2, so the probability that rock 2 goes in spot to is $1/(n-1)$".  That is true *if rock 1 goes in spot 1*.  However, when computing the *marginal* probability that rock 2 goes in spot 2, we don't know whether rock 1 went in spot 1 or not, so the probability needs to account for both cases.  There is a difference between  *marginal/unconditional* probability and *conditional* probability, which we will discuss in more detail LATER. 
+
+When a problem asks "find the expected number of..." it's a good idea to try using indicator random variables and linearity of expected value. The following is a general statement of the strategy we used in the matching problem.
+
+Let $A_1, A_2, \ldots, A_n$ be a collection of $n$ events.  Suppose event $i$ occurs with marginal probability $p_i=\IP(A_i)$. Let $N = \ind_{A_i} + \ind_{A_2} + \cdots + \ind_{A_n}$ be the random variable which counts the number of the events in the collection which occur.  Then the expected number of events that occur is the sum of the event probabilities.
+\[
+\E(N) = \sum_{i=1}^n p_i.
+\]
+If each event has the same probability, $p_i \equiv p$, then $\E(N)$ is equal to $np$.
+These formulas for the expected number of events are true regardless of whether there is any association between the events (that is, regardless of whether the events are independent.)
+
+
+```{example}
+
+Kids wake up during the night. On any given night,
+
+- the probability that Paul wakes up is 1/14
+- the probability that Bob wakes up is 2/7
+- the probability that Tommy wakes up is 1/30
+- the probability that Chris wakes up is 1/2
+- the probability that Slim wakes up is 6/7.
+
+If any kid wakes up they're likely to wake other kids up too.  Find the expected number of kids that wake up on any given night.
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+Simply add the probabilities: $1/14 + 2/7 + 1/30+ 1/2 + 6/7=1.75$.  The expected number of kids to wake up in a night is 1.75.  Over many nights, on average 1.75 kids wake up per night.
+
+The fact that kids wake each other up implies that the events are not independent, but this is irrelevant here. Because of linearity of expected value, we only need to know the *marginal* probability^[If there were too much dependence, then the provided marginal probabilities might not be possible.  For example if Slim always wakes up all the other kids, then the other marginal probabilities would have to be at least 6/7.  So a specified set of marginal probabilities puts some limits on how much dependence there can be.  This idea is similar to Example \@ref(exm:cats-dogs).] of each event (provided) in order to determine the expected number of events occur.  (The *distribution* of the number of kids that wake up would depend the relationships between the events, but not the long run average value.)
+
+```
+
+When computing the expected value of a random variable, consider if it can be written as a sum of component random variables.  If so, then using linearity of expected value is usually easier than first finding the distribution of the random variable.  Of course, the expected value is only one feature of the distribution of a random variable.
+
+### Variance of linear combinations of random variables
+
+```{example}
+Consider a random variable $X$ with $\Var(X)=1$.  What is $\Var(2X)$?
+
+- Walt says: $\Var(2X) = 2^2\Var(X) = 4(1) = 4$.
+- Jesse says: $\Var(2X) = \Var(X+X) = \Var(X)+\Var(X) = 1+1=2$.
+
+Who is correct?  Why is the other wrong?
+  
+```
+
+```{asis, fold.chunk = TRUE}
+
+Walt is correctly using properties of linear rescaling.  Jesse is assuming that a variance of a sum is the sum of the variances, which is not true in general.  We'll see why below.
+
+```
+
+When two variables are correlated the degree of the association will affect the variability of linear combinations of the two variables.
+
+
+
+```{example}
+
+Recall the Colab activity where you simulated pairs of SAT Math ($X$) and Reading ($Y$) scores from Bivariate Normal distributions with different correlations. (See also Section \@ref(sec-example-sat-both).) You considered the distribution of the sum $T=X+Y$ and difference $D= X - Y$.  Did changing the correction affect the *variance* of $T$? Of $D$?
+
+``` 
+
+
+```{asis, fold.chunk = TRUE}
+Yes. For the sum $X+Y$, variance was largest when $\Corr(X, Y)$ was near 1 and smallest when $\Corr(X, Y)$ was near $-1$. For the difference $X+Y$, variance was smallest when $\Corr(X, Y)$ was near 1 and largest when $\Corr(X, Y)$ was near $-1$. 
+
+```
+
+
+**Variance of sums and differences of random variables.**
+\begin{align*}
+\Var(X + Y) & = \Var(X) + \Var(Y) + 2\Cov(X, Y)\\
+\Var(X - Y) & = \Var(X) + \Var(Y) - 2\Cov(X, Y)
+\end{align*}
+
+```{example}
+
+Assume that SAT Math ($X$) and Reading ($Y$) scores follow a Bivariate Normal distribution, Math  scores have mean 527 and standard deviation 107, and Reading scores have mean 533 and standard deviation 100.  Compute $\Var(X + Y)$ and $\SD(X+Y)$ for each of the following correlations.
+
+```
+
+1. $\Corr(X, Y) = 0.77$
+1. $\Corr(X, Y) = 0.40$
+1. $\Corr(X, Y) = 0$
+1. $\Corr(X, Y) = -0.77$
+
+
+```{asis, fold.chunk = TRUE}
+
+1. $\Cov(X, Y) = \Corr(X, Y)\SD(X)\SD(Y) = (0.77)(107)(100) = 8239$. $\Var(X + Y) = \Var(X) + \Var(Y) + 2\Cov(X, Y) = 107^2 + 100^2 + 2(8239)=37927$.  $\SD(X+Y)=\sqrt{37927} = 195$. 
+1. $\Var(X + Y) = 107^2 + 100^2 + 2(0.40)(107)(100)=30009$.  $\SD(X+Y)= 173$.
+1. $\Var(X + Y) = 107^2 + 100^2 + 0=21449$.  $\SD(X+Y)= 146$.
+1. $\Var(X + Y) = 107^2 + 100^2 + 2(-0.77)(107)(100)=4971$.  $\SD(X+Y)= 70$.
+
+
+```
+
+
+If $X$ and $Y$ have a positive correlation: Large values of $X$ are associated with large values of $Y$ so the sum is really large, and small values of $X$ are associated with small values of $Y$ so the sum is really small. That is, the sum exhibits more variability than it would if the values of $X$ and $Y$ were uncorrelated.
+
+If $X$ and $Y$ have a negative correlation: Large values of $X$ are associated with small values of $Y$ so the sum is moderate, and small values of $X$ are associated with large values of $Y$ so the sum is moderate. That is, the sum exhibits less variability than it would if the values of $X$ and $Y$ were uncorrelated.
+
+
+
+```{example}
+Continuing the previous example. Compute $\Var(X - Y)$ and $\SD(X-Y)$ for each of the following correlations.
+
+```
+
+1. $\Corr(X, Y) = 0.77$
+1. $\Corr(X, Y) = 0.40$
+1. $\Corr(X, Y) = 0$
+1. $\Corr(X, Y) = -0.77$
+
+
+```{asis, fold.chunk = TRUE}
+
+1. $\Cov(X, Y) = \Corr(X, Y)\SD(X)\SD(Y) = (0.77)(107)(100) = 8239$. $\Var(X - Y) = \Var(X) + \Var(Y) - 2\Cov(X, Y) = 107^2 + 100^2 - 2(8239)=4971$.  $\SD(X-Y)=\sqrt{4971} = 70$. 
+1. $\Var(X - Y) = 107^2 + 100^2 - 2(0.40)(107)(100)=12889$.  $\SD(X-Y)= 114$.
+1. $\Var(X - Y) = 107^2 + 100^2 - 0=21449$.  $\SD(X-Y)= 146$.
+1. $\Var(X - Y) = 107^2 + 100^2 - 2(-0.77)(107)(100)=37927$.  $\SD(X-Y)= 195$.
+
+
+```
+
+If $X$ and $Y$ have a positive correlation:
+Large values of $X$ are associated with large values of $Y$ so the difference is small, and small values of $X$ are associated with small values of $Y$ so the difference is small. That is, the difference exhibits less variability than it would if the values of $X$ and $Y$ were uncorrelated.
+
+
+If $X$ and $Y$ have a negative correlation:
+Large values of $X$ are associated with small values of $Y$ so the difference is large and positive, and small values of $X$ are associated with large values of $Y$ so the difference is large and negative. That is, the difference exhibits more variability than it would if the values of $X$ and $Y$ were uncorrelated.
+
+
+
+
+The variance of the sum is the sum of the variances if and only if $X$ and $Y$ are uncorrelated.
+\begin{align*}
+\Var(X+Y)  & = \Var(X) + \Var(Y)\qquad \text{if $X, Y$ are uncorrelated}\\
+\Var(X-Y)  & = \Var(X) + \Var(Y)\qquad \text{if $X, Y$ are uncorrelated}
+\end{align*}
+ 
+The variance of the difference of uncorrelated random variables is the *sum* of the variances.  Think just about the range of values.  Suppose SAT Math and Reading scores are each uniformly distributed on the interval [200, 800].  Then the sum takes values in [400, 1600], an interval of length 1200.  The difference takes values in $[-600, 600]$, also an interval of length 1200.
+
+<!-- We can use the formulas for variances of sums and differences to show that $-1 \le \Corr(X, Y) \le 1$.  Consider two random variables $X$ and $Y$ with $\Var(X) \ge \Var(Y)$.  Rearrange the formula for the variance of a sum to show -->
+<!-- \begin{align*} -->
+<!-- \Cov(X, Y) & = 0.5 (\Var(X + Y) - \Var(X) - \Var(Y))\\ -->
+<!-- & \le 0.5 (- \Var(X) - \Var(Y))\\ -->
+<!-- & \le 0.5 (-) -->
+<!-- \end{align*} -->
+
+### Bilinearity of covariance
+
+The formulas for variance of sums and differences are application of several more general properties of covariance. Let $X,Y,U,V$ be random variables and $a,b,c,d$ be non-random constants.
+
+**Properties of covariance.**
+\begin{align*}
+\Cov(X, X) &= \Var(X)\qquad\qquad\\
+\Cov(X, Y) & = \Cov(Y, X)\\
+\Cov(X, c) & = 0 \\
+\Cov(aX+b, cY+d) & = ac\Cov(X,Y)\\
+\Cov(X+Y,\; U+V) & = \Cov(X, U)+\Cov(X, V) + \Cov(Y, U) + \Cov(Y, V)
+\end{align*}
+
+
+- The variance of a random variable is the covariance of the random variable with itself.
+- Non-random constants don't vary, so they can't co-vary.
+- Adding non-random constants shifts the center of the joint distribution but does not affect variability.
+- Multiplying by non-random constants changes the scale and hence changes the degree of variability.  
+- The last property is like a "FOIL" (first, outer, inner, last) property. 
+
+The last two properties together are called **bilinearity of covariance.** These properties extend naturally to sums involving more than two random variables.  To compute the covariance between two sums of random variables, compute the covariance between each component random variable in the first sum and each component random variable in the second sum, and sum the covariances of the components.
+
+
+```{example}
+
+Let $X$ be the number of two-point field goals a basketball player makes in a game, $Y$ the number of three point field goals made, and $Z$ the number of free throws made (worth one point each).  Assume $X$, $Y$, $Z$ have standard deviations of 2.5, 3.7, 1.8, respectively, and $\Corr(X,Y) = 0.1$, $\Corr(X, Z) = 0.3$, $\Corr(Y,Z) = -0.5$.  
+
+```
+
+1. Find the standard deviation of the number of  fields goals in a game (not including free throws)
+1. Find the standard deviation of total points scored on fields goals in a game (not including free throws)
+1. Find the standard deviation of total points scored in a game.
+
+
+```{asis, fold.chunk = TRUE}
+
+1. We want $\SD(X+Y)$, so we first find $\Var(X + Y)$.  We could use the formula for a variance of sums, but we'll use bilinearity of covariance instead to illustrate how it works, and to motivate part 3.
+    \begin{align*}
+    \Var(X + Y) & = \Cov(X + Y, X + Y)\\
+    & = \Cov(X, X) + \Cov(X, Y) + \Cov(Y, X) + \Cov(Y, Y)\\
+    & = (2.5^2) + (0.1)(2.5)(3.7) + (0.1)(3.7)(2.5) + 3.7^2 = 21.49
+    \end{align*}
+    So $\SD(X + Y) = 4.67$.
+1. We want $\SD(2X+3Y)$, so we first find $\Var(2X + 3Y)$.  We'll use bilinearity of covariance again.
+    \begin{align*}
+    \Var(2X + 3Y) & = \Cov(2X + 3Y, 2X + 3Y)\\
+    & = \Cov(2X, 2X) + \Cov(2X, 3Y) + \Cov(3Y, 2X) + \Cov(3Y, 3Y)\\
+    & = 2^2\Cov(X, X) + (2)(3)\Cov(X, Y) + (3)(2)\Cov(Y, X)+ (3)(3)\Cov(Y, Y)\\
+    & = (2^2)(2.5^2) + (2)(3)(0.1)(2.5)(3.7) + (3)(2)(0.1)(3.7)(2.5) + (3^2)(3.7^2) = 159.31
+    \end{align*}
+    So $\SD(2X + 3Y) = 12.62$.
+1. We want $\SD(2X+3Y + Z)$, so we first find $\Var(2X + 3Y + Z)$.  We'll use bilinearity of covariance again.  Notice how we take the covariance of each term in the sum with each of the others.
+    \begin{align*}
+    \Var(2X + 3Y + Z) & = \Cov(2X + 3Y + Z, 2X + 3Y + Z)\\
+    & = \Cov(2X, 2X) + \Cov(2X, 3Y) + \Cov(2X, Z) \\
+    & \quad + \Cov(3Y, 2X) + \Cov(3Y, 3Y) + \Cov(3Y, Z)\\
+    & \quad + \Cov(Z, 2X) + \Cov(Z, 3Y) + \Cov(Z, Z)\\
+    & = 2^2\Cov(X, X) + (2)(3)\Cov(X, Y) + (2)(1)\Cov(X, Z)\\
+    & \quad + (3)(2)\Cov(Y, X)+ (3)(3)\Cov(Y, Y) + (3)(1)\Cov(Y, Z)\\
+    & \quad + (1)(2)\Cov(Z, X)+ (1)(3)\Cov(Z, Y) + 1^2\Cov(Z, Z)\\
+    & = (2^2)(2.5^2) + (2)(3)(0.1)(2.5)(3.7) + (2)(1)(0.3)(2.5)(1.8)\\
+    & \quad + (3)(2)(0.1)(3.7)(2.5) + (3^2)(3.7^2) + (3)(1)(-0.5)(3.7)(1.8)\\
+    & \quad + (1)(2)(0.3)(1.8)(2.5) + (1)(3)(-0.5)(1.8)(3.7) + 1^2(1.8^2)= 114.72
+    \end{align*}
+    So $\SD(2X + 3Y + Z) = 12.16$.
+
+
+```
+
+
+
+<!-- ## Other moments -->
+
+
+
+<!-- Expected values and variance are summary characteristics of a -->
+<!-- distribution. While these are typically the two most important -->
+<!-- characteristics, there are other summary characteristics like "skewness" -->
+<!-- or "kurtosis". Higher order characteristics of a distribution are -->
+<!-- defined via "moments". -->
+
+<!-- The $k$**th moment** of $X$ is $\textrm{E}(X^k$). -->
+
+<!-- The $k$th moment of a RV exists as long as $\textrm{E}(|X|^k)<\infty$. -->
+
+<!-- Whether or not a certain moment exists depends on how quickly the tails -->
+<!-- of the distribution go to 0. (The tails of a distribution refer to the -->
+<!-- probabilities of values large in magnitude.) -->
+
+<!-- If the $k$th moment of a distribution exists, then the $j$th moment -->
+<!-- exists for all $j<k$. -->
+
+<!-- The third moment is related to "skewness", and the fourth moment is -->
+<!-- related to "kurtosis". -->
+
+<!-- Expected value, variance, and moments are summary characteristics of a -->
+<!-- distribution, so if two random variables have the same distribution then -->
+<!-- they have all the same summary characteristics. Conversely, if for any -->
+<!-- summary characteristic you pick the random variables yield the same -->
+<!-- value, it seems reasonable that they must share the same distribution. -->
+<!-- Unfortunately, it's not enough to just compare (polynomial) moments. -->
+
+<!-- Random variables $X$ and $Y$ have the same distribution if and only if -->
+<!-- $\textrm{E}[g(X)]=\textrm{E}[g(Y)]$ for all functions $g$ (for which the -->
+<!-- expected values are defined). -->
+
+<!-- ```{theorem, samedist-thm} -->
+<!-- Random variables $X$ and $Y$ have the same distribution if and only if $\E[g(X)]=\E[g(Y)]$ for all functions $g$ (for which the expected values are defined). -->
+<!-- ``` -->
+
+<!-- Expected values are summary characteristics of a distribution, so if two random variables have the same distribution then they have all the same summary characteristics.  Conversely, if for any summary characteristic you pick the random variables yield the same value, it seems reasonable that they must share the same distribution. -->
+
+<!-- ### Infinite or undefined expected values -->
+
+<!-- There are some random variables for which $\E(X)=\infty$. There are also some random variables for which $\E(X)$ is undefined. -->
+
+
+
+<!-- Technically, we haven't provided a general definition of expected value yet.  For discrete RVs, expected value is defined naturally as the probability-weighted average value. -->
+<!-- \[ -->
+<!-- \E(X) = \sum_x x \IP(X=x) -->
+<!-- \] -->
+<!-- The analogous definition for continuous RVs is: If $X$ is a continuous RV with probability density function $f_X$ -->
+<!-- \[ -->
+<!-- \E(X) = \int_{-\infty}^{\infty} x f_X(x) dx -->
+<!-- \] -->
+<!-- We will study continuous RVs in more detail later. -->
+
+<!-- The above formulas are the ones generally used to compute expected values.  There is an alternative formula --- \emph{the tail probability formula for expected value} --- that works for both discrete and continuous RVs, provided they do not take negative values. -->
+<!-- \[ -->
+<!-- \text{If $X \ge 0$ then } \E(X) = \int_0^\infty \IP(X\ge x)\, dx -->
+<!-- \] -->
+<!-- The above suggests that it is possible to have RVs with $\E(X)=\infty$ if the tail probabilities $\IP(X\ge x)$ do not converge to 0 fast enough in order for the integral to converge. -->
+
+<!-- If $X$ can take negative values, it can be written as the difference of its positive and negative parts\footnote{If $x$ is a number, its positive part is $x^{+} = \max(x, 0)$ and its negative part is $x^{-} = -\min(x, 0)$.  For example, if $x=3$ then $x^{+}=3$ and $x^{-}=0$; if $x=-2$ then $x^{+}=0$ and $x^{-}=2$. Note that $x^{-}\ge0$.  Then $x=x^{+}-x^{-}$ and $|x| = x^{+}+x^{-}$. }, $X = X^{+} - X^{-}$.  Since both $X^{+}\ge0$ and $X^{-}\ge 0$, their expected values are given by the tail probability formula.  Then $\E(X)$ is defined to be $\E(X^{+})-\E(X^{-})$, provided that at least one of $\E(X^{+})$ and $\E(X^{-})$ is finite.  If both $\E(X^{+})=\infty$ and $\E(X^{-})=\infty$ then $\E(X)$ is undefined  (since $\infty - \infty$ is undefined.) The most commonly used example for a situation where the expected value is undefined is the Cauchy distribution (a.k.a.\ the $t$-distribution with one degree of freedom). -->
+
+
+

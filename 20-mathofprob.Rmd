@@ -1425,7 +1425,7 @@ We'll respond to Donny using tomorrow's weather as an example, with $A$ represen
 
 ```
 
-### Indicator random variables and counting
+### Indicator random variables and counting {#indicators}
 
 Random variables that only take two possible values, 0 and 1, have a special name.
 
