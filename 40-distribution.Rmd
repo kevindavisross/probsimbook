@@ -1,23 +1,23 @@
 
 # Distributions {#distchap}
 
-\newcommand{\IP}{\textrm{P}}
-\newcommand{\IQ}{\textrm{Q}}
-\newcommand{\E}{\textrm{E}}
-\newcommand{\Var}{\textrm{Var}}
-\newcommand{\SD}{\textrm{SD}}
-\newcommand{\Cov}{\textrm{Cov}}
-\newcommand{\Corr}{\textrm{Corr}}
-\newcommand{\Xbar}{\bar{X}}
-\newcommand{\Ybar}{\bar{X}}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\ybar}{\bar{y}}
-\newcommand{\ind}{\textrm{I}}
-\newcommand{\dd}{\text{DDWDDD}}
-\newcommand{\ep}{\epsilon}
-\newcommand{\reals}{\mathbb{R}}
+<!-- \newcommand{\IP}{\textrm{P}} -->
+<!-- \newcommand{\IQ}{\textrm{Q}} -->
+<!-- \newcommand{\E}{\textrm{E}} -->
+<!-- \newcommand{\Var}{\textrm{Var}} -->
+<!-- \newcommand{\SD}{\textrm{SD}} -->
+<!-- \newcommand{\Cov}{\textrm{Cov}} -->
+<!-- \newcommand{\Corr}{\textrm{Corr}} -->
+<!-- \newcommand{\Xbar}{\bar{X}} -->
+<!-- \newcommand{\Ybar}{\bar{X}} -->
+<!-- \newcommand{\xbar}{\bar{x}} -->
+<!-- \newcommand{\ybar}{\bar{y}} -->
+<!-- \newcommand{\ind}{\textrm{I}} -->
+<!-- \newcommand{\dd}{\text{DDWDDD}} -->
+<!-- \newcommand{\ep}{\epsilon} -->
+<!-- \newcommand{\reals}{\mathbb{R}} -->
 
-Random variables can potentially take many different values, usually with some values or intervals of values more likely than others.  In the previous chapter, we used simulation to investigate the pattern of variability of random variables.  Plots and summary statistics like the ones encountered in the previous chapter summarize distributions of random variables.
+Random variables can potentially take many different values, usually with some values or intervals of values more likely than others.  We have used simulation to investigate the pattern of variability of random variables.  Plots and summary statistics like the ones encountered in the previous chapters summarize distributions of random variables.
 
 The **(probability) distribution** of a random variable specifies the possible values
 of the random variable and a way of determining corresponding probabilities.  We will see several ways to describe distributions, some of which depend on the number and types of the random variables under investigation.
@@ -25,7 +25,7 @@ of the random variable and a way of determining corresponding probabilities.  We
 Commonly encountered random variables can be classified as discrete or
 continuous (or a mixture of the two^[There is another type of weird random variable which has a "singular" distribution, like the [Cantor distribution](https://en.wikipedia.org/wiki/Cantor_distribution), but we're counting these random variables as not commonly encountered.]).
 
-- A **discrete** radnom variable can take on only countably many isolated points on a
+- A **discrete** random variable can take on only countably many isolated points on a
 number line. These are often counting type variables.  Note that "countably many" includes  the case of countably infinite, such as $\{0, 1, 2, \ldots\}$.
 - A **continuous** random variable can take any value within some uncountable interval, such as $[0, 1]$, $[0,\infty)$, or $(-\infty, \infty)$. These are
 often measurement type variables.
@@ -37,7 +37,7 @@ We will see a few ways of specifying a distribution.
 
 - A well labeled *plot*
 - A *table* of possible values and corresponding probabilities for discrete random variables.  This could be a two-way table for the joint distribution of two discrete random variables. 
-- A *probability mass function* for discrete random variables or a *probability density function* for continuous random variables which maps possible values $x$ to their respective probability (for discrete) or density (for continuous).
+- A *probability mass function* for discrete random variables or a *probability density function* for continuous random variables which maps possible values $x$ --- or $(x, y)$ pairs, etc --- to their respective probability (for discrete) or density (for continuous).
 - A *cumulative distribution function*, which provides all the percentiles of the distribution
 - By *name, including values of relevant parameters*, e.g., "Exponential(1)", "Normal(500, 100)", "Binomial(5, 0.3)", "BivariateNormal(500, 500, 100, 100, 0.8)". Some probabilistic situations are so common that the corresponding distributions have special names.  Always be sure to specify values of relevant parameters, e.g., "Normal(500, 100) distribution" rather than just "Normal distribution".  Note that different named distributions have different identifying parameters. For example, the parameters 0 and 1 mean something different for the  Uniform(0, 1) distribution than for the Normal(0, 1) distribution.
 
@@ -52,7 +52,7 @@ Heed the title.  A random variable measures a numerical quantity which depends o
 A distribution is determined by:
 
 - The underlying probability measure $\IP$, which represents all the assumptions about the random phenomenon.
-- The random $X$ itself, that is, the function which maps sample space outcomes to numbers.
+- The random variable $X$ itself, that is, the function which maps sample space outcomes to numbers.
 
 Changing either the probability measure or the random variable itself can change the distribution of the random variable. For example, consider the sample space of two rolls of a fair four-sided die.  In each of the following scenarios, the random variable $X$ has a different distribution.
 
@@ -113,12 +113,12 @@ Each of these situations involves a different sample space of outcomes (coins, d
 - There are 3 "trials" (3 flips, 3 rolls, 3 babies)
 - Each trial can be classified as "success" or not (Heads, Tails, even, boy)
 - Each trial is equally likely to result in success or not (fair coin, fair die, assuming boys and girls are equally likely)
-- The trials are independent (more on this LATER)
+- The trials are independent (more on this later)
 - The random variable counts the number of successes in the 3 trials
 
-These examples illustrate that knowledge that a random variable has a specific distribution (e.g., Binomial(3, 0.5)) does not necessarily convey any information about the underlying outcomes or random variable (function) being measured.  (We will study Binomial distributions in more detail LATER.) 
+These examples illustrate that knowledge that a random variable has a specific distribution (e.g., Binomial(3, 0.5)) does not necessarily convey any information about the underlying outcomes or random variable (function) being measured.  (We will study Binomial distributions in more detail later.) 
 
-The scenarios involving $W, X, Y, Z$ illustrate that two random variables do not have to be defined on the same sample space in order to determine if they have the same distribution.  This is in contrast to computing quantities like $\IP(X=Y)$: $\{X=Y\}$ is an event which cannot be investigated unless $X$ and $Y$ are defined for the same outcomes.  For example, you could not estimate the probability that a student has the same score on both SAT Math and Reading exams unless you measured pairs of scores for each student in a sample.  However, you could collect SAT Math scores for one set of students to estimate the marginal distribution of Math scores, while collecting Reading scores for a separate set of students to estimate the marginal distribution of Reading scores.
+The scenarios involving $W, X, Y, Z$ illustrate that two random variables do not have to be defined on the same sample space in order to determine if they have the same distribution.  This is in contrast to computing quantities like $\IP(X=Y)$: $\{X=Y\}$ is an event which cannot be investigated unless $X$ and $Y$ are defined for the same outcomes.  For example, you could not estimate the probability that a student has the same score on both SAT Math and Reading exams unless you measured pairs of scores for each student in a sample.  However, you could collect SAT Math scores for one set of students to estimate the marginal distribution of Math scores, and collect Reading scores for a separate set of students to estimate the marginal distribution of Reading scores.
 
 A random variable can be defined explicitly as a function on a probability space, or implicitly through its distribution.
 The distribution of a random variable is often assumed or specified directly,
@@ -216,14 +216,13 @@ to Example \@ref(exm:uniform-same-dist)
 1. No, the two variables do not have the same possible values.  The shapes would be similar though; $1+U_1$ has a Uniform(1, 2) distribution.
 1. No, a non-linear rescaling generally changes the shape of the distribution.  For example, $\IP(U_1\le0.49) = 0.49$, but $\IP(U_1^2 \le 0.49) = \IP(U_1 \le 0.7) = 0.7$  Squaring a number in [0, 1] makes the number even smaller, so the distribution of $U_1^2$ places higher density on smaller values than $U_1$ does.
 1. No, $U_1+U_2$ has a triangular shaped distribution on (0, 2) with a peak at 1. (The shape is similar to that of the distribution of $X$ in Section \@ref(sim-transform-joint), but the possible values are (0, 2) rather than (2, 8).) But $2U_1$ has a Uniform(0, 2) distribution.  Do not confuse a random variable with its distribution.  Just because $U_1$ and $U_2$ have the same distribution, you cannot replace $U_2$ with $U_1$ in transformations. The random variable $U_1+U_2$ is not the same random variable as $2U_1$; spinning a spinner and adding the spins will not necessarily produce the same value as spinner a spinner once and multiplying the value by 2.
-1. Yes, just like $U_1$ and $1-U_1$ have the same distribution.
+1. Yes, just like $U_1$ and $1-U_2$ have the same distribution.
 1. No. The marginal distributions are the same, but the joint distribution of $(U_1, 1-U_1)$ places all density along a line, while the joint density of $(U_1, 1-U_2)$ is distributed over the whole two-dimensional region $[0, 1]\times[0,1]$.
 
 ```
 
 
-Do not confuse a random variable with its distribution. This is probably getting repetitive by now, but we're emphasizing this point for a reason.  Many common mistakes in probability problems involve confusing a random variable with its distribution.  For example, we will soon that if a continuous random variable $X$ has probability density function $f(x)$, then the probability density function of $X^2$ is NOT $f(x^2)$.  Incorrectly claiming that the probability density function of $X^2$ is $f(x^2)$, which is a very common mistake, essentially involves confusing a random variable with its distribution.  Understanding the fundamental difference between a random variable and its distribution will help you avoid many common mistakes, especially in problems involving a lot of calculus or mathematical symbols.
-
+Do not confuse a random variable with its distribution. This is probably getting repetitive by now, but we're emphasizing this point for a reason.  Many common mistakes in probability problems involve confusing a random variable with its distribution.  For example, we will soon that if a continuous random variable $X$ has probability density function $f(x)$, then the probability density function of $X^2$ is NOT $f(x^2)$ nor $(f(x))^2$.  Mistakes like these, which are very common, essentially involve confusing a random variable with its distribution.  Understanding the fundamental difference between a random variable and its distribution will help you avoid many common mistakes, especially in problems involving a lot of calculus or mathematical symbols.
 
 
 
@@ -279,6 +278,10 @@ p_X(x) & >0 \quad \text{for at most countably many $x$ (the possible values, i.e
 \end{align*}
 
 The countable set of possible values of a discrete random variable $X$, $\{x: \IP(X=x)>0\}$, is called its **support**.
+
+The pmf of a discrete random variable provides the probability of "equal to" events: $\IP(X = x)$.  Probabilities for other general events, e.g., $\IP(X \le x)$ can be obtained by summing the pmf over the range of values of interest.
+
+
 
 We have seen that a distribution of a discrete random variable can be represented in a table, with a corresponding spinner.  Think of a pmf as providing a compact formula for constructing the table/spinner.
 
@@ -349,7 +352,7 @@ to Example \@ref(exm:dd-pmf-label)
 ```{asis, fold.chunk = TRUE}
 
 1. Donny's solution is incomplete; he forgot to specify the possible values. It's possible that someone who sees Donny's expression would think that $p_Y(2.5)=4/16$.  You don't necessarily always need to write "0 otherwise", but do always provide the possible values.
-1. Donny's answer is actually correct, though maybe a little confusing.  The important place to put a $Y$ is the subscript of $p$: $p_Y$ identifies this function as the pmf of the random variable $Y$, as opposed to any other random variable that might be of interest.  The argument of $p_Y$ is just a dummy variable that defines the function.  As an analogy, $g(u)=u^2$ is the same function as $g(x)=x^2$; it doesn't matter which symbol defines the argument.  Now, it is convenient to represent the argument of the pmf of $Y$ as $y$, and the argument of the pmf of $X$ as $x$, but this is not necessary.  Donny's answer does provide a way of constructing Table \@ref(tab:dice-max-dist-table). 
+1. Donny's answer is actually correct, though maybe a little confusing.  The important place to put a $Y$ is the subscript of $p$: $p_Y$ identifies this function as the pmf of the random variable $Y$, as opposed to any other random variable that might be of interest.  The argument of $p_Y$ is just a dummy variable that defines the function.  As an analogy, $g(u)=u^2$ is the same function as $g(x)=x^2$; it doesn't matter which symbol defines the argument.  It is convenient to represent the argument of the pmf of $Y$ as $y$, and the argument of the pmf of $X$ as $x$, but this is not necessary.  Donny's answer does provide a way of constructing Table \@ref(tab:dice-max-dist-table). 
 
 ```
 
@@ -363,7 +366,10 @@ When there are multiple discrete random variables of interest, we usually identi
 <!-- For example^[Recall factorial notation: if $k$ is a positive integer, then $k!=k(k-1)(k-2)\cdots (2)(1)$, e.g., $5! = 5(4)(3)(2)(1) = 120$.  Remember, $0!=1$ by definition.], $\IP(X=2) = \frac{3!}{2!(3-2)!}(0.5)^{2}(0.5)^{3-2}=3/8$. The above formula is an example of a *probability mass function*. -->
 
 
+### Benford's law
+
 We often specify the distribution of a random variable directly by providing its pmf.
+Certain common distributions have special names.
 
 ```{example benford}
 
@@ -418,8 +424,7 @@ knitr::include_graphics("_graphics/spinner-benford-all.png")
 
 
 
-
-The pmf of a discrete random variable provides the probability of "equal to" events: $\IP(X = x)$.  Probabilities for other general events, e.g., $\IP(X \le x)$ can be obtained by summing the pmf over the range of values of interest.
+### Poisson distributions
 
 
 Some probability mass functions assign nonzero probability to countably infinitely many values.
@@ -439,7 +444,7 @@ e^{-2.3} \frac{2.3^x}{x!}, & x = 0, 1, 2, \ldots\\
 \end{cases}
 \]
 
-This is known as the Poisson(2.3) distribution.  (We will cover Poisson distributions in more detail LATER.)
+This is known as the Poisson(2.3) distribution.  (We will cover Poisson distributions in more detail later.)
 
 ```
 
@@ -448,7 +453,8 @@ This is known as the Poisson(2.3) distribution.  (We will cover Poisson distribu
 1. Construct a table and spinner corresponding to the distribution of $X$.
 1. Find $\IP(X \le 13)$, and interpret the value as a long run relative frequency.  ([The most home runs ever hit in a baseball game is 13](https://www.mlb.com/news/d-backs-and-phillies-set-mlb-home-run-record).)
 1. Find and interpret the ratio of $\IP(X = 5)$ to $\IP(X = 3)$.  Does the value $e^{-2.3}$ affect this ratio?
-
+1. Use simulation to find the long run average value of $X$, and interpret this value.
+1. Use simulation to find the variance and standard deviation of $X$.
 
 ```{solution homerun-poisson-sol}
 to Example \@ref(exm:homerun-poisson)
@@ -462,18 +468,19 @@ to Example \@ref(exm:homerun-poisson)
     \]
 1.  Just plug $x=3$ into the pmf: $\IP(X=3)=p_X(3)=e^{-2.3}2.3^3/3! = 0.203$.  In the long run, 20.3% of baseball games have 3 home runs. 
 1. See below.  Plug each value of $x$ into the pmf.  For example, $\IP(X = 5) =p_X(5)=e^{-2.3}2.3^5/5! = 0.054$.
-1. Just sum the values of the pmf corresponding to the values $x = 0, 1, \ldots, 13$: $\IP(X \le 13) = \sum_{x=0}^{10} p_X(x)=0.9999998$.  There isn't any shorter way to do it. In the long run, almost all MLB games have at most 13 home runs. Even though the pmf assigns nonzero probability to all values 0, 1, 2, $\ldots$, the probability that $X$ takes a value greater than 13 is extremely small.
+1. Just sum the values of the pmf corresponding to the values $x = 0, 1, \ldots, 13$: $\IP(X \le 13) = \sum_{x=0}^{13} p_X(x)=0.9999998$.  There isn't any shorter way to do it. In the long run, almost all MLB games have at most 13 home runs. Even though the pmf assigns nonzero probability to all values 0, 1, 2, $\ldots$, the probability that $X$ takes a value greater than 13 is extremely small.
 1. The ratio is
     \[
     \frac{\IP(X=3)}{\IP(X=5)} = \frac{p_X(3)}{p_X(5)} = \frac{e^{-2.3}2.3^3/3!}{e^{-2.3}2.3^5/5!} = \frac{2.3^3/3!}{2.3^5/5!} = 3.78
     \]
-    Games with 3 home runs occur about 3.8 times more frequently than games with 5 home runs.  The constant $e^{-2.3}$ does not affect this ratio; see below for more discussion.
-
+    Games with 3 home runs occur about 3.8 times more frequently than games with 5 home runs.  The constant $e^{-2.3}$ does not affect this ratio; see below for further discussion.
+1. The simulation results suggest that the long run average value of $X$ is equal to the parameter 2.3. Over many baseball games there are a total of 2.3 home runs per game on average.
+1. The simulation results also suggest that variance of $X$ is equal to 2.3, and the standard deviation of $X$ is equal to $\sqrt{2.3}\approx 1.52$.
 
 ```
 
 
-In Symbulate we can define a random variable with a Poisson distribution and simulate values. 
+In Symbulate we can define a random variable with a Poisson(2.3) distribution and simulate values. 
 
 
 ```{python}
@@ -493,11 +500,19 @@ plt.show()
 
 ```
 
+The simulated approximate long run average value and variance are both about equal to the parameter 2.3.
+
+```{python}
+
+x.mean(), x.var(), x.sd()
+```
+
+
 The Symbulate `pmf` method can be used to compute the pmf for named distributions.  The following compares the simulated relative frequency of $\{X = 3\}$ to the theoretical probability $p_X(3)$.
 
 ```{python}
 
-x.count_eq(3) / 10000, Poisson(2.3).pmf(3)
+x.count_eq(3) / x.count(), Poisson(2.3).pmf(3)
 
 ```
 
@@ -555,9 +570,9 @@ p_X(x) \propto
 \end{cases}
 \]
 
-The symbol $\propto$ means "is proportional to".  This specification is enough to determine the shape of the distribution and relative likelihoods.  For example, the above is enough to determine that the probability that $X$ takes the value 3 is 3.78 times greater than the probability that $X$ takes the value 5. Once we have the shape of the distribution, we can "renormalize" by multiplying all values by a constant, in this case $e^{-2.3}$, so that the values sum to 1. We saw a similar idea in Example \@ref(exm:worldseries-proportional).  The constant is whatever it needs to be so that the values sum to 1; what's important is the relative shape.  The "is proportional to" specification defines the shape of the plot; the constant just rescales the values on the frequency axis.
+The symbol $\propto$ means "is proportional to".  This specification is enough to determine the shape of the distribution and relative likelihoods.  For example, the above is enough to determine that the probability that $X$ takes the value 3 is 3.78 times greater than the probability that $X$ takes the value 5. Once we have the shape of the distribution, we can "renormalize" by multiplying all values by a constant, in this case $e^{-2.3}$, so that the values sum to 1. We saw a similar idea in Example \@ref(exm:worldseries-proportional).  The constant is whatever it needs to be so that the values sum to 1; what's important is the relative shape.  The "is proportional to" specification defines the shape of the plot; the constant just rescales the values on the probability axis.
 
-Why might we assume this particular Poisson(2.3) distribution for the number of home runs per game?  We'll discuss this point in more detail LATER.  For now we'll just present Figure \@ref(fig:poisson-hr-data) which displays the actual distribution of home runs over the 2431 games in the 2018 MLB season.  The spikes represent the observed relative frequencies; the connecting dots represent the theoretical Poisson(2.3) pmf.  We can see that the Poisson(2.3) distribution models the data reasonably well.
+Why might we assume this particular Poisson(2.3) distribution for the number of home runs per game?  We'll discuss this point in more detail later.  For now we'll just present Figure \@ref(fig:poisson-hr-data) which displays the actual distribution of home runs over the 2431 games in the 2018 MLB season.  The spikes represent the observed relative frequencies; the connecting dots represent the theoretical Poisson(2.3) pmf.  We can see that the Poisson(2.3) distribution models the data reasonably well.
 
 
 (ref:cap-poisson-hr-data) Data on home runs per game in the 2018 MLB season, compared with the Poisson(2.3) distribution.
@@ -569,23 +584,32 @@ knitr::include_graphics("_graphics/poisson-hr-data.png")
 ```
 
 
-A general Poisson distribution is defined by a single parameter $\mu>0$.  In the home run example, $\mu=2.3$.  If $X$ has a Poisson($\mu$) distribution its pmf is
+A general Poisson distribution is defined by a single parameter $\mu>0$.  (In the home run example, $\mu=2.3$.)  
 
-\[
-p_X(x) = 
-\begin{cases}
-e^{-\mu}\frac{\mu^x}{x!}, & x = 0, 1, 2, \ldots,\\
-0, & \text{otherwise}
-\end{cases}
-\]
-
+```{definition, def-poisson}
+A discrete random variable $X$ has a **Poisson distribution** with parameter^[The parameter for a Poisson distribution is often denoted $\lambda$.  However, we use $\mu$ to denote the parameter of a Poisson distribution, and reserve $\lambda$  to denote the rate parameter of a *Poisson process* (which has mean $\lambda t$ at time $t$).] $\mu>0$ if its probability mass function $p_X$ satisfies
+\begin{align*}
+p_X(x) & \propto \frac{\mu^x}{x!}, \;\qquad x=0,1,2,\ldots\\
+& = \frac{e^{-\mu}\mu^x}{x!}, \quad x=0,1,2,\ldots
+\end{align*}
 The function $\mu^x / x!$ defines the shape of the pmf.  The constant $e^{-\mu}$ ensures that the probabilities sum to 1.
+
+
+If $X$ has a Poisson($\mu$) distribution then
+\begin{align*}
+\text{Long run average value of $X$} & = \mu\\
+\text{Variance of $X$} & = \mu\\
+\text{SD of $X$} & = \sqrt{\mu}
+\end{align*}
+
+```
+
 
 ### Joint probability mass functions
 
 Most interesting problems involve two or more^[We mostly focus on the case of two random variables, but analogous definitions and concepts apply for more than two (though the notation can get a bit messier).] random variables defined on the same probability space.  In these situations, we can consider how the variables vary together, or jointly, and study their relationship. The *joint distribution* of random variables $X$ and $Y$ (defined on the same probability space) is a probability distribution on $(x, y)$ *pairs*.  In this context, the distribution of one of the variables alone is called a *marginal distribution*.
 
-Think of a joint distribution of two discrete RVs as a spinner that returns pairs of values, like the one on the right in Figure \@ref(fig:dice-spinners).
+Think of a joint distribution of two discrete RVs as a spinner that returns pairs of values, like the one on the right in Figure \@ref(fig:dice-spinners-sum-max).
 
 
 
@@ -611,12 +635,12 @@ to Example \@ref(exm:mscoin-joint)
 
 1. We basically just need to reorganize Table \@ref(tab:mscoin). For example, $p_{Y,Z}(1,2) = \IP(Y=1, Z=2) = \IP(\{HHTH, HTHH, HHTT, THHT\})=4/14$.
 
-    | $y$\$z$ |    1 |    2 |    3 |
-    |------:|-----:|-----:|-----:|
-    |     0 | 5/14 | 1/14 |    0 |
-    |     1 | 1/14 | 4/14 |    0 |
-    |     2 |    0 | 1/14 | 1/14 |
-    |     3 |    0 |    0 | 1/14 |
+    | $y, z$ |    1 |    2 |    3 |
+    |--------|-----:|-----:|-----:|
+    | 0      | 5/14 | 1/14 |    0 |
+    | 1      | 1/14 | 4/14 |    0 |
+    | 2      |    0 | 1/14 | 1/14 |
+    | 3      |    0 |    0 | 1/14 |
 
 1.  For each $(y, z)$ pair, find the value of $y/z$; see Table \@ref(tab:mscoin). 
 
@@ -688,7 +712,7 @@ Let $X$ be the number of home runs hit by the home team, and $Y$ the number of h
 p_{X, Y}(x, y)
 =
 \begin{cases}
-e^{-2.3}\frac{x^{1.2}y^{1.1}}{x!y!}, & x = 0, 1, 2, \ldots; y = 0, 1, 2, \ldots,\\
+e^{-2.3}\frac{1.2^{x}1.1^{y}}{x!y!}, & x = 0, 1, 2, \ldots; y = 0, 1, 2, \ldots,\\
 0, & \text{otherwise.}
 \end{cases}
 \]
@@ -700,6 +724,8 @@ e^{-2.3}\frac{x^{1.2}y^{1.1}}{x!y!}, & x = 0, 1, 2, \ldots; y = 0, 1, 2, \ldots,
 1. Construct a two-way table representation of the joint pmf.
 1. Find the probability that the home team hits 2 home runs.
 1. Find the marginal pmf of $X$.
+1. Find the probability that the away team hits 1 home run.
+1. Find the marginal pmf of $Y$.
 1. Find the probability that both teams combine to hit a total of 3 home runs. 
 1. Find the probability that the home team and the away team hit the same number of home runs.
 
@@ -716,17 +742,27 @@ to Example \@ref(exm:poisson-hr-joint)
 1. See Table \@ref(tab:poisson-hr-joint-table) below. The possible values of $x$ are 0, 1, 2, $\ldots$, and similarly for $y$, and any $(x, y)$ pair of these values is possible.  Plug each $(x, y)$ pair into $p_{X,Y}$ like in the previous part.
 1. Sum over the values of $y$
     \[
-    \IP(X = 2) = \sum_{y=0}^\infty p_X(2, y) = \sum_{y=0}^\infty   e^{-2.3}\frac{1.2^2 1.1^y}{2!y!} = e^{-2.3}\frac{1.2^2}{2!}\sum_{y=0}^\infty   \frac{1.1^y}{y!} = e^{-2.3}\frac{1.2^2}{2!}\left(e^{1.1}\right) = e^{-1.2}\frac{1.2^2}{2!} = 0.217.
+    \IP(X = 2) = \sum_{y=0}^\infty p_{X, Y}(2, y) = \sum_{y=0}^\infty   e^{-2.3}\frac{1.2^2 1.1^y}{2!y!} = e^{-2.3}\frac{1.2^2}{2!}\sum_{y=0}^\infty   \frac{1.1^y}{y!} = e^{-2.3}\frac{1.2^2}{2!}\left(e^{1.1}\right) = e^{-1.2}\frac{1.2^2}{2!} = 0.217.
     \]
 1. See the row sums in the table below. Repeat the calculation from the previous part but for a generic value of $x=0, 1, 2\ldots$
     \[
-    p_X(x) = \sum_{y=0}^\infty p_X(x, y) = \sum_{y=0}^\infty   e^{-2.3}\frac{1.2^x 1.1^y}{x!y!} = e^{-2.3}\frac{1.2^x}{x!}\sum_{y=0}^\infty   \frac{1.1^y}{y!} = e^{-2.3}\frac{1.2^x}{x!}\left(e^{1.1}\right) = e^{-1.2}\frac{1.2^x}{x!}.
+    p_X(x) = \sum_{y=0}^\infty p_{X, Y}(x, y) = \sum_{y=0}^\infty   e^{-2.3}\frac{1.2^x 1.1^y}{x!y!} = e^{-2.3}\frac{1.2^x}{x!}\sum_{y=0}^\infty   \frac{1.1^y}{y!} = e^{-2.3}\frac{1.2^x}{x!}\left(e^{1.1}\right) = e^{-1.2}\frac{1.2^x}{x!}.
     \]
+    The marginal distribution of $X$ is the Poisson(1.2) distribution. Notice that the marginal pmf of $X$ is a function of values of $X$ alone.
+1. Sum over the values of $x$
+    \[
+    \IP(Y = 1) = \sum_{x=0}^\infty p_{X, Y}(x, 1) = \sum_{x=0}^\infty   e^{-2.3}\frac{1.2^x 1.1^1}{x!1!} = e^{-2.3}\frac{1.1^1}{1!}\sum_{x=0}^\infty   \frac{1.2^x}{x!} = e^{-2.3}\frac{1.1^1}{1!}\left(e^{1.2}\right) = e^{-1.1}\frac{1.1^1}{1!} = 0.366.
+    \]
+1. See the row sums in the table below. Repeat the calculation from the previous part but for a generic value of $y=0, 1, 2\ldots$
+    \[
+    \IP(Y = y) = \sum_{x=0}^\infty p_{X, Y}(x, y) = \sum_{x=0}^\infty   e^{-2.3}\frac{1.2^x 1.1^y}{x!y!} = e^{-2.3}\frac{1.1^y}{y!}\sum_{x=0}^\infty   \frac{1.2^x}{x!} = e^{-2.3}\frac{1.1^y}{y!}\left(e^{1.2}\right) = e^{-1.1}\frac{1.1^y}{y!}.
+    \]
+    The marginal distribution of $Y$ is the Poisson(1.1) distribution. Notice that the marginal pmf of $Y$ is a function of values of $Y$ alone.
 1. The corresponding $(x, y)$ pairs are (0, 3), (1, 2), (2, 1), (3, 0).
     \[
-     \IP(X + Y = 3) = p_{X, Y}(0, 3) +  p_{X, Y}(1, 2)+p_{X, Y}(2, 1)+p_{X, Y}(3, 0)
+     \IP(X + Y = 3) = p_{X, Y}(0, 3) +  p_{X, Y}(1, 2)+p_{X, Y}(2, 1)+p_{X, Y}(3, 0) = 0.022 + 0.073 + 0.079 + 0.029 = 0.203
     \]
-    We'll see an easier way to do this LATER.
+    We'll see an easier way to do this later.
 1. Sum over values where $x=y$, the diagonal cells of the table.
     \[
     \IP(X = Y) = \sum_{x = 0}^\infty e^{-2.3}\frac{1.2^x 1.1^x}{x!x!} = 0.283.
@@ -767,6 +803,44 @@ knitr::kable(
 
 ```
 
+The code below simulates $(X, Y)$ pairs from the joint distribution in Example \@ref(exm:poisson-hr-joint).
+Figure \@ref(fig:poisson-joint-ggplot) summarizes the simulated pairs.
+We will discuss the code syntax in more detail later^[It turns out that in this case $X$ and $Y$ are *independent*, so their joint distribution is the the product of their marginal distributions, hence the `*` syntax.].
+
+
+(ref:cap-poisson-joint-ggplot) Tile plot of $(X, Y)$ pairs simulated from the joint distribution  in Example \@ref(exm:poisson-hr-joint).
+
+
+```{python, poisson-joint-ggplot, fig.cap="(ref:cap-poisson-joint-ggplot)"}
+
+X, Y = RV(Poisson(1.2) * Poisson(1.1))
+
+(X & Y).sim(100000).plot('tile')
+plt.show()
+
+```
+
+
+```{r, include = FALSE, eval = FALSE, echo = FALSE}
+
+n_reps = 1000000
+
+x = rpois(n_reps, 1.2)
+y = rpois(n_reps, 1.1)
+
+df = data.frame(x, y)
+
+count_table = df %>%
+  count(x, y, name = "freq") %>%
+  mutate(rel_freq = freq / n_reps)
+
+
+ggplot(count_table, aes(x, y, fill = rel_freq)) +
+   geom_tile() +
+   scale_fill_viridis_c() +
+   guides(fill = guide_legend(title="Relative frequency"))
+
+```
 
 
 The *marginal pmfs* are determined by the joint pmf by the law of total probability.  If we imagine a plot with blocks whose heights represent the joint probabilities, the marginal probability of a particular value of one variable can be obtained by "stacking" all the blocks corresponding to that value.  In terms of a two-way table, a marginal distribution can be obtained by "collapsing" the table by summing rows or columns.
@@ -789,7 +863,7 @@ p_Y(y) & = \sum_x p_{X,Y}(x,y) & & \text{a function of $y$ only}
 
 
 
-The continuous analog of a pmf is a *probability density function*.  However, while pmfs and pdfs play analogous roles, they are different in one fundamental way; namely, a pmf outputs probabilities directly, while a pdf does not.  We have seen that a pmf of a discrete random variable can be summed to find probabilities of related events.  We will see now that a pdf of a continuous random variable must be *integrated* to find probabilities of related events.
+The continuous analog of a probability mass function (pmf) is a *probability density function (pdf)*.  However, while pmfs and pdfs play analogous roles, they are different in one fundamental way; namely, a pmf outputs probabilities directly, while a pdf does not.  We have seen that a pmf of a discrete random variable can be summed to find probabilities of related events.  We will see now that a pdf of a continuous random variable must be *integrated* to find probabilities of related events.
 
 In Section \@ref(sec-linear-rescaling) we introduced histograms to summarize simulated values of a continuous random variable. In a histogram the variable axis is chopped into intervals of equal width, and the other axis is on the density scale, so that the *area* of each bar represents the relative frequency of values that lie in the interval.
 
@@ -833,6 +907,32 @@ The **probability density function (pdf)** (a.k.a.\ density) of a *continuous* R
 For a continuous random variable $X$ with pdf $f_X$, the probability that $X$ takes a value in the interval $[a, b]$ is the *area under the pdf over the region* $[a,b]$.
 
 
+A pdf assigns zero probability to intervals where the density is 0. A pdf is usually defined for all real values, but is often nonzero only for some subset of values, the possible values of the random variable.  We often write the pdf as
+\[
+f_X(x) =
+\begin{cases}
+\text{some function of $x$}, & \text{possible values of $x$}\\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+
+The axioms of probability imply that a valid pdf must satisfy
+\begin{align*}
+f_X(x) & \ge 0 \qquad \text{for all } x,\\
+\int_{-\infty}^\infty f_X(x) dx & = 1
+\end{align*}
+
+
+The total area under the pdf must be 1 to represent 100\% probability. Given a specific pdf, the generic bounds $(-\infty, \infty)$ in the above integral should be replaced by the range of possible values, that is, those values for which $f_X(x)>0$.
+
+
+
+
+### Uniform densities
+
+In general, a pdf $f_X(x)$ depends on the value $x$ of the random variable $X$.
+Uniform distributions are a special case where the pdf is *constant* for all possible values.
 
 ```{example meeting-pdf1}
 Recall Example \@ref(exm:meeting-probspace1). Regina and Cady plan to meet for lunch between noon and 1 but they are not sure of their arrival times.  We'll consider only Regina's arrival time for now. (We'll get back to Cady soon.) Assume that Regina arrives at a time chosen uniformly at random between noon and 1.  We can model Regina's arrival with the sample space $[0, 1]$ and a uniform probability measure.  Let $X$ be Regina's arrival time in $[0, 1]$.
@@ -910,26 +1010,6 @@ plt.show()
 
 
 
-A pdf assigns zero probability to intervals where the density is 0. A pdf is usually defined for all real values, but is often nonzero only for some subset of values, the possible values of the random variable.  We often write the pdf as
-\[
-f_X(x) =
-\begin{cases}
-\text{some function of $x$}, & \text{possible values of $x$}\\
-0, & \text{otherwise.}
-\end{cases}
-\]
-
-
-The axioms of probability imply that a valid pdf must satisfy
-\begin{align*}
-f_X(x) & \ge 0 \qquad \text{for all } x,\\
-\int_{-\infty}^\infty f_X(x) dx & = 1
-\end{align*}
-
-
-The total area under the pdf must be 1 to represent 100\% probability. Given a specific pdf, the generic bounds $(-\infty, \infty)$ in the above integral should be replaced by the range of possible values, that is, those values for which $f_X(x)>0$.
-
-
 
 
 ```{example uniform-prob-zero}
@@ -940,7 +1020,7 @@ Suppose that SAT Math scores follow a Uniform(200, 800) distribution.  Let $U$ b
 
 1. Identify $f_U$, the pdf of $U$.
 1. Donny Dont says that the probability that $U$ is 500 is 1/600.  Do you agree?  If not, explain why not.
-1. While modeling SAT Math score as a continuous random variable might be mathematically convenient, it's not entirely practical.  Suppose that the range of values $[495, 505)$ corresponds to students who actually score 500.  Find $\IP(495 \le X < 500)$.
+1. While modeling SAT Math score as a continuous random variable might be mathematically convenient, it's not entirely practical.  Suppose that the range of values $[495, 505)$ corresponds to students who actually score 500.  Find $\IP(495 \le X < 505)$.
 
 ```{solution uniform-density-prob-zero-sol}
 to Example \@ref(exm:uniform-prob-zero)
@@ -954,26 +1034,41 @@ to Example \@ref(exm:uniform-prob-zero)
 
 ```
 
-The pdf of a general Uniform($a$, $b$) distribution is
-\[
-\text{Uniform($a$, $b$) pdf:} \qquad f(x) =
-\begin{cases}
-\frac{1}{b-a}, & a\le x\le b,\\
-0, & \text{otherwise.}
-\end{cases}
-\]
 
+```{definition, def-uniform-pdf}
+A continuous random variable $X$ has a **Uniform distribution** with parameters $a$ and $b$, with $a<b$, if its probability density function $f_X$ satisfies
+\begin{align*}
+f_X(x) & \propto \text{constant}, \quad & & a<x<b\\
+& = \frac{1}{b-a}, \quad & &  a<x<b.
+\end{align*}
+If $X$ has a Uniform($a$, $b$) distribution then
+\begin{align*}
+\text{Long run average value of $X$} & = \frac{a+b}{2}\\
+\text{Variance of $X$} & = \frac{|b-a|^2}{12}\\
+\text{SD of $X$} & = \frac{|b-a|}{\sqrt{12}}
+\end{align*}
+
+```
+
+
+The long run average value of a random variable that has a Uniform($a$, $b$) distribution is the midpoint of the range of possible values.
+The degree of variability of a Uniform distribution is determined by the length of the interval.
+Why is the standard deviation equal to the length of the interval multiplied by $0.289 \approx 1/\sqrt{12}$?
+Since the deviations from the mean (midpoint) range uniformly from 0 to half the length of the interval, we might expect the average deviation to be about 0.25 times the length of the interval.
+The factor $0.289 \approx 1/\sqrt{12}$, which results from the process of taking the square root of the average of the squared deviations, is not too far from 0.25.
+
+### Density is not probability
 
 Plugging a value into the pdf of a continuous random variable does *not* provide a probability.  The pdf itself does not provide probabilities directly; instead a pdf must be integrated to find probabilities.
 
-**The probability that a continuous random variable $X$ equals any particular value is 0.** That is, if $X$ is continuous then $\IP(X=x)=0$ for all $x$.  Therefore, for a *continuous* RV^[The same is *not* true for discrete random variables.  For example, if $X$ is the number of heads in three flips of a fair coin then $\IP(X<1)= \IP(X=0)=1/8$ but $\IP(X \le 1)=\IP(X=0)+\IP(X=1) = 4/8$.], $\IP(X\le x) = \IP(X<x)$, etc.  A continuous random variable can take uncountably many distinct values. Simulating values of a continuous random variable corresponds to an idealized spinner with an infinitely precise needle which can land on any value in a continuous scale.
+**The probability that a continuous random variable $X$ equals any particular value is 0.** That is, if $X$ is continuous then $\IP(X=x)=0$ for all $x$.  Therefore, for a *continuous* random variable^[The same is *not* true for discrete random variables.  For example, if $X$ is the number of heads in three flips of a fair coin then $\IP(X<1)= \IP(X=0)=1/8$ but $\IP(X \le 1)=\IP(X=0)+\IP(X=1) = 4/8$.], $\IP(X\le x) = \IP(X<x)$, etc.  A continuous random variable can take uncountably many distinct values. Simulating values of a continuous random variable corresponds to an idealized spinner with an infinitely precise needle which can land on any value in a continuous scale.
 
 In the Uniform(0, 1) case, $0.500000000\ldots$ is different than $0.50000000010\ldots$ is different than $0.500000000000001\ldots$, etc.  Consider the spinner in Figure \@ref(fig:uniform-spinner). The spinner in the picture is only labeled in 100 increments of 0.01 each; when we spin, the probability that the needle lands closest to the 0.5 tick mark is 0.01.  But if the spinner were labeled in increments 1000 increments of 0.001, the probability of landing closest to the 0.5 tick mark is 0.001.  And with four decimal places of precision, the probability is 0.0001. And so on.  The more precise we mark the axis, the smaller the probability the spinner lands closest to the 0.5 tick mark.  The Uniform(0, 1) density represents what happens in the limit as the spinner becomes infinitely precise.  The probability of landing closest to the 0.5 tick mark gets smaller and smaller, eventually becoming 0 in the limit.
 
 
 
 
-A density is an idealized mathematical model.  In practical applications, there is some acceptable degree of precision, and events like "$X$, rounded to 4 decimal places, equals 0.5" correspond to intervals that do have positive probability.  For continuous random variables, it doesn't really make sense to talk about the probability that the random value equals a particular value.  However, we can consider the probability that a random variable is *close to* a particular value.
+A density is an idealized mathematical model.  In practical applications, there is some acceptable degree of precision, and events like "$X$, rounded to 4 decimal places, equals 0.5" correspond to intervals that do have positive probability.  For continuous random variables, it doesn't really make sense to talk about the probability that the random value is *equal to* a particular value.  However, we can consider the probability that a random variable is *close to* a particular value.
 
 
 
@@ -1002,6 +1097,7 @@ where $c$ is an appropriate constant.
 1. Find the probability that Regina arrives between 12:59:00 and 1:00:00. How does this compare to the probability for 12:15:00 to 12:16:00? What does that say about Regina's arrival time?
 1. Find the probability that Regina arrives between 12:59:59 and 1:00:00. How does this compare to the probability for 12:15:00 to 12:15:01? What does that say about Regina's arrival time?
 1. Find the probability that Regina arrives at the exact time 1:00:00 (with infinite precision).
+1. Compare this example and your answers to Example \@ref(exm:meeting-nonuniform-probspace1).
 
 
 
@@ -1013,7 +1109,8 @@ to Example \@ref(exm:meeting-nonuniform-pdf1)
 
 ```{asis, fold.chunk = TRUE}
 
-1.  The density increases linearly with $r$.  Regina is most likely to arrive closer to 1, and least likely to arrive close to noon (0).
+1.  The density increases linearly with $x$.
+Regina is most likely to arrive closer to 1, and least likely to arrive close to noon (0).
 1. $c=2$. The total area under the pdf must be 1. The region under the pdf is a triangle with area $(1/2)(1-0)(c)$, so $c$ must be 2 for the area to be 1.  Via integration
     \[
     1 = \int_0^1 cx dx = (c/2)x^2  \Big|_{x=0}^{x=1} = c / 2
@@ -1027,7 +1124,7 @@ to Example \@ref(exm:meeting-nonuniform-pdf1)
     \int_{0.75}^1 2x dx = x^2 \Bigg|_{x=0.75}^{x=1} = 1 - 0.75^2 = 0.4375
     \]
     So Regina is 7 times more likely to arrive within 15 minutes of 1 than within 15 minutes of noon.
-1. 0.5
+1. 0.5. We could integrate the pdf from 0.25 to 0.75, or just use the previous results and properties of probabilities.
 1. Similar to the previous parts, the probability  is $(0.25 + 1/60)^2 - 0.25^2 = 0.0086$.
 (This probability is less than what it was in the uniform case.)
 1. Similar to the previous part, $(0.25 + 1/3600)^2 - 0.25^2 = 0.00014$. (This probability is less than what it was in the uniform case.)
@@ -1035,10 +1132,21 @@ to Example \@ref(exm:meeting-nonuniform-pdf1)
 1. Similar to previous parts, $1^2 - (1-1/60)^2 = 0.0331$. Notice that this one minute interval around 1:00 has a probability that is about 3.85 times larger than a one minute interval around 12:15.
 1. $1^2 - (1-1/3600)^2 = 0.00056$. Notice that this one second interval around 1:00 has a probability that is about 4 times higher than a one second interval around 12:15, though both probabilities are small.
 1. The exact time 1:00:00 represents a single point the sample space, an interval of length 0.  The probability that Regina arrives at the exact time 1:00:00 (with infinite precision) is 0.
-
+1. The results are the same as those in Example \@ref(exm:meeting-nonuniform-probspace1).
+In that example, the probability that Regina arrives in the interval $[0, x]$ was $x^2$, which can be obtained by integrating the pdf in this example from 0 to $x$.
+Careful when you integrate; since $x$ is in the bounds of the integral you need a different dummy variable to use in $f_X$.
+\[
+  \IP(X \le x) = \int_0^x f_X(u) du = \int_0^x 2u du = u^2 \Bigg|_{u=x}^{u=0} = x^2
+\]
+We will see soon that such a function is called a cumulative distribution function (cdf).
+    Notice how the pdf in REVISE 
 ```
 
-```{python, echo = FALSE}
+
+(ref:cap-meeting-nonuniform-pdf) The probability density function from Example \@ref(exm:meeting-nonuniform-pdf1).
+
+
+```{python, meeting-nonuniform-pdf-plot, echo=FALSE, fig.cap="(ref:cap-meeting-nonuniform-pdf)"}
 
 Beta(2, 1).plot()
 plt.show()
@@ -1052,6 +1160,8 @@ In general, a pdf is often defined only up to some multiplicative constant $c$, 
 
 What's more important about the pdf is *relative* heights.  In the previous example the density at 1, $f_X(1) = c$, was 4 times greater than than density at 0.25, $f_X(0.25) = 0.25c$.  This was the reason why the probability of arriving close to 1 was about 4 times greater than the probability of arriving close to 12:15 (time 0.25).  The ratio of the densities at these two points could be computed without knowing the value of $c$.
 
+Compare the pdf in Example \@ref(fig:meeting-nonuniform-pdf-plot) with the probabilities under the non-uniform measure in Figure \@ref(fig:arrival-time-probmeasure).
+The pdf at a particular possible value $x$ is related to the probability that the random value takes a value close to that value $x$. 
 
 
 ```{example exponential-pdf}
@@ -1101,18 +1211,18 @@ to Example \@ref(exm:exponential-pdf)
     \[
     \IP(1.995<X<2.005)\approx f_X(2)(2.005 - 1.995)=e^{-2}(0.01)\approx 0.00135335.
     \]
-    This provides a pretty good approximation of the integral  $\int_1.995^{2.005} e^{-x}dx = e^{-1.995}-e^{-2.005}\approx 0.00135336$.
+    This provides a pretty good approximation of the integral  $\int_{1.995}^{2.005} e^{-x}dx = e^{-1.995}-e^{-2.005}\approx 0.00135336$.
 1. Compare the rectangle-based approximations 
     \[
     \frac{\IP(1 - 0.005 <X < 1 + 0.005)}{\IP(2 - 0.005 <X < 2 + 0.005)} \approx 2.718 \approx \frac{e^{-1}(0.01)}{e^{-2}(0.01)} = \frac{e^{-1}}{e^{-2}} = \frac{f_X(1)}{f_X(2)}  
     \]
-    The probability that $X$ is "close to" 1 is about 2.718 times greater than the probability that $X$ is "close to" 1.  This ratio is determined by the ratio of the densities at 1 and 2.
+    The probability that $X$ is "close to" 1 is about 2.718 times greater than the probability that $X$ is "close to" 2.  This ratio is determined by the ratio of the densities at 1 and 2.
 
 ```
 
-(ref:cap-exponential-pdf-area) Illustration of $\IP(1<X<2.5)$ (left) and $\IP(0.995<X<1.005)$ (right) for $X$ with an Exponential(1) distribution, correspoding to the spinner in Figure \@ref(fig:log-uniform-density).  The plot on the left displays the true area under the curve.  The plot on the right illustrates how the probability that $X$ is "close to" $x$ can be approximated by the area of a rectance with height equal to the density at $x$, $f_X(x)$.
+(ref:cap-exponential-pdf-area) Illustration of $\IP(1<X<2.5)$ for $X$ with an Exponential(1) distribution, corresponding to the spinner in Figure \@ref(fig:log-uniform-density).
 
-```{r exponential-pdf-area, echo=FALSE, fig.cap="(ref:cap-exponential-pdf-area)", out.width='50%', fig.show='hold'}
+```{r exponential-pdf-area, echo=FALSE, fig.cap="(ref:cap-exponential-pdf-area)"}
 
 x<-seq(0, 5, 0.001)
 y<-dexp(x,1)
@@ -1126,6 +1236,12 @@ qplot(x,y,data=xddf,geom="line")+
   ylab(expression(f[X](x))) #+
 #  ggtitle(paste("P(1<X<2.5) for X ~ Exponential(1)"))
 
+```
+
+
+(ref:cap-exponential-pdf-area2) Illustration of $\IP(0.995<X<1.005)$ for $X$ with an Exponential(1) distribution, corresponding to the spinner in Figure \@ref(fig:log-uniform-density). The plot illustrates how the probability that $X$ is "close to" $x$ can be approximated by the area of a rectangle with height equal to the density at $x$, $f_X(x)$.
+
+```{r exponential-pdf-area2, echo=FALSE, fig.cap="(ref:cap-exponential-pdf-area2)", out.width='50%', fig.show='hold'}
 
 x<-seq(0, 5, 0.001)
 y<-dexp(x,1)
@@ -1143,12 +1259,13 @@ qplot(x,y,data=xddf,geom="line")+
 ```
 
 
+
 A density is an idealized mathematical model. In practical applications, there is some acceptable degree of precision, and events like "$X$, rounded to 4 decimal places, equals 0.5" correspond to intervals that do have positive probability. For continuous random variables, it doesn't really make sense to talk about the probability that the random value equals a particular value. However, we can consider the probability that a random variable is close to a particular value.
 
 
 
 
-To emphasize: The density $f_X(x)$ at value $x$ is *not* a probability. Rather, the density $f_X(x)$ at value $x$ is related to the probability that the RV $X$ takes a value "close to $x$" in the following sense^[This is true because an integral is really just a sum of the areas of many rectangles with narrow bases.  Over a small interval of values surrounding $x$, the density shouldn't change that much, so we can estimate the area under the curve by the area of the rectangle with height $f_X(x)$ and base each equal to the length of the small interval of interest.].
+To emphasize: The density $f_X(x)$ at value $x$ is *not* a probability. Rather, the density $f_X(x)$ at value $x$ is related to the probability that the RV $X$ takes a value "close to $x$" in the following sense^[This is true because an integral can be approximated by a sum of the areas of many rectangles with narrow bases.  Over a small interval of values surrounding $x$, the density shouldn't change that much, so we can estimate the area under the curve by the area of the rectangle with height $f_X(x)$ and base each equal to the length of the small interval of interest.].
 \[
 \IP\left(x-\frac{\ep}{2} \le X \le x+\frac{\ep}{2}\right) \approx f_X(x)\ep, \qquad \text{for small $\ep$}
 \]
@@ -1158,6 +1275,153 @@ Technically, any particular $x$ occurs with probability 0, so it doesn't really 
 \[
 \frac{f_X(\tilde{x})}{f_X(x)} = \frac{f_X(\tilde{x})\ep}{f_X(x)\ep} \approx  \frac{\IP\left(\tilde{x}-\frac{\ep}{2} \le X \le \tilde{x}+\frac{\ep}{2}\right)}{\IP\left(x-\frac{\ep}{2} \le X \le x+\frac{\ep}{2}\right)}
 \]
+
+
+### Exponential distributions
+
+
+
+Exponential distributions are often used to model the *waiting times* between events in a random process that occurs continuously over time.
+
+
+```{example, exponential-quakes}
+Suppose that we model the waiting time, measured continuously in hours, from now until the next earthquake (of any magnitude) occurs in southern CA  as a continuous random variable $X$ with pdf
+\[
+f_X(x) = 2 e^{-2x}, \; x \ge0
+\]
+This is the pdf of the "Exponential(2)" distribution.
+```
+
+1. Sketch the pdf of $X$.  What does this tell you about waiting times?
+1. Without doing any integration, approximate the probability that $X$ rounded to the nearest minute is 0.5 hours.
+1. Without doing any integration determine how much more likely that $X$ rounded to the nearest minute is to be 0.5 than 1.5.
+1. Compute and interpret $\IP(X > 0.25)$.
+1. Compute and interpret $\IP(X \le 3)$.
+1. Use simulation to approximate the long run average value of $X$.
+Interpret this value.
+At what *rate* do earthquakes tend to occur?
+1. Use simulation to approximate the standard deviation of $X$.
+What do you notice?
+
+
+```{solution, exponential-quakes-sol}
+to Example \@ref(exm:exponential-quakes)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. See simulation below for plots.  Waiting times near 0 are most likely, and density decreases exponentially as waiting time increases.
+1. Remember, the density at $x=0.5$ is not a probability, but it is related to the probability that $X$ takes a value close to $x=0.5$. The approximate probability that $X$ rounded to the nearest minute is 0.5 hours is 
+\[
+f_X(0.5)(1/60) = 2e^{-2(0.5)}(1/60) =  0.0123 
+\]
+1. Find the ratio of the densities at 0.5 and 1.5:
+\[
+\frac{f_X(0.5)}{f_X(1.5)} = \frac{2e^{-2(0.5)}}{2e^{-2(1.5)}} = \frac{e^{-2(0.5)}}{e^{-2(1.5)}} \approx 7.4.
+\]
+$X$ rounded to the nearest minute is about 7.4 times more likely to be 0.5 than 1.5.
+A waiting time close to half an hour is about 7.4 times more likely than a waiting time close to 1.5 hours.
+1. $\IP(X > 0.25) = \int_{0.25}^\infty 2e^{-2x}dx = e^{-2(0.25)}=0.606$.
+Careful: this is *not* $2e^{-2(0.25)}$.
+According to this model, the waiting time between earthquakes is more than 15 minutes for about 60% of earthquakes.
+1. $\IP(X \le 3) = \int_0^3 2e^{-2x}dx = 1-e^{-2(3)}=0.9975$.  While any value greater than 0 is possible in principle, the probability that $X$ takes a really large value is small.  About 99.75% of earthquakes happen within 3 hours of the previous earthquake.
+1. See simulation results below.
+The simulated average is about 0.5 hours.
+According to this model, the average waiting time between earthquakes is 0.5 hours.
+That is, earthquakes tend to occur at rate 2 earthquakes per hour on average; this is what the 2 in the pdf represents.
+1. The simulated standard deviation is also about 0.5, the same as the long run average value.
+
+
+```
+
+Below we simulate values from an Exponential distribution with rate parameter 2 and compare the simulated values to the theoretical results.
+
+
+```{python}
+
+X = RV(Exponential(rate = 2))
+
+x = X.sim(10000)
+
+x.plot()
+
+Exponential(rate = 2).plot()
+plt.show()
+
+```
+
+```{python}
+
+x.count_gt(0.25) / x.count(), 1 - Exponential(rate = 2).cdf(0.25)
+
+```
+
+
+```{python}
+
+x.count_lt(3) / x.count(), Exponential(rate = 2).cdf(3)
+
+```
+
+```{python}
+
+x.mean(), Exponential(rate = 2).mean()
+
+```
+
+```{python}
+
+x.sd(), Exponential(rate = 2).sd()
+
+```
+
+
+
+```{definition, exponential-pdf-def}
+
+A continuous random variable $X$ has an **Exponential distribution** with *rate* parameter^[Exponential distributions are sometimes parametrized directly by their mean $1/\lambda$, instead of the rate parameter $\lambda$.  The mean $1/\lambda$ is called the scale parameter.] $\lambda>0$ if its pdf is
+\[
+f_X(x) =
+\begin{cases}\lambda e^{-\lambda x}, & x \ge 0,\\
+0, & \text{otherwise}
+\end{cases}
+\]
+If $X$ has an Exponential($\lambda$) distribution then
+\begin{align*}
+\IP(X>x)  & = e^{-\lambda x}, \quad x\ge 0\\
+\text{Long run average of $X$} & = \frac{1}{\lambda}\\
+\text{Standard deviation of $X$} & = \frac{1}{\lambda}
+\end{align*}
+
+```
+
+
+
+Exponential distributions are often used to model the *waiting time* in a random process until some event occurs.
+
+- $\lambda$ is the average *rate* at which events occur over time (e.g., 2 per hour)
+- $1/\lambda$ is the mean time between events (e.g., 1/2 hour)
+
+An Exponential density has a peak at 0 and then decreases exponentially as $x$ increases.
+The function $e^{-\lambda x}$ defines the shape of the density and the rate at which the density decreases.
+The constant $\lambda$, which defines the density at $x=0$, simply rescales the vertical axis so that the total area under the pdf is 1.
+
+(ref:exponential-densities-caption) Exponential densities with rate parameter $\lambda$. 
+
+```{python, exponential-densities-caption, fig.cap='(ref:exponential-densities-caption)'}
+plt.figure()
+rates = [0.5, 1, 2]
+for rate in rates:
+    Exponential(rate).plot()
+    
+plt.legend(['$\lambda=$' + str(i) for i in rates]);
+plt.xlim(0, 8);
+plt.show()
+```
+
+
+
+
 
 ### Joint probability density fuctions
 
@@ -1313,27 +1577,53 @@ In general the marginal distributions do not determine the joint distribution, u
 While pmfs and pdfs play analogous roles for discrete and continuous random variables, respectively, they do behave differently; pmfs provide probabilities directly, but pdfs do not.  It is convenient to have one object that describes a distribution in the same way, regardless of the type of variable, and which returns probabilities directly.  This object is called the *cumulative distribution function (cdf)*.  While the definition might seem strange at first, you have probably already had experience with cumulative distribution functions.
 
 
-```{example sat-percentile}
+```{example height-percentile}
 
-According to [data on students who took the SAT in 2018-2019](https://collegereadiness.collegeboard.org/pdf/understanding-sat-scores.pdf), 1400 was the 94th percentile of SAT scores, while 1000 was the 40th percentile.  How do you interpret these percentiles?
+Maggie and Seamus are babies who have just turned one.
+At their one-year visits to their pediatrician:
+
+- Maggie is 76cm tall and in the [75th percentile of height for girls](https://www.cdc.gov/growthcharts/data/set1clinical/cj41l018.pdf).
+- Seamus is 72cm tall and in the [10th percentile of height for boys](https://www.cdc.gov/growthcharts/data/set1clinical/cj41l017.pdf).
+
+Explain what these percentiles mean.
 
 ```
 
-
- 
-```{solution sat-percentile-sol}
-to Example \@ref(exm:sat-percentile)
+```{solution height-percentile-sol}
+to Example \@ref(exm:height-percentile)
 ```
 
 
 ```{asis, fold.chunk = TRUE}
 
-
-Interpretation: 94% of SAT takers scores at or below 1400, and 6% of SAT takers score greater than 1400.  Similarly, 40% of SAT takers scores at or below 1000, and 60% of SAT takers score greater than 1000. 
+- 75% of one-year-old girls (in the U.S.) are less than 76cm tall, and 25% are more than 76cm tall. So Maggie is taller than 75% of one-year-old girls.
+- 10% of one-year-old boys (in the U.S.) are less than 72cm tall, and 90% are more than 72cm tall. So the wee baby Seamus is taller than 10% of one-year-old boys.
 
 ```
 
-Roughly, the value $x$ is the $p$th percentile of a distribution of a random variable $X$ if $p$ percent of values of the variable are less than or equal to $x$: $\IP(X\le x) = p$. The *cumulative distribution function (cdf)* of a RV fills in the blank
+
+<!-- ```{example sat-percentile} -->
+
+<!-- According to [data on students who took the SAT in 2018-2019](https://collegereadiness.collegeboard.org/pdf/understanding-sat-scores.pdf), 1400 was the 94th percentile of SAT scores, while 1000 was the 40th percentile.  How do you interpret these percentiles? -->
+
+<!-- ``` -->
+
+
+
+<!-- ```{solution sat-percentile-sol} -->
+<!-- to Example \@ref(exm:sat-percentile) -->
+<!-- ``` -->
+
+
+<!-- ```{asis, fold.chunk = TRUE} -->
+
+
+<!-- Interpretation: 94% of SAT takers scores at or below 1400, and 6% of SAT takers score greater than 1400.  Similarly, 40% of SAT takers scores at or below 1000, and 60% of SAT takers score greater than 1000.  -->
+
+<!-- ``` -->
+
+
+Roughly, the value $x$ is the $p$th percentile of a distribution of a random variable $X$ if $p$ percent of values of the variable are less than or equal to $x$: $\IP(X\le x) = p$. The *cumulative distribution function (cdf)* of a random variable fills in the blank
 for any given $x$: $x$ is the (blank) percentile. That is, for an input $x$, the cdf outputs $\IP(X\le x)$.
 
 
@@ -1344,15 +1634,18 @@ for any given $x$: $x$ is the (blank) percentile. That is, for an input $x$, the
 The **cumulative distribution function (cdf)** (of a random variable $X$ defined on a probability space with probability measure $\IP$)
 is the function, $F_X: \mathbb{R}\mapsto[0,1]$, defined by
 $F_X(x) = \IP(X\le x)$. A cdf is defined for all real numbers $x$
-regardless of whether $x$ is a possible value of the RV $X$.
+regardless of whether $x$ is a possible value of $X$.
 
 ```
 
 
 ```{example sat-percentile2}
 
-Continuing Example \@ref(exm:sat-percentile), let $X$ be the SAT score of a randomly selected
-student (from this cohort), and let $F_X$ be the cdf of $X$. Evaluate the cdf for each of the following.  For the purposes of this exercise, interpret these quantities in terms of actual SAT scores, which take values in 400, 410, 420, $\ldots$, 1590, 1600. 
+According to [data on students who took the SAT in 2018-2019](https://collegereadiness.collegeboard.org/pdf/understanding-sat-scores.pdf), 1400 was the 94th percentile of SAT scores, while 1000 was the 40th percentile.
+Let $X$ be the SAT score of a randomly selected
+student (from this cohort), and let $F_X$ be the cdf of $X$.
+Evaluate the cdf for each of the following.
+For the purposes of this exercise, interpret these quantities in terms of actual SAT scores, which take values in 400, 410, 420, $\ldots$, 1590, 1600. 
 
 ```
 
@@ -1395,9 +1688,24 @@ To understand a cdf, imagine a spinner for a particular distribution.  Suppose a
 
 While a cdf is defined the same way for both discrete and continuous random variables, it is probably best understood in terms of continuous random variables.  Remember that for a continuous random variable, $\IP(X\le x)$ is the area under the density curve over the interval $(-\infty, x]$ (remember the density might be 0 for some values in this range).  Imagine plotting a density curve and adding a vertical line at $x$; $\IP(X\le x)$ is the area under the curve to left of this line.  The cdf is constructed by moving the vertical line from left to right, from smaller to larger values of $x$, and recording  the area under the curve to the left of the line, $F_X(x) = \IP(X\le x)$, as $x$ varies.
 
-(ref:cap-cdf-illustration) Illustration of a pdf (left) and the corresponding cdf (middle). The shaded area in the plot on the left represents $F_X(x)=\IP(X\le x)$, which is about 0.6 in this example.  This area is represented by the $(x, F_X(x))$ point in the cdf plot on the right.  The cdf plot on the right represents the result of recording the area in the plot on the left for all values of $x$. The plot on the right displays the spinner corresponding to the pdf on the left.
 
-```{r cdf-illustration, echo=FALSE, fig.cap="(ref:cap-cdf-illustration)", out.width='33%', fig.show='hold'}
+
+
+
+
+
+<!-- See Figure \@ref(fig:cdf-illustration) for an illustration. -->
+
+See the figure below for an illustration.
+The shaded area in the plot on the left represents $F_X(x)=\IP(X\le x)$, which is about 0.6 in this example. This area is represented by the $(x, F_X(x))$ point in the cdf plot in the middle. The cdf plot in the middle represents the result of recording the area in the plot on the left for all values of $x$. The plot on the right displays the spinner corresponding to the pdf on the left.
+
+
+
+<!-- (ref:cap-cdf-picture) Illustration of a pdf (left) and the corresponding cdf (middle). The cdf at $x$ is highlighted in the plots and shaded spinner (right). -->
+
+
+
+```{r cdf-illustration, echo=FALSE, fig.show="hold", out.width="33%"}
 
 
 x0 = qgamma(0.6, shape=4, rate=1)
@@ -1446,7 +1754,7 @@ df <- data.frame(
   value = c(1-p, p)
   )
 
-pie <- ggplot(df, aes(x="", y=value, fill=group)) +
+cdfpie <- ggplot(df, aes(x="", y=value, fill=group)) +
   geom_bar(width = 1, stat = "identity", color='black') +
     blank_theme +
   scale_y_continuous(breaks=c(1-p, p), labels=c("x", "")) +
@@ -1456,11 +1764,13 @@ pie <- ggplot(df, aes(x="", y=value, fill=group)) +
             label = c("P(X <= x)", "")), size=5) +
   theme(legend.position = "none")
 
-pie
+cdfpie
 
 
 
 ```
+
+
 
 ```{example exponential-cdf-calcs}
 
@@ -1505,7 +1815,7 @@ F_X(x) =
 1. $F_X(1)=\IP(X\le 1) = 1-e^{-1}\approx 0.632$.  This is represented in Figure \@ref(fig:log-uniform-density) by the area of the region from 0 to 1, 63.2%.
 1. This is represented in Figure \@ref(fig:log-uniform-density) by the area of the region from 1 to 2, 23.3%.
 \[
-F_X(2)- F_X(1)=\IP(X\le 2) - \IP(X \le 1) =\IP(1<X\le 2)= (1-e^{-2})-(1-e^{-1})=e^{-1}-e^{-2}\approx 0.233$
+F_X(2)- F_X(1)=\IP(X\le 2) - \IP(X \le 1) =\IP(1<X\le 2)= (1-e^{-2})-(1-e^{-1})=e^{-1}-e^{-2}\approx 0.233
 \]
 1. $F_X(2)=\IP(X\le 2) = 1-e^{-2}\approx 0.865$.  This is represented in Figure \@ref(fig:log-uniform-density) by the area of the region from 0 to 2, 63.2%+23.3% = 86.5%.
 1.
@@ -1571,11 +1881,13 @@ Exponential(1).cdf([-1, 2, 2.5])
 
 
 
-For continuous random variables, think of the cdf as a "generic integral".  Rather than integrating from scratch to find $\IP(X < 1)$, $\IP(X < 2)$, $\IP(1 < X< 2)$, etc, the integral is computed once for a generic $x$ and then evaluated to find probabilities for specific values of $x$, $F_X(1)$, $F_X(2)$, $F_X(2)-F_X(1)$, etc.
+**For continuous random variables, think of the cdf as a "generic integral".**
+Rather than integrating from scratch to find $\IP(X < 1)$, $\IP(X < 2)$, $\IP(1 < X< 2)$, etc, the integral is computed once for a generic $x$ and then evaluated to find probabilities for specific values of $x$, $F_X(1)$, $F_X(2)$, $F_X(2)-F_X(1)$, etc.
 
+We integrate the pdf to find the cdf, and we differentiate the cdf to find the pdf.
+If $X$ is a continuous random variable with cdf $F_X$ then its pdf if $f_X = F'_X$.
 
 ```{example, meeting-nonuniform-cdf1}
-23/32
 Recall Example \@ref(exm:meeting-nonuniform-probspace1).  Let $X$ be Regina's arrival time.
 
 ```
@@ -1618,7 +1930,7 @@ to Example \@ref(exm:binomial-cdf)
 
 ```{asis, fold.chunk = TRUE}
 
-1. $X$ takes values 0, 1, 2, 3, with respective probabilities 1/8, 3/8, 3/8, 1/8.  We sum these probabilities to find the cdf.  For example, $F_X(0) = \IP(X\le 0) = 1/8$, $F_X(1)=\IP(X\le 1) = \IP(X=0) + \IP(X=1) = 1/8+3/8 = 0.5$.  Remember that $x$ is defined for any value of $x$, for example $F_X(1.5) = \IP(X\le 1.5)= \IP(X=0) + \IP(X=1)=0.5$. The cdf is a step function, which is flat for impossible values of $x$ and jumps at possible values $x$ with the jump size at $x$ equal to the value of the pmf at $x$.
+1. See Figure \@ref(fig:binomial-cdf-illustration). $X$ takes values 0, 1, 2, 3, with respective probabilities 1/8, 3/8, 3/8, 1/8.  We sum these probabilities to find the cdf.  For example, $F_X(0) = \IP(X\le 0) = 1/8$, $F_X(1)=\IP(X\le 1) = \IP(X=0) + \IP(X=1) = 1/8+3/8 = 0.5$.  Remember that $x$ is defined for any value of $x$, for example $F_X(1.5) = \IP(X\le 1.5)= \IP(X=0) + \IP(X=1)=0.5$. The cdf is a step function, which is flat for impossible values of $x$ and jumps at possible values $x$ with the jump size at $x$ equal to the value of the pmf at $x$.
 \[
 F_X(x) =
 \begin{cases}
@@ -1726,7 +2038,7 @@ F_{X,Y}(x,y) = \IP(X\le x, Y\le y) \qquad \text{ for all } x,y
 
 
 
-### Quantile functions
+## Quantile functions
 
 Recall that the cdf fills in the following blank
 for any given $x$: $x$ is the (blank) percentile.
@@ -1756,10 +2068,10 @@ to Example \@ref(exm:exponential-quantile)
 ```{asis, fold.chunk = TRUE}
 
 
-1. Set $0.5 = \IP(X\le x) = 1-e^{-x}$ and solve to find $x=\log(2)\approx0.693$ This is represented by the halfway point in the spinner in Figure \@ref(fig:log-uniform-density).
-1. Set $0.632 = \IP(X\le x) = 1-e^{-x}$ and solve to find $x\approx 1$. We see that the value 1 in Figure \@ref(fig:log-uniform-density) has an area below it of 63.2%.
-1. Set $0.865 = \IP(X\le x) = 1-e^{-x}$ and solve to find $x\approx 2$. We see that the value 2 in Figure \@ref(fig:log-uniform-density) has an area below it of 86.5%.
-1. Set $p = \IP(X\le x) = 1-e^{-x}$ and solve for $x$ to find $x=-\log(1-p)$.  So given $p$, the area of any region starting from 0 in the spinner in Figure \@ref(fig:log-uniform-density), $-\log(1-p)$ labels the corresponding value on the axis.
+1. Set $0.5 = \IP(X\le x) = 1-e^{-x}$ and solve to find $x=-\log(1-0.5)=\log(2)\approx0.693$ This is represented by the halfway point in the spinner in Figure \@ref(fig:log-uniform-density).
+1. Set $0.632 = \IP(X\le x) = 1-e^{-x}$ and solve to find $x=-\log(1-0.632)\approx 1$. We see that the value 1 in Figure \@ref(fig:log-uniform-density) has an area below it of 63.2%.
+1. Set $0.865 = \IP(X\le x) = 1-e^{-x}$ and solve to find $x=-\log(1-0.865)\approx 2$. We see that the value 2 in Figure \@ref(fig:log-uniform-density) has an area below it of 86.5%.
+1. Set $p = \IP(X\le x) = 1-e^{-x}$ and solve for $x$ to find $x=-\log(1-p)$.  For a given $p$ --- the area of any region starting from 0 in the spinner in Figure \@ref(fig:log-uniform-density) --- $-\log(1-p)$ is the corresponding value on the axis of the spinner.
 
 ```
 
@@ -1779,11 +2091,17 @@ Exponential(1).quantile([0.632, 0.865, 0.9999])
 ```
 
 
+For a *continuous* random variable with cdf $F$, the **quantile function** is the function $Q:[0,1]\mapsto\mathbb{R}$ defined by $Q(p) = F^{-1}(p)$.
+
+The quantile function can be used to create a spinner for a distribution.
+Basically, the values on the outside boundary of the spinner are scaled based on the quantile function (which is determined by the cdf).
+Intervals corresponding to regions of higher density ("more likely") values are stretched out on the spinner boundary; intervals corresponding regions of lower density ("less likely" values) are shrunk.
+
 ### Universality of the Uniform (One spinner to rule them all)
 
 Recall how the spinner in Figure \@ref(fig:log-uniform-density) was constructed.  We started with the Uniform(0, 1) spinner with equally spaced increments, and applied the transformation $-\log(1-u)$, which "stretched" the intervals corresponding to higher probability and "shrunk" the intervals corresponding to lower probability.  The distribution that we ended up with was the Exponential(1) distribution with cdf $1-e^{-x}, x>0$.  Notice now that the transformation $-\log(1-u)$ corresponds to the quantile function of an Exponential(1) distribution.
 
-But the previous example tells us how to go backwards.  Starting from a cdf, we can construct the corresponding spinner by finding the quantile function, essentially the inverse cdf, and applying it to the equally spaced values on the Uniform(0, 1) spinner.  The quantile function will stretch/shrink the intervals just right to correspond to the probabilities given by the cdf.
+Example \@ref(exm:exponential-quantile) provides an example of how to go backwards.  Starting from a cdf, we can construct the corresponding spinner by finding the quantile function, essentially the inverse cdf, and applying it to the equally spaced values on the Uniform(0, 1) spinner.  The quantile function will stretch/shrink the intervals just right to correspond to the probabilities given by the cdf.
 
 This is the idea behind "universality of the uniform".  Basically, we can always start with a spinner that is "equally likely" to land in (0, 1) and suitably stretch/scale the axis around the spinner to construct a spinner corresponding to any distribution of interest.  The Uniform(0, 1) spinner returns a value in (0, 1); we obtain the value of the corresponding percentile from the quantile function.
 
@@ -1796,6 +2114,10 @@ We'll only prove the result assuming $F$ is a continuous, strictly increasing fu
 \IP(X \le x) = \IP(F^{-1}(U)\le x) = \IP(U\le F(x)) = F(x)
 \]
 The last step follows since $F(x)$ is just a number in [0, 1] and for $\IP(U\le u) = u$ for $0\le u\le 1$ since $U$ has a Uniform(0, 1) distribution.
+
+To show that $\{F^{-1}(U)\le x\} = \{U\le F(x)\}$, draw a picture like the middle plot in the figure before Example \@ref(exm:exponential-cdf-calcs).
+<!-- Consider $u\in[0, 1]$ and let $F^{-1}(u)=x$, so $F(x)=u$. -->
+<!-- Since $F$ is increasing if $\tilde{x}<x$ then $F(\tilde{x})<F(x)$ -->
 
 
 ## Distributions of transformations of random variables {#cdf-method}
@@ -1848,7 +2170,7 @@ The above follows since, for $0<x<\infty$, $-\log(1-u)\le x$ if and only if $u\l
 f_X(x) = F'(x) =\frac{d}{dx}(1-e^{-x}) = e^{-x}, \qquad 0<x<\infty
 \]
 Thus we see that $X$ has the pdf in Example \@ref(exm:exponential-pdf).
-1. The function $Q_X(u) = -\log(1-u)$ is the quantile function (inverse cdf) corresponding to the cdf $F_X(x) = 1-e^{-x}$.  Therefore, since $U$ has a Uniform(0, 1) distribution, the random variable $Q_X(U)$ will have cdf $F_X$ be universality of the Uniform.
+1. The function $Q_X(u) = -\log(1-u)$ is the quantile function (inverse cdf) corresponding to the cdf $F_X(x) = 1-e^{-x}$.  Therefore, since $U$ has a Uniform(0, 1) distribution, the random variable $Q_X(U)$ will have cdf $F_X$ by universality of the Uniform.
 
 ```
 

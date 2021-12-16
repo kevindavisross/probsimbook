@@ -3,21 +3,21 @@
 
 
 
-\newcommand{\IP}{\textrm{P}}
-\newcommand{\IQ}{\textrm{Q}}
-\newcommand{\E}{\textrm{E}}
-\newcommand{\Var}{\textrm{Var}}
-\newcommand{\SD}{\textrm{SD}}
-\newcommand{\Cov}{\textrm{Cov}}
-\newcommand{\Corr}{\textrm{Corr}}
-\newcommand{\Xbar}{\bar{X}}
-\newcommand{\Ybar}{\bar{X}}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\ybar}{\bar{y}}
-\newcommand{\ind}{\textrm{I}}
-\newcommand{\dd}{\text{DDWDDD}}
-\newcommand{\ep}{\epsilon}
-\newcommand{\reals}{\mathbb{R}}
+<!-- \newcommand{\IP}{\textrm{P}} -->
+<!-- \newcommand{\IQ}{\textrm{Q}} -->
+<!-- \newcommand{\E}{\textrm{E}} -->
+<!-- \newcommand{\Var}{\textrm{Var}} -->
+<!-- \newcommand{\SD}{\textrm{SD}} -->
+<!-- \newcommand{\Cov}{\textrm{Cov}} -->
+<!-- \newcommand{\Corr}{\textrm{Corr}} -->
+<!-- \newcommand{\Xbar}{\bar{X}} -->
+<!-- \newcommand{\Ybar}{\bar{X}} -->
+<!-- \newcommand{\xbar}{\bar{x}} -->
+<!-- \newcommand{\ybar}{\bar{y}} -->
+<!-- \newcommand{\ind}{\textrm{I}} -->
+<!-- \newcommand{\dd}{\text{DDWDDD}} -->
+<!-- \newcommand{\ep}{\epsilon} -->
+<!-- \newcommand{\reals}{\mathbb{R}} -->
 
 A continuous random variable can take any value within some uncountable interval, such as $[0, 1]$, $[0,\infty)$, or $(-\infty, \infty)$. These are
 often measurement type variables.
@@ -62,7 +62,7 @@ Exponential distributions are often used to model the *waiting times* between ev
 <!-- ``` -->
 
 
-```{example, exponential-quakes}
+```{example, exponential-quakes2}
 Suppose that we model the time, measured continuously in hours, from now until the next earthquake (of any magnitude) occurs in southern CA  as a continuous random variable $X$ with pdf
 \[
 f_X(x) = 2 e^{-2x}, \; x \ge0
@@ -80,8 +80,8 @@ f_X(x) = 2 e^{-2x}, \; x \ge0
 1. Find $\Var(X)$ and $\SD(X)$.
 
 
-```{solution, exponential-quakes-sol}
-to Example \@ref(exm:exponential-quakes)
+```{solution, exponential-quakes2-sol}
+to Example \@ref(exm:exponential-quakes2)
 ```
 
 ```{asis, fold.chunk = TRUE}
@@ -171,9 +171,9 @@ Exponential distributions are often used to model the *waiting time* in a random
 - $1/\lambda$ is the mean time between events (e.g., 1/2 hour)
 
 
-(ref:exponential-densities-caption) Exponential densities with rate parameter $\lambda$. 
+(ref:exponential-densities-caption2) Exponential densities with rate parameter $\lambda$. 
 
-```{python, exponential-densities-caption, fig.cap='(ref:exponential-densities-caption)'}
+```{python, exponential-densities-caption2, fig.cap='(ref:exponential-densities-caption2)'}
 plt.figure()
 rates = [0.5, 1, 2]
 for rate in rates:
@@ -187,7 +187,7 @@ plt.show()
 
 ```{example, exponential-quakes-rescale}
 
-Continuing Example \@ref(exm:exponential-quakes). Let $Y$ be the time between earthquakes, measured in minutes.  Identify the distribution of $Y$ and its mean and standard deviation.
+Continuing Example \@ref(exm:exponential-quakes2). Let $Y$ be the time between earthquakes, measured in minutes.  Identify the distribution of $Y$ and its mean and standard deviation.
 
 ```
 
@@ -280,6 +280,7 @@ to Example \@ref(exm:exponential-quakes-memoryless)
     & = e^{-2(1)}\\
     & = \IP(X > 1)
     \end{align*}
+The conditional probability that we wait for at least one more hour given that we have waited 3 hours already is equal to the unconditional probability that we wait for at least one hour.
 
 ```
 
@@ -317,7 +318,7 @@ Xiomara and Rogelio each leave work at noon to meet the other for lunch.  The am
 1. What is the relationship between $W$ and $X, Y$?
 1. Find and interpret $\IP(W>40)$.
 1. Find $\IP(W > w)$ and identify by name the distribution of $W$.
-1. Find $\E(W)$.
+1. Find $\E(W)$. Is it equal to $\min(\E(X), \E(Y))$?
 1. Is $\IP(Y>X)$ greater than or less than 0.5? Make an educated guess for $\IP(Y > X)$. 
 1. Find $\IP(Y>X|X=10)$.
 1. Find $\IP(Y>X|X=x)$ for general $x$.
@@ -350,8 +351,8 @@ The earlier arrival time is after $w$ minutes if and only if both arrivals occur
     & = e^{-(1/10 + 1/20)w} = e^{-0.15w}
     \end{align*}
     Therefore, $W$ has an Exponential distribution with rate parameter $1/10 + 1/20 = 0.15$.
-1. Since $W$ has an Exponential(0.15) distribution, $\E(W)=1/0.15 = 20/3 = 6.667$ minutes.
-1. Xiomara has a shorter mean arrival time, so we might expect that she is more likely to arrive first so $\IP(Y>X)$ should be greater than 0.5? Since on average it takes Rogelio twice as long as Xiomara to arrive, we might expect that Rogelio is twice as likely to be the second person to arrive, so that Xiomara is twice as likely to be the first to arrive.  That is, we guess that $\IP(Y > X)$ is 2/3, and $\IP(Y < X)$ is 1/3.
+1. Since $W$ has an Exponential(0.15) distribution, $\E(W)=1/0.15 = 20/3 = 6.667$ minutes. This is less than $\min(\E(X), \E(Y)) = \min(10, 20) = 10$. Remember: the expected value of a function is not equal to the function evaluated at the expected value. Taking the smaller of $X, Y$ on a pair-by-pair basis and then averaging yields a smaller value then each of the averages of $X$ and $Y$.
+1. Xiomara has a shorter mean arrival time, so we might expect that she is more likely to arrive first so $\IP(Y>X)$ should be greater than 0.5. Since on average it takes Rogelio twice as long as Xiomara to arrive, we might expect that Rogelio is twice as likely to be the second person to arrive, so that Xiomara is twice as likely to be the first to arrive.  That is, we guess that $\IP(Y > X)$ is 2/3, and $\IP(Y < X)$ is 1/3.
 1. Conditioning on $X=10$, treat $X$ like the constant 10.
     \begin{align*}
     \IP(Y>X|X=10) & = \IP(Y > 10 | X = 10) & & \text{Condition on $X=10$} \\
@@ -817,7 +818,7 @@ Normal().quantile(0.31), Normal().quantile(0.975)
 ```
 
 
-Probabilities and quantiles for Normal distributions can be computed with software.  However, you should practice making ballpark estimates ithout software, by standardizing and using the empirical rule.
+Probabilities and quantiles for Normal distributions can be computed with software.  However, you should practice making ballpark estimates without software, by standardizing and using the empirical rule.
 
 ```{example, normal-weight}
 The wrapper of a package of candy lists a weight of 47.9 grams. Naturally, the
@@ -845,8 +846,8 @@ to Example \@ref(exm:normal-weight)
 ```{asis, fold.chunk = TRUE}
 1. See the plot below.  Be sure to label the variable axis so that the inflection points are 1 SD away from the mean.
 1. If the company prints the mean weight of 49.8 grams on the package then 50% of the packages would weigh less than the printed weight.
-1. The standardized value for a weight of 47.9 grams is $(47.9 - 49.8) /1.3=-1.46$.  That is, a package weight of 47.9 grams is 1.46 SDs below the mean.  From the empirical rule, about 87% of values are within 1.5 SDs of the mean, so 6.5% in either tail.  We estimate that the probability is a little larger than 6.5%.
-1. The standardized value for a weight of 53.0 grams is $(53.0 - 49.8) /1.3=-2.46$.  That is, a package weight of 53.0 grams is 2.46 SDs above the mean.  From the empirical rule, about 99% of values are within 2.6 SDs of the mean, so 0.5% in either tail.  Therefore, about 99.5% of packages weigh no more than 53.0 grams.  So about $99.5 - 6.5 = 93$ percent of packages weight between 47.9 and 53.0 grams.
+1. The standardized value for a weight of 47.9 grams is $(47.9 - 49.8) /1.3=-1.46$.  That is, a package weight of 47.9 grams is 1.46 SDs below the mean.  From the empirical rule, about 87% of values are within 1.5 SDs of the mean, so 6.5% in either tail.  We estimate that the probability is a little larger than 6.5%. Software (below) shows that the probability is 0.072.
+1. The standardized value for a weight of 53.0 grams is $(53.0 - 49.8) /1.3=-2.46$.  That is, a package weight of 53.0 grams is 2.46 SDs above the mean.  From the empirical rule, about 99% of values are within 2.6 SDs of the mean, so 0.5% in either tail.  Therefore, about 99.5% of packages weigh no more than 53.0 grams.  So about $99.5 - 6.5 = 93$ percent of packages weight between 47.9 and 53.0 grams. Software shows that the probability is 0.921.
 1. From the empirical rule for 95%, the 2.5th percentile is 2 SDs below the mean.  From the empirical rule for 99%, the 0.5th percentile is 2.6 SDs below the mean.  So the 1st percentile is between 2 and 2.6 SDs below the mean; software shows that the first percentile is 2.33 SDs below the mean.  Therefore, the 1st percentile of package weights is $49.8 - 2.33\times 1.3 =    46.8$ grams.
 1. From the empirical rule for 38%, the 31st percentile is 0.5 SDs below the mean.  From the empirical rule for 68%, the 16th percentile is 1 SD below the mean.  So the 25th percentile is between 0.5 and 1 SDs below the mean; software shows that the 25th percentile is 0.6745 SDs below the mean.  Therefore, the 25th percentile of package weights is $49.8 - 0.6745\times 1.3 =    48.9$ grams.
 1. By symmetry, if the 25th percentile is 0.6745 SDs below the mean, then the 75th percentile is 0.6745 SDs above the mean.  Therefore, the 75th percentile of package weights is $49.8 + 0.6745\times 1.3 =    50.7$ grams.
@@ -912,19 +913,26 @@ polygon(cord.x,cord.y,col=cols)
 
 ```{python}
 
-Normal().cdf((47.9 - 49.8) / 1.3), Normal(49.8, 1.3).cdf(47.9)
+Normal(0, 1).cdf((47.9 - 49.8) / 1.3), Normal(49.8, 1.3).cdf(47.9)
+
+```
+
+
+```{python}
+
+Normal(49.8, 1.3).cdf(53.0) - Normal(49.8, 1.3).cdf(47.9)
 
 ```
 
 ```{python}
 
-Normal().quantile(0.01), Normal(49.8, 1.3).quantile(0.01)
+Normal(0, 1).quantile(0.01), Normal(49.8, 1.3).quantile(0.01)
 
 ```
 
 ```{python}
 
-Normal().quantile(0.25), Normal().quantile(0.75)
+Normal(0, 1).quantile(0.25), Normal(0, 1).quantile(0.75)
 ```
 
 
@@ -941,7 +949,9 @@ In a large class, scores on midterm 1 follow (approximately) a Normal$(\mu_1, \s
 
 ```{asis, fold.chunk = TRUE}
 
-Software shows that for a Normal distribution, the 40th percentile is 0.253 SDs below the mean and the 70th percentile is 0.524 SDs above the mean.  We are told
+Software shows that for a Normal distribution, the 40th percentile is 0.253 SDs below the mean and the 70th percentile is 0.524 SDs above the mean.
+The 40th percentile of midterm 1 scores is $\mu_1 - 0.253 \sigma$, and the 70th percentile of midterm 2 scores is $\mu_2 + 0.524\sigma$.
+We are told
 \[
 \mu_1 - 0.253 \sigma = \mu_2 + 0.524\sigma
 \]
@@ -1100,7 +1110,7 @@ Suppose that SAT Math ($M$) and Reading ($R$) scores of CalPoly students have a 
     \Var(M-R) & = \Var(M) + \Var(R) - 2\Cov(M, R)\\
     & = 80^2 + 70^2 - 2(0.7)(80)(70) = 3460
     \end{align*}
-    The SD is 58.8.  Therefore we want to find $\IP(D > 0)$ where $D=M-R$ has a Normal(30, 58.8) distribution.  With respect to this distribution, a difference of 0 is $(0-30)/58.8 = =0.51$, that is 0.51 SDs below the mean so $\IP(D >0) = 1 - \Phi(-0.51)\approx 0.695$.
+    The SD is 58.8.  Therefore we want to find $\IP(D > 0)$ where $D=M-R$ has a Normal(30, 58.8) distribution.  With respect to this distribution, a difference of 0 is $(0-30)/58.8 = -0.51$, that is 0.51 SDs below the mean so $\IP(D >0) = 1 - \Phi(-0.51)\approx 0.695$.
 
 
 ```
@@ -1136,9 +1146,9 @@ Let $X$ and $I$ be independent, $X$ has a Normal(0,1) distribution, and $I$ take
 1. $I$ can be determined by a coin flip; $I=1$ if the flip lands on Heads, $I=-1$ if the flip lands on Tails.  Spin the Normal(0, 1) spinner to generate $Z$ and flip the coin; if it lands Heads then $Y=Z$, if Tails then $Y=-Z$. 
 1. The conditional distribution of $Y$ given $I=1$ is Normal(0, 1) since in this case $Y=Z$. The conditional distribution of $Y$ given $I=-1$ is Normal(0, 1) since in this case $Y=-Z$, and the Normal(0, 1) distribution is symmetric about 0.
 1. Half of the $(X, Y)$ pairs lie on the line $y=x$ and the other half on the line $y=-x$.  So the scatter plot looks like an "X".
-1. $X$ and $Y$ are not independent.  The marginal distribution of $Y$ is Normal(0, 1), but conditional $X=1$, $Y$ only takes value 1 or $-1$ with probability 1/2 each. 
+1. $X$ and $Y$ are not independent.  The marginal distribution of $Y$ is Normal(0, 1), but conditional on $X=1$, $Y$ only takes value 1 or $-1$ with probability 1/2 each. 
 1. Conditional $X=x$, $Y$ only takes value $x$ or $-x$ with probability 1/2 each, so $\E(Y|X)=0$.  Therefore, $\Cov(X, Y) = 0$.  $X$ and $Y$ are uncorrelated.
-1. $X+Y$ does not have a continuous distribution.  $\IP(X + Y = 0) = \IP(Y = -X) = \IP(I=-1)=1/2>0$.  If $X+Y$ had a Normal distribution then $\IP(X+Y=0)$ would be 0 because a Normal distribution is a continuous distribution.  (The random variable $X+Y$ is neither discrete nor continuous.)
+1. $X+Y$ does not have a continuous distribution.  $\IP(X + Y = 0) = \IP(Y = -X) = \IP(I=-1)=1/2\neq 0$.  If $X+Y$ had a Normal distribution then $\IP(X+Y=0)$ would be 0 because a Normal distribution is a continuous distribution.  (The random variable $X+Y$ is neither discrete nor continuous.)
 1. Even though each of $X$ and $Y$ has a Normal distribution, the pair $(X, Y)$ does not have a Bivariate Normal distribution.
     - The scatterplot of $(X, Y)$ pairs is not elliptical.
     - $X$ and $Y$ are uncorrelated but not independent.

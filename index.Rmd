@@ -36,6 +36,7 @@ biblio-style: apalike
 link-citations: yes
 github-repo: rstudio/probsim-book
 description: "This textbook presents a simulation-based approach to probability, using the Symbulate package."
+always_allow_html: true
 ---
 
 # Preface{-}
@@ -46,9 +47,14 @@ library(knitr)
 # library(learnr)
 library(bookdown)
 library(tidyverse)
+# need development version of reticulate due to plot issues
+# https://github.com/rstudio/reticulate/issues/1010
+# remotes::install_github("rstudio/reticulate")
 library(reticulate)
+# use_virtualenv("r-reticulate")
 library(ggplot2)
 library(scales)
+library(gridExtra)
 
 blank_theme <- theme_minimal()+
   theme(
@@ -66,6 +72,10 @@ knitr::write_bib(c(
 ), 'packages.bib')
 
 knitr::opts_chunk$set(echo = TRUE)
+
+# knitr::opts_chunk$set(eval = FALSE)
+
+
 
 hooks = knitr::knit_hooks$get()
 hook_foldable = function(type) {
@@ -97,18 +107,31 @@ knitr::knit_hooks$set(
 ```
 
 
+
+
+
+
+```{r, include = FALSE}
+# py_install("symbulate", pip = TRUE)
+# py_install("tabulate")
+```
+
+
+
+
 ```{python, include = FALSE}
 # These lines needed to show plots because of
 # reticulate issue with matplotlib
 # https://github.com/rstudio/rstudio/issues/4182
 
-import os
-os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'C:/Users/kjross/Anaconda3/Library/plugins/platforms'
+# import os
+# os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'C:/Users/kjross/Anaconda3/Library/plugins/platforms'
 
 from symbulate import *
 import matplotlib
 import matplotlib.pyplot as plt
 # from IPython.display import Markdown, display, HTML
+from tabulate import tabulate
 
 ```
 
@@ -155,7 +178,7 @@ Why use **simulation** to study probability?
 
 ### Learn by doing {-}
 
-The exercises in this book are used to both motivate new topics and to help you practice your understanding of the material.  You should attempt the exercises on your own before reading the solutions.  To encourage you to do so, the solutions have been hidden.  You can reveal the solution by clicking on the **Show/hide solution** button.  
+The examples in this book are used to both motivate new topics and to help you practice your understanding of the material.  You should attempt the examples on your own before reading the solutions.  To encourage you to do so, the solutions have been hidden.  You can reveal the solution by clicking on the **Show/hide solution** button.  
 
 ```{asis, fold.chunk = TRUE}
 

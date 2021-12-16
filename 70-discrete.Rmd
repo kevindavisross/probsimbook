@@ -1,21 +1,21 @@
 # Common Distributions of Discrete Random Variables {#discrete}
 
 
-\newcommand{\IP}{\textrm{P}}
-\newcommand{\IQ}{\textrm{Q}}
-\newcommand{\E}{\textrm{E}}
-\newcommand{\Var}{\textrm{Var}}
-\newcommand{\SD}{\textrm{SD}}
-\newcommand{\Cov}{\textrm{Cov}}
-\newcommand{\Corr}{\textrm{Corr}}
-\newcommand{\Xbar}{\bar{X}}
-\newcommand{\Ybar}{\bar{X}}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\ybar}{\bar{y}}
-\newcommand{\ind}{\textrm{I}}
-\newcommand{\dd}{\text{DDWDDD}}
-\newcommand{\ep}{\epsilon}
-\newcommand{\reals}{\mathbb{R}}
+<!-- \newcommand{\IP}{\textrm{P}} -->
+<!-- \newcommand{\IQ}{\textrm{Q}} -->
+<!-- \newcommand{\E}{\textrm{E}} -->
+<!-- \newcommand{\Var}{\textrm{Var}} -->
+<!-- \newcommand{\SD}{\textrm{SD}} -->
+<!-- \newcommand{\Cov}{\textrm{Cov}} -->
+<!-- \newcommand{\Corr}{\textrm{Corr}} -->
+<!-- \newcommand{\Xbar}{\bar{X}} -->
+<!-- \newcommand{\Ybar}{\bar{X}} -->
+<!-- \newcommand{\xbar}{\bar{x}} -->
+<!-- \newcommand{\ybar}{\bar{y}} -->
+<!-- \newcommand{\ind}{\textrm{I}} -->
+<!-- \newcommand{\dd}{\text{DDWDDD}} -->
+<!-- \newcommand{\ep}{\epsilon} -->
+<!-- \newcommand{\reals}{\mathbb{R}} -->
 
 
 Discrete random variables take at most countably many possible values (e.g., $0, 1, 2, \ldots$).  They are often counting variables (e.g., the number of Heads in 10 coin flips).
@@ -41,7 +41,7 @@ In the case of a finite sample space $\Omega$ with *equally likely outcomes*, th
 \[
 \IP(A) = \frac{|A|}{|\Omega|} = \frac{\text{number of outcomes in $A$}}{\text{number of outcomes in $\Omega$}} \qquad{\text{when outcomes are equally likely}}
 \]
-Computing probabilities in the equally likely case reduces to just counting outcomes. In previous sections we often counted outcomes by enumerating them in a list.  Of course, listing all the outcomes is unfeasible unless the sample size is very small.  In this section we will see some formulas for counting in a few common situations
+Computing probabilities in the equally likely case reduces to just counting outcomes. In previous sections we often counted outcomes by enumerating them in a list.  Of course, listing all the outcomes is unfeasible unless the sample space is very small.  In this section we will see some formulas for counting in a few common situations.
 
 ```{example, counting-icecream}
 
@@ -63,7 +63,7 @@ to Example \@ref(exm:counting-icecream)
 
 1. Each flavor can be served in 2 ways, cone or bowl.  Since there are 4 flavors, the number of ways to serve is $4\times 2 = 8$.
 1. Each of the 8 pairs from the previous part can be served in 3 ways, with rainbow sprinkles, with chocolate sprinkles, or without sprinkles. So the number of ways to serve is now $4\times 2 \times 3 = 24$.
-1. Only the bowls can get whipped cream so we can't just multiply 24 by 2.  (Of the 24 possibilities from the previous part, 12 are in bowls.  So these 12 can be served with or without whipped cream, but the other 12 in cones can only be served without whipped cream.  The number of possibilities is now $12\times 2 + 12 = 36$.)
+1. No. Only the bowls can get whipped cream so we can't just multiply 24 by 2.  Of the 24 possibilities from the previous part, 12 are in bowls.  So these 12 can be served with or without whipped cream, but the other 12 in cones can only be served without whipped cream.  The number of possibilities is now $12\times 2 + 12 = 36$.
 ```
 
 All of the counting rules we will see are based on multiplying like in the previous example.
@@ -105,6 +105,7 @@ to Example \@ref(exm:ceo1)
 ```{asis, fold.chunk = TRUE}
 
 1. There are 5 choices for CEO, then 4 choices for CFO, then 3 choices for COO.  So there are $5\times 4 \times 3 = 60$ possible teams. The sample space consists of 60 possible outcomes.
+    The order in which we make the choices doesn't matter.  We could have picked the CFO first then COO then CEO, still resulting in $5\times 4\times3$ possible outcomes. What is important is that there are 3 distinct stages. Choosing Ariana as CEO is not the same as choosing Ariana as CFO.
 1. If the selections are made uniformly at random, each of the 60 possible teams is equally likely.  So the probability of any particular team, like this one, is 1/60.
 1. The probability of any particular team is 1/60.  But note that Ariana as CEO, Beyonce as CFO, and Cardi as COO is a different outcome than Ariana as CEO, Cardi as CFO, and Beyonce as COO
 1. To construct a team with Ariana as CEO and Beyonce as CFO, there is one possible choice for CEO (Ariana), one possible choice for CFO (Beyonce) and three possible choices for COO, resulting in $1\times 1\times 3$ teams that have Ariana as CEO and Beyonce as CFO. Since the outcomes are equally likely, the probability is 3/60.
@@ -117,7 +118,7 @@ to Example \@ref(exm:ceo1)
 In the previous example, the "stage" at which the person was chosen was important: there was a CEO stage, a CFO stage, and a COO stage.  Choosing Ariana at the CEO stage, Beyonce at the CFO stage, and Cardi at the COO stage was a different outcome than choosing Ariana at the CEO stage, Cardi at the CFO stage, and Beyonce at the COO stage.  When what happens at each stage matters, an outcome is often called an "ordered" arrangement.  Again, "order" is perhaps a misnomer; it's not that there's a "first" and "second" and "third" stage, but rather that  there are three distinct stages --- CEO, CFO, COO.
 
 
-The multiplication principle applies directly to situations which involve "ordered" or stage-wise counting, like the executive example.  We employed the multiplication principle to find that the are $5\times 4\times 3=60$ possible executive teams.  The following formula generalizes this result.
+The multiplication principle applies directly to situations which involve "ordered" or stage-wise counting, like the executive example.  We employed the multiplication principle to find that there are $5\times 4\times 3=60$ possible executive teams.  The following formula generalizes this result.
 
 
 **Number of ordered arrangements.** The number of *ordered arrangements* of $k$ items, selected *without* replacement from a set of $n$ distinct items is
@@ -146,7 +147,7 @@ to Example \@ref(exm:ceo2)
 
 ```{asis, fold.chunk = TRUE}
 
-1. There were distinct stages in the executive team example; selecting Ariana as CEO, Beyonce as CFO, and Cardi as COO was counted as a different outcome than selecting Ariana as CEO, Cardi as CFO, and Beyonce as COO.  But when forming the committee we only need to know which three people were selected, not which "order" they were selected in.
+1. There were distinct stages in the executive team example; selecting Ariana as CEO, Beyonce as CFO, and Cardi as COO was counted as a different outcome than selecting Ariana as CEO, Cardi as CFO, and Beyonce as COO.  But when forming the committee we only need to know which three people were selected, not which stage or "order" they were selected in.
 1. There is only one committee that consists of Ariana, Beyonce, Cardi. But there were 6 executive teams that consisted of Ariana, Beyonce, Cardi.  To have a team with these three people, there are 3 choices for who is CEO, then 2 choices for COO, then 1 choice for COO, for a total of $3\times2\times1=6$ possible teams consisting of Ariana, Beyonce, Cardi. 
 1. There were 60 possible "ordered" outcomes, but counting in an "ordered" way overcounts the number of committees by a factor of 6.  Counting in an "ordered" way we would count 6 teams consisting of Ariana, Beyonce, Cardi, but we only want to count the possible committee once.  Therefore, the total number of committees is 60/6 = 10.
 
@@ -155,12 +156,14 @@ to Example \@ref(exm:ceo2)
 
 The following is the relationship between "ordered" and "unordered" counting.
 
+\scriptsize{
 \begin{align*}
 		\left(\text{number of \emph{ordered} selections of $k$ from $n$}\right) & = \left(\text{number of \emph{unordered} selections of $k$ from $n$}\right)\\
 		&\quad \times\left(\text{number of ways of arranging the $k$ items in order}\right).
 \end{align*}
+}
 
-We have seen how to compute number of "ordered" arrangements.  How many ways are there of arranging $k$ items in order? 
+We have seen how to compute the number of "ordered" arrangements.  How many ways are there of arranging $k$ items in order? 
 
 
 **Number of permutations.**  The number of ways of arranging $k$ items in order is
@@ -183,10 +186,10 @@ The quantity on the right is just a compact way of representing the quantity in 
 
 
 
-An unordered selection of $k$ items from a group of $n$ is sometimes called a \textbf{combination}, so $\binom{n}{k}$ is sometimes called the number of combinations. The symbol $\binom{n}{k}$ is by definition equal to the quantity in the middle above.  It is read as "$n$ choose $k$" and is referred to as a **binomial coefficient**.  For example, there are "5 choose 3" committees in the previous example
+An unordered selection of $k$ items from a group of $n$ is sometimes called a *combination*, so $\binom{n}{k}$ is sometimes called the number of combinations. The symbol $\binom{n}{k}$ is by definition equal to the quantity in the middle above.  It is read as "$n$ choose $k$" and is referred to as a **binomial coefficient**.  For example, there are "5 choose 3" committees in the previous example
 
 \[
-\binom{5}{3} = \frac{5!}{3!(5-3)!} = \frac{(5)(4)(3)}{(3)(2)(1)} = \frac{60}{6} = 10
+\binom{5}{3} = \frac{5!}{3!(5-3)!} = \frac{(5)(4)(3)}{3!} = \frac{60}{6} = 10.
 \]
 
 
@@ -258,11 +261,11 @@ to Example \@ref(exm:counting-lottery)
 ```{asis, fold.chunk = TRUE}
 
 1. There are $\binom{69}{5}$ ways of choosing the 5 numbers from the 69, and each of these can be paired with one of the 26 possible Powerballs.  Therefore, there are $\binom{69}{5}(26) = 292,201,338$ possible winning numbers.
-1. Each of the possible winnnig numbers is equally likely, so the  probability is $1/292,201,338\approx 3\times 10^{-9}$.
-1. Each of the possible winning numbers is equally likely.  Remember, don't confuse a general event with a specific outcome.
+1. Each of the possible winning numbers is equally likely, so the  probability is $1/292,201,338\approx 3\times 10^{-9}$. See Example \@ref(exm:probability-interpret3) and the discussion following it.
+1. Each of the possible winning numbers is equally likely.  Remember, don't confuse a general event with a specific outcome; see Example \@ref(exm:probability-interpret2).
 1. The drawings are independent.  The probability that you win at least once is $1 - (1-1/292201338)^{6000}\approx 0.00002$.  If many people each play 6000 drawings, about 2 in every 100,000 people win will at least once.
 1. If you play 6000 different numbers, the events that each different number wins are disjoint.  So the probability you win at least once is $6000/292201338\approx 0.00002$.  This is about the same as the probability in the previous part.  When you play 6000 different independent drawings, there is a possibility that you win multiple times, so the events of winning in each different drawing are not disjoint.  But the probability of winning *multiple* lotteries is so small that it's negligible.  The probability of winning any single drawing is about 1 in 300 million.  The probability of winning any two drawings is about 1 in 85 quadrillion.
-1. You pay \$12,000 in total.  Let $w$ be the value of the jackpot.  Then your expected profit is $w(6000/292201338)-12000$.  So we must have $w>584,402,676$ for the expected profit to be positive.  Sometimes, but not often, the jackpot does get this high; even so, this just guarantees that your expected profit is positive.  In order for your expected profit to be greater than just \$100,000, the jackpot must be over 5 billion dollars, and the largest jackpot ever was 1.6 billion.  The moral: don't play the lottery.
+1. You pay \$12,000 in total.  Let $w$ be the value of the jackpot.  Then your expected profit is $w(6000/292201338)-12000$.  So we must have $w>584,402,676$ for the expected profit to be positive.  Sometimes, but not often, the jackpot does get this high; even so, this just guarantees that your expected profit is positive.  In order for your expected profit to be greater than just \$100,000, the jackpot must be over 5 billion dollars, and the largest jackpot ever was 1.6 billion.  The moral: there are better things to do with $12,000 dollars.
 
 ```
 
@@ -438,12 +441,13 @@ n(n-1)(n-2)\cdots(n-k+1) = \frac{n!}{(n-k)!}
 
 
 ```{example, capture}
-Capture-recapture sampling is a technique often used to estimate the size of a population.  Suppose you want to estimate $N$, the number of [monarch butterflies in Pismo Beach](https://www.parks.ca.gov/?page_id=30273).  (Assume that $N$ is a fixed but unknown number; the population size doesn't change over time.) You first capture a sample of $N_1$ butterflies, selected randomly without replacement, and tag them and release them.  At a later date, you then capture a second sample of $n$ butterflies, selected randomly without replacement.  Let $X$ be the number of butterflies in the second sample that have tags (because they were also caught in the first sample).  (Assume that the tagging has no effect on behavior, so that selection in the first sample is independent of selection in the second sample.)
+Capture-recapture sampling is a technique often used to estimate the size of a population.  Suppose you want to estimate $N$, the number of [monarch butterflies in Pismo Beach](https://www.parks.ca.gov/?page_id=30273).  (Assume that $N$ is a fixed but unknown number; the population size doesn't change over time.) You first capture a sample of $N_1$ butterflies, selected randomly without replacement, and tag them and release them.  At a later date, you then capture a second sample of $n$ butterflies, selected randomly *without* replacement.  Let $X$ be the number of butterflies in the second sample that have tags (because they were also caught in the first sample).  (Assume that the tagging has no effect on behavior, so that selection in the first sample is independent of selection in the second sample.)
 
 In practice, $N$ is unknown.  But let's start with a simpler, but unrealistic, example where there are $N=52$ butterflies, $N_1 = 13$ are tagged in the first sample, and $n=5$ is the size of the second sample.
 
 ```
 
+1. Are the five individual selections independent?
 1. What are the possible values of $X$?
 1. Describe in detail how you could use simulation to approximate the distribution of $X$.
 1. Find $\IP(X = 0)$ in two ways.
@@ -463,6 +467,7 @@ to Example \@ref(exm:capture)
 
 ```{asis, fold.chunk = TRUE}
 
+1. No. When sampling without replacement the individual selections are not independent. For example, the conditional probability that the second butterfly is tagged given that the first is tagged is 12/51, but the conditional probability that the second butterfly is tagged given that the first is not tagged is 13/51. 
 1. $X$ can take values 0, 1, 2, 3, 4, 5.
 1. Write 1 to represent "tagged" on 13 cards and 0 to represent "not tagged" on 39 cards.  Shuffle the 52 cards and deal 5, and let $X$ be the number of cards in the 5 dealt that are labeled 1 ("tagged").  Repeat many times to simulate many values of $X$.  Approximate $\IP(X = x)$ with the simulated relative frequency for $x = 0, 1, \ldots, 5$.  For example, count the number of repetitions in which $X$ is 2 and divide by the total number of repetitions to approximate $\IP(X = 2)$.
 1. We can use the partitioning strategy from the previous section.
@@ -500,11 +505,11 @@ Partitioning
 \[
 \IP(X = 2) = \frac{\binom{13}{2}\binom{39}{3}}{\binom{52}{5}}  = 0.2743.
 \]
-1. The partitioning method provides a more compact expression.
+1. The partitioning method provides a more compact expression. In order to have a sample of size 5 with exactly $x$ tagged butterflies, we need to select $x$ butterflies from the 13 tagged butterflies in the population, and the remaining $5-x$ butterflies from the 39 untagged butterflies in the population.
 \[
 p_X(x) = \frac{\binom{13}{x}\binom{39}{5-x}}{\binom{52}{5}}, \qquad x = 0, 1, 2, 3, 4, 5.
 \]
-1. We could find the distribution and use the definition of expected value.  However, we can also write $X$ as a sum of indicators and use linearity of expected value.  For $i=1, \ldots, 5$, let $X_i$ be 1 if the $i$th butterfly selected is tagged, and let $X_i$ be 0 otherwise. Then $X=X_1+\cdots+X_5$.  $\E(X_i)$ is the *unconditional* probability that the $i$th butterfly selected is tagged, which is 13/52.  Therefore, $\E(X) = 5(13/52) = 1.25$.  This makes sense: if 1/4 of the butterflies in the population are tagged, we would also expect 1/4 of the butterflies in a randomly selected sample to be tagged. 
+1. We could find the distribution and use the definition of expected value.  However, we can also write $X$ as a sum of indicators and use linearity of expected value.  For $i=1, \ldots, 5$, let $X_i$ be 1 if the $i$th butterfly selected is tagged, and let $X_i$ be 0 otherwise. Then $X=X_1+\cdots+X_5$.  $\E(X_i)$ is the *unconditional* probability that the $i$th butterfly selected is tagged, which is 13/52.  Therefore, $\E(X) = 5(13/52) = 1.25$.  This makes sense: if 1/4 of the butterflies in the population are tagged, we would also expect 1/4 of the butterflies in a randomly selected sample to be tagged.
 1. The variance be greater if the sampling was with replacement.  Sampling without replacement, each selection conditionally restricts the number of possibilities, allowing for less variability in the number of successes in the sample.  For example, sampling with replacement yields a slightly larger probability for $\{X=5\}$ than sampling without replacement does.
 
     As a more extreme example, suppose instead that the sample size was $n=20$.  Then, the largest possible value of $X$ is 13 when sampling without replacement but 20 when sampling with replacement.
@@ -570,8 +575,8 @@ The population size is $N$ and the sample size is $n$. The population proportion
 The largest possible value of $X$ is $\min(n, N_1)$, since there can't be more successes in the sample than in the population. The smallest possible value of $X$ is $\max(0, n-N_0)$ since there can't be more failures in the sample than in the population (that is, $n-X\le N_0$). Often $N_0$ and $N_1$ are large relative to $n$ in which case $X$ takes
 values $0, 1,\ldots, n$.
 
-The quantity $(N-n)/(N-1)$ which appears in the variance formula is called the *finite population
-correction*.  We will investigate this factor in more detail LATER.
+The quantity $\frac{N-n}{N-1}<1$ which appears in the variance formula is called the *finite population
+correction*.  We will investigate this factor in more detail later.
 
 <!-- Suppose there are 20,426 undergrads at Cal Poly, 17,015 of whom are CA -->
 <!-- residents. Select a SRS of 100 Cal Poly undergrads, and let $X$ be the -->
@@ -583,8 +588,6 @@ correction*.  We will investigate this factor in more detail LATER.
 
 <!-- Compute the probability that there are at exactly 80 CA residents in the -->
 <!-- sample if the selection is done *without* replacement. -->
-
-
 
 
 
@@ -646,11 +649,12 @@ to Example \@ref(exm:binomial-capture)
 p_X(x) = \binom{5}{x}\left(\frac{13}{52}\right)^x\left(\frac{39}{52}\right)^{5-x}, \qquad x = 0, 1, 2, 3, 4, 5
 \]
 1. We could find the distribution and use the definition of expected value.  However, we can also write $X$ as a sum of indicators and use linearity of expected value.  For $i=1, \ldots, 5$, let $X_i$ be 1 if the $i$th butterfly selected is tagged, and let $X_i$ be 0 otherwise. Then $X=X_1+\cdots+X_5$.  $\E(X_i)$ is the *unconditional* probability that the $i$th butterfly selected is tagged, which is 13/52.  Therefore, $\E(X) = 5(13/52) = 1.25$.  This makes sense: if 1/4 of the butterflies in the population are tagged, we would also expect 1/4 of the butterflies in a randomly selected sample to be tagged. 
-1. As in the previous part, we can write $X=X_1+\cdots+X_5$ where $X_i$ is 1 if the $i$th butterfly selected is tagged, and $X_i$ is 0 otherwise.  Since the individual draws are independent, the random variables $X_1, \ldots, X_5$ are independent.  Remember that for independent random variables $\Var(X_1+\cdots + X_5) = \Var(X_1) + \cdots +\Var(X_5)$.  Since $X_i$ is either 0 or 1, $X_i^2 = X_i$, so
+1. As in the previous part, we can write $X=X_1+\cdots+X_5$ where $X_i$ is 1 if the $i$th butterfly selected is tagged, and $X_i$ is 0 otherwise.  Since the individual draws are independent, the random variables $X_1, \ldots, X_5$ are independent.  Remember that for independent random variables $\Var(X_1+\cdots + X_5) = \Var(X_1) + \cdots +\Var(X_5)$.  Since $X_i$ is either 0 or 1, $X_i^2 = X_i$, so $\E(X_i^2) = 13/52$ and
 \[
 \Var(X_i) = \E(X_i^2) - (\E(X_i))^2 = 13/52 - (13/52)^2 = (13/52)(1-13/52)
 \]
 Therefore $\Var(X) = 5(13/52)(1-13/52) = 0.9375.$
+  We see that there is a little more variability when the selections are made with replacement than without.
 1. The results only depend on $N_1$ and $N_0$ through the ratio $13/52 = N_1/(N_0+N_1)$.  That is, when the selections are made with replacement, only the population proportion is needed.
 1. See Example \@ref(exm:binomial-capture).  If the selections are made without replacement, then the individual draws are no longer independent, which effects the distribution of $X$ and its variability.  However, the expected value of $X$ is the same regardless of how the draws are made.
 
@@ -664,7 +668,9 @@ Therefore $\Var(X) = 5(13/52)(1-13/52) = 0.9375.$
 ```{python, sym-cards-binomial}
 
 P = BoxModel({1: 13, 0: 39}, size = 5, replace = True)
+
 X = RV(P, count_eq(1))
+
 x = X.sim(10000)
 
 x.plot()
@@ -720,7 +726,7 @@ The situation in the previous paragraph and example involves a sequence of **Ber
 - The unconditional/marginal probability of success is the same on every trial, and equal to $p$
 - The trials are independent.
 
-If $X$ counts the number of successes in a *fixed number*, $n$, of Bernoulli($p$) trials then $X$ has a Binomial($n$, $p$) distribution.  
+If $X$ counts the number of successes in a *fixed number*, $n$, of Bernoulli($p$) trials then $X$ has a Binomial($n, p$) distribution.  
 Careful: Don't confuse the number $p$, the probability of success on any single trial, with the probability mass function $p_X(\cdot)$ which takes as an input a number $x$ and returns as an output the probability of $x$ successes in $n$ Bernoulli($p$) trials, $p_X(x)=\IP(X=x)$. 
 
 ```{example, binomial-situation}
@@ -746,8 +752,8 @@ to Example \@ref(exm:binomial-situation)
 
 1. Yes, Binomial(20, 0.5). Success = even.
 1. Yes, Binomial(20, 1/6). Success = 6.  (The probability of success has to be the same on each trial.  However, the probability of success does not have to be the same as the probability of failure.)
-1. Not Binomial; not a fixed number of trials.
-1. Not Binomial; not a fixed number of trials.
+1. Not Binomial; not a fixed number of trials. These are Bernoulli trials, but the random variable is not counting the number of successes in a fixed number of trials.
+1. Not Binomial; not a fixed number of trials. These are Bernoulli trials, but the random variable is not counting the number of successes in a fixed number of trials.
 1. Not Binomial; each trial has more outcomes than just success or failure, and the random variable is summing the values rather than counting successes.
 1. Not Binomial, because the trials are not independent.  The conditional probability that the second card is a heart given that the first card is a heart is 12/51, which is not equal to the conditional probability that the second card is a heart given that the first card is not a heart, 13/51.  The trials are not independent.  However, *the unconditional probability of success is the same on each trial*, $p=13/52$.  Recall Section \@ref(conditional-versus-unconditional).
 1. Not Binomial.  Here the trials are independent, but the probability of success is not the same on each trial; it's 1/6 for the six-sided die trials but 1/4 for the four sided-die trials. 
@@ -764,6 +770,103 @@ Do not confuse the following two distinct assumptions of Bernoulli trials.
     - But when sampling without replacement, if the population size is much larger than the sample size then the trials will be nearly independent.
 
 
+
+```{example, binom-plots-n}
+
+Each of the plots below displays a Binomial distribution with $p=0.4$ (and different values of $n$).  For a fixed value of $p$, how does the variance of a Binomial distribution relate to $n$?    (Note: the plots are on the same scale, so some probabilities are 0.)
+
+```
+
+(ref:cap-binom-plots-n) Probability mass functions for Binomial($n$, 0.4) distributions for $n = 5, 10, 15, 20$.
+
+
+```{python, fig-binom-plots-n, fig.cap = "(ref:cap-binom-plots-n)"}
+
+p = 0.4
+
+ns = [5, 10, 15, 20]
+
+for n in ns:
+  Binomial(n, p).plot()
+
+plt.legend(ns, title = "n")
+
+plt.show()
+
+```
+
+
+```{solution binom-plots-n-sol}
+to Example \@ref(exm:binom-plots-n)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+For a Binomial($n$, $p$) distribution, variance increases as $n$ increases.
+Since the possible values of a random variable with a Binomial distribution are $0, 1, \ldots, n$, as $n$ increases the range of possible values of the variable increases.
+
+However, in some sense it is unfair to compare values from Binomial distributions with different values of $n$.
+Ten successes has a very different meaning if $n$ is 10 or 20 or 100. Rather than focusing on the absolute number of successes, in Binomial situations we are often concerned with the *proportion* of successes in the sample.
+We will see soon that as the sample size $n$ increases, the variance of the sample proportion decreases.
+
+
+
+```
+
+
+
+
+```{example, binom-plots-p}
+
+Each of the plots below displays a Binomial distribution with $n=10$ (and different values of $p$).  For a fixed value of $n$, how does the variability of a Binomial distribution relate to $p$?  (Note the values which have essentially 0 probability.)
+
+```
+
+(ref:cap-binom-plots-p) Probability mass functions for Binomial(10, $p$) distributions for $p = 0.1, 0.3, 0.5, 0.7, 0.9$.
+
+
+```{python, fig-binom-plots-p, fig.cap = "(ref:cap-binom-plots-p)"}
+
+n = 10
+
+ps = [0.1, 0.3, 0.5, 0.7, 0.9]
+
+for p in ps:
+  Binomial(n, p).plot()
+
+plt.legend(ps, title = "p", loc = "upper center");
+plt.xlim(-0.2, n + 0.2)
+
+plt.show()
+```
+
+
+```{solution binom-plots-p-sol}
+to Example \@ref(exm:binom-plots-p)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+The distribution is most disperse, and the variance largest, when $p=0.5$.
+When $p=0.5$ we would expect the most "alterations" between success and failure in the individual trials.
+
+Variance decreases as $p$ moves away from 0.5.
+That is, variance decreases as $p$ gets closer to 0 or 1.
+The variance when $p=0.3$ appears to be the same as when $p=0.7$, and similarly for $p=0.1$ and $p=0.9$.
+For the extreme case $p=0$, every trials results in failure so the number of successes is always 0 and the variance is 0.
+Likewise, when $p=1$ every trials results in success so the number of successes is always $n, and the variance is 0.
+
+
+```
+
+
+The previous exercises provide an intuitive explanation of the formula for the variance of a Binomial distribution: $\Var(X) = np(1-p)$.
+The formula can be derived using indicators and the fact that a sum of *independent* random variables is the sum of the variances.
+
+
+
 ```{example, binom-hyper}
 
 Suppose there are [21,812 students at Cal Poly, 18,388 of whom are CA residents](https://calpolynews.calpoly.edu/quickfacts.html).  Select a random sample of 35 Cal Poly students, and let $X$ be the number of CA residents in the sample.
@@ -773,9 +876,12 @@ Suppose there are [21,812 students at Cal Poly, 18,388 of whom are CA residents]
 1. Identify the distribution of $X$, its variance, and $\IP(X\le 27)$ if the sampling is performed *with* replacement.
 1. Identify the distribution of $X$, its variance, and $\IP(X\le 27)$ if the sampling is performed *without* replacement.
 
+
+**Solution.** See the code and output below. The values are virtually identical regardless of whether the sampling is performed with or without replacement.
+
 ```{python}
 
-Binomial(35, 18388 / 21812).plot()
+RV(Binomial(35, 18388 / 21812)).sim(100000).plot()
 Hypergeometric(n = 35, N1 = 18388, N0 = 21812 - 18388).plot()
 plt.xlim(20, 36);
 plt.show()
@@ -801,7 +907,7 @@ Consider a finite "success/failure" population of size $N$ in which the populati
 - $p_X(x)\approx \binom{n}{x}p^x(1-p)^{n-x}$
 - $\Var(X)\approx np(1-p)$
 
-That is, if the population size $N$ is much larger than the sample size $n$, a Hypergeometric distribution is closely approximated by a corresponding Binomial distribution (which in turn is often closely approximated by either a Poisson distribution or a Normal distribution).
+That is, if the population size $N$ is much larger than the sample size $n$, a Hypergeometric distribution is closely approximated by a corresponding Binomial distribution. (We will see soon that a Binomial distribution is often closely approximated by either a Poisson distribution or a Normal distribution).
 
 ```{example, binomial-sum}
 Let $X_1$ and $X_2$ be independent random variables and suppose that $X_1$ has a Binomial($n_1$, $p$) distribution and $X_2$ has a  Binomial($n_2$, $p$)   (Note that $p$ is the same.) 
@@ -824,6 +930,73 @@ A Binomial(1, $p$) distribution is also known as a **Bernoulli($p$)** distributi
 
 If $X_1, X_2, \ldots, X_n$ are independent each with a Bernoulli($p$) distribution, then $X_1+\cdots+X_n$ has a Binomial($n, p$) distribution.
 So any random variable with a Binomial($n$, $p$) distribution has the same distributional properties as $X_1+  X_2+  \cdots+  X_n$, where $X_1, \ldots, X_n$ are independent each with a Bernoulli($p$) distribution.  This provides a very convenient representation in many problems.
+
+
+
+
+
+
+
+```{example, binomial-capture-phat}
+
+Continuing Example \@ref(exm:binomial-capture).
+Define the random variable $\hat{p} = X/5$.
+
+1. What does $\hat{p}$ represent in this context.
+What are its possible values?
+1. Does $\hat{p}$ have a Binomial distribution?
+Does the distribution of $\hat{p}$ have the same basic *shape* of a Binomial distribution?
+1. Compute $\IP(\hat{p} = 0.2)$.
+1. Compute $\E(\hat{p})$.  Why does this make sense?
+1. Compute $\SD(\hat{p})$.
+1. Suppose that 20 butterflies were selected for the second sample at random, with replacement.
+Compute $\SD(\hat{p})$; how does the value compare to the previous part?
+
+```
+
+```{solution binomial-capture-phat-sol}
+to Example \@ref(exm:binomial-capture-phat)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+
+1. $\hat{p}$ is the *proportion* of butterflies in the second sample that are tagged.
+Possible values are 0, 1/5, 2/5, 3/5, 4/5, 1.
+1. Technically $\hat{p}$ does not have a Binomial distribution, since a Binomial distribution always corresponds to possible values 0, 1, 2, $\ldots, n$.
+But the distribution of $\hat{p}$ does follow the same shape as the Binomial(5, 0.25) distribution, just with a rescaled variable axis.
+1. $\IP(\hat{p} = 0.2) = \IP(X = 1)=\binom{5}{1}0.25^1(1-0.75)^4$.
+1. If 25% of the butterflies in the population are tagged, we would expect 25% of the butterflies in a random sample to be tagged.
+\[
+\E(\hat{p}) = \E(X/5) = \E(X)/5 = 5(0.25)/5 = 0.25
+\]
+1. $\SD(X/5) = \SD(X)/5$, so
+\[
+\SD(\hat{p}) = \SD\left(\frac{X}{5}\right) = \frac{\SD(X)}{5} = \frac{\sqrt{5(0.25)(1-0.25)}}{5} = \frac{\sqrt{0.25(1-0.25)}}{\sqrt{5}} = 0.31
+\]
+1. The calculation is similar to the previous part.
+\[
+\SD(\hat{p}) = \SD\left(\frac{X}{20}\right) = \frac{\SD(X)}{20} = \frac{\sqrt{20(0.25)(1-0.25)}}{20} = \frac{\sqrt{0.25(1-0.25)}}{\sqrt{20}} = 0.165
+\]
+The standard deviation of $\hat{p}$ is smaller when $n$ is larger.
+A sample of size 20 is 4 times larger than a sample of size 5, but the standard deviation is $\sqrt{4}=2$ times smaller when $n=20$ than when $n=5$.
+
+```
+
+
+Binomial distributions model the absolute number of successes in a sample of size $n$.
+If $X$ is the number of successes then the *sample proportion* is the random variable
+\[
+\hat{p} = \frac{X}{n}
+\]
+For a fixed value of $p$, sample-to-sample variability of $\hat{p}$ *decreases* as sample size $n$ increases.
+\begin{align*}
+\E\left(\hat{p}\right) & = p\\
+\Var\left(\hat{p}\right) & = \frac{p(1-p)}{n}\\
+\SD\left(\hat{p}\right) & = \sqrt{\frac{p(1-p)}{n}}\\
+\end{align*}
+
 
 <!-- ## Multinomial distributions {#multinomial} -->
 
@@ -863,7 +1036,7 @@ to Example \@ref(exm:geometric-bball)
 1. The key is to realize that Maya requires more than 5 attempts to obtain her first success if and only if the first 5 attempts are failures.  Therefore,      \[
      P(X > 5) = (1-0.4)^5  = 0.078
      \]
-1. The cdf is $F_X(x)=\IP(X \le x) = 1-\IP(X > x)$. $Use the complement rule and a calculation like in the previous part.  The key is to realize that Maya requires more than $x$ attempts to obtain her first success if and only if the first $x$ attempts are failures.  Therefore, $P(X > x) = (1-0.4)^x$ and 
+1. The cdf is $F_X(x)=\IP(X \le x) = 1-\IP(X > x)$. Use the complement rule and a calculation like in the previous part.  The key is to realize that Maya requires more than $x$ attempts to obtain her first success if and only if the first $x$ attempts are failures.  Therefore, $P(X > x) = (1-0.4)^x$ and 
     \[
     F_X(x) = 1-(1-0.4)^x, \qquad x = 1, 2, 3, \ldots 
     \]
@@ -1060,7 +1233,7 @@ x.var(), NegativeBinomial(r = 5, p = 0.86).var()
 
 Suppose you perform a sequence of Bernoulli($p$) trials until $r$ successes occur and then stop.  Let $X$ be the total number of *trials* performed, including the trials on which the successes occur.  Then $X$ has a NegativeBinomial($r$,$p$) distribution. In this situation, exactly $x$ trials are performed if and only if
 
-- there are exactly $r-1$ successes among the first $-1$ trials, and 
+- there are exactly $r-1$ successes among the first $x-1$ trials, and 
 - the $x$th (last) trial results in success.
 
 There are $\binom{x-1}{r-1}$ possible sequences that satisfy the above, and each of these sequences --- with $r$ successes and $x-r$ failures --- has probability $p^r(1-p)^{x-r}$.
@@ -1110,20 +1283,20 @@ We can use a similar technique to compute the variance of a Negative Binomial di
 
 
 
-|                   |                       |                       |             |                              |
-|:------------------|:----------------------|:----------------------|:------------|:-----------------------------|
-|                   | Number                | Number                | Independent | Probability                  |
-| Distribution      | of trials             | of successes          | trials?     | of success                   |
-| Binomial          | Fixed and known ($n$) | Random ($X$)          | Yes         | Fixed and known ($p$),       |
-|                   |                       |                       |             | same for each trial          |
-|                   |                       |                       |             |                              |
-| Negative Binomial | Random ($X$)          | Fixed and known ($r$) | Yes         | Fixed and known ($p$),       |
-|                   |                       |                       |             | same for each trial          |
-|                   |                       |                       |             |                              |
-| Hypergeometric    | Fixed and known ($n$) | Random ($X$)          | No          | Fixed and known              |
-|                   |                       |                       |             | ($p=N_1/(N_0+N_1)$), |
-|                   |                       |                       |             | same for each trial          |
-|                   |                       |                       |             |                              |
+<!-- |                   |                       |                       |             |                              | -->
+<!-- |:------------------|:----------------------|:----------------------|:------------|:-----------------------------| -->
+<!-- |                   | Number                | Number                | Independent | Probability                  | -->
+<!-- | Distribution      | of trials             | of successes          | trials?     | of success                   | -->
+<!-- | Binomial          | Fixed and known ($n$) | Random ($X$)          | Yes         | Fixed and known ($p$),       | -->
+<!-- |                   |                       |                       |             | same for each trial          | -->
+<!-- |                   |                       |                       |             |                              | -->
+<!-- | Negative Binomial | Random ($X$)          | Fixed and known ($r$) | Yes         | Fixed and known ($p$),       | -->
+<!-- |                   |                       |                       |             | same for each trial          | -->
+<!-- |                   |                       |                       |             |                              | -->
+<!-- | Hypergeometric    | Fixed and known ($n$) | Random ($X$)          | No          | Fixed and known              | -->
+<!-- |                   |                       |                       |             | ($p=N_1/(N_0+N_1)$), | -->
+<!-- |                   |                       |                       |             | same for each trial          | -->
+<!-- |                   |                       |                       |             |                              | -->
 
 
 
@@ -1188,7 +1361,7 @@ to Example \@ref(exm:poisson-accidents-intro)
 
 ```{asis, fold.chunk = TRUE}
 
-1. Each automobile on the road in the day is a trial, and on each automobile either gets in an accident ("success") or not.  The random variable $X$ counts the number of automobiles that get into accidents  (successes).  (Remember "success" is just a generic label for the event you're interested in; "success" is not necessarily good.)
+1. Each automobile on the road in the day is a trial, and each automobile either gets in an accident ("success") or not.  The random variable $X$ counts the number of automobiles that get into accidents  (successes).  (Remember "success" is just a generic label for the event you're interested in; "success" is not necessarily good.)
 1. Even though $X$ is counting successes, this is not the Binomial situation.
     - The number of trials is not fixed.  The  total number of automobiles on the road varies from day to day.
     - The probability of success is not the same on each trial.  Different drivers have different probabilities of getting into accidents; some drivers are safer than others.  Also, different conditions increase the probability of an accident, like driving at night.
@@ -1205,10 +1378,10 @@ The Binomial model has several restrictive assumptions that might not be satisfi
 
 Even when the trials  are independent with the same probability of success, fitting a Binomial model to data requires estimation of both $n$ and $p$ individually, rather than just the mean $\mu=np$.  When the only data available are success counts (e.g., number of accidents per day for a sample of days) $\mu$ can be estimated but $n$ and $p$ individually cannot.
 
-Poisson models are more flexible models for counts.  Poisson models are parameterized by a single parameter (the mean) and do not require all the assumptions of a Binomial model.  Poisson distributions are often used to model the distribution of random variables that count the number of "relatively rare" events that occur over a certain interval of time/in a certain location (e.g., number of accidents on a highway in a day, number of car insurance policies that have claims in a week, number of bank loans that go into default, number of mutations in a DNA sequence, number of earthquakes that occurs in SoCal in an hour, etc.)
+Poisson models are more flexible models for counts.  Poisson models are parameterized by a single parameter (the mean) and do not require all the assumptions of a Binomial model.  Poisson distributions are often used to model the distribution of random variables that count the number of "relatively rare" events that occur over a certain interval of time in a certain region (e.g., number of accidents on a highway in a day, number of car insurance policies that have claims in a week, number of bank loans that go into default, number of mutations in a DNA sequence, number of earthquakes that occurs in SoCal in an hour, etc.)
 
-```{definition, def-poisson}
-A discrete random variable $X$ has a **Poisson distribution** with parameter^[The parameter for a Poisson distribution is often denoted $\lambda$.  However, we use $\mu$ to denote the parameter of a Poisson distribution, and reserve $\lambda$  to denote the rate parameter of a *Poisson process* (which has mean $\lambda t$ at time $t$). See LATER.] $\mu>0$ if its probability mass function $p_X$ satisfies
+```{definition, def-poisson2}
+A discrete random variable $X$ has a **Poisson distribution** with parameter^[The parameter for a Poisson distribution is often denoted $\lambda$.  However, we use $\mu$ to denote the parameter of a Poisson distribution, and reserve $\lambda$  to denote the rate parameter of a *Poisson process* (which has mean $\lambda t$ at time $t$).] $\mu>0$ if its probability mass function $p_X$ satisfies
 \begin{align*}
 p_X(x) & \propto \frac{\mu^x}{x!}, \;\qquad x=0,1,2,\ldots\\
 & = \frac{e^{-\mu}\mu^x}{x!}, \quad x=0,1,2,\ldots
@@ -1306,7 +1479,7 @@ X = RV(Poisson(0.3))
 
 x = X.sim(10000)
 
-x.plot()
+x.plot('impulse')
 
 Poisson(0.3).plot()
 
@@ -1377,7 +1550,7 @@ to Example \@ref(exm:poisson-aggregation-example)
 
 
 1. How could you use a spinner to simulate a value of $X$?  Of $Y$?  Are $X$ and $Y$ the same variable?
-    To generate a value of $X$: Construct a spinner corresponding to  Poisson(1) distribution, spin it twice and add the values together.  To generate a value of $Y$: construct a spinner corresponding to a Poisson(2) distribution and spin it once.  See Figure \@ref(fig:poisson-spinners). $X$ and $Y$ are not the same random variable; they are measuring different things.  The sum of two spins of the Poisson(1) spinner does not have to be equal to the result of the spin of the Poisson(2) spinner.
+    To generate a value of $X$: Construct a spinner corresponding to  Poisson(1) distribution (see Figure \@ref(fig:poisson-spinners1)), spin it twice and add the values together.  To generate a value of $Y$: construct a spinner corresponding to a Poisson(2) distribution and spin it once (see Figure \@ref(fig:poisson-spinners2)). $X$ and $Y$ are not the same random variable; they are measuring different things.  The sum of two spins of the Poisson(1) spinner does not have to be equal to the result of the spin of the Poisson(2) spinner.
 
 1. Compute $\IP(X=0)$.  (Hint: what $(X_1, X_2)$ pairs yield $X=0$).  Compare to $\IP(Y=0)$.
     The only way $X$ can be 0 is if both $X_1$ and $X_2$ are 0.
@@ -1415,14 +1588,23 @@ to Example \@ref(exm:poisson-aggregation-example)
   
 ```
 
-(ref:cap-poisson-spinners) Left: Spinner corresponding to a Poisson(1) distribution. Right: Spinner corresponding to a Poisson(2) distribution.
 
-```{r poisson-spinners, echo=FALSE, fig.cap="(ref:cap-poisson-spinners)", fig.show="hold", out.width="50%"}
+(ref:cap-poisson-spinners1) Spinner corresponding to a Poisson(1) distribution.
 
-knitr::include_graphics(c("_graphics/spinner-poisson1.png", "_graphics/spinner-poisson2.png"))  
+```{r poisson-spinners1, echo=FALSE, fig.cap="(ref:cap-poisson-spinners1)"}
+
+knitr::include_graphics(c("_graphics/spinner-poisson1.png"))  
 
 ```  
 
+
+(ref:cap-poisson-spinners2) Spinner corresponding to a Poisson(2) distribution.
+
+```{r poisson-spinners2, echo=FALSE, fig.cap="(ref:cap-poisson-spinners2)"}
+
+knitr::include_graphics(c("_graphics/spinner-poisson2.png"))  
+
+```  
 
 ```{python}
 
@@ -1527,7 +1709,7 @@ to Example \@ref(exm:poisson-splitting-example)
     \end{align*}
 1. Compute  $\IP(X=x|X+Y=2)$ for all other possible values of $x$.
 
-    Given $X+Y=2$, the only possible values of $X$ are 0, 1, 2.  So we just need to find $\IP(X = 2|X + Y = 2)$.  We could just use the fact that the probabilities must sum to be, but here is the long calculation to help you see the pattern.
+    Given $X+Y=2$, the only possible values of $X$ are 0, 1, 2.  So we just need to find $\IP(X = 2|X + Y = 2)$.  We could just use the fact that the probabilities must sum to 1, but here is the long calculation to help you see the pattern.
     
     \begin{align*}
     \IP(X = 2 | X + Y = 2) & = \frac{\IP(X = 2, X + Y = 2)}{\IP(X + Y = 2)} & & \text{definition of CP}\\
@@ -1574,7 +1756,7 @@ plt.show()
 
 **Poisson disaggregation (a.k.a., splitting, a.k.a., thinning).**  If $X$ and $Y$ are independent, $X$ has a Poisson($\mu_X$) distribution,  and $Y$ has a Poisson($\mu_Y$) distribution, then the conditional distribution of $X$ given $\{X+Y=n\}$ is Binomial $\left(n, \frac{\mu_X}{\mu_X+\mu_Y}\right)$.
 
-The total count of occurrences $X+Y=n$ can be disaggregated into counts for occurrences of "type $X$" or occurrences of "type $Y$". Given $n$ occurrences in total, each of the $n$ occurrences is classified as type $X$ with probability proportional to the mean number of occurrences of type X, $\frac{\mu_X}{\mu_X+\mu_Y}$, and occurrences are classified independently of each other. 
+The total count of occurrences $X+Y=n$ can be disaggregated into counts for occurrences of "type $X$" or occurrences of "type $Y$". Given $n$ occurrences in total, each of the $n$ occurrences is classified as type $X$ with probability proportional to the mean number of occurrences of type $X$, $\frac{\mu_X}{\mu_X+\mu_Y}$, and occurrences are classified independently of each other. 
 
 
 <!-- Start with car accident (or earthquake or other example) - data? -->
@@ -1592,6 +1774,8 @@ The total count of occurrences $X+Y=n$ can be disaggregated into counts for occu
 Where do Poisson distributions come from? We saw in Example \@ref(exm:poisson-typos) that the Binomial(2000, 0.00015) distribution is approximately the Poisson(0.3) distribution.  This is an example of the "Poisson approximation to the Binomial".  If $X$ counts the number of successes in a Binomial situation where the number of trials $n$ is large and the probability of success on any trial $p$ is small, then $X$ has an approximate Poisson distribution with parameter $np$.
 
 Let's see why. We'll reparametrize the Binomial($2000, 0.00015$) pmf in terms of the mean $0.3$, and apply some algebra and some approximations.  Remember, the pmf is a distribution on values of the count $x$, for $x=0, 1, 2, \ldots$, but the probabilities are negligible if $x$ is not small.
+
+
 \begin{align*}
 & \quad \binom{2000}{x}0.00015^x(1-0.00015)^{2000-x}\\
 = & \quad \frac{2000!}{x!(2000-x)!}\frac{0.3^x}{2000^x}\left(1-\frac{0.3}{2000}\right)^{2000}(1-0.00015)^{-x} & & \text{algebra, $0.00015=0.3/2000$}\\
@@ -1601,10 +1785,11 @@ Let's see why. We'll reparametrize the Binomial($2000, 0.00015$) pmf in terms of
 \approx & \quad e^{-0.3} \frac{0.3^x}{x!}
 \end{align*}
 
+
 The above calculation shows that the Binomial(2000, 0.3) pmf is approximately equal to the Poisson(0.3) pmf.
 
 Now we'll consider a general Binomial situation. Let $X$ count the number of successes in $n$ Bernoulli($p$) trials, so $X$ has a  Binomial($n$,$p$) distribution.
-Suppose that $n$ is "large", $p$ is "small" (so success is "rare") and $np$ is "moderate".  
+Suppose that $n$ is "large", $p$ is "small" (so success is "rare") and $np$ is "moderate".
 Then $X$ has an approximate Poisson distribution with mean $np$.
 The following states this idea more formally. The limits in the following make precise the notions of "large" ($n\to \infty$), "small" ($p_n\to 0$), and  "moderate" ($np_n\to \mu \in (0,\infty)$).
 
@@ -1630,6 +1815,7 @@ Poisson approximation of Binomial is one way that Poisson distributions arise, b
 Recall the matching problem in Example \@ref(exm:matching-ev) with a general $n$: there are $n$ rocks that are shuffled and placed uniformly at random in $n$ spots with one rock per spot.  Let $Y$ be the number of matches.  We have seen:
 
 - The exact distribution of $Y$ when $n=4$, via enumerating outcomes in the sample space (Example \@ref(exm:matching-ev)).
+- The approximate distribution for any $n$, via simulation (Section \@ref(sim-matching-n))
 - $\E(Y)=1$ for any value of $n$, via linearity of expected value (Example \@ref(exm:matching-ev-n)).
 
 Now we'll consider the distribution of $Y$ for general $n$.
@@ -1654,7 +1840,7 @@ to Example \@ref(exm:matching-poisson)
 1. Simulation results for $n=10$ are displayed below. Clicking on the link to the Colab notebook will take you to an interactive plot where you can change the value of $n$.  We see that unless $n$ is really small (5 or less) then the distribution of $Y$ essentially does not depend on $n$.  That's amazing!
 1. Each rock is a trial, and success occurs if it is put in the correct spot.  There are $n$ trials, fixed.  The *unconditional* probability of success the same on each trial, $1/n$. However, the trials are not strictly independent.  For example, if the heaviest rock is placed in the correct spot, the conditional probability that the next heaviest rock is placed in the correct spot is $1/(n-1)$; if all rocks except for the lightest rock are placed in the correct spots, then the conditional probability that the lightest rock is placed in the correct spot is 1. So $Y$ does not have a Binomial distribution.
 1. We have already seen $\E(Y)=1$ (exactly) for all $n$, so if $Y$ has an approximate Poisson distribution the parameter has to be 1.  Yes, it does seem from the simulation results that the Poisson(1) approximates the distribution of $Y$ pretty well, for *any* $n$ (unless $n$ is really small).
-1. Just use the Poisson(1) pmf; see the spinner on the left in See Figure \@ref(fig:poisson-spinners). 
+1. Just use the Poisson(1) pmf; see the spinner in Figure \@ref(fig:poisson-spinners1). 
 \[
 \IP(Y = y) \approx \frac{e^{-1}1^y}{y!}, \qquad y = 0, 1, 2, \ldots
 \]
@@ -1884,5 +2070,6 @@ The following table summarizes the four distributions we have seen that are used
 | Negative Binomial | Random ($X$)                                     | Fixed and known ($r$) | Yes                 | Fixed and known ($p$), <br> same for each trial                                      |
 | Hypergeometric    | Fixed and known ($n$)                            | Random ($X$)          | No                  | Fixed and known ($p = \frac{N_1}{N_1+N_0}$), <br> same for each trial                |
 | Poisson           | “Large” (could be random, <br> could be unknown) | Random ($X$)          | “Not too dependent" | “Comparably small for all trials" <br> (could vary between trials, could be unknown) |
+
 
 
