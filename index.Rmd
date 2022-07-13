@@ -47,6 +47,7 @@ library(knitr)
 # library(learnr)
 library(bookdown)
 library(tidyverse)
+library(janitor)
 # need development version of reticulate due to plot issues
 # https://github.com/rstudio/reticulate/issues/1010
 # remotes::install_github("rstudio/reticulate")
@@ -54,7 +55,26 @@ library(reticulate)
 # use_virtualenv("r-reticulate")
 library(ggplot2)
 library(scales)
+library(geomtextpath)
 library(gridExtra)
+library(kableExtra)
+library(scatterplot3d)
+attach(mtcars)
+library(scatterplot3d)
+
+library(waffle)
+library(viridis)
+library(gtools)
+library(ggpubr)
+
+set.seed(21234)
+
+options(ggplot2.continuous.colour = "viridis")
+
+cb_palette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  
+options(ggplot2.discrete.colour = cb_palette,
+        ggplot2.discrete.fill = cb_palette)
 
 blank_theme <- theme_minimal()+
   theme(
@@ -126,6 +146,7 @@ knitr::knit_hooks$set(
 
 # import os
 # os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'C:/Users/kjross/Anaconda3/Library/plugins/platforms'
+
 
 from symbulate import *
 import matplotlib

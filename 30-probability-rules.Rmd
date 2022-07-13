@@ -1,0 +1,2452 @@
+# Rules of Probability and Conditional Probability {#rules}
+
+<!-- \newcommand{\IP}{\textrm{P}} -->
+<!-- \newcommand{\IQ}{\textrm{Q}} -->
+<!-- \newcommand{\E}{\textrm{E}} -->
+<!-- \newcommand{\Var}{\textrm{Var}} -->
+<!-- \newcommand{\SD}{\textrm{SD}} -->
+<!-- \newcommand{\Cov}{\textrm{Cov}} -->
+<!-- \newcommand{\Corr}{\textrm{Corr}} -->
+<!-- \newcommand{\Xbar}{\bar{X}} -->
+<!-- \newcommand{\Ybar}{\bar{X}} -->
+<!-- \newcommand{\xbar}{\bar{x}} -->
+<!-- \newcommand{\ybar}{\bar{y}} -->
+<!-- \newcommand{\ind}{\textrm{I}} -->
+<!-- \newcommand{\dd}{\text{DDWDDD}} -->
+<!-- \newcommand{\ep}{\epsilon} -->
+<!-- \newcommand{\reals}{\mathbb{R}} -->
+
+In previous chapters we have mainly focused on how to interpret probabilities, and how to approximate them with simulation.
+Now we will start to study some of the mathematical rules and formulas of probability, and introduce some problem-solving strategies.
+
+
+
+
+
+## Multiplication rule {#multiplication-rule2}
+
+Recall that the definition of conditional probability,
+$$
+\IP(A | B) = \frac{\IP(A\cap B)}{\IP(B)},
+$$
+can be rearranged to obtain the **multiplication rule:**
+
+\begin{align*}
+\IP(A \cap B) & = \IP(A|B)\IP(B)\\
+& = \IP(B|A)\IP(A)
+\end{align*}
+
+
+The multiplication rule says that you should think "multiply" when you see "and".  However, be careful about *what* you are multiplying: to find a joint probability you need an marginal (i.e., unconditional) probability and an appropriate conditional probability.  You can condition either on $A$ or on $B$, provided you have the appropriate marginal probability; often, conditioning one way is easier than the other. Be careful: the multiplication rule does *not* say that $\IP(A\cap B)$ is the same as $\IP(A)\IP(B)$.  
+
+Generically, the multiplication rule says
+\[
+\text{joint} = \text{conditional}\times\text{marginal}
+\]
+
+The multiplication rule is useful in situations where conditional probabilities are easier to obtain directly than joint probabilities.
+
+```{example, card-multiplication-rule}
+A standard deck of playing cards has 52 cards, 13 cards (2 through 10, jack, king, queen, ace) in each of 4 suits (hearts, diamonds, clubs, spades).
+Shuffle a deck and deals cards one at a time without replacement.
+```
+
+
+1. Find the probability that the first card dealt is a heart.
+1. If the first card dealt is a heart, determine the conditional probability that the second card is a heart.
+1. Find the probability that the first two cards dealt are hearts.
+1. Find the probability that the first two cards dealt are hearts and the third card dealt is a diamond.
+1. Shuffle the deck and deal cards one at a time until an ace is dealt, and then stop. Find the probability that more than 4 cards are dealt. (Hint: consider the first 4 cards dealt.)
+
+```{solution, card-multiplication-rule-sol}
+to Example \@ref(exm:card-multiplication-rule)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. If the cards are well shuffled, then any of the cards in the deck is equally likely to be the first card dealt. There are 13 hearts out of 52 cards in the deck, so the probability that the first card is a heart is 13/52 = 1/4 = 0.25.
+1. If the first card dealt is a heart, there are 51 cards left in the deck, 12 of which are hearts (and all the remaining cards in the deck are equally likely to be the next one drawn). So the conditional probability that the second card is a heart given that the first card is a heart is 12/51 = 0.235.
+1. Use the multiplication rule: the probability the both cards are hearts is the product of the probability that the first card is a heart and the conditional probability that the second card is a heart given that the first card is a heart, (13/52)(12/51) = 0.0588. If we imagine 132600 repetitions (a convenient choice given these fractions), then we would expect the first card to be a heart in 33150=132600(13/52) repetitions, and among these 33150 repetitions we would expect the second card to be a heart in 7800=33150(12/51) repetitions, so the proportion of repetitions in which both cards are hearts is 7800/132600 = 0.0588.
+1. The third card adds a third "stage" but the multiplication rule extended naturally. The probability the first two cards dealt are hearts and the third card dealt is a diamond is (13/52)(12/51)(13/50)= 0.0153, the product of:
+    - 13/52, the probability that the first card is a heart,
+    - 12/51, the conditional probability that the second card is a heart given that the first card is a heart, and
+    - 13/50, the conditional probability that the third card is a diamond given that the first two cards are hearts. (If the first two cards are hearts, then there are 50 cards remaining in the deck, of which 13 are diamonds.)
+Continuing the simulation from the previous part, among the 7800 repetitions in which the first two cards are hearts, we would expect the third card will be a diamond in 2028 = 7800(13/50) repetitions, so the proportion of repetitions in which the first two cards are hearts and the third is a diamond is 2028/132600 = 0.0153.
+1. The key is to recognize that in this scenario more than 4 cards are needed to obtain the first ace if and only if the first four cards dealt are *not* aces. The probability that the first 4 cards are not aces is $(48/52)(47/51)(46/50)(45/49) = 0.719$.
+
+```
+
+The multiplication rule extends naturally to more than two events (though the notation gets messy). For three events, we have
+
+$$
+\IP(A_1 \cap A_2 \cap A_3) = \IP(A_1)\IP(A_2|A_1)\IP(A_3|A_1\cap A_2)
+$$
+
+And in general,
+$$
+\IP(A_1\cap A_2 \cap A_3 \cap A_4 \cap \cdots) = \IP(A_1)\IP(A_2|A_1)\IP(A_3|A_1\cap A_2)\IP(A_4|A_1\cap A_2 \cap A_4)\cdots
+$$
+
+
+
+
+The multiplication rule is useful for computing probabilities of events that can be broken down into component “stages” where conditional probabilities at each stage are readily available.
+At each stage, condition on the information about all previous stages. 
+
+
+```{example birthday}
+
+The [birthday problem](https://pudding.cool/2018/04/birthday-paradox/) concerns the probability that at least two people in a group of $n$ people have the same birthday^[You should really click on [this birthday problem link](https://pudding.cool/2018/04/birthday-paradox/).].  Ignore multiple births and February 29 and assume that the other 365 days are all equally likely^[Which isn't [quite](https://visme.co/blog/most-common-birthday/) [true](http://thedailyviz.com/2016/09/17/how-common-is-your-birthday-dailyviz/). However, a non-uniform distribution of birthdays only increases the probability that at least two people have the same birthday.  To see that, think of an extreme case like if everyone were born in September.].
+
+```
+
+1. If $n=30$, what do you think the probability that at least two people share a birthday is: 0-20%, 20-40%, 40-60%, 60-80%, 80-100%? How large do you think $n$ needs to be in order for the probability that at least two people share a birthday to be larger than 0.5? Just make guesses before proceeding to calculations.
+1. Explain how, in principle, you could perform a tactile simulation to estimate the probability that at least two people have the same birthday when $n=30$.
+1. Now consider $n=3$ people, labeled 1, 2, and 3. What is the probability that persons 1 and 2 have different birthdays?
+1. What is the probability that persons 1, 2, and 3 all have different birthdays *given* that persons 1 and 2 have different birthdays?
+1. What is the probability that persons 1, 2, and 3 all have different birthdays?
+1. When $n = 3$. What is the probability that at least two people share a birthday?
+1. For $n=30$, find the probability that none of the people have the same birthday.
+1. For $n=30$, find the probability that at least two people have the same birthday.
+1. Write a clearly worded sentence interpreting the probability in the previous part as a long run relative frequency.
+1. When $n=30$, how much more likely than not is it for at least two people to have the same birthday?
+1. Provide an expression of the probability for a general $n$ and find  the smallest value of $n$ for which the probability is over 0.5. (You can just try different values of $n$.)
+1. When $n=100$ the probability is about 0.9999997.  If you are in a group of 100 people and no one shares your birthday, should you be surprised?
+
+
+```{solution, birthday-sol}
+to Example \@ref(exm:birthday)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Your guesses are whatever they are. But many people who have never encountered this problem before say that the probability is 0-20%, and it takes $n$ over at least 100 to get to a probability greater than 0.5.
+
+1. Here is one way.
+    - Get 365 cards and label each one with a distinct birthday.
+    - Shuffle the cards and select 30 *with replacement*.
+    - Record whether or not you selected at least one card more than once.  This corresponds to at least two people sharing a birthday.
+    - Repeat many times; each repetition consists of selecting a sample of 30 cards with replacement.
+    - Find the proportion of repetitions on which at least two people had the same birthday to approximate the probability.
+    
+    In the simulation below, the random variable $X$ measures the number of distinct birthdays among the 30 people.  So if no one shares a birthday then $X=30$, if exactly two people share a birthday then $X=29$, and so on.  
+
+1. Whatever person 1's birthday is, the probability that person 2 has the same birthday^[Sometimes students mistake this for $(1/365)^2$; $(1/365)^2$ would be the probability that person 1 and person 2 both have a particular birthday, like January 1. There are $365^2$ possible (person 1, person 2) birthday pairs, of which 365 --- (Jan 1, Jan 1), (Jan 2, Jan 2), etc --- result in the same birthday, so the probability of sharing a birthday is $365/365^2 = 1/365$.) ] is 1/365, so the probability that person 2 has a different birthday than person 1 is 364/365.
+1. Given that person 1 and person 2 are born on different days, the probability that person 3 is also born on a different day is 363/365. (Notice the importance of the conditioning; if persons 1 and 2 share the same birthday, then the probability that person 3 is born on a different day is 364/365.)
+1. Use the multiplication rule: $(364/365)(363/365) = 0.992$, the probability that all three are born on different days, is the product of the probability that persons 1 and 2 are born on different days, and the conditional probability that person 3 is also born on a different day given that the first two are.
+1. Exactly one of the following must be true: (1) all 3 people are born on different days, or (2) at least two people share a birthday.
+Use the complement rule: when $n=3$, the probability that at least two people share a birthday is $1-(364/365)(363/365) = 0.008$.
+1. We can use the method for $n=3$. Imagine lining the 30 people up in some order.  Let $A_2$ be the event that the first two people have different birthdays, $A_3$ be the event that the first three people have different birthdays, and so on, until $A_{30}$, the event that all 30 people have different birthdays. Notice $A_{30}\subseteq A_{29} \subseteq \cdots \subseteq A_3 \subseteq A_2$, so $\IP(A_{30}) = \IP(A_2 \cap A_3 \cap \cdots \cap A_{30})$.  
+
+    The first person's birthday can be any one of 365 days.  In order for the second person's birthday to be different, it needs to be on one of the remaining 364 days. So the probability that the second person's birthday is different from the first is $\IP(A_2)=\frac{364}{365}$.  
+  
+    Now if the first two people have different birthdays, in order for the third person's birthday to be different it must be on one of the remaining 363 days.  So $\IP(A_3|A_2) = \frac{363}{365}$.  Notice that this is a conditional probability.  (If the first two people had the same birthday, then the probability that the third person's birthday is different would be $\frac{364}{365}$.)  
+
+    If the first three people have different birthdays, in order for the fourth person's birthday to be different it must be on one of the remaining 362 days.  So $\IP(A_4|A_2\cap A_3) = \frac{362}{365}$.  
+  
+    And so on.  If the first 29 people have different birthdays, in order for the 30th person's birthday to be different it must be on one of the remaining 365-29=336 days.  Then using the multiplication rule
+
+    \begin{align*}
+    \IP(A_{30}) & = \IP(A_{2}\cap A_3 \cap \cdots \cap A_{30})\\
+    & = \IP(A_2)\IP(A_3|A_2)\IP(A_4|A_2\cap A_3)\IP(A_5|A_2\cap A_3 \cap A_4)\cdots \IP(A_{30}|A_2\cap \cdots \cap A_{29})\\
+    & = \left(\frac{364}{365}\right)\left(\frac{363}{365}\right)\left(\frac{362}{365}\right)\left(\frac{361}{365}\right)\cdots \left(\frac{365-30 + 1}{365}\right)\approx 0.294
+    \end{align*}  
+  
+1.  By the complement rule, the probability that at least two people have the same birthday is $1-0.294=0.706$, since either (1) none of the people have the same birthday, or (2) at least two of the people have the same birthday.
+
+1. In about 70% of *groups of 30 people* at least two people in the group will have the same birthday.  For example, if Cal Poly classes all have 30 students, then in about 70% of your classes at least two people in the class will share a birthday.
+
+1. $0.706 / 0.294 = 2.4.$ In a group of $n=30$ people it is about 2.4 times more likely to have at least two people with the same birthday than not.
+
+1. For a general $n$, the probability that at least two people have the same birthday is
+$$
+1 - \left(\frac{364}{365}\right)\left(\frac{363}{365}\right)\left(\frac{362}{365}\right)\left(\frac{361}{365}\right)\cdots \left(\frac{365-n + 1}{365}\right)
+$$
+See the plot below, which plots this probability as a function of $n$. When $n=23$ this probability is 0.507.
+
+1. Maybe, but not because of the 0.999997.  That probability is the probability that *at least two people* in the group of 100 share a birthday.  It is NOT the probability that someone shares YOUR birthday.  (We will see later how to compute the probability that no one shares your birthday as $(364/365)^{100}= 0.76$. So it's not very surprising that no one shares your birthday.)
+
+```
+
+(ref:cap-birthday-sim) Simulation of the birthday problem for $n=30$. The plot displays the simulated distribution of the number of distinct birthdays among the 30 people.  There are no birthday matches only when there are 30 distinct birthdays among the 30 people, which happens with probability about 0.3.
+
+```{python birthday-sim, echo=TRUE, fig.cap="(ref:cap-birthday-sim)"}
+def count_distinct_values(list):
+    return len(set(list))
+    
+n = 30
+P = BoxModel(list(range(365)), size = n, replace = True)
+X = RV(P, count_distinct_values)
+
+x = X.sim(10000)
+```
+
+
+```{python, eval=FALSE}
+x.plot()
+```
+
+
+```{python, echo=FALSE}
+plt.figure()
+x.plot()
+plt.show()
+```
+
+
+```{python}
+
+x.count_lt(n) / 10000
+
+```
+
+(ref:cap-birthday-plot) Probability of at least one birthday match as a function of the number of people in the room.  For 23 people, the probability of at least one birthday match is 0.507.
+
+```{r birthday-plot, echo=FALSE, fig.cap="(ref:cap-birthday-plot)"}
+
+n = 60
+d = seq(from=365,to=365-n+1,by=-1)/365
+pn = 1-cumprod(d)
+n0 = 23
+
+plot(1:n, pn, type="o", ylim=c(0,1), lwd=1, 
+     xlab="Number of people in room",
+     ylab="Probability of at least one birthday match")
+segments(x0 = n0, y0=0, x1 = n0, y1 = pn[n0], lty=2, lwd=3, col="skyblue") 
+segments(x0 = 0, y0=pn[n0], x1 = n0, y1 = pn[n0], lty=2, lwd=3, col="skyblue") 
+
+```
+
+
+That only 23 people are needed to have a better than 50% chance of a birthday match is surprising to many people, because 23 doesn't seem like a lot of people.
+But when determining if there is a birthday match, we need to consider every *pair* of people in the group.
+In a group of 23 people, there are $23(22)/2 = 253$ different pairs of people, and each one of these pairs has a chance of sharing a birthday.
+
+## Law of total probability {#lawtotalprob}
+
+The law of total probability says that a marginal probability can be thought of as a weighted average of "case-by-case" conditional probabilities, where the weights are determined by the likelihood of each case.
+
+
+```{example ltp-multiple-choice}
+Each question on a multiple choice test has four options.
+You know with certainty the correct answers to 70% of the questions.
+For 20% of the questions, you can eliminate two of the incorrect choices with certainty, but you guess at random among the remaining two options.
+For the remaining 10% of questions, you have no idea and guess one of the four options at random.
+
+Randomly select a question from this test. What is the probability that you answer the question correctly?
+
+```
+
+1. Construct an appropriate twoway table and use it to find the probability of interest.
+1. For any given question on the exam, your probability of answering it correctly is either 1, 0.5, or 0.25, depending on if you know it, can eliminate two choices, or are just guessing.
+How does your probability of correcting answering a randomly selected question relate to these three values? Which value --- 1, 0.5, or 0.25 ---is the overall probability closest to, and why?
+
+
+```{solution, ltp-multiple-choice-sol}
+to Example \@ref(exm:ltp-multiple-choice)
+```
+
+```{asis, fold.chunk = TRUE}
+1. Suppose there are 1000 questions on the test. (That's a long test! But remember, 1000 is just a convenient round number.) We can classify each question by its type (know, eliminate, guess) and whether we answer it correctly or not. The probability that we answer a question correctly is 1 given that we know it, 0.5 given that we can eliminate two choices, or 0.25 given that we guess randomly.
+
+    |           | Know | Eliminate | Guess | Total |
+    |-----------|-----:|----------:|------:|------:|
+    | Correct   |  700 |       100 |    25 |   825 |
+    | Incorrect |    0 |       100 |    75 |   175 |
+    | Total     |  700 |       200 |   100 |  1000 |
+
+    The probability that we answer a randomly selected question correctly is 825/1000 = 0.825.
+    
+1. The overall probability of answering a question correctly is closer to 1 than 0.5 or 0.25. To construct the table and obtain the value 0.825, we basically did the following calculation
+
+    $$
+    0.825 = (1)(0.7) + (0.5)(0.2) + (0.25)(0.1)
+    $$
+    
+    We see that the overall probability, 0.825, is a weighted average of the case-by-case probabilities 1, 0.5, and 0.25, where 1 gets the most weight in the average because there is a higher percentage of questions that we know.
+
+```
+
+
+
+
+
+**Law of total probability.**  If $C_1,\ldots, C_k$ are disjoint with $C_1\cup \cdots \cup C_k=\Omega$, then 
+\begin{align*}
+\IP(A) & = \sum_{i=1}^k \IP(A \cap C_i)\\
+& = \sum_{i=1}^k \IP(A|C_i) \IP(C_i)
+\end{align*}
+
+The events $C_1, \ldots, C_k$, which represent the "cases", form a *partition* of the sample space; each outcome $\omega\in\Omega$ lies in exactly one of the $C_i$.  The law of total probability says that we can interpret the unconditional probability $\IP(A)$ as a probability-weighted average of the case-by-case conditional probabilities $\IP(A|C_i)$ where the weights $\IP(C_i)$ represent the probability of encountering each case.
+
+
+
+
+For an illustration of the law of total probability, consider the mosaic plot in in Figure \@ref(fig:ltp-multiple-choice-mosaic).
+The heights of the bars for each type correspond to the conditional probabilities of answering correctly given type (1, 0.5, 0.25).
+The widths of these bars are scaled in proportion to the marginal probability of type; the width of the bar for the "know" type is 7 times wider than the width for the "guess" type.
+The single bar to the right displays the marginal probability of answering a question correctly or not. The height within this marginal bar (0.825) is the weighted average of the heights within the other bars (the conditional probabilities of correct given type), with the weights given by the widths of the other bars (the marginal probabilities of type).
+
+
+(ref:cap-ltp-multiple-choice-mosaic) Mosaic plots for Example \@ref(exm:ltp-multiple-choice).
+
+```{r ltp-multiple-choice-mosaic, echo=FALSE, fig.cap="(ref:cap-ltp-multiple-choice)", out.width='50%', fig.show='hold'}
+
+knitr::include_graphics(c("_graphics/ltp-multiple-choice.png"))
+
+```
+
+```{example, ltp-rats}
+Imagine a light that flashes every few seconds^[Thanks to Allan Rossman for this example.].
+The light randomly flashes green with probability 0.75 and red with probability 0.25, independently from flash to flash.
+```
+
+1. Write down a sequence of G’s (for green) and R’s (for red) to predict the colors for the next 40 flashes of this light.  Before you read on, please take a minute to think about how you would generate such a sequence yourself.
+1. Most people produce a sequence that has 30 G’s and 10 R’s, or close to those proportions, because they are trying to generate a sequence for which each outcome has a 75% chance for G and a 25% chance for R.
+That is, they use a strategy in which they predict G with probability 0.75, and R with probability 0.25. How well does this strategy do?
+Compute the probability of correctly predicting any single item in the sequence using this strategy.
+1. Describe a better strategy. (Hint: can you find a strategy for which the probability of correctly predicting any single flash is 0.75?)
+
+
+
+```{solution, ltp-rats-sol}
+to Example \@ref(exm:ltp-rats)
+```
+
+```{asis, fold.chunk = TRUE}
+1. As mentioned above, most people produce a sequence that has 30 G’s and 10 R’s, or close to those proportions, because they are trying to generate a sequence for which each outcome has a 75% chance for G and a 25% chance for R.
+That is, they use a strategy in which they predict G with probability 0.75, and R with probability 0.25.
+1. There are two cases: the true flash is either green (with probability 0.75) or red (with probability 0.25). Given that the flash is green, your probability of correctly predicting it is 0.75 (because your probability of guessing "G" is 0.75).
+Given that the flash is red, your probability of correctly predicting it is 0.25 (because your probability of guessing "R" is 0.25).
+Use the law of total probability to find the probability that your prediction is correct: $(0.75)(0.75) + (0.25)(0.25) = 0.625$.
+1. Just pick G every time! Picking green every time has a 0.75 probability of correctly predicting any flash. When events are *independent*, trying to guess the pattern doesn't help.
+
+```
+
+
+
+Conditioning and using the law of probability is an effective strategy in solving many problems, even when the problem doesn't seem to involve conditioning.  For example, when a problem involves iterations or steps it is often useful to *condition on the result of the first step*.
+
+```{example lookaway}
+
+You and your friend are playing the ["lookaway challenge"](https://fivethirtyeight.com/features/what-are-your-chances-of-winning-the-u-s-open/).
+
+The game consists of possibly multiple rounds. In the first round, you point in one of four directions: up, down, left or right. At the exact same time, your friend also looks in one of those four directions. If your friend looks in the same direction you're pointing, you win! Otherwise, you switch roles and the game continues to the next round — now your friend points in a direction and you try to look away. As long as no one wins, you keep switching off who points and who looks.
+The game ends, and the current "pointer" wins, whenever the  "looker" looks in the same direction as the pointer.
+
+Suppose that each player is equally likely to point/look in each of the four directions, independently from round to round.  What is the probability that you win the game?
+
+```
+
+1. Why might you expect the probability to not be equal to 0.5?
+1. If you start as the pointer, what is the probability that you win in the first round?
+1. If $p$ denotes the probability that the player who starts as the pointer wins the game, what is the probability that the player who starts as the looker wins the game? (Note: $p$ is the probability that the person who starts as pointer wins the whole game, not just the first round.)
+1. Condition on the result of the first round and set up an equation to solve for $p$.
+1. How much more likely is the player who starts as the pointer to win than the player who starts as the looker?
+
+
+```{solution, lookaway-sol}
+to Example \@ref(exm:lookaway)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The player who starts as the pointer has the advantage of going first; that player can win the game in the first round, but cannot lose the game in the first round.  So we might expect the player who starts as the pointer to be more likely to win than the player who starts as the looker.
+1. 1/4. If we represent an outcome in the first round as a pair (point, look) then there are 16 possible equally likely outcomes, of which 4 represent pointing and looking in the same direction.  Alternatively, whichever direction the pointer points, the probability that the looker looks in the same direction is 1/4.
+1. $1-p$, since the game keeps going until someone wins.
+1. Here is where we use conditioning and the law of total probability. We condition on what happens in the first round: either the person who starts as the pointer wins the first round and the game ends (event $B$), or the person who starts as the pointer does not win the the first round and the game continues with the other player becoming the pointer for the next round (event $B^c$). Let $A$ be the event that the person who starts as the pointer wins the game, and $B$ be the event that the person who starts as the pointer wins in the first round.  By the law of total probability
+\[
+\IP(A) = \IP(A|B)\IP(B) + \IP(A|B^c)\IP(B^c)
+\]
+Now $\IP(A)=p$, $\IP(B)=1/4$, $\IP(B^c)=3/4$, and $\IP(A|B)=1$ since if the person who starts as the pointer wins the first round then they win the game.  Now consider $\IP(A|B^c)$.  The key is to recognize that *if the person who starts as the pointer does not win in the first round, it is like the game starts over with the other playing starting as the pointer.*  That is, the player who originally started as the pointer, having not won the first round, is now starting as the looker, and the probability that the player who starts as the looker wins the game is $1-p$.  That is, $\IP(A|B^c) = 1-p$. Therefore
+$$
+p = (1)(1/4)+ (1-p)(3/4)
+$$
+Solve to find $p=4/7\approx 0.57$.
+1. The player who starts as the pointer is about $(4/7)/(3/7) = 4/3\approx 1.33$ times more likely to win the game than the player who starts as the looker.
+
+``` 
+
+The following is one way to code the lookaway challenge.  In each round an outcome is a (point, look) pair, coded with a `BoxModel` with `size=2` (and choices labeled 1, 2, 3, 4).  The `** inf` assumes the rounds continue indefinitely, so the outcome of a game is a sequence of (point, look) pairs for each round.   The random variable $X$ counts the number of rounds until there is a winner, which occurs in the first round that point = look.  The player who goes first wins the game if the game ends in an odd number of rounds, so to estimate the probability that the player who goes first wins we find the proportion of repetitions in which $X$ is an odd number.
+
+```{python}
+def is_odd(x):
+    return (x % 2) == 1
+
+def count_rounds(sequence):
+    for r, pair in enumerate(sequence):
+        if pair[0] == pair[1]:
+            return r + 1 # +1 for 0 indexing
+
+P = BoxModel([1, 2, 3, 4], size = 2) ** inf
+
+X = RV(P, count_rounds)
+
+x = X.sim(10000)
+```
+
+```{python, eval = FALSE}
+x.plot()
+
+```
+
+
+```{python, echo = FALSE}
+plt.figure()
+x.plot()
+plt.show()
+
+```
+
+
+```{python}
+
+x.count(is_odd) / x.count()
+
+```
+
+
+The simulation coded the individual rounds.
+However, the law of total probability allowed us to take advantage of the iterative nature of the game, and consider only one round rather than enumerating all the possibilities of what might happen over many potential rounds.
+
+
+
+## Bayes rule {#bayes}
+
+*Bayes' rule*^[This section only covers Bayes' rule for events.  We'll see Bayes' rule for distributions of random variables later.  But the ideas are analogous.], describes how to update uncertainty in light of new information, evidence, or data.  
+
+
+```{example, bayes-rule1}
+
+A [recent survey](https://www.pewresearch.org/science/2019/03/28/what-americans-know-about-science/) of American adults asked:
+"Based on what you have heard or read, which of the following two statements best describes
+the scientific method?"
+
+- 70% selected "The scientific method produces findings meant to be continually tested
+and updated over time". (We'll call this the "iterative" opinion.)
+- 14% selected "The scientific method identifies unchanging core principles and truths". (We'll call this the "unchanging" opinion).
+- 16% were not sure which of the two statements was best.
+
+How does the response to this question change based on education level?  Suppose education level is classified as: high school or less (HS), some college but no Bachelor's degree (college), Bachelor's degree (Bachelor's), or postgraduate degree (postgraduate).  The education breakdown is
+
+- Among those who agree with "iterative": 31.3% HS, 27.6% college, 22.9% Bachelor's, and 18.2% postgraduate.
+- Among those who agree with "unchanging": 38.6% HS, 31.4% college, 19.7% Bachelor's, and 10.3% postgraduate.
+- Among those "not sure": 57.3% HS, 27.2% college, 9.7% Bachelor's, and 5.8% postgraduate
+
+```
+
+
+
+1. Use the information to construct an appropriate two-way table.
+1. Overall, what percentage of adults have a postgraduate degree?  How is this related to the values 18.2%, 10.3%, and 5.8%?
+1. What percent of those with a postgraduate degree agree that the scientific method is "iterative"?  How is this related to the values provided?
+
+```{solution bayes-rule1-sol}
+to Example \@ref(exm:bayes-rule1)
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+1. Suppose there are 100000 hypothetical American adults. Of these 100000, $100000\times 0.7 = 70000$ agree with the "iterative" statement.
+Of the 70000 who agree with the "iterative" statement, $70000\times 0.182 = 12740$ also have a postgraduate degree.
+Continue in this way to complete the table below.
+1. Overall 15.11% of adults have a postgraduate degree (15110/100000 in the table).
+The overall percentage is a weighted average of the three percentages; 18.2% gets the most weight in the average because the "iterative" statement has the highest percentage of people that agree with it compared to "unchanging" and "not sure".
+    \[
+    0.1511 = (0.70)(0.182) + (0.14)(0.103) + (0.16)(0.058)  
+    \]
+1. Of the 15110 who have a postgraduate degree 12740 agree with the "iterative" statement, and $12740/15110 = 0.843$. 84.3% of those with a graduate degree agree that the scientific method is "iterative". The value 0.843 is equal to the product of (1) 0.70, the overall proportion who agree with the "iterative" statement, and (2) 0.182, the proportion of those who agree with the "iterative" statement that have a postgraduate degree; divided by 0.1511, the overall proportion who have a postgraduate degree.
+    \[
+     0.843 = \frac{0.182 \times 0.70}{0.1511} 
+    \]
+
+```
+
+
+
+```{r, echo = FALSE}
+
+options(scipen = 999)
+
+hypotheses = c("iterative", "unchanging", "not sure")
+
+evidence = c("HS", "college", "Bachelors", "postgrad")
+
+prior = c(0.70, 0.14, 0.16)
+
+E_given_H1 = c(0.313, 0.276, 0.229, 0.182)
+E_given_H2 = c(0.386, 0.314, 0.197, 0.103)
+E_given_H3 = c(0.573, 0.272, 0.097, 0.058)
+
+n = 100000
+
+df = n * rbind( 
+             prior[1] * E_given_H1,
+             prior[2] * E_given_H2,
+             prior[3] * E_given_H3)
+
+df = cbind(df, rowSums(df))
+df = rbind(df, colSums(df))
+df = cbind(c(hypotheses, "total"), df) %>% data.frame()
+
+names(df) = c("", evidence, "total")
+
+kbl(df, align = c('l', rep('r', 5))) %>%
+  kable_styling()
+
+```
+
+**Bayes' rule for events** specifies how a prior probability $P(H)$ of event $H$ is updated in response to the evidence $E$ to obtain the posterior probability $P(H|E)$.
+\[
+P(H|E) = \frac{P(E|H)P(H)}{P(E)}
+\]
+
+- Event $H$ represents a particular hypothesis^[We're using "hypothesis" in the sense of a general scientific hypothesis, not necessarily a statistical null or alternative hypothesis.] (or model or case)
+- Event $E$ represents observed evidence (or data or information)
+- $P(H)$ is the unconditional or **prior probability** of $H$ (prior to observing evidence $E$)
+- $P(H|E)$ is the conditional or **posterior probability** of $H$ after observing evidence $E$.
+- $P(E|H)$ is the **likelihood** of evidence $E$ given hypothesis (or model or case) $H$
+
+
+```{example, bayes-rule2}
+
+Continuing the previous example.  Randomly select an American adult.
+
+```
+
+1. Consider the conditional probability that a randomly selected American adult agrees that the scientific method is "iterative" given that they have a postgraduate degree. Identify the prior probability, hypothesis, evidence, likelihood, and posterior probability, and use Bayes' rule to compute the posterior probability. 
+1. Find the conditional probability that a randomly selected American adult with a postgraduate degree agrees that the scientific method is "unchanging".
+1. Find the conditional probability that a randomly selected American adult with a postgraduate degree is not sure about which statement is best.
+1. How many times more likely is it for an *American adult* to have a postgraduate degree and agree with the "iterative" statement than to have a postgraduate degree and agree with the "unchanging" statement?
+1. How many times more likely is it for an *American adult with a postgraduate degree* to agree with the "iterative" statement than to agree with the "unchanging" statement?
+1. What do you notice about the answers to the two previous parts?
+1. How many times more likely is it for an *American adult* to agree with the "iterative" statement than to agree with the "unchanging" statement?
+1. How many times more likely is it for an American adult to have a postgraduate degree when the adult agrees with the iterative statement than when the adult agree with the unchanging statement?
+1. How many times more likely is it for an *American adult with a postgraduate degree* to agree with the "iterative" statement than to agree with the "unchanging" statement?
+1. How are the values in the three previous parts related?
+
+```{solution bayes-rule2-sol}
+to Example \@ref(exm:bayes-rule2)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. This is essentially the same question as the last part of the previous problem, just with different terminology.
+    - The hypothesis is $H_1$, the event that the randomly selected adult agrees with the "iterative" statement.
+    - The prior probability is $P(H_1) = 0.70$, the overall or unconditional probability that a randomly selected American adult agrees with the "iterative" statement.
+    - The given "evidence" $E$ is the event that the randomly selected adult has a postgraduate degree.  The marginal probability of the evidence is $P(E)=0.1511$, which can be obtained by the law of total probability as in the previous problem.
+    - The likelihood is $P(E | H_1) = 0.182$, the conditional probability that the adult has a postgraduate degree (the evidence) given that the adult agrees with the "iterative" statement (the hypothesis).
+    - The posterior probability is $P(H_1 |E)=0.843$, the conditional probability that a randomly selected American adult agrees that the scientific method is "iterative" given that they have a postgraduate degree. By Bayes rule
+    \[
+    P(H_1 | E) = \frac{P(E | H_1) P(H_1)}{P(E)} = \frac{0.182 \times 0.70}{0.1511} = 0.843
+    \]
+1. Let $H_2$ be the event that the randomly selected adult agrees with the "unchanging" statement; the prior probability is $P(H_2) = 0.14$. The evidence $E$ is still "postgraduate degree" but now the likelihood of this evidence is $P(E | H_2) = 0.103$ under the "unchanging" hypothesis.   The conditional probability that a randomly selected adult with a postgraduate degree agrees that the scientific method is "unchanging" is
+    \[
+    P(H_2 | E) = \frac{P(E | H_2) P(H_2)}{P(E)} = \frac{0.103 \times 0.14}{0.1511} = 0.095
+    \]
+1. Let $H_3$ be the event that the randomly selected adult is "not sure"; the prior probability is $P(H_3) = 0.16$. The evidence $E$ is still "postgraduate degree" but now the likelihood of this evidence is $P(E | H_3) = 0.058$ under the "not sure" hypothesis.   The conditional probability that a randomly selected adult with a postgraduate degree is "not sure" is
+    \[
+    P(H_3 | E) = \frac{P(E | H_3) P(H_3)}{P(E)} = \frac{0.058 \times 0.16}{0.1511} = 0.061
+    \]
+1. The probability that an *American adult* has a postgraduate degree and agrees with the "iterative" statement is $P(E \cap H_1) = P(E|H_1)P(H_1) = 0.182\times 0.70 = 0.1274$. The probability that an *American adult* has a postgraduate degree and agrees with the "unchanging" statement is $P(E \cap H_2) = P(E|H_2)P(H_2) = 0.103\times 0.14 = 0.01442$. Since
+    \[
+      \frac{P(E \cap H_1)}{P(E \cap H_2)} = \frac{0.182\times 0.70}{0.103\times 0.14} = \frac{0.1274}{0.01442} = 8.835
+    \]
+an *American adult* is 8.835 times more likely to have a postgraduate degree and agree with the "iterative" statement than to have a postgraduate degree and agree with the "unchanging" statement.
+1. The conditional probability that an *American adult with a postgraduate degree*  agrees with the "iterative" statement is $P(H_1 | E) = P(E|H_1)P(H_1)/P(E) = 0.182\times 0.70/0.1511 = 0.843$. The conditional probability that an *American adult with a postgraduate degree* agrees with the "unchanging" statement is $P(H_2|E) = P(E|H_2)P(H_2)/P(E) = 0.103\times 0.14/0.1511 = 0.09543$. Since
+    \[
+      \frac{P(H_1 | E)}{P(H_2 | E)} = \frac{0.182\times 0.70/0.1511}{0.103\times 0.14/0.1511} = \frac{0.84315}{0.09543} = 8.835
+    \]
+an *American adult with a postgraduate degree* is 8.835 times more likely to agree with the "iterative" statement than to agree with the "unchanging" statement.
+1. The ratios are the same! Conditioning on having a postgraduate degree just "slices" out the Americans who have a postgraduate degree.  The ratios are determined by the overall probabilities for Americans.  The conditional probabilities, given postgraduate degree, simply rescale the probabilities for Americans who have a postgraduate degree to add up to 1 (by dividing by 0.1511.)
+1. This is a ratio of prior probabilities: 0.70 / 0.14 = 5.
+An *American adult* is 5 times more likely to agree with the "iterative" statement than to agree with the "unchanging" statement.
+1. This is a ratio of likelihoods: 0.182 / 0.103 = 1.767.
+An American adult is 1.767 times more likely to have a postgraduate degree when the adult agrees with the iterative statement than when the adult agree with the unchanging statement.
+1. This is a ratio of posterior probabilities: 0.8432 / 0.0954 = 8.835.
+An *American adult with a postgraduate degree* is 8.835 times more likely to agree with the "iterative" statement than to agree with the "unchanging" statement.
+1. The ratio of the posterior probabilities is equal to the product of the ratio of the prior probabilities and the ratio of the likelihoods: $8.835 = 5 \times 1.767$.
+*Posterior is proportional to the product of prior and likelihood.*
+
+```
+
+Bayes rule is often used when there are multiple hypotheses or cases. Suppose $H_1,\ldots, H_k$ is a series of distinct hypotheses which together account for all possibilities^[More formally, $H_1,\ldots, H_k$ is a *partition* which satisfies $P\left(H_1 \cup \cdots \cup H_k\right)=1$ and $H_1, \ldots, H_k$ are disjoint --- $H_i\cap H_j=\emptyset , i\neq j$.], and $E$ is any event (evidence).  Then Bayes' rule implies that the posterior probability of any particular hypothesis $H_j$ satisfies
+\begin{align*}
+P(H_j |E) & = \frac{P(E|H_j)P(H_j)}{P(E)}
+\end{align*}
+
+The marginal probability of the evidence, $P(E)$, in the denominator can be calculated using the *law of total probability*
+\[
+P(E) = \sum_{i=1}^k P(E|H_i) P(H_i)
+\]
+The law of total probability says that we can interpret the unconditional probability $P(E)$ --- the marginal probability of the evidence or "average likelihood --- as a probability-weighted average of the case-by-case conditional probabilities $P(E|H_i)$ (i.e., likelihoods) where the weights $P(H_i)$ represent the probability of encountering each case (hypothesis).
+
+Combining Bayes' rule with the law of total probability,
+\begin{align*}
+P(H_j |E) & = \frac{P(E|H_j)P(H_j)}{P(E)}\\
+& = \frac{P(E|H_j)P(H_j)}{\sum_{i=1}^k P(E|H_i) P(H_i)}\\
+& \\
+P(H_j |E) & \propto P(E|H_j)P(H_j)
+\end{align*}
+
+The symbol $\propto$ is read "is proportional to". The relative *ratios* of the posterior probabilities of different hypotheses are determined by the product of the prior probabilities and the likelihoods, $P(E|H_j)P(H_j)$.  The marginal probability of the evidence, $P(E)$, in the denominator simply normalizes the numerators to ensure that the updated probabilities sum to 1 over all the distinct hypotheses.
+
+**In short, Bayes' rule says**^["Posterior is proportional to likelihood times prior" summarizes all of Bayesian statistics in a single sentence.]
+\[
+\textbf{posterior} \propto \textbf{likelihood} \times \textbf{prior}
+\]
+
+
+In the previous examples, the prior probabilities for an American adult's perception of the scientific method are 0.70 for "iterative", 0.14 for "unchanging", and 0.16 for "not sure".  After observing that the American has a postgraduate degree, the posterior probabilities for an American adult's perception of the scientific method become 0.8432 for "iterative", 0.0954 for "unchanging", and 0.0614 for "not sure".  The following organizes the calculations in a **Bayes' table** which illustrates  "posterior is proportional to likelihood times prior".  
+
+
+```{r, echo = FALSE}
+
+hypothesis = c("iterative", "unchanging", "not sure")
+
+prior = c(0.70, 0.14, 0.16)
+
+likelihood = c(0.182, 0.103, 0.058) # given postgraduate degree
+
+product = prior * likelihood
+
+posterior = product / sum(product)
+
+bayes_table = data.frame(hypothesis,
+                         prior,
+                         likelihood,
+                         product,
+                         posterior) %>%
+  add_row(hypothesis = "sum",
+          prior = sum(prior),
+          likelihood = NA,
+          product = sum(product),
+          posterior = sum(posterior))
+
+kable(bayes_table, digits = 4, align = 'r')
+
+```
+
+The likelihood column depends on the evidence, in this case, observing that the American has a postgraduate degree.  This column contains the probability of the same event, $E$ = "the American has a postgraduate degree", under each of the distinct hypotheses:
+
+- $P(E |H_1) = 0.182$, given the American agrees with the "iterative" statement
+- $P(E |H_2) = 0.103$, given the American agrees with the "unchanging" statement
+- $P(E |H_3) = 0.058$, given the American is "not sure"
+
+Since each of these probabilities is computed under a different case, these values do not need to add up to anything in particular.  The sum of the likelihoods is meaningless, which is why we have listed a sum of "NA" for the likelihood column.
+
+
+
+
+
+The "product" column contains the product of the values in the prior and likelihood columns. The product of prior and likelihood for "iterative" (0.1274) is 8.835 (0.1274/0.0144) times higher than the product of prior and likelihood for "unchanging" (0.0144).
+Therefore, Bayes rule implies that the conditional probability that an American with a postgraduate degree agrees with "iterative" should be 8.835 times higher than the conditional probability that an American with a postgraduate degree agrees with "unchanging".
+Similarly, the conditional probability that an American with a postgraduate degree agrees with "iterative" should be $0.1274 / 0.0093 = 13.73$ times higher than the conditional probability that an American with a postgraduate degree is "not sure",
+and the conditional probability that an American with a postgraduate degree agrees with "unchanging" should be $0.0144 / 0.0093 = 1.55$ times higher than the conditional probability that an American with a postgraduate degree is "not sure".
+The last column just translates these relative relationships into probabilities that sum to 1.
+
+The sum of the "product" column is $P(E)$, the marginal probability of the evidence or "average likelihood".  The sum of the product column represents the result of the law of total probability calculation.  However, for the purposes of determining the posterior probabilities, it isn't really important what $P(E)$ is.  Rather, it is the *ratio* of the values in the "product" column that determine the posterior probabilities.  $P(E)$ is whatever it needs to be to ensure that the posterior probabilities sum to 1 while maintaining the proper ratios.
+
+
+Bayes rule is just another application of conditioning as **"slicing and renormalizing".**
+
+- Extract the "slice" corresponding to the event being conditioned on (and discard the rest).  For example, a slice might correspond to a particular row or column of a two-way table.  
+- "Renormalize" the values in the slice so that corresponding probabilities add up to 1.
+
+In Bayes rule, the product of prior and likelihood determines the shape of the slice. Slicing determines relative probabilities; renormalizing just makes sure they "add up" to 1 while maintaining the proper ratios.
+
+
+```{example, bayes-rule3}
+Now suppose we want to compute the posterior probabilities  for an American adult's perception of the scientific method given that the randomly selected American adult has some college but no Bachelor’s degree ("college").
+
+
+```
+
+1. Before computing, make an educated guess for the posterior probabilities.
+In particular, will the changes from prior to posterior be more or less extreme given the American has some college but no Bachelor's degree than when given the American has a postgraduate degree?
+Why?
+1. Construct a Bayes table and compute the posterior probabilities.
+Compare to the posterior probabilities given postgraduate degree from the previous examples.
+
+
+```{solution bayes-rule3-sol}
+to Example \@ref(exm:bayes-rule3)
+```
+
+```{asis, fold.chunk = TRUE}
+1. We start with the same prior probabilities as before: 0.70 for iterative, 0.14 for unchanging, 0.16 for not sure.
+Now the evidence is that the American has some college but no Bachelor's degree.
+The likelihood of the evidence ("college") is 0.276 under the iterative hypothesis, 0.314 under the unchanging hypothesis, and 0.272 under the not sure hypothesis.
+The likelihood of the evidence does not change as much across the different hypotheses when the evidence is "college" than when the evidence was "postgraduate degree".
+Therefore, the changes from prior to posterior should be less extreme when the evidence is "college" than when the evidence was "postgraduate degree".
+Furthermore, since the likelihood doesn't vary much across hypotheses when the evidence is "college" we expect the posterior probabilities to be close to the prior probabilities.
+1. See the table below.
+As expected, the posterior probabilities are closer to the prior probabilities when the evidence is "college" than when the evidence is "postgraduate degree".
+
+```
+
+```{r, echo = FALSE}
+
+hypothesis = c("iterative", "unchanging", "not sure")
+
+prior = c(0.70, 0.14, 0.16)
+
+likelihood = c(0.276, 0.314, 0.272) # likelihood of college
+
+product = prior * likelihood
+
+posterior = product / sum(product)
+
+bayes_table = data.frame(hypothesis,
+                         prior,
+                         likelihood,
+                         product,
+                         posterior) %>%
+  add_row(hypothesis = "sum",
+          prior = sum(prior),
+          likelihood = NA,
+          product = sum(product),
+          posterior = sum(posterior))
+
+kbl(bayes_table, digits = 4, align = 'r') %>%
+  kable_styling()
+
+```
+
+Like the scientific method, Bayesian analysis is often an iterative process.
+
+
+```{example, bayes-marbles}
+
+Suppose that you are presented with six boxes, labeled 0, 1, 2, $\ldots$, 5, each containing five marbles.
+Box 0 contains 0 green and 5 gold marbles, box 1 contains 1 green and 4 gold, and so on with box $i$ containing $i$ green and $5-i$ gold.
+One of the boxes is chosen uniformly at random (perhaps by rolling a fair six-sided die and subracting 1 from the result), and then you will randomly select marbles from that box, *without* replacement.
+Based on the colors of the marbles selected, you will update the probabilities of which box had been chosen.
+
+```
+
+1. Suppose that a single marble is selected and it is green.  Which box do you think is the most likely to have been chosen?  Make a guess for the posterior probabilities for each box. Then construct a Bayes table to compute the posterior probabilities.
+1. Now suppose a second marble is selected from the same box, without replacement, and its color is gold.  Which box do you think is the most likely to have been chosen given these two marbles?  Make a guess for the posterior probabilities for each box. Then construct a Bayes table to compute the posterior probabilities, *using the posterior probabilities after the selection of the green marble as the new prior probabilities before seeing the gold marble.*
+1. Now construct a Bayes table corresponding to the original prior probabilities (1/6 each) and the evidence that the first ball selected was green and the second was gold.  (That is, you only update your probabilities after the second marble is drawn, not after the first.) How do the posterior probabilities compare to the previous part?
+1. In the previous part, the first ball selected was green and the second was gold.  Suppose you only knew that in a sample of two marbles, 1 was green and 1 was gold.  That is, you didn't know which was first or second.  How would the previous part change?  Should knowing the order matter?  Does it?
+
+```{solution bayes-marbles-sol}
+to Example \@ref(exm:bayes-marbles)
+```
+
+Since the prior probability is the same for each box, the posterior probability will be greatest for the box for which the likelihood of selecting a green marble (the evidence) is greatest, i.e., box 5 which has a likelihood of drawing a green marble of 1.
+The likelihood of drawing a green marble is 0 for box 0, so box 0 will have a posterior probability of 0.
+The Bayes table is below, along with a plot of the posterior probabilities.
+The likelihood column provides the probability of drawing a green marble from each of the boxes, which is $i/5$ for box $i$. Since the prior is "flat" the posterior probabilities are proportional to the likelihoods.
+
+
+```{r, echo = FALSE}
+Green = 0:5
+
+prior = rep(1 / 6, 6)
+
+likelihood = Green / 5  # given green marble
+
+product = prior * likelihood
+
+posterior = product / sum(product)
+
+bayes_table = data.frame(Green = as.character(Green),
+                         prior,
+                         likelihood,
+                         product,
+                         posterior) %>%
+  add_row(Green = "sum",
+          prior = sum(prior),
+          likelihood = NA,
+          product = sum(product),
+          posterior = sum(posterior))
+
+kbl(bayes_table, digits = 4, align = 'r') %>%
+  kable_styling()
+```
+
+
+
+```{r, echo = FALSE}
+ggplot(data.frame(Green, posterior),
+       aes(x = Green / 5,
+           xend = Green / 5,
+           y = 0,
+           yend = posterior)) +
+  geom_segment(size = 1.2, col = "skyblue") +
+  # scale_color_manual(values = c("#56B4E9", "#E69F00", "#999999")) +
+  scale_x_continuous(breaks = Green / 5, limits = c(0, 1)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) +
+  theme_classic() +
+  theme(legend.position = "none") +
+  labs(x = "Proportion of green marbles in box",
+       y = "Posterior probability of box",
+       title = "Posterior probabilities given first is green")
+```
+
+
+
+
+The posterior probabilities above quantify our uncertainty about the box after observing a single randomly selected marble is green. These probabilities serve as the prior probabilities before drawing any additional marbles.  After drawing a green marble without replacement, each box has 4 marbles and 1 less green marble than before, and the likelihood of observing a second marble which is gold is computed for each of the 4-marble boxes.
+For example, after drawing a green marble, box 2 now contains 1 green marble and 3 gold marbles, so the likelihood of drawing a gold marble from box 2 is 3/4.
+(The likelihood for box 0 is technically undefined because the probability of drawing a green marble first from box 0 is 0.  But since the prior probability for box 0 is 0, the posterior probability for box 0 will be 0 regardless of the likelihood.)
+The Bayes table is below. Since we have observed green and gold in equal proportion in our sample, the posterior probabilities are highest for the boxes with closest to equal proportions of green and gold (box 2 and box 3).
+
+```{r, echo = FALSE}
+prior = posterior
+
+likelihood = pmin((5 - Green) / 4, 1)  # given gold marble (after green marble)
+
+product = prior * likelihood
+
+posterior = product / sum(product)
+
+bayes_table = data.frame(Green = as.character(Green),
+                         prior,
+                         likelihood,
+                         product,
+                         posterior) %>%
+  add_row(Green = "sum",
+          prior = sum(prior),
+          likelihood = NA,
+          product = sum(product),
+          posterior = sum(posterior))
+
+kbl(bayes_table, digits = 4, align = 'r') %>%
+  kable_styling()
+```
+
+
+
+```{r, echo = FALSE}
+ggplot(data.frame(Green, posterior),
+       aes(x = Green / 5,
+           xend = Green / 5,
+           y = 0,
+           yend = posterior)) +
+  geom_segment(size = 1.2, col = "skyblue") +
+  # scale_color_manual(values = c("#56B4E9", "#E69F00", "#999999")) +
+  scale_x_continuous(breaks = Green / 5, limits = c(0, 1)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) +
+  theme_classic() +
+  theme(legend.position = "none") +
+  labs(x = "Proportion of green marbles in box",
+       y = "Posterior probability of box",
+       title = "Posterior probabilities given first is green, second is gold")
+```
+
+
+
+
+
+Above we updated the posterior probabilities after the first marble and again after selecting the second.  What if we start with equally likely prior probabilities and only update the posterior probabilities after selecting both marbles? The likelihood now represents the probability of drawing a green and then a gold marble, without replacement, from each of the boxes.  For example, for box 2, the probability of drawing a green marble first is 2/5 and the conditional probability of then drawing a gold marble is 3/4, so the probability of drawing green and then gold is (2/5)(3/4) = 0.3.
+
+The Bayes table is below.  Notice that the posterior probabilities are the same as in the previous part!  It doesn't matter if we sequentially update our probabilities after each draw as in the previous part, or only once after the entire sample is drawn.  The posterior probabilities are the same either way.
+
+
+```{r, echo = FALSE}
+Green = 0:5
+
+prior = rep(1 / 6, 6)
+
+likelihood = (Green / 5) * (5 - Green) / 4  # given green marble then hold marble
+
+product = prior * likelihood
+
+posterior = product / sum(product)
+
+bayes_table = data.frame(Green = as.character(Green),
+                         prior,
+                         likelihood,
+                         product,
+                         posterior) %>%
+  add_row(Green = "sum",
+          prior = sum(prior),
+          likelihood = NA,
+          product = sum(product),
+          posterior = sum(posterior))
+
+kbl(bayes_table, digits = 4, align = 'r') %>%
+  kable_styling()
+
+```
+
+
+
+
+What if we know the sample contains 1 green and 1 gold marble, but we don't know which was drawn first? It seems that knowing the order shouldn't matter in terms of our posterior probabilities.  Technically, the likelihood does change since there are two ways to get a sample with 1 green and 1 gold: green followed by gold or gold followed by green. Therefore, each likelihood will be two times larger than in the previous part.  For example, for box 2, the probability of green then gold is (2/5)(3/4) and the probability of gold then green is (3/5)(2/4), so the probability of 1 green and 1 gold is (2/5)(3/4) + (3/4)(2/5) = 2(0.3).
+However, the *ratios* of the likelihoods have not changed; since each likelihood is twice as large as it was in the previous part, the likelihood from this part is proportional to the likelihood from the previous part.  Therefore, since the prior probabilities are the same as in the previous part and the likelihoods are *proportionally* the same as in the previous part, the posterior probabilities will also be the same as in the previous part.
+
+
+```{r, echo = FALSE}
+
+Green = 0:5
+
+prior = rep(1 / 6, 6)
+
+likelihood = choose(Green, 1) * choose(5 - Green, 1) / choose(5, 2)
+
+product = prior * likelihood
+
+posterior = product / sum(product)
+
+bayes_table = data.frame(Green = as.character(Green),
+                         prior,
+                         likelihood,
+                         product,
+                         posterior) %>%
+  add_row(Green = "sum",
+          prior = sum(prior),
+          likelihood = NA,
+          product = sum(product),
+          posterior = sum(posterior))
+
+kbl(bayes_table, digits = 4, align = 'r') %>%
+  kable_styling()
+
+
+
+```
+
+
+Like the scientific method, Bayesian analysis is often an iterative process.
+Posterior probabilities are updated after observing some information or data.
+These probabilities can then be used as prior probabilities before observing new data.
+Posterior probabilities can be sequentially updated as new data becomes available, with the posterior probabilities after the previous stage serving as the prior probabilities for the next stage.
+The final posterior probabilities only depend upon the cumulative data.  It doesn't matter if we sequentially update the posterior after each new piece of data or only once after all the data is available; the final posterior probabilities will be the same either way.
+Also, the final posterior probabilities are not impacted by the order in which the data are observed.
+
+
+
+
+
+
+
+
+
+## Conditional versus unconditional probability {#conditional-versus-unconditional}
+
+Be careful to distinguish between conditional and unconditional probabilities.
+
+
+```{example harry-second}
+
+Consider a group of 5 people: Harry, Bella, Frodo, Anakin, Katniss.  Suppose each of their names is written on a slip of paper and the 5 slips of paper are placed into a hat.  The papers are mixed up and 2 are pulled out, one after the other *without* replacement.
+
+```
+
+1. What is the probability that Harry is the first name selected?
+1. What is the probability that Harry is the second name selected?
+1. If you were asked question (2) before question (1), would your answer change?  Should it?
+1. If Bella is the first name selected, what is the probability that Harry is the second name selected?
+1. If Harry is the first name selected, what is the probability that Harry is the second name selected?
+1. How is the probability that Harry is the second name selected related to the probabilities in the two previous parts?
+1. If Bella is the second name selected, what is the probability that Harry was the first name selected?
+
+
+```{solution, harry-second-sol}
+to Example \@ref(exm:harry-second)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The probability that Harry is the first name selected is 1/5, which is an answer we think most people would agree with.  There are 5 names which are equally likely to be the first one selected, 1 of which is Harry.
+1. The probability that Harry is the second name selected is also 1/5.  Many people might answer this as 1/4, since after selecting the first person there are now 4 names left.  But we show and discuss below that the *unconditional* probability is 1/5.
+1. Your answer to question (2) certainly shouldn't change depending on whether we ask question (1) first.    But perhaps after seeing question (1) you are implicitly assuming that Harry has not been selected first?  But there is nothing in question (2) that gives you any information about what happened on the first card.
+1. If Bella is the first name selected, the probability that Harry is the second name selected is 1/4.  We think most people find this intuitive.  If Bella is first, there are 4 cards remaining, equally likely to be the next card, of which 1 is Harry.
+1. If Harry is the first name selected, the probability that Harry is the second name selected is 0 since the cards are drawn *without* replacement.
+1. The probabilities in the two previous parts are *conditional* probabilities.  The probability in (2) is an *unconditional* probability.  By the law of total probability, we know that the unconditional probability that Harry is the second name selected is the weighted average of the two conditional probabilities from the previous parts.  Let $A$ be the event that Harry is first, $B$ be the event that Harry is second.  So $\IP(A) = 1/5$, $\IP(B|A) = 0$, $\IP(B|A^c) = 1/4$, and
+\[
+\IP(B) = \IP(B|A)\IP(A) + \IP(B|A^c)\IP(A^c) = (0)(1/5) + (1/4)(4/5) = 1/5 
+\]
+Claiming that $\IP(B)$ is 1/4 ignores the outcomes in which Harry is the first name selected.
+1. If Bella is the second name selected, the probability that Harry was the first name selected is 1/4.  It doesn't really matter what is "first" and what is "second", but rather the information conveyed.  In (4), what's important is that you know that one of the cards selected was Bella, so the probability that the other card selected is Harry is 1/4.  But this part conveys the same information
+
+```
+
+Here is a two-way table of 1000 hypothetical draws; note that Harry is second in 200 of them.
+
+|                  | Harry first | Harry not first | Total |
+|------------------|------------:|----------------:|------:|
+| Harry second     |           0 |             200 |   200 |
+| Harry not second |         200 |             600 |   800 |
+| Total            |         200 |             800 |  1000 |
+
+
+**Be careful to distinguish between conditional and unconditional probabilities.**  A conditional probability reflects "new" information about the outcome of the random phenomenon.  In the absence of such information, we must continue to account for all the possibilities. When computing probabilities, be sure to only reflect information that is known.  Especially when considering a phenomenon that happens in stages, don't assume that when considering "what happens second" that you know what happened first.
+
+In the example above, imagine shuffling the five cards and putting two on a table face down.  Now point to one of the cards and ask "what is the probability that THIS card is Harry?"  Well, all you know is that this card is one of the five cards, each of the 5 cards is equally likely to be the one you're pointing to, and only one of the cards is Harry.  Should it matter whether the face down card you're pointing to was the first or second card you laid on the table?  No, the probability that THIS card is Harry should be 1/5, regardless of whether you put it down first or second.
+
+Now turn over the other card that you're not pointing to, and see what name is on it.  The probability that the card you're pointing to is Harry has now changed, because you have some information about the outcome of the shuffle.  If the card you turned over says Harry, you know the probability that the card you're pointing to is Harry is 0.  If the card you turned over is not Harry, then you know that the probability that the card you're pointing to is Harry is 1/4.  It is not "first" or "second" that matters; it is whether or not you have obtained new information by revealing one of the cards.
+
+Another way of asking the question is: Shuffle the five cards; what is the probability that Harry is the second card from the top?  Without knowing any information about the result of the shuffle, all you know is that Harry should be equally likely to be in any one of the 5 positions, so the probability that he is the second card from the top should be 1/5.  It is only after revealing information about the result of the shuffle, say the top card, that the probability that Harry is in the second position changes.
+
+
+
+
+## Independence {#independence2}
+
+Recall that events $A$ and $B$ are **independent** if the knowing whether or not one occurs does not change the probability of the other.
+For events $A$ and $B$ (with $0<\IP(A)<1$ and $0<\IP(B)<1$) the following are equivalent.
+That is, if one is true then they all are true; if one is false, then they all are false.
+
+\begin{align*}
+\text{$A$ and $B$} & \text{ are independent}\\
+\IP(A \cap B) & = \IP(A)\IP(B)\\
+\IP(A^c \cap B) & = \IP(A^c)\IP(B)\\
+\IP(A \cap B^c) & = \IP(A)\IP(B^c)\\
+\IP(A^c \cap B^c) & = \IP(A^c)\IP(B^c)\\
+\IP(A|B) & = \IP(A)\\
+\IP(A|B) & = \IP(A|B^c)\\
+\IP(B|A) & = \IP(B)\\
+\IP(B|A) & = \IP(B|A^c)
+\end{align*}
+
+The presence of independence can greatly simplify computations of probabilities.
+But be careful to properly identify when events are independent, and when they're not.
+
+### Interpreting independence
+
+```{example venn-independent2}
+
+Each of the three Venn diagrams below represents a sample space with 16 equally likely outcomes.  Let $A$ be the yellow `/`  event, $B$ the blue `\` event, and their intersection $A\cap B$ the green $\times$ event. Suppose that areas represent probabilities, so that for example $\IP(A) = 4/16$.
+
+In which of the scenarios are events $A$ and $B$ independent?
+
+``` 
+
+
+
+```{r venn-independent-plot2, echo = FALSE}
+
+knitr::include_graphics(c("_graphics/venn-conditional.png"))
+
+```
+
+
+```{solution, venn-independent2-sol}
+to Example \@ref(exm:venn-independent2)
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+In each case, $\IP(A)=4/16$.  Condition on event $B$, by zooming in on the blue slice, and see if $\IP(A|B)$ is the same as $\IP(A)$. 
+
+1. Left: $\IP(A|B)=0\neq 4/16 = \IP(A)$.  Therefore, events $A$ and $B$ are not independent.
+1. Middle: $\IP(A|B) = 2/4\neq 4/16 = \IP(A)$.  Therefore, events $A$ and $B$ are not independent.
+1. Right: $\IP(A|B) = 1/4= 4/16 = \IP(A)$.  Therefore, events $A$ and $B$ are independent. The *ratio of yellow to total* is the same as the *ratio of the green part of blue to blue*.  If we zoom into the blue part of the picture (slice) and then resize it to the size of the original picture (renormalize), then the green part takes up 1/4 of the area just as the yellow part did in the original picture.
+
+```
+
+
+Do not confuse "disjoint" with "independent".  Disjoint means two events do not "overlap". Independence means two events *"overlap in just the right way"*.  You can pretty much forget "disjoint" exists; you will naturally apply the addition rule for disjoint events correctly without even thinking about it.  Independence is much more important and useful, but also requires more care.
+
+
+```{example, dice-independent}
+Roll two fair six-sided dice, one green and one gold.  There are 36 total possible outcomes (roll on green, roll on gold), all equally likely.  Consider the event $E=\{\text{the green die lands on 1}\}$.
+Answer the following questions by computing and comparing appropriate probabilities.
+
+```
+
+
+1. Consider $A=\{\text{the gold die lands on 6}\}$.  Are $A$ and $E$ independent?
+1. Consider $B=\{\text{the sum of the dice is 2}\}$.  Are $B$ and $E$ independent?
+1. Consider $C=\{\text{the sum of the dice is 7}\}$.  Are $C$ and $E$ independent?
+
+```{solution, dice-independent-sol}
+to Example \@ref(exm:dice-independent)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+$\IP(E)=6/36=1/6$ since there are six pairs of rolls which satisfy event $E$: $E=\{(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6)\}$
+
+
+1. There are 6 outcomes which satisfy event $A=\{(1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6)\}$, all equally likely, only one, (1, 6), of which also satisfies event $E$.  $\IP(E|A) = 1/6 = 6/36 = \IP(E)$, so events $A$ and $E$ are independent.  The ratio of the $E$ part of $A$ to $A$ is equal to the ratio of $E$ to the sample space.
+1. There is only 1 outcome which satisfies event $B=\{(1, 1)\}$ and it also satisfies event $E$.  $\IP(E|B) = 1 \neq 6/36 = \IP(E)$, so events $A$ and $E$ are not independent. If you know the sum of the dice is 2, then the green die must have landed on 1.
+1. There are 6 outcomes which satisfy event $C=\{(1, 6), (2, 5), (3, 4), (4, 3), (5, 2), (6, 1)\}$, all equally likely, only one, (1, 6), of which also satisfies event $E$.  $\IP(E|C) = 1/6 = 6/36 = \IP(E)$, so events $C$ and $E$ are independent.  The ratio of the $E$ part of $C$ to $C$ is the ratio of $E$ to the sample space. 
+
+
+```
+
+Independence concerns whether or not the occurrence of one event affects the *probability* of the other. Conditioning involves slicing and renormalizing; independence concerns whether the renormalized slice matches the original picture. Given two events it is not always obvious whether or not they are independent.  When there is any doubt, be sure to check directly if one of the equivalent conditions for independence is true (that is, the directly compute the left side and right side and see if they're equal.)
+
+
+Independence is often a reasonable assumption based on the physical properties of the random phenomenon. But remember that it is an *assumption*, which might or might not match reality. Be sure to make a distinction between *assumption* and *observation*.
+
+For example, flip a coin some number of times. It might be reasonable to assume the coin is fair and flips are independent.  In this case, the probability that the next flip lands on heads is 1/2 regardless of what you observed on  the previous flips. However, if you flip a coin twenty times and it lands on heads each time, this might cast doubt on your assumption that the coin is fair.
+
+
+
+```{example, independent-probmeasure}
+You have just been elected president (congratulations!) and you need to choose one of four people to sing the national anthem at your inauguration: Alicia, Ariana, Beyonce, or Billie.
+You write their names on some cards --- *each name on possibly a different number of cards*  --- shuffle the cards, and draw one.
+Let $A$ be the event that either Alicia or Ariana is selected, and $B$ be the event that either Alicia or Beyonce is selected.
+
+The following questions ask you to specify probability models satisfying different conditions.
+You can specify the model by identifying how many cards each person's name is written on.
+For each model, find the probabilities of $A$, $B$, and $A\cap B$, and verify whether or not events $A$ and $B$ are independent according to the model.
+``` 
+
+1. Specify a probability model according to which the events $A$ and $B$ are independent.
+1. Specify a different probability model according to which the events $A$ and $B$ are independent.
+1. Specify a probability model according to which the events $A$ and $B$ are not independent.
+
+
+```{solution, independent-probmeasure-sol}
+to Example \@ref(exm:independent-probmeasure)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+Note that $A \cap B$ is the event that Alicia is selected.
+
+1. Write each person's name on exactly one card, so the 4 outcomes are equally likely. Let $\IP$ represent this probability measure. Then $\IP(A \cap B) = 1/4 = (2/4)(2/4)=\IP(A)\IP(B)$, so $A$ and $B$ are independent.  
+1. The previous part involves a situation where $(1/2)(1/2)=1/4=(2/4)(2/4)$.  We try to construct a situation where $(1/3)(1/3)=1/9=(3/9)(3/9)$. Suppose there are 9 cards, with Alicia on 1, Ariana and Beyonce on 2 each, and Billie on 4.
+
+    | Outcome         | Alicia | Ariana | Beyonce | Billie |
+    |-----------------|-------:|-------:|--------:|-------:|
+    | Number of cards |      1 |      2 |       2 |      4 |
+    | Probability     |    1/9 |    2/9 |     2/9 |    4/9 |
+
+    Let $\IQ$ represent this probability measure. Then $\IQ(A \cap B) = 1/9 = (3/9)(3/9)=\IQ(A)\IQ(B)$, so events $A$ and $B$ are independent. Elaborating,
+    
+    - There are 3 cards that satisfy $A$ and 6 that don't so $A$ is 3/6 = 1/2 as likely to occur than not.
+    - If $B$ occurs, then it's either Alicia (satisfies $A$, 1 card) or Beyonce (does not satisfy $A$, 2 cards), so given that $B$ occurs then $A$ is 1/2 times as likely to occur than not.
+    - If $B$ does not occur, then it's either Ariana (satifies $A$, 2 cards) or Billie (does not satisfy $A$, 4 cards), so given that $B$ does not occur then $A$ is 2/4 = 1/2 times as likely to occur than not.
+    
+    Knowing whether or not $B$ occurs doesn't change the chance of $A$ occurring, so $A$ and $B$ are independent according to this probability model.
+
+1. Independence requires probabilities to overlap in just the right way.  Aside from equally likely situations, if we blindly write down four numbers that sum to 1 we will probably not luck into a probability measure where the events are independent. For example,
+
+    | Outcome         | Alicia | Ariana | Beyonce | Billie |
+    |-----------------|-------:|-------:|--------:|-------:|
+    | Number of cards |      1 |      2 |       3 |      4 |
+    | Probability     |    0.1 |    0.2 |     0.3 |    0.4 |
+
+    Let $\tilde{\IQ}$ represent this probability measure. Then $\tilde{\IQ}(A \cap B) = 0.1 \neq (0.3)(0.4)=\tilde{\IQ}(A)\tilde{\IQ}(B)$, so events $A$ and $B$ are not independent. Elaborating,
+    
+    - There are 3 cards that satisfy $A$ and 7 that don't so $A$ is 3/7 as likely to occur than not.
+    - If $B$ occurs, then it's either Alicia (satisfies $A$, 1 card) or Beyonce (does not satisfy $A$, 3 cards), so given that $B$ occurs then $A$ is 1/3 times as likely to occur than not.
+    - If $B$ does not occur, then it's either Ariana (satifies $A$, 2 cards) or Billie (does not satisfy $A$, 4 cards), so given that $B$ does not occur then $A$ is 2/4 = 1/2 times as likely to occur than not.
+    
+    Knowing whether or not $B$ occurs changes the chance of $A$ occurring, so $A$ and $B$ are not independent according to this probability model.
+
+
+```
+
+
+Remember, independence is a statement about probabilities, not outcomes themselves.
+Given two events it is not always obvious whether or not they are independent.
+
+Independence depends on the underlying probability measure.
+Events that are independent under one probability measure might not be independent under another.
+
+The probability measure represents all the underlying assumptions about the random phenomenon.
+Independence is often assumed.
+Whether or not independence is a valid assumption depends on the underlying random phenomenon.
+
+
+
+
+```{example, coin-multiple-events-independent}
+Flip a fair coin twice. Let
+
+- $A$ be the event that the first flip lands on heads
+- $B$ be the event that the second flip lands on heads,
+- $C$ be the event that both flips land on the same side.
+  
+```
+
+1. Are the two events $A$ and $B$ independent?
+1. Are the two events $A$ and $C$ independent?
+1. Are the two events $B$ and $C$ independent?
+1. Are the three events $A$, $B$, and $C$ independent?
+
+
+
+```{solution, coin-multiple-events-independent-sol}
+to Example \@ref(exm:coin-multiple-events-independent)
+```
+
+
+
+```{asis, fold.chunk = TRUE}
+
+There are four equally likely outcomes $\{HH, HT, TH, TT\}$.
+
+- $A = \{HH, HT\}$, so $\IP(A) = 2/4$
+- $B = \{HH, TH\}$, so $\IP(B) = 2/4$
+- $C = \{HH, TT\}$, so $\IP(C) = 2/4$
+
+1. Yes, events $A$ and $B$ are independent. $A\cap B=\{HH\}$, $\IP(A\cap B)=1/4$, and $\IP(A\cap B)=\IP(A)\IP(B)$.
+1. Yes, events $A$ and $C$ are independent. $A\cap C=\{HH\}$, $\IP(A\cap C)=1/4$, and $\IP(A\cap C)=\IP(A)\IP(C)$.
+1. Yes, events $B$ and $C$ are independent. $B\cap C=\{HH\}$, $\IP(B\cap C)=1/4$, and $\IP(B\cap C)=\IP(B)\IP(C)$.
+1. No, even though each pair of events is independent, the collection of the three events is not.  If $A$ and $B$ occur then we know event $C$ occurs.  That is, $\IP(C|A \cap B)=1$ but $\IP(C) = 1/2$.
+
+```
+
+
+Events $A_1, A_2, A_3, \ldots$ are **independent** if:
+
+- any pair of events $A_i, A_j, (i \neq j)$ satisfies $\IP(A_i\cap A_j)=\IP(A_i)\IP(A_j)$,
+- and any triple of events $A_i, A_j, A_k$ (distinct $i,j,k$) satisfies $\IP(A_i\cap A_j\cap A_k)=\IP(A_i)\IP(A_j)\IP(A_k)$,
+- and any quadruple of events satisfies $\IP(A_i\cap A_j\cap A_k \cap A_m)=\IP(A_i)\IP(A_j)\IP(A_k)\IP(A_m)$,
+- and so on.
+
+Intuitively, a collection of events is independent if knowing whether or not any combination of the events in the collection occur does not change the probability of any other event in the collection.
+
+In particular, three events $A$, $B$, $C$ are independent if and only if *all* of the following are true
+$$
+{\scriptsize
+\IP(A\cap B) = \IP(A)\IP(B), \quad  \IP(A\cap C) = \IP(A)\IP(C),\quad  \IP(B\cap C) = \IP(B)\IP(C),\quad \IP(A\cap B\cap C) = \IP(A)\IP(B)\IP(C)
+}
+$$
+Equivalently, it can be shown that three events $A$, $B$, $C$ are independent if and only if *all* of the following^[Some of these conditions are redundant.  For example, $\IP(A|B)=\IP(A)$ if and only if $\IP(B|A)=\IP(B)$ so technically only one of those conditions needs to be verified.] are true.
+
+\begin{align*}
+& \IP(A| B) = \IP(A), \quad \IP(A| C) = \IP(A), \quad \IP(B|A) = \IP(B), \quad \IP(B| C) = \IP(B), \quad \IP(C|A) = \IP(C),\\
+& \IP(C|B) = \IP(C), \quad
+\IP(A| B\cap C) = \IP(A), \quad \IP(B|A\cap C) = \IP(B), \quad \IP(C|A\cap B) = \IP(C)
+\end{align*}
+
+
+### Using independence
+
+Remember the general multiplication rule involves successive conditional probabilities
+$$
+\IP(A_1\cap A_2 \cap A_3 \cap \cdots \cap A_{n}) = \IP(A_1)\IP(A_2|A_1)\IP(A_3|A_1\cap A_2) \times \cdots \times \IP(A_n|A_1 \cap A_2 \cap \cdots \cap A_{n-1})
+$$
+In problems with complicated relationships, determining joint and conditional probabilities can be difficult.
+
+
+But when events are independent, the multiplication rule simplifies greatly.
+$$
+\IP(A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n) = \IP(A_1)\IP(A_2)\IP(A_3)\cdots\IP(A_n) \quad \text{if $A_1, A_2, A_3, \ldots, A_n$ are independent}
+$$
+
+When a problem involves independence, you will want to take advantage of it. Work with "and" events whenever possible in order to use the multiplication rule.
+For example, for problems involving "at least one" (an "or" event) take the complement to obtain "none" (an "and" event).
+
+```{example, system-fail}
+A certain system consists of four identical components.  Suppose that the probability that any particular component fails is 0.1, and failures of the components occur independently of each other.  Find the probability that the system fails if:
+
+1. The components are connected in *parallel*: the system fails only if *all* of the components fail.
+1. The components are connected in *series*: the system fails whenever *at least one* of the components fails.
+1. Donny Don't says the answer to the previous part is $0.1 + 0.1 + 0.1 + 0.1 = 0.4$. Explain the error in Donny's reasoning.
+
+```
+
+
+```{solution, system-fail-sol}
+to Example \@ref(exm:system-fail)
+```
+
+```{asis, fold.chunk = TRUE}
+
+Let $F$ be the event the system fails, and $F_i$ the event that component $i$ fails.
+
+1. If the components are connected in parallel, $F=F_1 \cap F_2 \cap F_3 \cap F_4$.
+    \begin{align*}
+    \IP(F) & = \IP(F_1\cap F_2\cap F_3 \cap F_4) & & \\
+    & = \IP(F_1)\IP(F_2)\IP( F_3)\IP(F_4) & & \text{independence}\\
+    & = (0.1)(0.1)(0.1)(0.1) = 0.0001
+    \end{align*}
+1. "At least one fails" is an "or" event: $F= F_1 \cup F_2 \cup F_3 \cup F_4$.  With independence you want "and" events. Use the complement rule
+    \begin{align*}
+    \IP(F) & = \IP(\text{at least one fails}) & & \\
+    & = 1 - \IP(\text{none fails})\ & & \\
+    & = 1 - \IP(F_1^c\cap F_2^c \cap F_3^c\cap F_4^c) & & \\
+    & = 1 - \IP(F_1^c)\IP(F_2^c)\IP( F_3^c)\IP(F_4^c) & & \text{independence}\\
+    & = 1-(0.9)(0.9)(0.9)(0.9) = 0.3439
+\end{align*}
+1. Donny is assuming that the component failures are *disjoint*, but that's not true since multiple components could fail. Simply adding the probabilities double counts outcomes where multiple components fail. Don't confuse "disjoint" and "independent". It is almost always better to work with "and" events and multiplying rather than "or" events.
+
+```
+
+
+The complement rule is often useful in probability problems that involve finding "the probability of at least one...," which on the surface involves unions (OR).
+It usually more convenient to use the complement rule and compute "the probability of at least one..." as one minus "the probability of none..."; the latter probability involves intersections (AND).
+Don't forget to actually use the complement rule to get back to the original probability of interest!
+Subtracting a computed probability from 1 seems like a small computational step, but it's an important one.
+A basketball player who has a 90% chance of successfully making a free throw is much different from a player who only has a 10% chance.
+Unfortunately, the complement rule step is often overlooked when doing probability calculations.
+It's a good idea to ask yourself if the probability you are computing should be greater than or less than 50%.
+If your computed value seems to be on the wrong side of 50%, check your calculations to see if you have forgotten (or misapplied) the complement rule.
+
+
+
+
+
+```{example, counting-lottery}
+
+In the Powerball lottery, a player picks five different whole numbers between 1 and 69, and another whole number between 1 and 26 that is called the Powerball.  In the drawing, the 5 numbers are drawn without replacement from a "hopper" with balls labeled 1 through 69, but the Powerball is drawn from a separate hopper with balls labeled 1 through 26. The player wins the jackpot if both the first 5 numbers match those drawn, in any order, and the Powerball is a match.
+Under this set up, there are 292,201,338 possible winning numbers.
+
+```
+
+
+1. What is the probability the next winning number is 6-7-16-23-26, plus the Powerball number, 4.
+1. What is the probability the next winning number is 1-2-3-4-5, plus the Powerball number, 6.
+1. The Powerball drawing happens twice a week. Suppose you play the same Powerball number, twice a week, every week for over 50 years.  Let's say you purchase a ticket for 6000 drawings in total.  What is the probability that you win at least once?
+1. Instead of playing for 50 years, you decide only to play one lottery, but you buy 6000 tickets, each with a different Powerball number.  What is the probability that at least one of your tickets wins?  How does this compare to the previous part?  Why?
+1. Each ticket costs 2 dollars, but the jackpot changes from drawing to drawing.  Suppose you buy 6000 tickets for a single drawing. How large does the jackpot need to be for your "expected" profit to be positive?  To be \$100,000? (We're ignoring inflation, taxes, transaction costs, and any changes in the rules.)
+
+
+
+
+```{solution counting-lottery-sol}
+to Example \@ref(exm:counting-lottery)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+
+1. Each of the possible winning numbers is equally likely, so the  probability is $1/292,201,338\approx 3\times 10^{-9}$. See Example \@ref(exm:probability-interpret3) and the discussion following it.
+1. Each of the possible winning numbers is equally likely.  Remember, don't confuse a general event with a specific outcome; see Example \@ref(exm:probability-interpret2).
+1. The drawings are independent.  The probability that you win at least once is $1 - (1-1/292201338)^{6000}\approx 0.00002$.  If many people each play 6000 drawings, about 2 in every 100,000 people win will at least once.
+1. If you play 6000 different numbers, the events that each different number wins are disjoint.  So the probability you win at least once is $6000/292201338\approx 0.00002$.  This is about the same as the probability in the previous part.  When you play 6000 different independent drawings, there is a possibility that you win multiple times, so the events of winning in each different drawing are not disjoint.  But the probability of winning *multiple* lotteries is so small that it's negligible.  The probability of winning any single drawing is about 1 in 300 million.  The probability of winning any two drawings is about 1 in 85 quadrillion.
+1. You pay \$12,000 in total.  Let $w$ be the value of the jackpot.  You win either 0 or $w$ so your "expected" profit is $w(6000/292201338)-12000$.  But this not what you expect in a single repetition. Rather, it is the profit you would expect to see on average in the long run. You probably won't be buying 6000 tickets for a large number of drawings, so your long run average isn't really relevant. But in any case, we must have $w>584,402,676$ for the expected profit to be positive.  Sometimes, but not often, the jackpot does get this high; even so, this just guarantees that your expected profit is positive.  In order for your expected long run average profit to be greater than just \$100,000, the jackpot must be over 5 billion dollars, and the largest jackpot ever was 1.6 billion.  The moral: there are better things to do with $12,000 dollars.
+
+```
+
+
+```{example meeting-first-time}
+In the meeting problem, assume Regina's arrival time $R$ follows a Uniform(0, 60) distribution and Cady's arrival time $Y$ follows a Normal(30, 10) distribution, independently of each other.
+(Remember, arrival times are measured in minutes after 12:00.)
+Let $T=\min(R, Y)$. 
+Compute and interpret $\IP(T < 10)$.
+```
+
+```{solution meeting-first-time-sol}
+to Example \@ref(exm:meeting-first-time)
+```
+
+
+```{asis, fold.chunk = TRUE}
+$\IP(T < 10)$ is the probability that the first person to arrive arrives before 12:10.
+The key is to notice that $T<10$ whenever either $R<10$ or $T<10$; that is, $T<10$ if at least one person arrives before 12:10. To change this "or" event into an "and" event, consider the complement.
+$T>10$ whenever they both arrive after 12:10. That is, $\{T > 10\} = \{\min(R, Y)>10\} = \{R> 10, Y> 10\}$.
+
+Since $R$ follows a Uniform(0, 60) distribution $\IP(R > 10) = 50/60 = 0.833$.
+
+Since $Y$ follows a Normal(30, 10) distribution, $\IP(Y > 10) = 0.975$.  This follows from the empirical rule (see Section \@ref(sec-empirical-rule)), since 15 is 2 standard deviations below the mean ($15 = (10 - 30)/10 = -2$).
+
+Since Regina and Cady arrive independently of each other, the events $\{R > 10\}$ and $\{Y > 10 \}$ are independent, so
+$$
+\IP(T > 10) = \IP(R>10, Y>10) \stackrel{\text{(indep.)}}{=} \IP(R > 10)\IP(Y > 10) = (0.833)(0.975) = 0.8125.
+$$
+
+Finally, use the complement rule: $\IP(T<10) = 1-\IP(T > 10) = 1 - 0.8125=0.1875$.
+
+Under these assumptions the first person arrives before 12:10 on 18.75% of days in the long run.
+It is 4.33 times more likely that the first person arrives after 12:10 than before 12:10.
+
+``` 
+
+
+```{example branching-extinction}
+A very large petri dish starts with a single microorganism.
+After one minute, the microorganism either splits into two with probability $s$, or dies.
+All subsequent microorganisms behave in the same way --- splitting into two or dying after each minute --- independently of each other. 
+```
+
+1. If $s=3/4$, what is the probability that the population eventually goes extinct? (Hint: condition on the first step.)
+1. Find the probability that the population eventually goes extinct as a function of $s$. For what values of $s$ is the extinction probability 1?
+
+
+
+
+```{solution braching-extinction-sol}
+to Example \@ref(exm:branching-extinction)
+```
+
+
+```{asis, fold.chunk = TRUE}
+Let $E$ be eventual extinction. We want to find $p=\IP(E)$.
+
+1. Let $D$ be the probability that the original microorganism dies after the first minute; $\IP(D) = 1/4$.
+Condition on the first "step" and use the law of total probability
+$$
+p = \IP(E) = \IP(E|D)\IP(D) + \IP(E|D^c)\IP(D^c) = (1)(1/4) + \IP(E|D^c)(3/4)
+$$
+$\IP(E|D) = 1$ since if the first microorganism dies the population goes extinct immediately.
+
+    The key is to find an expression for $\IP(E|D^c)$ in terms of $p$. If the first microorganism does not die ($D^c$) there are 2 microorganisms at the start of the second minute; let's call them Marge and Homer. In order for the population to go extinct, we need Marge and all her descendants to go extinct, and the same for Homer. But Marge is just a single microorganism, so the probability that her line eventually goes extinct is $p$; similarly the probability that Homer's line goes extinct is $p$. Since all microorganisms behave independently, the probability that both Marge and Homer's lines eventually go extinct is $(p)(p)=p^2$. That is, $\IP(E | D^c) = p^2$.
+
+    Plugging into the equation above yields
+    $$
+    p = (1)(1/4) + p^2(3/4)
+    $$
+    
+    Solve (quadratic formula) this equation to get^[Technically, there are two solutions, 1 and $1/3$. There are some technical justifications that can be made to show that the extinction probability is the smaller of the two solutions, but this is beyond our scope.] $p= 1/3$. The probability that the population eventually goes extinct is 1/3. This microorganism population is 2 times more likely to survive forever than to go extinct!
+
+1. The process is the same as the above, with 3/4 replaced by $s$
+$$
+p = (1)(1-s) + p^2s
+$$
+Solving gives two solutions, 1 and $1/s - 1$.
+However, if $s<1/2$ then $1/s - 1 > 1$, which is not a valid probability. Therefore the probability of eventual extinction is 1 if $s \le 1/2$, and $1/s - 1<1$ if $s > 1/2$.
+
+``` 
+
+
+
+## Equally likely outcomes {#equally-likely}
+
+In this section we'll look more closely at how to compute probabilities  when the outcomes in the sample space are equally likely.
+But a warning before proceeding: in most situations sample space outcomes are *not* equally likely! And even in case where the outcomes are equally, values of corresponding random variables are usually not.
+So beware that the results in this section only apply in a limited number of special cases.
+
+
+For a sample space $\Omega$ with finitely many possible outcomes, assuming  **equally likely outcomes** corresponds to a probabiliy measure $\IP$ which satisfies
+
+$$
+\IP(A) = \frac{|A|}{|\Omega|} = \frac{\text{number of outcomes in $A$}}{\text{number of outcomes in $\Omega$}} \qquad{\text{when outcomes are equally likely}}
+$$
+
+
+```{example coin-probspace}
+
+Flip a coin 4 times and record the results in sequence.
+For example, HTHH indicates T on the second flip and H on the others.
+Let $X$ be the number of H in the four flips.
+Assume that the coin is fair and the flips are independent.
+```
+
+
+1. Find the probability of the outcome HTHH.
+1. Find the probability of the outcome HHHH.
+1. Make a table of all the possible outcomes; there should be 16.
+Is it reasonable to assume the outcomes are equally likely?
+Explain.
+1. Identify the possible values of $X$.
+Are the values of $X$ equally likely?
+1. Compute and interpret $\IP(X = 4)$.
+1. Compute and interpret $\IP(X=3)$.
+1. Find the distribution of $X$.
+1. Suppose the coin were biased in favor of landing on H.
+Would the sample space change? Would the definition of $X$ and its possible values change? Would the 16 outcomes be equally likely? Would the distribution of $X$ change?
+
+
+
+
+```{solution coin-probspace-sol}
+
+to Example \@ref(exm:coin-probspace)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Since the coin is fair, the probability of H on any single flip is 0.5, same as the probability of T.
+Since the flips are independent, we can find the probability of the sequence by multiplying the probability of H/T for each flip. The probability of HTHH is (0.5)(0.5)(0.5)(0.5) = 0.0625 = 1/16.
+1. Similar to the previous part, the probability of H is 1/16.
+1. See Table \@ref(tab:coin-transform-tab2).
+Assuming that the flips are independent and the coin is fair is equivalent to assuming that the probability of any single outcome is 1/16. So yes, it is reasonable to assume equally likely outcomes given these assumptions.
+1. $X$ can take values 0, 1, 2, 3, 4. (Don't forget 0.)
+Even though the 16 possible sequences are equally likely, the values of $X$ are not.
+For example, there are more outcomes that result in $X=3$ than $X=4$.
+1. $\IP(X = 4) = 1/16$ since there are 4 H in 4 flips if and only every flip is H, $\{X = 4\} = \{HHHH\}$.
+Over many sets of 4 fair coin flips, about 6.25% of sets will result in 4 H.
+If you flip a coin 4 times, it is 15 times more likely to obtain fewer than 4 H than to obtain 4 H.
+1. $\IP(X = 3) = 4/16$ since there are 4 outcomes (out of 16 equally likely outcomes) with 3 H in 4 flips, $\{X = 3\} = \{HHHT, HHTH, HTHH, THHH\}$.
+Over many sets of 4 fair coin flips, about 25% of sets will result in exactly 3 H.
+If you flip a coin 4 times, it is 3 times more likely to obtain something other than 3 H than to obtain 3 H.
+1. The distribution can be represented in a table with the possible values $x$ of $X$, and $\IP(X = x)$ for each possible $x$.
+Since outcomes are equally, $\IP(X = x)$ is the number of outcomes that satisfy the event $\{X=x\}$ divided by 16, the total number of possible outcomes.
+See Table \@ref(tab:table-coin-four-heads) and Figure \@ref(fig:plot-coin-four-heads).
+1. If the coin were biased in favor of landing on H, the sample space wouldn't change; there would still be 16 possible flip sequences. The definition of $X$ and its possible values also would not change.
+However, the 16 outcomes would no longer be equally likely.
+For example, the probability of HHHH would be greater than that of TTTT
+The distribution of $X$ would also change; for example, $\IP(X = 4)$ would be greater than 1/16$ and $\IP(X = 0)$ would be less than 1/16.
+
+
+
+```
+
+
+
+
+```{r, coin-transform-tab2, echo = FALSE, fold.chunk = FALSE}
+n = 3
+# u1 = sort(rep(c("H", "T"), 4))
+# u2 = rep(sort(rep(c("H", "T"), 2)), 2)
+# u3 = rep(c("H", "T"), 4)
+# u = paste(u1, u2, u3, sep = "")
+u = c("HHHH", "HHHT", "HHTH", "HTHH", "THHH", "HHTT", "HTHT", "HTTH", "THHT", "THTH", "TTHH", "HTTT", "THTT", "TTHT", "TTTH",  "TTTT")
+
+x = c(4, rep(3, 4), rep(2, 6), rep(1, 4), 0)
+
+
+kbl(
+  data.frame(u, x),
+  col.names = c("Outcome", "X"),
+  booktabs = TRUE,
+  caption = 'Table representing the outcomes of 4 flips of a coin, and $X$, the number of H.'
+) %>%
+  kable_styling(fixed_thead = TRUE)
+
+```
+
+(ref:cap-table-coin-four-heads) The marginal distribution of $X$, the number of H in 4 flips of a fair coin.
+
+```{r, table-coin-four-heads, echo = FALSE}
+y = 0:4
+p = c(1, 4, 6, 4, 1) / 16
+knitr::kable(
+  data.frame(y, p),
+  col.names = c("x", "P(X=x)"),
+  booktabs = TRUE,
+  caption = "(ref:cap-table-coin-four-heads)",
+  digits = 4
+)
+```  
+
+(ref:cap-plot-coin-four-heads) The marginal distribution of $X$, the number of H in 4 flips of a fair coin.
+
+```{r plot-coin-four-heads, echo = FALSE, fig.cap = "(ref:cap-plot-coin-four-heads)"}
+
+ggplot(data.frame(y, p),
+       aes(x = y,
+           xend = y,
+           y = 0,
+           yend = p)) +
+  geom_segment(size = 1.2, col = "skyblue") +
+  # scale_color_manual(values = c("#56B4E9", "#E69F00", "#999999")) +
+  scale_x_continuous(breaks = 0:4) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_classic() +
+  theme(legend.position = "none") +
+  labs(x = "x",
+       y = "P(X = x)")
+
+```
+
+Remember that events often involve random variables.
+Even if the sample space outcomes are equally likely, the possible values of related random variables are usually not.
+
+
+
+```{example, matching-probspace}
+Recall the matching problem with $n=4$: objects labeled 1, 2, 3, 4, are placed at random in spots labeled 1, 2, 3, 4, with spot 1 the correct spot for object 1, etc.
+Recall the sample space from Example \@ref(exm:matching-outcome). 
+Let the random variable $X$ count the number of objects that are put back in the correct spot. (Hint: recall Table \@ref(tab:matching-indicator-tab).)
+Let $\IP$ denote the probability measure corresponding to the assumption that the objects are equally likely to be placed in any spot, so that the 24 possible placements are equally.
+  
+
+```
+
+1. Find $\IP(X=0)$.
+1. Find the distribution of $X$.
+1. Let $C$ be the event that at least one object is put in the correct spot.  Compute and interpret $\IP(C)$.
+1. Let $C_1$ be the event that object 1 is put correctly in spot 1. Find $\IP(C_1)$.
+1. Let $C_2$ be the event that object 2 is put correctly in spot 2. Find $\IP(C_2)$.
+1. Define $C_3$, and $C_4$ similarly.  Represent the event $C$  in terms of $C_1, C_2, C_3, C_4$.
+1. Find and interpret $\IP(C_1\cap C_2 \cap C_3 \cap C_4)$.
+1. Donny Don't says: "the events are not disjoint so by the general addition rule $\IP(C_1 \cup C_2 \cup C_3 \cup C_4)$ is equal to $\IP(C_1)+\IP(C_2)+\IP(C_3)+\IP(C_4)-\IP(C_1\cap C_2 \cap C_3 \cap C_4)$."  Explain to Donny his mistake.
+
+```{solution matching-probspace-sol}
+
+to Example \@ref(exm:matching-probspace)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Each of the 24 outcomes in Table \@ref(tab:matching-indicator-tab) is equally likely.  There are 9 outcomes for which $Y=0$, so $\IP(X=0)=9/24=0.375$.
+1. The possible values of $X$ are 0, 1, 2, 4.  $X$ cannot be 3, since if 3 objects are in the correct spot, then the fourth must be too. $\IP(X=x)$ for $x=0, 1, 2, 4$ can be found as in the previous part. See Table \@ref(tab:matching-probspace-table) and Figure \@ref(fig:matching-probspace-plot).
+1. $C=\{X\ge 1\}$ is the  event that at least one object is put in the correct spot.  $\IP(X \ge 1) = 1-\IP(X=0)=1-9/24 = 15/24 = 0.625$.
+If we were to repeat this process many times, with each repetition consisting of a placement of objects in spots, then about 62.5% of placements would have at least one object in the correct spot.
+$\IP(C) = 0.625$ and $\IP(C^c) = 0.375$, so it is about 1.67 times more likely to have at least one object in the correct spot than to have none.
+1. Intuitively, $\IP(C_1)=1/4$ since object 1 is equally likely to be put in any of the 4 spots.  In terms of the sample space outcomes, $C_1 =\{1234, 1234, 1243, 1324, 1342, 1423, 1432\}$, so $\IP(C_1)=6/24=1/4$.
+1. Similar to the previous part, $\IP(C_2)=1/4$. Also, recalling the indicator random variables from Example \@ref(exm:matching-indicator), $C_2=\{I_2=1\}$, and we see that there are 6 outcomes (rows) in Table \@ref(tab:matching-indicator-tab) corresponding to $I_2=1$.  Similarly, $\IP(C_3)=\IP(C_4)=1/4$.
+1. $C = C_1\cup C_2\cup C_3\cup C_4$.
+1. $\IP(C_1\cap C_2 \cap C_3 \cap C_4) = \IP(\{1234\}) = 1/24$ is the probability that all four objects are put in their correct spots.
+1. As we mentioned previously, the general addition rule is complicated for more than two events.  There are some terms missing from Donny's calculation.
+
+```
+
+(ref:cap-matching-probspace-table) Distribution of $X$, the number of matches in the matching problem with $n=4$ and uniformly random placement of objects in spots.
+
+
+
+```{r, matching-probspace-table, echo = FALSE}
+y = c(0, 1, 2, 4)
+p = c(9, 8, 6, 1) / 24
+
+kbl(
+  data.frame(y, p),
+  col.names = c("y", "P(Y=y)"),
+  booktabs = TRUE,
+  caption = "(ref:cap-matching-probspace-table)",
+  digits = 4
+) %>%
+  kable_styling()
+
+```  
+
+
+(ref:cap-matching-probspace-plot) Distribution of $X$, the number of matches in the matching problem with $n=4$ and uniformly random placement of objects in spots.
+
+```{r matching-probspace-plot, echo = FALSE, fig.cap = "(ref:cap-matching-probspace-plot)"}
+
+ggplot(data.frame(y, p),
+       aes(x = y,
+           xend = y,
+           y = 0,
+           yend = p)) +
+  geom_segment(size = 1.2, col = "skyblue") +
+  # scale_color_manual(values = c("#56B4E9", "#E69F00", "#999999")) +
+  scale_x_continuous(breaks = 0:4) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_classic() +
+  theme(legend.position = "none") +
+  labs(x = "x",
+       y = "P(X = x)")
+
+```
+
+
+
+The last part of Example \@ref(exm:matching-probspace) is a reminder that the general addition rule for multiple events is complicated and not very useful. 
+Remember that it is usually more convenient to use the complement rule and compute "the probability of at least one..." as one minus "the probability of none..."; the latter probability involves intersections and is an "and" event.
+
+
+
+
+### Some counting rules {#counting}
+
+Computing probabilities in the equally likely case reduces to just counting outcomes. In previous sections we often counted outcomes by enumerating them in a list.  Of course, listing all the outcomes is unfeasible unless the sample space is very small.  In this section we will see some formulas for counting in a few common situations.
+
+```{example, counting-icecream}
+
+I'm serving ice cream to my kids.  They can choose to have a bowl or a cone with a single scoop from one of four different flavors.
+
+```
+
+1. How many different ways could I serve the ice cream?  (For example, peppermint in a cone, birthday cake in a bowl, etc)
+1. Now suppose they can either add rainbow or chocolate sprinkles^[a.k.a., [jimmies](https://billypenn.com/2017/03/20/jimmies-vs-sprinkles-why-philly-fights-over-what-we-call-an-ice-cream-topping/)] or not. How many different ways could I serve the ice cream?  (For example, peppermint in a cone with chocolate sprinkles, birthday cake in a bowl with rainbow sprinkles, etc.)
+1. Now suppose the kids who requested bowls could choose whether to have whipped cream on top.  Is the number of different ways I could serve the ice cream equal to the answer to the previous part multiplied by two?
+
+
+```{solution counting-icecream-sol}
+to Example \@ref(exm:counting-icecream)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. Each flavor can be served in 2 ways, cone or bowl.  Since there are 4 flavors, the number of ways to serve is $4\times 2 = 8$.
+1. Each of the 8 pairs from the previous part can be served in 3 ways, with rainbow sprinkles, with chocolate sprinkles, or without sprinkles. So the number of ways to serve is now $4\times 2 \times 3 = 24$.
+1. No. Only the bowls can get whipped cream so we can't just multiply 24 by 2.  Of the 24 possibilities from the previous part, 12 are in bowls.  So these 12 can be served with or without whipped cream, but the other 12 in cones can only be served without whipped cream.  The number of possibilities is now $12\times 2 + 12 = 36$.
+```
+
+All of the counting rules we will see are based on multiplying like in the previous example.
+
+**Multiplication principle for counting.** Suppose that stage 1 of a process can be completed
+in any one of $n_1$ ways. Further, suppose that for each way of completing the stage 1,
+stage 2 can be completed in any one of $n_2$ ways. Then the two-stage process can
+be completed in any one of $n_1\times n_2$ ways. This rule extends naturally to a $\ell$-stage process,
+which can then be completed in any one of $n_1\times n_2\times n_3\times\cdots\times n_\ell$ ways. 
+
+
+In the multiplication principle it is not important whether there is a "first" or "second" stage.  What is important is that there are distinct stages, each with its own number of "choices".  In Example \@ref(exm:counting-icecream), there was a bowl/cone stage, an ice cream flavor stage, and a sprinkle stage.  
+
+
+```{example multiplication-rule-outcomes}
+
+Use the multiplcation rule to verify the total number of possible outcomes for a few of the examples we have seen previously.
+(In many of these situations we counted the total number of outcomes by listing them all.)
+```
+
+
+1. 16 possible outcomes when rolling a four-sided die twice
+1. 36 possible outcomes when rolling a six-sided die twice
+1. 16 possible outcomes when flipping a coin 4 times.
+1. 24 possible outcomes in the matching problem with $n=4$.
+
+```{solution multiplcation-rule-outcomes-sol}
+to Example \@ref(exm:multiplication-rule-outcomes).
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. An outcome is a pair (first roll, second roll). There are 4 possibilities for the first roll and 4 for the second, so $4\times4 = 16$ possible pairs.
+1. Similarly to the previous part: $6\times 6=36$ possible outcomes.
+1. An outcome is a sequence of the H/T results of each of the 4 flips. There are two possibilities for each flip, so $(2)(2)(2)(2) = 2^4=16$ possible outcomes.
+1. There are 4 possibilities for the object placed in spot 1.
+After placing that object, there are 3 possibilities for spot 2, then 2 possibilities for spot 3, with one object left for spot 4. So there are $4\times3\times2\times1 = 24$ possible arrangements.
+```
+
+
+
+```{example, ceo1}
+Suppose the board of directors of a corporation has identified 5 candidates --- Ariana, Beyonce, Cardi, Drake, Elvis --- for three executive positions: chief executive officer (CEO), chief financial officer (CFO), and chief operating officer (COO). In the interest of fairness, the board assigns 3 of the 5 candidates to the positions completely at random. No individual can hold more than one of the positions.
+
+When calculating probabilities below, consider the sample space of all possible executive teams.
+
+```
+
+1. How many executive teams are possible?
+1. What is the probability that Ariana is CEO, Beyonce is CFO, and Cardi is COO?  
+1. What is the probability that Ariana is CEO, Cardi is CFO, and Beyonce is COO?  
+1. What is the probability that Ariana is CEO and Beyonce is CFO?
+1. What is the probability that Ariana is CEO?
+1. What is the probability that Ariana is an executive?
+
+```{solution ceo1-sol}
+to Example \@ref(exm:ceo1)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. There are 5 choices for CEO, then 4 choices for CFO, then 3 choices for COO.  So there are $5\times 4 \times 3 = 60$ possible teams. The sample space consists of 60 possible outcomes.
+    The order in which we make the choices doesn't matter.  We could have picked the CFO first then COO then CEO, still resulting in $5\times 4\times3$ possible outcomes. What is important is that there are 3 distinct stages. Choosing Ariana as CEO is not the same as choosing Ariana as CFO.
+1. If the selections are made uniformly at random, each of the 60 possible teams is equally likely.  So the probability of any particular team, like this one, is 1/60.
+1. The probability of any particular team is 1/60.  But note that Ariana as CEO, Beyonce as CFO, and Cardi as COO is a different outcome than Ariana as CEO, Cardi as CFO, and Beyonce as COO
+1. To construct a team with Ariana as CEO and Beyonce as CFO, there is one possible choice for CEO (Ariana), one possible choice for CFO (Beyonce) and three possible choices for COO, resulting in $1\times 1\times 3$ teams that have Ariana as CEO and Beyonce as CFO. Since the outcomes are equally likely, the probability is 3/60.
+1. To construct a team with Ariana as CEO, there is one possible choice for CEO (Ariana), four possible choicea for CFO, and three possible choices for COO, resulting in $1\times 4\times 3=12$ teams that have Ariana as CEO. Since the outcomes are equally likely, the probability is 12/60=1/5.  This makes sense because any of the five people is equally likely to be CEO.
+1. The probability that Ariana is CEO is 12/60, similarly for CFO and COO.  Since Ariana can't hold more than one positive, these events are disjoint, so the probability that Ariana is CEO or CFO or COO is $3(12/60) = 3/5$.
+
+```
+
+
+Here are just 10 of the 60 possible executive teams
+
+| CEO | CFO | COO |
+|-----|-----|-----|
+| A   | B   | C   |
+| A   | C   | B   |
+| B   | A   | C   |
+| B   | C   | A   |
+| C   | A   | B   |
+| C   | B   | A   |
+| A   | B   | D   |
+| A   | B   | E   |
+| A   | C   | D   |
+| A   | C   | E   |
+
+
+In the previous example, the "stage" at which the person was chosen was important: there was a CEO stage, a CFO stage, and a COO stage.  Choosing Ariana at the CEO stage, Beyonce at the CFO stage, and Cardi at the COO stage was a different outcome than choosing Ariana at the CEO stage, Cardi at the CFO stage, and Beyonce at the COO stage.  When what happens at each stage matters, an outcome is often called an "ordered" arrangement.  Again, "order" is perhaps a misnomer; it's not that there's a "first" and "second" and "third" stage, but rather that  there are three distinct stages --- CEO, CFO, COO.
+
+
+The multiplication principle applies directly to situations which involve "ordered" or stage-wise counting, like the executive example.  We employed the multiplication principle to find that there are $5\times 4\times 3=60$ possible executive teams.  The following formula generalizes this result.
+
+
+**Number of ordered arrangements.** The number of *ordered arrangements* of $k$ items, selected *without* replacement from a set of $n$ distinct items is
+\[
+n(n-1)(n-2)\cdots(n-k+1) = \frac{n!}{(n-k)!}
+\]
+
+Recall the **factorial** notation: $m!=m(m-1)(m-2)\cdots (3)(2)(1)$.  For example, $5!=5\times4\times3\times2\times1=120$.  By definition, 0!=1.
+
+
+```{example, ceo2}
+Your boss is forming a committee of 3 people for a new project team, and 5 people --- Ariana, Beyonce, Cardi, Drake, Elvis--- have volunteered to be on the committee.  In the interest of fairness, 3 of the 5 people will be selected uniformly at random to form the committee.
+
+```
+
+1. How is this situation different from the executive team example?
+1. How many possible committees consist of Ariana, Beyonce, Cardi?  How many executive teams consisted of Ariana, Beyonce, Cardi? 
+1. How many different possible committees of 3 people can be formed from the 5 volunteers?
+
+
+
+```{solution ceo2-sol}
+to Example \@ref(exm:ceo2)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. There were distinct stages in the executive team example; selecting Ariana as CEO, Beyonce as CFO, and Cardi as COO was counted as a different outcome than selecting Ariana as CEO, Cardi as CFO, and Beyonce as COO.  But when forming the committee we only need to know which three people were selected, not which stage or "order" they were selected in.
+1. There is only one committee that consists of Ariana, Beyonce, Cardi. But there were 6 executive teams that consisted of Ariana, Beyonce, Cardi.  To have a team with these three people, there are 3 choices for who is CEO, then 2 choices for COO, then 1 choice for COO, for a total of $3\times2\times1=6$ possible teams consisting of Ariana, Beyonce, Cardi. 
+1. There were 60 possible "ordered" outcomes, but counting in an "ordered" way overcounts the number of committees by a factor of 6.  Counting in an "ordered" way would count 6 teams consisting of Ariana, Beyonce, Cardi, but we only want to count the possible committee once.  Therefore, the total number of committees is 60/6 = 10.
+
+```
+
+
+The following is the relationship between "ordered" and "unordered" counting.
+
+\[
+\scriptsize{
+\begin{align*}
+		\left(\text{number of \emph{ordered} selections of $k$ from $n$}\right) & = \left(\text{number of \emph{unordered} selections of $k$ from $n$}\right)\\
+		&\quad \times\left(\text{number of ways of arranging the $k$ items in order}\right).
+\end{align*}
+}
+\]
+
+We have seen how to compute the number of "ordered" arrangements.  How many ways are there of arranging $k$ items in order? 
+
+
+**Number of permutations.**  The number of ways of arranging $k$ items in order is
+\[
+k\times (k-1)\times (k-2)\times\cdots\times 3\times 2\times1 = k!
+\]
+This can be seen as an application of the multiplication rule, or as a special case of the number of "ordered" arrangements rule with $n=k$.  *Permutation* is  another word for an ordering of $k$ items.
+
+
+Here are the 6 executive teams consisting of Ariana, Beyonce, and Cardi.
+
+| CEO | CFO | COO |
+|-----|-----|-----|
+| A   | B   | C   |
+| A   | C   | B   |
+| B   | A   | C   |
+| B   | C   | A   |
+| C   | A   | B   |
+| C   | B   | A   |
+
+
+We now have what we need to count the number of ordered arrangements.  We know that the number of ordered arrangements is $n!/(n-k)!$, that the number of ways of arranging the $k$ items is $k!$ and so using the relationship noted above, we must have that the number of unordered arrangements is $(n!/(n-k)!)/k!$.  More precisely,
+
+
+**Number of combinations.**  The number of ways to choose $k$ items without replacement from a group of $n$ distinct items where *order does not
+			matter*, denoted $\binom{n}{k}$, is
+		\[
+		\binom{n}{k} = \frac{n(n-1)(n-2)\cdots(n-k+1)}{k!} = \frac{n!}{k!(n-k)!}
+		\]
+
+The quantity on the right is just a compact way of representing the quantity in the middle.  But since factorials can be very large, it's best to use the quantity in the middle to compute. In R: `choose(n, k)`. In Python: `scipy.special.comb(n, k)`
+
+
+
+An unordered selection of $k$ items from a group of $n$ is sometimes called a *combination*, so $\binom{n}{k}$ is sometimes called the number of combinations. The symbol $\binom{n}{k}$ is by definition equal to the quantity in the middle above.  It is read as "$n$ choose $k$" and is referred to as a **binomial coefficient**.  For example, there are "5 choose 3" committees in the previous example
+
+\[
+\binom{5}{3} = \frac{5!}{3!(5-3)!} = \frac{(5)(4)(3)}{3!} = \frac{60}{6} = 10.
+\]
+
+Here are the 10 possible committes of 3 people.
+
+| One person | Another person | One more person |
+|------------|----------------|-----------------|
+| A          | B              | C               |
+| A          | B              | D               |
+| A          | B              | E               |
+| A          | C              | D               |
+| A          | C              | E               |
+| A          | D              | E               |
+| B          | C              | D               |
+| B          | C              | E               |
+| B          | D              | E               |
+| C          | D              | E               |
+
+
+<!-- $\binom{n}{k}$ can also be interpreted as the number of subsets of size $k$ of a set containing $n$ distinct items. -->
+
+
+
+
+
+```{example, ceo3}
+
+Your boss is forming a committee of 3 people for a new project team, and 5 people --- Ariana, Beyonce, Cardi, Drake, Elvis--- have volunteered to be on the committee.  In the interest of fairness, 3 of the 5 people will be selected uniformly at random to form the committee.
+
+```
+
+
+1. Find the probability that the committee consists of Ariana, Beyonce, and Cardi.
+1. Find the probability that Ariana and Beyonce are on the committee.
+1. Find the probability that Ariana is on the committee.
+
+
+```{solution ceo3-sol}
+to Example \@ref(exm:ceo3)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. If the selections are made uniformly at random each of the  $\binom{5}{3} = 10$ possible committees is equally likely.  So the probability of any particular committee, like this one, is 1/10.
+1. Split the five people into two groups: group 1 with Ariana and Beyonce and group 2 with the other three.  In order to have a committee with Ariana and Beyonce, we need to choose 2 people from group 1 and 1 person from group 2.  There is only way to choose the 2 people from group 1, and there are three possibilities for the person selected from group 2.  Each of these three people can be partnered with Ariana and Beyonce to form the committee.  Therefore, the probability is 3/10.  Written another way
+\[
+ \frac{\binom{2}{2}\binom{3}{1}}{\binom{5}{3}} = \frac{(1)(3)}{10} 
+\]
+1. Intuitively, this should be 3/5, the same as the probability that Ariana was an executive.  Split the five people into two groups: group 1 with Ariana and group 2 with the other four.  In order to have a committee with Ariana, we need to choose Ariana from group 1 and 2 people from group 2.  There is only way to choose the Ariana from group 1, and there are $\binom{4}{2}=6$ possibilities for the two people selected from group 2.  Each of these pairs can be partnered with Ariana to form a committee with Ariana on it.  Therefore, the probability is 6/10.  Written another way
+\[
+ \frac{\binom{1}{1}\binom{4}{2}}{\binom{5}{3}} = \frac{(1)(6)}{10} 
+\]
+
+```
+
+
+The strategy of *partitioning* is often useful in problems involving "unordered" sampling without replacement.  Notice that in each of the problems above the denominator had one binomial coefficient, corresponding to the total number of selections.  Then the totals were partitioned into some number of groups, determined by the event of interest.  The numerator of the probability will have one binomial coefficient for each group; the sums of the "tops" of the binomial coefficients in the numerator will equal the top of the binomial coefficient in the denominator, and the 
+the sums of the "bottoms" of the binomial coefficients in the numerator will equal the bottom of the binomial coefficient in the denominator.
+
+
+
+
+```{example, counting-lottery2}
+
+In the Powerball lottery, a player picks five different whole numbers between 1 and 69, and another whole number between 1 and 26 that is called the Powerball.  In the drawing, the 5 numbers are drawn without replacement from a "hopper" with balls labeled 1 through 69, but the Powerball is drawn from a separate hopper with balls labeled 1 through 26. The player wins the jackpot if both the first 5 numbers match those drawn, in any order, and the Powerball is a match.
+
+How many different possible winning draws are there?
+```
+
+
+
+
+
+
+
+```{solution counting-lottery2-sol}
+to Example \@ref(exm:counting-lottery2)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+There are $\binom{69}{5}$ ways of choosing the 5 numbers from the 69, and each of these can be paired with one of the 26 possible Powerballs.  Therefore, there are $\binom{69}{5}(26) = 292,201,338$ possible winning numbers.
+
+
+```
+
+<!-- When asked about the probability of a general event, it is often helpful to first consider the probability of a specific outcome that satisfies the event.  -->
+
+
+<!-- A group of 40 students is going to be randomly sorted^[Usually, you just put people's names into a hat, but sometimes you put the actual people into the hat.] into four  classes of 10 students each.  Three of the students --- say, Harry, Ron, Hermione  --- are close friends.  -->
+
+
+<!-- What is the probability that the three friends will all be in the class? -->
+
+<!-- What is the probability that exactly two of the friends will be in the same class? -->
+
+<!-- What is the probability that all three friends will be in different classes? -->
+
+<!-- What is the probability that Ron and Hermione will be the in the same class, but Harry will be in a different class? -->
+
+
+<!-- How many different possible ways are there of assigning the 40 students into four classes of 10 each? -->
+
+
+```{example, binomial-coef}
+
+To get some intuition behind binomial coefficients, answer the following without using any formulas or doing any calculations.
+
+```
+
+1. What is $\binom{n}{n}$?
+1. What is $\binom{n}{0}$?
+1. What is $\binom{n}{1}$?
+1. What is the relationship between $\binom{n}{k}$ and $\binom{n}{n-k}$?
+1. Explain why
+    \begin{equation*}
+    \binom{m+n}{k} = \sum_{j=0}^k \binom{m}{j} \binom{n}{k-j}
+    \end{equation*}
+1. Explain why
+    \begin{equation}
+    2^n = \sum_{k=0}^n\binom{n}{k} 
+    \end{equation}
+
+
+```{solution binomial-coef-sol}
+to Example \@ref(exm:binomial-coef)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. $\binom{n}{n}=1$. There is only one way to select all $n$ items.
+1. $\binom{n}{0}=1$. There is only one way to select none of the $n$ items.
+1. $\binom{n}{1}=n$. If you are just selecting 1 of $n$ items, then are $n$ ways to do it, one for each of the $n$ items.
+1. $\binom{n}{k}=\binom{n}{n-k}$. Suppose you are selecting a committee of size $k$ from $n$ peoeple. The number of ways to choose $k$ of the $n$ people to include on the committee is equivalent to the number of ways to choose $n-k$ of the $n$ people to exclude from the committee.
+1. Suppose you are choosing a committee of size $k$ from a group consisting of $m$ faculty and $n$ students.  The left side $\binom{m+n}{k}$ is the number of possible committees. There can be anywhere from 0 to $k$ faculty on the committee.  If there are $j$ faculty there must be $k-j$ students, so $\binom{m}{j} \binom{n}{k-j}$ is the number of ways to select a committee with exactly $j$ faculty.  The right side sums the number of committees of each faculty/student breakdown to find the number of committees overall. 
+1. Suppose you are forming a subset from $n$ items.  There are $2^n$ possible subsets, including the empty set.  This follows from the multiplication principle since each of the $n$ items can either be included or excluded in the subset.  (Label the items 1 to $n$; at the "include item 1 in the subset?" stage there are two possible choices, etc, so the total number of choices is $2^n$.) $\binom{n}{k}$ is the number of subsets of size $k$; sum the numbers of subsets of each size to get the overall number of subsets.
+
+```
+
+```{example coin-probspace-counting}
+Continuing Example \@ref(exm:coin-probspace).
+
+```
+
+1. Use counting rules to find a formula for $\IP(X = 3)$.
+1. Use counting rules to find a formula for $\IP(X = 2)$.
+1. Use counting rules to find a formula for $\IP(X = x)$ for each possible value of $x$.
+1. Now suppose the coin is flipped $n$ times. Continue to assume the coin is fair and the flips are independent. Let $X$ count the number of H in $n$ flips.
+Use counting rules to find a formula for $\IP(X = x)$ for each possible value of $x$.
+
+
+
+
+```{solution coin-probspace-counting-sol}
+
+to Example \@ref(exm:coin-probspace-counting)
+
+```
+
+```{asis, fold.chunk = TRUE}
+1. We need to count the number of outcomes with exactly 3 H. There are 4 "spots" in the sequence, and we need to choose 3 of them to put the H's in, so there are $\binom{4}{3} = 4$ ways to do so. So $\IP(X = 3) = \binom{4}{3}/2^4 = 4/16$.
+1. We need to count the number of outcomes with exactly 2 H. There are 4 "spots" in the sequence, and we need to choose 2 of them to put the H's in, so there are $\binom{4}{2} = 6$ ways to do so. So $\IP(X = 2) = \binom{4}{2}/2^4 = 6/16$.
+1. There are $2^4$ equally likely outcomes. For $X=x$ to be true, we need exactly $x$ H. There are 4 "spots" in the sequence, and we need to choose $x$ of them to put the H's in, so there are $\binom{4}{x}$ ways to do so.
+$$
+\IP(X = x) = \frac{\binom{4}{x}}{2^4}, \qquad x = 0, 1, 2, 3, 4
+$$
+1. There are $n$ flips, each with two possibilities, so there are $2^n$ equally likely coin flip sequences. 
+The possible values of $X$ are $0, 1, 2, \ldots, n$. 
+For $X=x$ to be true, there are $n$ spots in the sequence and we need to choose $x$ of them to put the $x$ H in, so there are $\binom{n}{x}$ ways to do so.
+That is, $\binom{n}{x}$ is the number of outcomes with exactly $x$ H (out of the $2^n$ equally likely outcomes).
+$$
+\IP(X = x) = \frac{\binom{n}{x}}{2^n}, \qquad x = 0, 1, 2, \ldots, n
+$$
+
+
+```
+
+<!-- The counting rules we used in both the executive team and the committee examples assume that the selections are made without replacement, and therefore the selections are not independent. That is, once Ariana has been selected CEO, he is no longer eligible for CFO.  This process is like selecting names out of a hat: a first name is drawn but is not replaced back in the hat before selecting the second name. -->
+
+<!-- When selection is performed with replacement, the draws are independent and therefore the multipication rule for independent events applies. -->
+
+<!-- A standard deck of 52 cards contains 4 suits (hearts, diamonds, spades, clubs)  each consisting of 13 different face values (2 through 10, jack, queen, king, ace).  The deck is well shuffled and a hand of 5 cards is dealt. -->
+
+<!-- How many possible hands are there? -->
+
+
+<!-- The order of the deal does not matter; just which 5 cards are in the hand.  So we will use the combinations rule.  There are 52 cards of which we choose 5 so there are -->
+<!-- \[ -->
+<!-- \binom{52}{5} = \frac{52!}{5!\times47!} = \frac{52\times51\times50\times49\times48}{5\times4\times3\times2\times1} = 2,598,960, -->
+<!-- \] -->
+<!-- or about 2.6 million possible 5 card hands. -->
+
+<!-- What is the probability the hand contains 4 aces? -->
+
+<!-- Partition the 52 cards into two groups: one with 4 aces and one with the 48 other cards.  We need to select all 4 from the ace group and 1 from the other group to complete the 5 card hand.  The probability of 4 aces is -->
+<!-- \[ -->
+<!-- \frac{\binom{4}{4}\times\binom{48}{1}}{\binom{52}{5}}=\frac{1\times 48}{\binom{52}{5}} \approx 0.0000185 -->
+<!-- \] -->
+<!-- or about 2 in 100,000 deals. -->
+
+<!-- What is the probability the hand contains 3 aces and 2 kings? -->
+
+<!-- Partition into three groups: the 4 aces, the 4 kings, and the 44 other cards.  The probability is -->
+<!-- \[ -->
+<!-- \frac{\binom{4}{3}\times\binom{4}{2}\times\binom{44}{0}}{\binom{52}{5}} -->
+<!-- = \frac{4\times6\times 1}{\binom{52}{5}}\approx0.00000924. -->
+<!-- \] -->
+<!-- What is the probability the hand is a full house (3 cards of one face value and 2 of another)? -->
+
+
+<!-- The previous problem gives an example of one kind of full house, 3 aces and 2 kings.  Any kind of full house will have the same probability, so we just need to figure out how many kinds of full house there are. There are 13 possible choices for the 3-of-a-kind and then 12 possible choices for the pair.  So there are $13\times12=156$ different kinds of full house.  Note that this is ``stage-wise'' counting.  A full house with 3 aces and 2 kings is different than one with 2 aces and 3 kings.  Order matters and this is why it is $13\times12$ instead of $13\times12/2$ or $\binom{13}{2}$.  So the probability of a full house is -->
+<!-- \[ -->
+<!-- \frac{13\times12\times\binom{4}{3}\times\binom{4}{2}}{\binom{52}{5}}\approx0.00144, -->
+<!-- \]  -->
+<!-- or about 1 in one thousand. -->
+
+
+<!-- A standard deck of 52 cards is well shuffled.  What is the probability that the four aces are all next to each other? -->
+
+
+<!-- Roll a fair six-sided die $n$ times.  Find the probability that at least one roll lands on a 3.  What happens as $n$ increases? -->
+
+
+<!-- Prove the following for $m>n$ without doing any algebra.  (Hint: interpret each of the terms in a "choosing men/women for a committee" setting and explain in words why the equation is true. -->
+<!-- \[ -->
+<!-- \binom{m}{n} = \sum_{k=0}^n \binom{n}{k} \binom{m-n}{n-k} -->
+<!-- \] -->
+
+<!-- A group of 40 students is going to be randomly assigned into four  classes of 10 each.  Three of the students --- say, Harry, Ron, Hermione  --- are close friends.  -->
+
+<!-- 1. What is the probability that the three friends will all be in the same class? -->
+<!-- 1. What is the probability that exactly two of the friends will be in the same class? -->
+<!-- 1. What is the probability that all three friends will be in different classes? -->
+<!-- 1. What is the probability that Ron and Hermione will be the in the same class, but Harry will be in a different class? -->
+<!-- 1. How many different possible ways are there of assigning the 40 students into four classes of 10 each? -->
+
+<!-- A standard deck of 52 cards contains 4 suits (hearts, diamonds, spades, clubs)  each consisting of 13 different face values (2 through 10, jack, queen, king, ace).  The deck is well shuffled and a hand of 5 cards is dealt. -->
+
+<!-- 1. How many possible hands are there? -->
+<!-- 1. What is the probability the hand contains 4 aces? -->
+<!-- 1. What is the probability the hand contains 3 aces and 2 kings? -->
+<!-- 1. What is the probability the hand is a full house (3 cards of one face value and 2 of another)? -->
+
+
+<!-- 1. The order of the deal does not matter; just which 5 cards are in the hand.  So we will use the combinations rule.  There are 52 cards of which we choose 5 so there are -->
+<!-- \begin{equation*} -->
+<!-- \binom{52}{5} = \frac{52!}{5!\times47!} = \frac{52\times51\times50\times49\times48}{5\times4\times3\times2\times1} = 2,598,960, -->
+<!-- \end{equation*} -->
+<!-- or about 2.6 million possible 5 card hands. -->
+<!-- 1. Partition the 52 cards into two groups: one with 4 aces and one with the 48 other cards.  We need to select all 4 from the ace group and 1 from the other group to complete the 5 card hand.  The probability of 4 aces is -->
+<!-- \begin{equation*} -->
+<!-- \frac{\binom{4}{4}\times\binom{48}{1}}{\binom{52}{5}}=\frac{1\times 48}{\binom{52}{5}} \approx 0.0000185 -->
+<!-- \end{equation*} -->
+<!-- or about 2 in 100,000 deals. -->
+<!-- 1.  Partition into three groups: the 4 aces, the 4 kings, and the 44 other cards.  The probability is -->
+<!-- \begin{equation*} -->
+<!-- \frac{\binom{4}{3}\times\binom{4}{2}\times\binom{44}{0}}{\binom{52}{5}} -->
+<!-- = \frac{4\times6\times 1}{\binom{52}{5}}\approx0.00000924. -->
+<!-- \end{equation*} -->
+<!-- 1. The previous problem gives an example of one kind of full house, 3 aces and 2 kings.  Any kind of full house will have the same probability, so we just need to figure out how many kinds of full house there are. There are 13 possible choices for the 3-of-a-kind and then 12 possible choices for the pair.  So there are $13\times12=156$ different kinds of full house.  Note that this is ``stage-wise'' counting.  A full house with 3 aces and 2 kings is different than one with 2 aces and 3 kings.  Order matters and this is why it is $13\times12$ instead of $13\times12/2$ or $\binom{13}{2}$.  So the probability of a full house is -->
+<!-- \begin{equation*} -->
+<!-- \frac{13\times12\times\binom{4}{3}\times\binom{4}{2}}{\binom{52}{5}}\approx0.00144, -->
+<!-- \end{equation*} -->
+<!-- or about 1 in one thousand. -->
+
+<!-- A standard deck of 52 cards is well shuffled.  What is the probability that the four aces are all next to each other? -->
+
+<!-- Roll a fair six-sided die $n$ times.  Find the probability that at least one roll lands on a 3.  What happens as $n$ increases? -->
+
+<!-- Prove the following for $m>n$ without doing any algebra.  (Hint: interpret each of the terms in a "choosing men/women for a committee" setting and explain in words why the equation is true.) -->
+
+## Uniform probability measures {#sec-uniform-prob}
+
+
+For a finite sample space with equally likely outcomes, computing the probability of an event reduces to counting the number of outcomes that satisfy the event.  The continuous analog of equally likely outcomes is a **uniform probability measure**.  When the sample space is uncountable, size is measured continuously (length, area, volume) rather that discretely (counting).
+
+\[
+\IP(A) = \frac{|A|}{|\Omega|} = \frac{\text{size of } A}{\text{size of } \Omega} \qquad \text{if $\IP$ is a uniform probability measure}
+\]
+
+```{example meeting-probspace1d}
+In the meeting problem, assume that Regina arrives at a time chosen uniformly at random between noon and 1.  If we measure measure time in minutes after noon, we can model Regina's arrival with the sample space $[0, 60]$ and a uniform probability measure.
+
+```
+
+1. Find the probability that Regina arrives before 12:15.
+1. Find the probability that Regina arrives after 12:45.
+1. Find the probability that Regina arrives between 12:15 and 12:45.
+1. Find the probability that Regina arrives between 12:15:00 and 12:16:00.
+1. Find the probability that Regina arrives between 12:15:00 and 12:15:01.
+1. Find the probability that Regina arrives at the exact time 12:15:00 (with infinite precision).
+
+
+```{solution meeting-probspace1d-sol}
+
+to Example \@ref(exm:meeting-probspace1d)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Since the sample space is $[0, 60]$, a continuous (one-dimensional) interval, "size" is measured by length (which in this context represents fractions of an hour). Let $\IP$ be the uniform probability measure on $[0, 60]$. The interval from noon to 12:15 has length 15 minutes and the sample space has length 60 minutes, so the probability she arrives before 12:15 is $15/60 = 0.25$; $\IP([0, 15)) = 0.25$.
+1. Similar to the previous part, the probability she arrives after 12:45 is 0.25; $\IP((45, 60]) = 0.25$.
+1. The probability that Regina arrives between 12:15 and 12:45, an interval of length 30 minutes, is 30/60 = 0.5; $\IP((15, 45)) = 0.5$.
+1. A one minute interval has probability $1/60$, so the probability she arrives between 12:15 and 12:16 is 0.0167; $\IP([15, 15+1]) = 1/60$.
+1. A one second interval has length 1/60 and probability (1/60)/60 = 1/3600, so the probability she arrives between 12:15:00 and 12:15:01 is 0.000278; $\IP([15, 15+1/60]) = 1/3600$.
+1. The exact time 12:15:00 represents a single point the sample space, an interval of length 0.  The probability that Regina arrives at the exact time 12:15:00 (with infinite precision) is 0; $\IP(\{15\}) = 0$.
+
+```
+
+
+The last part in the previous example might seem counterintuitive at first, but we have already seen similar ideas in simulations.
+There was nothing special about 12:15; pick any time in the continuous interval from noon to 1:00, and the probability that Regina arrives at that exact time, with infinite precision, is 0.  This idea can be understood as a limit. The probability that Regina arrives within one minute of the specified time is small, within one second of the specified time is even smaller, within one millisecond of the specified time is even smaller still; with infinite precision these time increments can get smaller and smaller indefinitely.  Of course, infinite precision is not practical, but assuming the possible arrival times are represented by a continuous interval provides a reasonable mathematical model. Even though any particular time has probability 0 of being the exact arrival time, *intervals* of time still have positive probability of containing the arrival time. This is one reason why probabilities are defined for events and not outcomes.
+
+For a continuous sample space, the probability of any particular outcome is 0.
+For a continuous random variable, the probability it takes any particular value is 0.
+
+
+
+The sample space in the previous problem was one-dimensional, and size was measured with length.
+Example \@ref(exm:meeting-probspace2) involves a uniform probability measure for a two-dimensional sample space where size is measured by area.
+The following is another two-dimensional example.
+
+
+```{example uniform-dart}
+Katniss throws a dart at a circular dartboard with radius 1 foot.
+Suppose that Katniss's dart lands at a uniformly random location on the dartboard (and she never misses the dartboard).
+```
+
+1. Compute the probability that Katniss's dart lands within 1 inch of the center of the dartboard.
+1. Compute the probability that Katniss's dart lands more than 1 inch but less than 2 inches away from  the center of the dartboard.
+1. Compute the probability that Katniss's dart lands within 1 inch of the outside edge of the dartboard (but on the dartboard).
+1. Continue the previous parts for the remaining 1 inch increments from the center to the edge of the dartboard.
+1. Let $R$ be the distance (inches) from the location of the dart to the center of the dartboard.
+Find $\IP(R < 1)$.
+1. Find $\IP(1 < R < 2)$.
+1. Sketch a plot of the distribution of $R$.
+Does $R$ follow a Uniform distribution?
+1. Find and interpret the 50th percentile of $R$.
+1. Find and interpret the 25th percentile of $R$.
+1. Find and interpret the 75th percentile of $R$.
+1. Sketch a spinner corresponding to the distribution of $R$.
+
+```{solution uniform-dart-sol}
+
+to Example \@ref(exm:uniform-dart)
+
+```
+
+```{asis, fold.chunk = TRUE}
+1. The area of the whole board is $\pi$ (sqft), which account for 100% of the probability.
+Within 1 inch of center corresponds to an area of $(1/12)^2\pi$ sqft. So since the location is Uniform, the probability is $\frac{(1/12)^2\pi}{\pi}=(1/12)^2 = 0.00694$.
+1. The probability that it lands within 2 inches of center is $\frac{(2/12)^2\pi}{\pi} = (2/12)^2$. So the probability that it lands more than 1 inch but less than 2 inches of center is $\frac{(2/12)^2\pi - (1/12)^2\pi}{\pi} = (2/12)^2 - (1/12)^2 = 0.0208$
+1. Area of region of interest is $\pi - (11/12)^2\pi$, so the probability is $\frac{\pi - (11/12)^2\pi}{\pi} = 1-(11/12)^2 = 0.1597$.
+1. Continuing in the previous manner, the probability that the dart is between $x$ and $x-1$ inches away from center is $(x/12)^2-((x-1)/12)^2$.
+1. Since $R<1$ if and only if the dart is within 1 inch of center, this follows from part 1: $\IP(R<1) = (1/12)^2$. 
+1. This follows from part 2: $\IP(1<R<2) = (2/12)^2 - (1/12)^2$.
+1. $R$ takes values in [0, 12], but $R$ is more likely to be close to 12 than to 0, so $R$ does not follow a uniform distribution.
+Split the interval from [0, 12] inches into 1 inch bins and use the previous parts to construct a histogram. For example, the bin for [0, 1] inch will have area 0.00694 and the bin for [11, 12] inches will have area 0.1597.
+See Figure \@ref(fig:uniform-dart-hist).
+1. For $0<r<12$, $R< r$ if the dart lands within $r$ inches of center. So $\IP(R < r) = (r/12)^2\pi/\pi = (r/12)^2$. The 50th percentile satisfies $\IP(R < r) = 0.5$, so set $(r/12)^2=0.5$ and solve to find the 50th percentile is $12\sqrt{0.5} = 8.49$ inches. Half of Katniss's throws will be more than 8.49 inches away from center, and half less. It is equally likely that the throw will be more or less than 8.49 inches from center.
+1. The 25th percentile satisfies $\IP(R < r) = 0.25$, so set $(r/12)^2=0.25$ and solve to find the 25th percentile is $12\sqrt{0.25} = 6$ inches. 25% of Katniss's throws will be less than 6 inches away from center, and 75% more than 6 inches. It is 3 times more likely that the throw will be more than 6 inches away from center than less than 6 inches away from center.
+1. The 75th percentile satisfies $\IP(R < r) = 0.75$, so set $(r/12)^2=0.75$ and solve to find the 75th percentile is $12\sqrt{0.75} = 10.39$ inches. 75% of Katniss's throws will be less than 10.39 inches away from center, and 25% more than 10.39 inches. It is 3 times more likely that the throw will be less than 10.39 inches away from center than more than 10.39 inches away from center.
+1. See Figure \@ref(fig:uniform-dart-spinner). The 25th, 50th, 75th percentiles go at "3, 6, 9 o'clock" respectively.
+We have filled in a few more percentiles using a method similar to the previous parts.
+Note that the values on the circular axis are not evenly spaced.
+
+```
+
+
+(ref:cap-uniform-dart-hist) Histogram representing the marginal distribution of $R$ in Example \@ref(exm:uniform-dart).
+
+```{r uniform-dart-hist, echo = FALSE, fig.cap = "(ref:cap-uniform-dart-hist)"}
+x = 1:12
+p = (x / 12) ^ 2 - ((x - 1) / 12) ^ 2
+plot(x - 0.5, p, type = "h", lwd = 43, lend = 1, col = "skyblue",
+     xlab = "Distance from center (inches)",
+     ylab = "Density",
+     xlim = c(0, 12))
+axis(1, 0:12)
+
+
+```
+
+(ref:cap-uniform-dart-spinner) Spinner representing the marginal distribution of $R$ in Example \@ref(exm:uniform-dart).
+
+```{r uniform-dart-spinner, echo = FALSE, fig.cap = "(ref:cap-uniform-dart-spinner)"}
+
+n = 16
+
+xp <- data.frame(
+  x = (0:(n-1))/n,
+  p = rep(1/n, n)
+  )
+
+cdf = c(0, cumsum(xp$p))
+
+plotp = (cdf[-1] + cdf[-length(cdf)]) / 2
+  
+spinner <- ggplot(xp, aes(x="", y=p, fill=x))+
+  geom_bar(width = 1, stat = "identity", color="black", fill="white") + 
+  coord_polar("y", start=0) +
+  theme_void() +
+  # plot the possible values on the outside
+  scale_y_continuous(breaks = xp$x, minor_breaks = (0:99)/100, labels=c("12|0", round(12 * sqrt(1 / n * (1:(n-1))),2))) +
+  theme(axis.text.x=element_text(size=12, face="bold")) +
+      annotate(geom="segment", y=(0:99)/100, yend = (0:99)/100,
+             x=1.48, xend= 1.52) +
+  # plot the probabilities as percents inside
+    geom_text(aes(y = plotp,
+                label = format(percent(round(p, 4), 0.01))), size=3) +
+  ggtitle(paste("Marginal distribution of distance from center (inches)", sep=""))
+
+spinner
+```
+
+
+In the previous problem we see that even though the dart hits the board at a uniformly randomly location, its distance from the center does not follow a uniform distribution.
+Let's look at a simulation.
+It's a little tricky to simulate a point at random in a circle, but here's onle way.
+Assume that the center of the dartboard is at (0, 0) so that each of the $(x, y)$  coordinates  of the location of the dart is between $-1$ and 1.
+We can simulate $X$ and $Y$ coordinates independently each from a Uniform(-, 1) distribution.
+
+```{python}
+X, Y = RV(Uniform(-1, 1) ** 2)
+
+(X & Y).sim(1000).plot()
+```
+
+Unfortunately, this simulates points at random in the *square* with sides $[-1, 1]$ and results in darts off the board.
+Therefore, we want to discard any $(X, Y)$ points for which $R = sqrt{X^2 + Y^2$, }the distance to the center (0, 0), is greater than 1.
+We can do this with conditioning.
+
+```{python}
+R = sqrt(X ** 2 + Y ** 2)
+
+x_and_y = ( (X & Y) | (R < 1) ).sim(10000)
+```
+
+
+```{python, eval = FALSE}
+x_and_y.plot()
+
+```
+
+
+```{python, echo = FALSE}
+plt.figure()
+x_and_y.plot()
+plt.show();
+```
+
+The $(X, Y)$ pairs appear to be uniformly distributed over the unit circle.
+Now we summarize the approximate marginal distribution of $R$.
+
+
+```{python}
+x = x_and_y[0]
+y = x_and_y[1]
+
+r = 12 * sqrt(x ** 2 + y ** 2) # "12 *" to convert distance from feet to inches
+```
+
+
+```{python, eval = FALSE}
+r.plot(bins = 12)
+```
+
+```{python, echo = FALSE}
+plt.figure()
+r.plot(bins = 12)
+plt.show();
+```
+
+The simulation-based approximations agree with our calculations.
+
+```{python}
+r.count_lt(1) / r.count()
+```
+
+
+```{python}
+r.count_gt(11) / r.count()
+```
+
+
+
+```{python}
+r.quantile(0.25)
+```
+
+```{python}
+[r.quantile(p) for p in [0.25, 0.5, 0.75]]
+```
+
+Here are the other percentiles that are displayed on the spinner.
+
+```{python}
+increments = range(1, 16)
+
+percentile = [i / 16 for i in increments]
+
+percentile_value = [r.quantile(p) for p in percentile]
+
+print(tabulate({'Percentile': percentile,
+                'Value': percentile_value},
+               headers = 'keys', floatfmt=".4f"))
+```
+
+
+### Non-uniform probability measures {#non-uniform-prob-measure}
+
+Most random phenomenon do not involve equally likely outcomes or uniform probability measures.  Even when the underlying outcomes are equally likely, the values of related random variables are usually not. Therefore, most interesting probability problems involve non-uniform probability measures.
+
+For countable sample spaces, a probability measure is often defined by specifying the probability of each individual outcome.  The probability of any event can then be obtained (using countable additivity) by summing the probabilities of the outcomes which comprise the event.  Such was the case in Example \@ref(exm:dice-normalize). We specified the relative likelihood of each outcome, and then we obtained probabilities of all the events in Table \@ref(tab:die-events-weighted2) by adding the appropriate outcome probabilities. For example, the probability that the result of a single roll of the die in Example \@ref(exm:dice-normalize) results in an even number is $\tilde{\textrm{Q}}(\{2, 4\}) = \tilde{\textrm{Q}}(\{2\}) + \tilde{\textrm{Q}}(\{4\}) = 6/15 + 2/15 = 8/15$.
+
+
+
+For uncountable sample spaces, specifying probabilities for individual outcomes is not a feasible strategy.  As illustrated by Example \@ref(exm:meeting-probspace1d) and the discussion following it, reasonable mathematical models for outcomes taking values on a continuous scale, with infinite precision, assign 0 probability to any exact outcome.  Therefore, we specify a probability measure for uncountable sample spaces by assigning probabilities to intervals or regions of the sample space.
+
+```{example meeting-nonuniform-probspace1}
+In the meeting problem we'll consider only Regina's arrival time again. We will model Regina's arrival time with the sample space $[0, 60]$ and a non-uniform probability measure which reflects that she is more likely to arrive closer to 1 than to noon. In particular, we assume that the probability that Regina arrives before time $x\in [0, 60]$ is equal to $(x/60)^2$; let $\IQ$ denote the corresponding probability measure. (We will see where such a probability measure might come from later. For now, we'll just use it to compute probabilities and observe that it is a non-uniform measure.)  In addition to computing probabilities below, compare your answers to the corresponding parts from Example \@ref(exm:meeting-probspace1d).
+
+```
+
+<!-- 1. Verify that $\IQ$ is a valid probability measure. -->
+1. Find the probability that Regina arrives before 12:15. 
+1. Find the probability that Regina arrives after 12:45.  How does this compare to the previous part? What does that say about Regina's arrival time?
+1. Find the probability that Regina arrives between 12:15 and 12:45.
+1. Find the probability that Regina arrives between 12:15:00 and 12:16:00.
+1. Find the probability that Regina arrives between 12:15:00 and 12:15:01.
+1. Find the probability that Regina arrives at the exact time 12:15:00 (with infinite precision).
+1. Find the probability that Regina arrives between 12:59:00 and 1:00:00. How does this compare to the probability for 12:15:00 to 12:16:00? What does that say about Regina's arrival time?
+1. Find the probability that Regina arrives between 12:59:59 and 1:00:00. How does this compare to the probability for 12:15:00 to 12:15:01? What does that say about Regina's arrival time?
+1. Find the probability that Regina arrives at the exact time 1:00:00 (with infinite precision).
+
+
+
+```{solution meeting-nonuniform-probspace1-sol}
+
+to Example \@ref(exm:meeting-nonuniform-probspace1)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Notice that $\IQ([0, 60]) = (60/60)^2 = 1$, so $\IQ$ is a valid probability measure. 12:15 corresponds to arriving at time $15$, so by assumption  the probability she arrives before 12:15 is $(15/60)^2 =0.25^2 0.0625$; $\IQ([0, 15)) = 0.0625$. (She is now less likely to arrive within 15 minutes of noon than in the uniform case.)
+1. 12:45 corresponds to arriving at time 45 and by assumption  the probability she arrives before 12:45 is $(45/60)^2 = 0.75^2 =0.5625$. Therefore, the probability that she arrives after 12:45, i.e., in the interval $[45, 60]$ is $\IQ([45, 60]) = 1 - 0.5625 = 0.4375$.  So she is 7 times more likely to arrive within 15 minutes of 1:00 than within 15 minutes of noon. (She is now more likely to arrive with 15 minutes of 1:00 than in the uniform case.)
+1. The probability that Regina arrives between 12:15 and 12:45 is $\IQ((15, 0.45)) = 1 - 0.0625 - 0.4375 = 0.5$. (This probability happens to be the same as in the uniform case.)
+1. The probability that she arrives before 12:16 is the sum of the probability that she arrives before 12:15 and the probability that she arrives between 12:15 and 12:16. Therefore,
+\begin{align*}
+\IQ([15, 15 + 1]) & = \IQ([0, 15 + 1]) - \IQ([0, 15])\\
+& = (0.25 + 1/60)^2 - 0.25^2 = 0.0086.
+\end{align*}
+(This probability is less than what it was in the uniform case.)
+1. Similar to the previous part, $\IQ([15, 15+1/60]) = (0.25 + 1/3600)^2 - 0.25^2 = 0.00014$. (This probability is less than what it was in the uniform case.)
+1. The exact time 12:15:00 represents a single point the sample space, an interval of length 0.  The probability that Regina arrives at the exact time 12:15:00 (with infinite precision) is 0; $\IQ(\{15\}) = 0$.
+1. $\IQ([60 - 1, 1]) = \IQ([0, 60]) - \IQ([0, 60 - 1]) = 1^2 - (1-1/60)^2 = 0.0331$. Notice that this one minute interval around 1:00 has higher probability that a one minute interval around 12:15. (This probability is more than what it was in the uniform case.)
+1. Similar to the previous part, $\IQ([1-1/60, 1]) = 1^2 - (1-1/3600)^2 = 0.00056$. Notice that this one second interval around 1:00 has higher probability that a one second interval around 12:15, though both probabilities are small. (This probability is more than what it was in the uniform case.)
+1. The exact time 1:00:00 represents a single point the sample space, an interval of length 0.  The probability that Regina arrives at the exact time 1:00:00 (with infinite precision) is 0; $\IQ(\{60\}) = 0$.
+
+```
+
+In Example \@ref(exm:meeting-nonuniform-probspace1), the probability that Regina arrives at any exact time in $[0, 60]$, with infinite precision, is 0, just as in Example \@ref(exm:meeting-probspace1d).  But the values of the probabilities in Example \@ref(exm:meeting-nonuniform-probspace1) illustrate the non-uniform probability assumption.  Regina is much more likely to arrive between 12:45 and 1:00 than she is to arrive between 12:00 and 12:15, even though both these intervals have the same length.
+Also, while the probability that she arrives at any exact time with infinite precision is 0, the probability that she arrives "close to" 1:00 is larger than the probability that she arrives "close to" 12:15 (where "close to" might mean within a minute or within a second.)
+See Figure \@ref(fig:arrival-time-probmeasure) which displays Regina's probability of arriving at each minute, rounded to the nearest minute, under both the uniform and non-uniform probability measures.
+In some sense, some values in $[0, 60]$ are "more likely" than others under the non-uniform measure.  We will explore this idea further later, where we will see that integration plays the analogous role for uncountable sample spaces that summation plays for countable sample spaces.
+
+
+
+(ref:cap-arrival-time-probmeasure) Probability of Regina arriving at each minute between noon (0) and 1:00PM (60), to the nearest minute, for the Uniform probability measure (blue) and the probability measure in Example \@ref(exm:meeting-nonuniform-probspace1) (orange).
+
+```{r arrival-time-probmeasure, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="(ref:cap-arrival-time-probmeasure)"}
+
+
+x = (1:59) / 60
+
+px1 = rep(1 / 60, length(x))
+
+px2 = (x + 0.5 / 60) ^ 2 - (x - 0.5 / 60) ^ 2
+
+df <- data.frame(x,
+                 "uniform" = px1,
+                 "non uniform" = px2)
+
+df <- df %>%
+    pivot_longer(!x,
+                 names_to = "probmeasure",
+                 values_to = "probability")
+
+ggplot(df, aes(x = x * 60, probability, col = probmeasure)) +
+    geom_point() +
+    theme_classic() +
+  scale_color_manual(
+    values = c("orange", "skyblue"),
+    aesthetics = c("color", "fill")
+  ) +
+    labs(col = "Probability measure",
+         x = "Value",
+         y = "Probability")
+
+```
+
+
+<!-- ```{example, exponential-probspace} -->
+<!-- Consider the sample space $\Omega=[0,\infty)$ with a probability measure^[This defines the Exponential(1) distribution; see Section \@ref(exponential).] defined by  -->
+<!-- \[ -->
+<!--   \IP(A) = \int_A e^{-u}\, du, \qquad A \subseteq [0, \infty). -->
+<!-- \] -->
+<!-- ```  -->
+
+<!-- 1. Verify that $\IP(\Omega)=1$. -->
+<!-- 1. Compute $\IP(A)$ for $A=[0, 1]$. -->
+<!-- 1. Without integrating again, compute $\IP(B)$ for $B=(1, \infty)$. -->
+<!-- 1. Compute $\IP(C)$ for $C=[0, 1] \cup (2, 4)$. -->
+
+<!-- ```{solution exponential-probspace-sol} -->
+<!-- to Example \@ref(exm:exponential-probspace) -->
+<!-- ``` -->
+
+
