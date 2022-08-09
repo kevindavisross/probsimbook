@@ -1,0 +1,57 @@
+---
+title: "Untitled"
+author: "Introduction to Probability and Randomness"
+date: "10/12/2020"
+output: html_document
+---
+
+```{r setup}
+library(ggplot2)
+
+x = c(2, 3, 4, 4, 5, 6, 5, 6, 7, 8)
+y = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 4)
+p = c(1, 2, 1, 2, 2, 1, 2, 2, 2, 1) / 16
+
+xmean = 5
+ymean = 3.125
+
+
+ggplot(data.frame(x, y), aes(xmin = x - xmean, xmax = x,
+                 ymin = y - ymean, ymax = y)) +
+    geom_rect(color = NA, fill = "skyblue", alpha = 0.1) +
+    theme_void() +
+    theme(plot.background = element_rect(fill = "white")) + 
+  geom_hline(yintercept=ymean, linetype="dashed", 
+                color = "black", size=2) + 
+    geom_vline(xintercept=xmean, linetype="dashed", 
+                color = "black", size=2) 
+
+```
+
+
+```{r setup}
+library(ggplot2)
+
+rho = 0.7
+
+x = rnorm(10)
+y = rho * x + sqrt(1 - rho ^ 2) * rnorm(10) 
+
+xmean = mean(x)
+ymean = mean(y)
+
+
+ggplot(data.frame(x, y), aes(xmin = x - xmean, xmax = x,
+                 ymin = y - ymean, ymax = y)) +
+    geom_rect(color = NA, fill = "skyblue", alpha = 0.1) +
+    theme_void() +
+    theme(plot.background = element_rect(fill = "white")) + 
+  geom_hline(yintercept=ymean, linetype="dashed", 
+                color = "black", size=2) + 
+    geom_vline(xintercept=xmean, linetype="dashed", 
+                color = "black", size=2) 
+
+```
+
+
+
