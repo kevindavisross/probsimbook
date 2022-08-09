@@ -2292,7 +2292,7 @@ ggplot(data.frame(x),
            y = 0)) +
   geom_point(shape = "|", size = 10) +
   scale_y_continuous(limits = c(0, 5), expand = c(0, 0)) +
-  scale_x_continuous(limits = c(0, 60), expan = c(0, 0)) +
+  scale_x_continuous(limits = c(0, 60), expand = c(0, 0)) +
   theme_classic() +
   coord_fixed() +
   labs(x = "Simulated arrival time (minutes after noon)") +
@@ -6056,7 +6056,7 @@ Many common mistakes in probability result from not heeding this principle, so w
 
 
 
-### Long run averages
+### Long run averages {#sim-lra}
 
 
 
@@ -7242,7 +7242,7 @@ knitr::include_graphics(c(
 
 ```
 
-## Correlation
+## Correlation {#sec-sim-corr}
 
 
 
@@ -7298,10 +7298,10 @@ t_and_w.cov()
 
 ```
 
-The **covariance** of random values $X$ and $Y$ is defined as the long run average of the product of the paired deviations from the respective means
+The **covariance** of random variables $X$ and $Y$ is defined as the long run average of the product of the paired deviations from the respective means
 
 $$
-\text{Covariance($X$, $Y$)} = \text{Average of} ((X - \text{Average of }X)(Y - \text{Average of }Y)
+\text{Covariance($X$, $Y$)} = \text{Average of} ((X - \text{Average of }X)(Y - \text{Average of }Y))
 $$
 It turns out that covariance is equivalent to the average of the product minus the product of the averages.
 
@@ -7420,7 +7420,7 @@ Because correlation is computed between standardized random variables,  correlat
 
 
 
-### Joint Normal distributions
+### Joint Normal distributions {#sec-sim-bvn}
 
 Just as Normal distributions are commonly assumed for marginal distributions of individual random variables, joint Normal distributions are often assumed for joint distributions of several random variables. We'll focus "Bivariate Normal" distributions which describe a specific pattern of joint variability for *two* random variables.
 
@@ -8327,5 +8327,327 @@ plt.show()
 ```
 
 
+
+## A more interesting example: Matching problem {#sim-matching-n}
+
+Dice rolling provides a simple scenario for us to introduce ideas, but it's not very exciting.
+Now we'll apply ideas from this section to investigate a more interesting problem: the matching problem.
+We'll also see how we can combine Symulate and Python code.
+
+Our version is from [FiveThirtyEight](https://fivethirtyeight.com/features/everythings-mixed-up-can-you-sort-it-all-out/).
+A geology museum in California has $n$ different rocks sitting in a row on a shelf, with labels on the shelf telling what type of rock each is.
+An earthquake hits and the rocks all fall off the shelf and get mixed up.
+A janitor comes in and, wanting to clean the floor, puts the rocks back on the shelf in uniformly random order; each rock is equally likely to be placed in any spot.
+
+
+Let $Y$ be the number of rocks put in the correct spot (i.e., the number of matches).
+We considered the case $n=4$ in Example \@ref(exm:matching-probspace), where we found the distribution of $Y$; see Table \@ref(tab:matching-probspace-table).
+When $n=4$ the probability of at least one match is 0.625.
+
+When $n=4$ we could enumerate the $4!=24$ possible outcomes, but such a strategy is not feasible for a general $n$.
+For example, if $n=60$ then there are $60! \approx 10^{82}$ possible outcomes, which is about the total number of atoms in the observable universe.
+Therefore we need other strategies to investigate the problem.
+
+We'll use simulation to investigate, for general $n$:
+
+- the probability that at least one rock is placed in the correct spot (i.e., the probability of at least one match)
+- the long run average number of rocks placed in the correct spot (i.e., the long run average number of matches)
+- how these quantities depend on $n$.
+
+
+Before proceeding, stop to think: what do you expect?
+How do you expect the probability of at least one match to depend on $n$?
+Will the probability increase, decrease, or stay about the same as $n$ gets larger?
+What about the long run average number of matches?
+It's always a good idea to think about a problem and make some initial guesses before just jumping into calculations or simulations.
+
+```{example, matching-sim-describe, name='Matching problem'}
+
+For a given $n$, describe in detail how you would use simulation to approximate:
+  
+1. The distribution of $Y$
+1. The probability of at least one match.
+1. The long run average number of matches
+
+```
+
+
+```{solution matching-sim-describe-sol}
+to Example \@ref(exm:matching-sim-describe)
+
+```
+
+
+
+
+
+```{asis, fold.chunk = TRUE}
+
+We could use a box model.
+
+- The box has $n$ tickets, labeled $1, 2, \ldots, n$, one for each rock.
+- An outcome is simulated by selecting $n$ tickets from the box *without* replacement and recording their order, e.g., (2, 1, 3, 4) if $n=4$.
+- Let $y$ be the number of matches for the simulated outcome, e.g., $y=2$ for outcome (2, 1, 3, 4).
+- The above two steps consist of one repetition, yielding one realized value of the random variable $Y$.
+- Repeat these steps many times to obtain many simulated values of $Y$.
+
+1. Summarize the simulated values of $Y$ and their relative frequencies to approximate the distribution of $Y$.
+1. Count the number of repetitions on which $Y>0$ and divide by the total number of repetitions to approximate $\IP(Y>0)$, the probability of at least one match.
+1. Compute the average of the simulated $Y$ values --- sum all simulated $Y$ values and divide by the number of simulated $Y$ values --- to approximate the long run average value of $Y$.
+
+```
+
+We'll start by coding a simulation for $n=4$.
+We can compare our simulation results to the analytical results to check that our simulation process is working correctly.
+Since Python uses zero-based indexing, we label the rocks $0, 1, \ldots, n-1$.
+
+```{python}
+
+n = 4
+
+labels = list(range(n)) # list of labels [0, ..., n-1]
+labels
+
+```
+
+
+Now we define the box model and simulate a few outcomes.  Note that `replace = False`.
+
+```{python}
+
+P = BoxModel(labels, size = n, replace = False)
+
+P.sim(5)
+
+```
+
+We simulate many outcomes to check that they are roughly equally likely.
+
+```{python}
+
+P.sim(24000).tabulate()
+
+```
+
+
+Remember that a random variable $Y$ is a function whose inputs are the sample space outcomes.
+In this example the function "counts matches", so would like to define $Y$ as `Y = RV(P, count_matches)`.
+Unfortunately, such a function isn't built in like `sum` or `max`, but we can write a custom `count_matches` Python function ourselves.
+The `count_matches` function below starts a counter at 0 and then goes spot-by-spot through each spot in the outcome and increments the counter by 1 any time there is a match.
+Don't worry too much about the Python syntax yet.
+What's important is that we have defined a *function* that we can use to define a random variable.
+
+
+```{python}
+
+def count_matches(omega):
+    count = 0
+    for i in range(0, n, 1):
+        if omega[i] == labels[i]:
+            count += 1
+    return count
+  
+omega = (1, 0, 2, 3) # an example outcome, with 2 matches
+count_matches(omega) # the function evaluated for the example outcome
+
+```
+
+
+Now we can use the function `count_matches` to define a Symbulate `RV` just like we have used `sum` or `max`.
+
+```{python}
+
+Y = RV(P, count_matches)
+
+Y((1, 0, 2, 3))
+
+```
+
+We can simulate many values of $Y$ and use the simulated values to approximate the distribution of $Y$, the probability of at least one match, and the long run average value of $Y$.
+
+```{python}
+
+y = Y.sim(10000)
+
+y.tabulate(normalize = True)
+
+```
+
+```{python}
+
+y.count_gt(0) / y.count()
+
+```
+
+```{python}
+
+y.mean()
+
+```
+
+The simulated distribution of $Y$ is close to the true distribution in Table \@ref(tab:matching-probspace-table); in particular, the simulated values are within the margin of error (about 0.01-0.02 for 10000 simulated values) of the true values.
+We also see that the long run average value of $Y$ is around 1.
+
+
+It appears that our simulation is working properly for $n=4$.
+To investigate a different value of $n$, we simply need to revise the line `n=4`.
+Because we want to investigate many values of $n$, we wrap all the above code in a Python function which takes $n$ as an input and outputs our objects of interest.
+
+```{python}
+
+def matching_sim(n):
+    labels = list(range(n))
+    def count_matches(omega):
+        count = 0
+        for i in range(0, n, 1):
+            if omega[i] == labels[i]:
+                count += 1
+        return count
+    
+    P = BoxModel(labels, size = n, replace = False)
+    Y = RV(P, count_matches)
+    
+    y = Y.sim(10000)
+    
+    plt.figure()
+    y.plot('impulse')
+    plt.show()
+    
+    return y.count_gt(0) / y.count(), y.mean()
+
+```
+
+For example, for $n=4$ we simply call
+
+```{python}
+
+matching_sim(4)
+
+```
+
+Now we can easily investigate different values of $n$. For example, for $n=10$ we see that the probability of at least one match is around 0.63 and the long run average number of matches is around 1.
+
+```{python}
+
+matching_sim(10)
+
+```
+
+We can use a for loop to automate the process of changing the value of $n$, running the simulation, and recording the results.
+If `ns` is the list of $n$ values of interest we basically just need to run
+
+```
+for n in ns:
+    matching_sim(n)
+```
+
+In Python we can also use list comprehension
+
+```
+[matching_sim(n) for n in ns]
+```
+
+The table below summarizes the simulation results for $n=4, \ldots, 10$.
+The first line defines the values of $n$, and the second line implements the for loop.
+The `tabulate` code just adds a little formatting to the table.
+Note that we have temporarily redefined `matching_sim` to remove the lines that produced the plot, but we have not displayed the revised code here.
+(We will get bring the plot back soon.)
+
+
+```{python, echo = FALSE}
+
+def matching_sim(n):
+    labels = list(range(n))
+    def count_matches(omega):
+        count = 0
+        for i in range(0, n, 1):
+            if omega[i] == labels[i]:
+                count += 1
+        return count
+    
+    P = BoxModel(labels, size = n, replace = False)
+    Y = RV(P, count_matches)
+    
+    y = Y.sim(10000)
+    
+    # plt.figure()
+    # y.plot()
+    # plt.show()
+    
+    return y.count_gt(0) / y.count(), y.mean()
+
+```
+
+
+```{python}
+
+ns = list(range(4, 11, 1))
+
+results = [matching_sim(n) for n in ns]
+
+print(tabulate({'n': ns,
+                'P(Y > 0), LRA': results},
+               headers = 'keys', floatfmt=".3f"))
+               
+```
+
+Stop and look at the table; what do you notice?
+How do the probability of at least one match and the long run average value depend on $n$?
+They don't!
+Well, maybe they do, but they don't appear to change very much with $n$ after we take into account simulation margin of error^[The simulation margin of error for a single probability of at least one match is about 0.01 based on 10000 simulated values. We haven't discussed simulation margins of error for long run averages yet. In this case, the simulation margin of error for a single long run average based on 10000 simulated values is about 0.02.] of about 0.01-0.02.
+It appears that regardless of the value of $n$, the probability of at least one match is around 0.63 and the long run average number of matches is around 1.
+
+If we're interested in more values of $n$, we just repeat the same process with a longer list of `ns`.
+The code below uses [Matplotlib](https://matplotlib.org/) to create a plot of the probability of at least one match and the long run average number of matches versus $n$.
+While there is some natural simulation variability, we see that the probability of at least one match (about 0.63) and the long run average value (about 1) basically do not depend on $n$!
+
+```{python, cache = TRUE}
+
+ns = list(range(4, 101, 1))
+
+results = [matching_sim(n) for n in ns]
+
+plt.figure()
+plt.plot(ns, results)
+plt.legend(['P(Y > 0)', 'LRA'])
+plt.xlabel('n')
+plt.ylabel('value')
+plt.show()
+
+```
+
+What about the distribution of $Y$?
+Clicking on the picture below will launch a Colab notebook that contains code for investigating how the distribution of $Y$ depends on $n$.
+The basic simulation code is identical to what we have already seen.
+The notebook adds a few lines to create a Jupyter widget, which produces an interactive plot (with some additional formatting) of the distribution with a slider; you can change the slider to see how the distribution of $Y$ changes with $n$.
+Take a few minutes to play with the slider; what do you see?
+
+<script src="https://gist.github.com/kevindavisross/b6b6adeb13c3b10f1fa82c5261d7a931.js"></script>
+
+You should see that unless $n$ is really small (like 4 or 5) the distribution of $Y$ is basically the same for any value of $n$!
+And the distribution appears to follow a distribution called the Poisson(1) distribution.
+In particular, the probability of exactly 0 matches is approximately equal to the probability of exactly 1 match.
+
+
+Summarizing, our simulation investigation of the matching problem reveals that, unless $n$ is really small,
+
+- the probability of at least one match does not depend on $n$, and is approximately 0.632.
+- the long run average number of matches is approximately 1
+- the distribution of the number of matches is approximately the same for all values of $n$
+- the distribution of the number of matches is approximately the Poisson(1) distribution.
+
+We will investigate these observations further later.
+For now, marvel at the fact that no matter if there are 10 or 10 thousand or 10 million rocks and spots, there is about a 63% probability that at least one rock will be in the correct spot.
+Amazing!
+
+### Summary
+
+- We can use Python code to
+    - define functions to define random variables
+    - define for loops to investigate changing parameters
+    - customize plots produced by the Symbulate `plot` command (add axis labels, legends, etc)
+    - summarize results of multiple simulations in tables and Matplotlib plots (e.g., for different values of problem parameters)
+- Simulation provides an effective way for investigation probability problems
+- Probability problems can have surprising results!
 
 

@@ -1585,7 +1585,7 @@ p = c(9, 8, 6, 1) / 24
 
 kbl(
   data.frame(y, p),
-  col.names = c("y", "P(Y=y)"),
+  col.names = c("x", "P(X=x)"),
   booktabs = TRUE,
   caption = "(ref:cap-matching-probspace-table)",
   digits = 4

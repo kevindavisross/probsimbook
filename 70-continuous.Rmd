@@ -1,0 +1,1350 @@
+# Common Distributions of Continuous Random Variables {#continuous}
+
+
+
+
+<!-- \newcommand{\IP}{\textrm{P}} -->
+<!-- \newcommand{\IQ}{\textrm{Q}} -->
+<!-- \newcommand{\E}{\textrm{E}} -->
+<!-- \newcommand{\Var}{\textrm{Var}} -->
+<!-- \newcommand{\SD}{\textrm{SD}} -->
+<!-- \newcommand{\Cov}{\textrm{Cov}} -->
+<!-- \newcommand{\Corr}{\textrm{Corr}} -->
+<!-- \newcommand{\Xbar}{\bar{X}} -->
+<!-- \newcommand{\Ybar}{\bar{X}} -->
+<!-- \newcommand{\xbar}{\bar{x}} -->
+<!-- \newcommand{\ybar}{\bar{y}} -->
+<!-- \newcommand{\ind}{\textrm{I}} -->
+<!-- \newcommand{\dd}{\text{DDWDDD}} -->
+<!-- \newcommand{\ep}{\epsilon} -->
+<!-- \newcommand{\reals}{\mathbb{R}} -->
+
+A continuous random variable can take any value within some uncountable interval, such as $[0, 1]$, $[0,\infty)$, or $(-\infty, \infty)$. These are
+often measurement type variables.
+
+
+The probability density function (pdf) (a.k.a., density) of a continuous random variable $X$, defined on a probability space with probability measure $\IP$, is a function $f_X:\mathbb{R}\mapsto[0,\infty)$ which satisfies
+\begin{align*}
+\IP(a \le X \le b) & =\int_a^b f_X(x) dx, \qquad \text{for all } -\infty \le a \le b \le \infty
+\end{align*}
+
+
+For a continuous random variable $X$ with pdf $f_X$, the probability that $X$ takes a value in the interval $[a, b]$ is the area under the pdf over the region $[a,b]$.
+
+
+
+The axioms of probability imply that a valid pdf must satisfy
+\begin{align*}
+f_X(x) & \ge 0 \qquad \text{for all } x,\\
+\int_{-\infty}^\infty f_X(x) dx & = 1
+\end{align*}
+
+In this section we study some commonly used continuous distributions and their properties.  When developing a probability model for a random process, certain assumptions are made about the process or the distribution of a corresponding random variable.  Some situations are so common that the corresponding distributions have special names.
+
+
+
+
+
+<!-- ## Uniform distributions {#uniform} -->
+
+## Exponential distributions {#exponential}
+
+
+
+Exponential distributions are often used to model the *waiting times* between events in a random process that occurs continuously over time.
+
+<!-- ```{r} -->
+<!-- data = read.csv("_data-sets/quakes100.csv") -->
+
+<!-- x = data$Waiting.time..minutes. -->
+
+<!-- hist(x, breaks = 20) -->
+<!-- ``` -->
+
+
+```{example, exponential-quakes2}
+Suppose that we model the time, measured continuously in hours, from now until the next earthquake (of any magnitude) occurs in southern CA  as a continuous random variable $X$ with pdf
+\[
+f_X(x) = 2 e^{-2x}, \; x \ge0
+\]
+
+```
+
+1. Sketch the pdf of $X$.  What does this tell you about waiting times?
+1. Without doing any integration, approximate the probability that $X$ rounded to the nearest minute is 0.5 hours.
+1. Compute and interpret $\IP(X \le 3)$.
+1. Find the cdf of $X$.
+1. Find the median time between earthquakes.
+1. Set up the integral you would solve to find $\E(X)$.  Interpret $\E(X)=1/2$.  How does the median compare to the mean?  Why?
+1. Set up the integral^[Here's a useful fact:   $\int_0^\infty u^{k}e^{-u} du = k!$, for any nonnegative integer $k$.] you would solve to find $\E(X^2)$.
+1. Find $\Var(X)$ and $\SD(X)$.
+
+
+```{solution, exponential-quakes2-sol}
+to Example \@ref(exm:exponential-quakes2)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. See simulation below for plots.  Waiting times near 0 are most likely, and density decreases as waiting time increases.
+1. Remember, the density at $x=0.5$ is not a probability, but it is related to the probability that $X$ takes a value close to $x=0.5$. The approximate probability that $X$ rounded to the nearest minute is 0.5 hours is 
+\[
+f_X(0.5)(1/60) = 2e^{-2(0.5)}(1/60) =  0.0123 
+\]
+1. $\IP(X \le 3) = \int_0^3 2e^{-2x}dx = 1-e^{-2(3)}=0.9975$.  While any value greater than 0 is possible in principle, the probability that $X$ takes a really large value is small.  About 99.75% of earthquakes happen within 3 hours of the previous earthquake.
+1. $F_X(x)=0$ for $x<0$. For $x>0$, repeat the calculation from the previous part with a generic $x>0$.
+\[
+F_X(x)  =\IP(X \le x) = \int_0^x 2e^{-2u}du = 1-e^{-2x}
+\]
+1. Set $0.5=F_X(m)=1-e^{-2m}$ and solve for $m=(1/2)\log(2) = 0.347$.  About 50% of earthquakes occur within 0.347 hours (about 21 minutes) of the previous earthquake.
+1. $\E(X)=\int_0^\infty x \left(2 e^{-2x}\right)dx = 1/2$.  The long run average waiting time between earthquakes is 0.5 hours.  The mean is greater than the median due to the right tail of the distribution; the extreme large values pull the mean up.
+1. Use LOTUS: $\E(X^2)=\int_0^\infty x^2 \left(2 e^{-2x}\right)dx = 1/2$.
+1. $\Var(X)=\E(X^2) - (\E(X))^2=1/2-(1/2)^2=1/4$ and $\SD(X)=1/2$.
+
+
+```
+
+```{python}
+
+X = RV(Exponential(rate = 2))
+
+x = X.sim(10000)
+
+x.plot()
+
+Exponential(rate = 2).plot()
+plt.show()
+
+```
+
+```{python}
+
+x.count_leq(3) / 10000, Exponential(rate = 2).cdf(3)
+
+```
+
+```{python}
+
+x.quantile(0.5), Exponential(rate = 2).quantile(0.5)
+
+```
+
+```{python}
+
+x.mean(), Exponential(rate = 2).mean()
+
+```
+
+
+```{python}
+
+x.var(), Exponential(rate = 2).var()
+
+```
+
+
+```{definition}
+
+A continuous random variable $X$ has an **Exponential distribution** with *rate* parameter^[Exponential distributions are sometimes parametrized directly by their mean $1/\lambda$, instead of the rate parameter $\lambda$.  The mean $1/\lambda$ is called the scale parameter.] $\lambda>0$ if its pdf is
+\[
+f_X(x) =
+\begin{cases}\lambda e^{-\lambda x}, & x \ge 0,\\
+0, & \text{otherwise}
+\end{cases}
+\]
+If $X$ has an Exponential($\lambda$) distribution then
+\begin{align*}
+\text{cdf:} \quad F_X(x) & = 1-e^{-\lambda x}, \quad x\ge 0\\
+ \IP(X>x)  & = e^{-\lambda x}, \quad x\ge 0\\
+\E(X) & = \frac{1}{\lambda}\\
+\Var(X) & = \frac{1}{\lambda^2}\\
+\SD(X) & = \frac{1}{\lambda}
+\end{align*}
+
+```
+
+
+
+Exponential distributions are often used to model the *waiting time* in a random process until some event occurs.
+
+- $\lambda$ is the average *rate* at which events occur over time (e.g., 2 per hour)
+- $1/\lambda$ is the mean time between events (e.g., 1/2 hour)
+
+
+(ref:exponential-densities-caption2) Exponential densities with rate parameter $\lambda$. 
+
+```{python, exponential-densities-caption2, fig.cap='(ref:exponential-densities-caption2)'}
+plt.figure()
+rates = [0.5, 1, 2]
+for rate in rates:
+    Exponential(rate).plot()
+    
+plt.legend(['$\lambda=$' + str(i) for i in rates]);
+plt.xlim(0, 8);
+plt.show()
+```
+
+
+```{example, exponential-quakes-rescale}
+
+Continuing Example \@ref(exm:exponential-quakes2). Let $Y$ be the time between earthquakes, measured in minutes.  Identify the distribution of $Y$ and its mean and standard deviation.
+
+```
+
+
+```{solution, exponential-quakes-rescale-sol}
+to Example \@ref(exm:exponential-quakes-rescale)
+```
+
+```{asis, fold.chunk = TRUE}
+
+If $X$ is waiting time measured in hours, then $Y=60X$ is waiting time measured in minutes.  This linear rescaling will not change the shape of the distribution, so $Y$ has an Exponential distribution.  If the mean waiting time is $\E(X)=1/2$ hours, then $\E(Y) = 60(1/2) = 30$ minutes.  Likewise, $\SD(X) = 1/2$ hour and $\SD(Y) = 30$ minutes. Therefore, $Y=60X$ has an Exponential distribution with rate parameter $2/60 = 1/30$ earthquakes per minute.
+
+```
+
+If $X$ has an Exponential($\lambda)$ distribution and $a>0$ is a constant, then $aX$  has an Exponential($\lambda/a$) distribution.
+
+- If $X$ is measured in hours with rate $\lambda = 2$ per hour and mean 1/2 hour
+- Then $60X$ is measured in minutes with rate $2/60$ per minute and mean $60(1/2)=30$ minutes.
+
+
+
+
+```{example, exponential-how-to-simulate}
+
+How do you simulate values from an Exponential distribution?
+
+```
+
+1. How could you use an Exponential(1) spinner to simulate values from an Exponential($\lambda$) distribution?
+1. How could you use an Uniform(0, 1) spinner to simulate values from an Exponential($\lambda$) distribution?
+ 
+
+
+```{solution, exponential-how-to-simulate-sol}
+to Example \@ref(exm:exponential-how-to-simulate)
+```
+
+```{asis, fold.chunk = TRUE}
+1. Spin the Exponential(1) spinner to generate $W$ and the divide $W$ by $\lambda$.  If $W$ has an Exponential(1) distribution, then $W/\lambda$ has an Exponential distribution with rate parameter $\lambda$ (and mean $1/\lambda$).
+1. Spin the Uniform(0, 1) spinner to generate $U$ and let $W = -\log(U)$; then $W$ has an Exponential(1) distribution, so $-\log(U)/\lambda$ has an Exponential($\lambda$) distribution.
+
+```
+
+
+```{python, eval = FALSE, echo = FALSE}
+
+U, W = RV(Uniform(0, 1) * Exponential(1))
+
+Z = -(1 / 2) * log(U)
+Y = (1 / 2) * W
+
+Z.sim(10000).plot()
+Y.sim(10000).plot()
+Exponential(rate = 2).plot()
+plt.show()
+
+
+
+```
+
+
+If $X$ has an Exponential(1) distribution and $\lambda>0$ is a constant then $X/\lambda$ has an Exponential($\lambda$) distribution.
+
+Remember that if $U$ has a Uniform(0, 1) distribution then $-\log(U)$ has Exponential(1) distribution.  (Remember also that $-\log(1-U)$ has an Exponential(1) distribution.)
+
+
+
+```{example, exponential-joint}
+$X$ and $Y$ are continuous random variables with joint pdf
+\[
+f_{X, Y}(x, y) = \frac{1}{3x^2}\exp\left(-\left(\frac{y}{x^2} + \frac{x}{3}\right)\right), \qquad x > 0, y>0
+\]
+
+```
+
+<!-- 1. Add find conditional distribution of Y given X = 2. -->
+1. Identify by name the marginal distribution and one-way conditional distributions that you can obtain from the joint pdf without doing any calculus.
+1. How could you use an an Exponential(1) spinner to simulate $(X, Y)$ pairs with this joint distribution?
+1. Sketch a plot of the joint pdf.
+1. Find $\E(Y)$ without doing any calculus.
+1. Find $\Cov(X, Y)$ without doing any calculus. (Well, without doing any multivariable calculus.)
+1. Use simulation to approximate the distribution of $Y$.  Does $Y$ have an Exponential distribution?
+
+
+
+```{solution, exponential-joint-sol}
+to Example \@ref(exm:exponential-joint)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Remember that "joint is the product of conditional times marginal".  We can write
+    \[
+    f_{X, Y}(x, y) = \frac{1}{3x^2}\exp\left(-\frac{y}{x^2}\right) \exp\left(-\frac{x}{3}\right), \qquad x > 0, y>0
+    \]
+We can find the conditional pdfs by fixing either variable.  Since $x$ shows up in more places, fix $x$ and treat it like a constant and see how the joint pdf depends on $y$.  For fixed $x>0$
+    \[
+      f_{Y|X}(y|x) \propto   \exp\left(-\frac{y}{x^2}\right), \qquad y >0
+    \]
+    The above has the basic shape of an Exponential pdf with ($1/x^2$) playing the role of the rate parameter.  We add the constant in so that it integrates to 1:
+    \[
+      f_{Y|X}(y|x) =  \frac{1}{x^2} \exp\left(-\frac{y}{x^2}\right), \qquad y >0
+    \]
+    Therefore, for any $x>0$, the conditional distribution of $Y$ given $X=x$ is the Exponential distribution with rate parameter $1/x^2$.
+    Then "joint is the product of conditional times marginal" implies that the marginal pdf of $X$ is
+    \[
+    f_{X}(x) = \frac{1}{3}\exp\left(-\frac{x}{3}\right), \qquad x > 0 
+    \]
+    Therefore, the marginal distribution of $X$ is the Exponential distribution with rate parameter 1/3.
+1. Spin the Exponential(1) spinner twice and let the results be $U_1, U_2$.  Let $X = 3 U_1$.  (Remember, if the rate parameter of $X$ is 1/3 then its mean is 3.)  Let $Y = X^2 U_2$.
+1. See the simulation results below (and the video).  There is a not small probability of some extreme outliers which can obscure the scale on the plot.
+1. Since the conditional distribution of $Y$ given $X=x$ is Exponential with rate parameter $1/x^2$ and mean $x^2$, $\E(Y|X) = X^2$. Use the law of total expected value.
+\[
+ \E(Y) = \E(\E(Y|X)) = \E(X^2) = \Var(X) + (\E(X))^2 = (3^2) + (3)^2 = 18  
+\]
+1. $\Cov(X, Y) = E(XY) - \E(X)\E(Y)$.  $\E(X) = 3$ and $\E(Y) = 18$, so we need to find $\E(XY)$.  Use the law of total expected value and taking out what is known.
+    \[
+    \E(XY) = \E(\E(XY|X)) = \E(X\E(Y|X)) = \E(X(X^2)) = \E(X^3) = \int_0^\infty x^3     \left(\frac{1}{3}e^{-(1/3)x}\right)dx = 162
+    \]
+    The last integral is a LOTUS calculation.  But note that we have reduced $\E(XY)$ which on the surface involves a double integral over the joint distribution of $X$ and $Y$ to $\E(X^3)$, a calculation which just involves the marginal distribution of $X$.
+    $\Cov(X, Y) = 162 - (3)(18)=108$.
+1. See simulation results below.  Even though for any value $x$ of $X$ the conditional distribution of $Y$ given $X=x$ is an Exponential distribution, the marginal distribution of $Y$ is not an Exponential distribution.  $Y$ has a much heavier tail than an Exponential distribution, and allows for more extreme values than an Exponential distribution does.
+    
+    
+``` 
+
+```{python}
+
+U1, U2 = RV(Exponential(1) ** 2)
+
+X = 3 * U1
+Y = X ** 2 * U2
+
+(X & Y).sim(100).plot()
+plt.show()
+
+```
+
+
+```{python}
+
+(X & Y).sim(10000).cov()
+
+```
+
+
+```{python}
+
+y = Y.sim(10000)
+
+y.plot()
+plt.show()
+
+```
+
+```{python}
+
+y.mean(), y.sd()
+
+```
+
+
+
+### Memoryless property
+
+```{example, exponential-quakes-memoryless}
+
+Let $X$ be the waiting time (hours) until the next earthquake and assume $X$ has an Exponential(2) distribution.
+
+```
+
+1. Find the probability that the waiting time is greater than 1 hour.
+1. Suppose that no earthquakes occur in the next 3 hours.  Find the conditional  probability that the waiting time (from now) is greater than 4 hours.  Be sure to write a valid probability statement involving $X$ before computing. What do you notice?
+
+
+```{solution, exponential-quakes-memoryless-sol}
+to Example \@ref(exm:exponential-quakes-memoryless)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $\IP(X > 1) =e^{-2(1)}$
+1. The event that no earthquakes occur in the next 3 hours is $\{X>3\}$. The conditional  probability is
+    \begin{align*}
+    \IP(X > 4 | X > 3) & = \frac{\IP(X > 4, X>3)}{\IP(X>3)} \\
+    & = \frac{\IP(X > 4)}{\IP(X>3)}\\
+    & = \frac{e^{-2(4)}}{e^{-2(3)}}\\
+    & = e^{-2(1)}\\
+    & = \IP(X > 1)
+    \end{align*}
+The conditional probability that we wait for at least one more hour given that we have waited 3 hours already is equal to the unconditional probability that we wait for at least one hour.
+
+```
+
+**Memoryless property.**  If $W$ has an Exponential($\lambda$) distribution then for any $w,h>0$
+\[
+\IP(W>w+h\,\vert\, W>w) = \IP(W>h)
+\]
+
+
+Given that we have already waited $w$ units of time, the conditional probability that we wait at least an additional $h$ units of time is the same as the unconditional probability that we wait at least  $h$ units of time.
+
+Probabilistically, the process "forgets" how long we have already waited.
+
+A continuous random variable $W$ has the memoryless property if and only if $W$ has an Exponential distribution.  That is, Exponential distributions are the *only* continuous^[Geometric distributions are the only discrete distributions with the discrete analog of the memoryless property.] distributions with the memoryless property.
+
+If $W$ has an Exponential($\lambda$) distribution then the conditional distribution of the *excess* waiting time, $W - w$, given $\{W>w\}$ is Exponential($\lambda$).
+
+
+```{python}
+
+X = RV(Exponential(rate = 2))
+
+( (X - 3) | (X > 3) ).sim(1000).plot()
+Exponential(rate = 2).plot()
+plt.show()
+```
+
+### Exponential race
+
+```{example, exponential-race-example}
+Xiomara and Rogelio each leave work at noon to meet the other for lunch.  The amount of time, $X$, that it takes Xiomara to arrive is a random variable with an Exponential distribution with mean 10 minutes. The amount of time, $Y$, that it takes Rogelio to arrive is a random variable with an Exponential distribution with mean 20 minutes.  Assume that $X$ and $Y$ are independent.  Let $W$ be the time, in minutes after noon, at which the first person arrives.
+
+```
+
+1. What is the relationship between $W$ and $X, Y$?
+1. Find and interpret $\IP(W>40)$.
+1. Find $\IP(W > w)$ and identify by name the distribution of $W$.
+1. Find $\E(W)$. Is it equal to $\min(\E(X), \E(Y))$?
+1. Is $\IP(Y>X)$ greater than or less than 0.5? Make an educated guess for $\IP(Y > X)$. 
+1. Find $\IP(Y>X|X=10)$.
+1. Find $\IP(Y>X|X=x)$ for general $x$.
+1. Find $\IP(Y > X)$. Hint: Use a continuous version of the law of total probability.
+1. Find $\IP(W>40, Y>X)$.
+1. Find $\IP(W>w, Y>X)$ for general $w$.
+1. Let $\ind_{\{Y > X\}}$ be the indicator that Xiomara arrives first. What can you say about $W$ and $\ind_{\{Y > X\}}$?
+
+
+```{solution, exponential-race-example-sol}
+to Example \@ref(exm:exponential-race-example)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $W=\min(X, Y)$
+1. Note that $X$ has an Exponential distribution with *rate* parameter 1/10 (not 10); similarly for $Y$. The earlier arrival time is after 40 minutes if and only if both arrivals occur after 40 minutes: $\{W > 40\}=\{\min(X, Y)>40\} = \{X > 40, Y > 40\}$
+    \begin{align*}
+    \IP(W > 40) & = \IP(X > 40, Y > 40) & & \\
+    & = \IP(X > 40)\IP(Y > 40) & & \text{independence}\\
+    & = e^{-(1/10)(40)}e^{-(1/20)(40)} & & \text{Exponential}\\
+    & = e^{-(1/10 + 1/20)(40)} = e^{-0.15(40)} = 0.0025
+    \end{align*}
+1. Replace 40 in the previous part with a generic $w>0$.
+The earlier arrival time is after $w$ minutes if and only if both arrivals occur after $w$ minutes: $\{W > w\}=\{\min(X, Y)>w\} = \{X > w, Y > w\}$
+    \begin{align*}
+    \IP(W > w) & = \IP(X > w, Y > w) & & \\
+    & = \IP(X > w)\IP(Y > w) & & \text{independence}\\
+    & = e^{-(1/10)w}e^{-(1/20)w} & & \text{Exponential}\\
+    & = e^{-(1/10 + 1/20)w} = e^{-0.15w}
+    \end{align*}
+    Therefore, $W$ has an Exponential distribution with rate parameter $1/10 + 1/20 = 0.15$.
+1. Since $W$ has an Exponential(0.15) distribution, $\E(W)=1/0.15 = 20/3 = 6.667$ minutes. This is less than $\min(\E(X), \E(Y)) = \min(10, 20) = 10$. Remember: the expected value of a function is not equal to the function evaluated at the expected value. Taking the smaller of $X, Y$ on a pair-by-pair basis and then averaging yields a smaller value then each of the averages of $X$ and $Y$.
+1. Xiomara has a shorter mean arrival time, so we might expect that she is more likely to arrive first so $\IP(Y>X)$ should be greater than 0.5. Since on average it takes Rogelio twice as long as Xiomara to arrive, we might expect that Rogelio is twice as likely to be the second person to arrive, so that Xiomara is twice as likely to be the first to arrive.  That is, we guess that $\IP(Y > X)$ is 2/3, and $\IP(Y < X)$ is 1/3.
+1. Conditioning on $X=10$, treat $X$ like the constant 10.
+    \begin{align*}
+    \IP(Y>X|X=10) & = \IP(Y > 10 | X = 10) & & \text{Condition on $X=10$} \\
+    & = \IP(Y > 10) & & \text{Independence}\\
+    & = e^{-(1/20)(10)} & & \text{Exponential}
+    \end{align*}
+1. For a given $x>0$, conditioning on $X=x$, treat $X$ like the constant $x$.
+    \begin{align*}
+    \IP(Y>X|X=x) & = \IP(Y > x | X = x) & & \text{Condition on $X=x$} \\
+    & = \IP(Y > x) & & \text{Independence}\\
+    & = e^{-(1/20)x} & & \text{Exponential}
+    \end{align*}
+1. The previous part gives the "case by case" probability.  Put the cases together to get the overall probability by weighting by the density of each "case".
+    \begin{align*}
+    \IP(Y > X) & = \int_0^\infty \IP(Y > X|X=x)f_X(x)dx & & \text{Continuous LOTP}\\
+    & = \int_0^\infty \left(e^{-(1/20)x}\right) \left(\frac{1}{10}e^{-(1/10)x}\right)dx & & \\
+    & = \frac{1/10}{1/10 + 1/20}  \int_0^\infty \left(1/10 + 1/20\right) \left(e^{-(1/10 + 1/20)x}\right)dx & & \\
+    & = \frac{1/10}{1/10 + 1/20} = 2/3 & & 
+    \end{align*}
+1. If $Y>X$ then $W=\min(X, Y) = X$, so $\{W>40, Y>X\}=\{X>40, Y > X\}$.  The calculation is similar to the previous part, but not we only integrate over $x>40$.
+    \begin{align*}
+    \IP(W>40, Y > X) & = \int_{40}^\infty \IP(Y > X|X=x)f_X(x)dx & & \text{Continuous LOTP}\\
+    & = \int_{40}^\infty e^{-(1/20)x} \left(\frac{1}{10}e^{-(1/10)x}\right)dx & & \\
+    & = \frac{1/10}{1/10 + 1/20}  \int_{40}^\infty \left(1/10 + 1/20\right) \left(e^{-(1/10 + 1/20)x}\right)dx & & \\
+    & = \frac{1/10}{1/10 + 1/20}e^{-(1/10+1/20)(40)} = (2/3)e^{-0.15(40)} & & \\
+    & = \IP(W>40)\IP(Y > X) & & 
+    \end{align*}
+1. Replace 40 in the previous part with a generic $w>0$. 
+    \begin{align*}
+    \IP(W>w, Y > X) & = \int_{w}^\infty \IP(Y > X|X=x)f_X(x)dx & & \text{Continuous LOTP}\\
+    & = \int_{w}^\infty e^{-(1/20)x} \left(\frac{1}{10}e^{-(1/10)x}\right)dx & & \\
+    & = \frac{1/10}{1/10 + 1/20}e^{-(1/10+1/20)w} = 2/3(e^{-0.15w}) & & \\
+    & = \IP(W>w)\IP(Y > X) & & 
+    \end{align*}
+1. The previous part shows that the joint distribution of $W$ and  $\ind_{\{Y > X\}}$ factors into the product of their marginal distributions, so $W$ and $\ind_{\{Y > X\}}$ are independent!
+    
+```
+
+
+```{python}
+
+X, Y = RV(Exponential(rate = 1 / 10 ) * Exponential(rate = 1 / 20))
+
+W = (X & Y).apply(min)
+
+(X & Y & W).sim(5)
+
+```
+
+```{python}
+
+w = W.sim(10000)
+w.plot()
+
+Exponential(rate = 1 / 10 + 1 / 20).plot()
+plt.show()
+
+```
+
+```{python}
+
+w.mean(), w.sd()
+
+```
+
+```{python}
+
+(Y > X).sim(10000).tabulate(normalize = True)
+
+```
+
+```{python}
+
+(W | (Y > X) ).sim(10000).plot()
+(W | (Y < X) ).sim(10000).plot()
+
+Exponential(rate = 1 / 10 + 1 / 20).plot()
+plt.show()
+
+```
+
+
+**Exponential race** (a.k.a., competing risks.) Let $W_1, W_2, \ldots, W_n$ be independent random variables.  Suppose $W_i$ has an Exponential distribution with rate parameter $\lambda_i$. Let $W = \min(W_1, \ldots, W_n)$ and let $I$ be the discrete random variable which takes value $i$ when $W=W_i$, for $i=1, \ldots, n$.  Then
+
+- $W$ has an Exponential distribution with rate $\lambda = \lambda_1 + \cdots+\lambda_n$
+- $\IP(I=i) = \IP(W=W_i) = \frac{\lambda_i}{\lambda_1+\cdots+\lambda_n}, i = 1, \ldots, n$
+- $W$ and $I$ are independent
+
+
+Imagine there are $n$ contestants in a race, labeled $1, \ldots, n$, racing independently, and $W_i$ is the time it takes for the $i$th contestant to finish the race. Then $W = \min(W_1, \ldots, W_n)$ is the winning time of the race, and $W$ has an Exponential distribution with rate parameter equal to sum of the individual contestant rate parameters.
+
+The discrete random variable $I$ is the label of which contestant is the winner. The probability that a particular contestant is the winner is the contestant's rate divided by the total rate. That is, the probability that contestant $i$ is the winner is proportional to the contestant's rate $\lambda_i$. 
+
+Furthermore, $W$ and $I$ are independent.  Information about the winning time does not influence the probability that a particular contestant won. Information about which contestant won does not influence the distribution of the winning time.
+
+### Gamma distributions
+
+```{example, exponential-sum}
+Suppose that elapsed times (hours) between successive earthquakes are independent, each having an Exponential(2) distribution.  Let $T$ be the time elapsed from now until the third earthquake occurs.
+
+```
+
+1. Compute $\E(T)$.
+1. Compute $\SD(T)$.
+1. Does $T$ have an Exponential distribution? Explain.
+1. Use simulation to approximate the distribution of $T$.
+
+
+```{solution, exponential-sum-sol}
+to Example \@ref(exm:exponential-sum)
+```
+
+```{asis, fold.chunk = TRUE}
+Let $W_1$ be the elapsed time between now and the first quake, $W_2$ between the first and second, and $W_3$ between the second and third.  Then $T=W_1+W_2+W_3$.
+
+1. $\E(T)=\E(W_1+W_2+W_3) = \E(W_1)+\E(W_2)+\E(W_3) = 3(1/2)$.
+1. Since the $W_i$s are independent, $\Var(T)=\Var(W_1+W_2+W_3) = \Var(W_1)+\Var(W_2)+\Var(W_3) = 3(1/4)$.  So $\SD(T)=\sqrt{3}(1/2)$.
+1. $T$ does not have an Exponential distribution.  For an Exponential distribution, the mean and the SD are the same, but here $\E(T)\neq \SD(T)$.
+1. See the simulation results below. We see that the distribution is not Exponential.
+
+
+```
+
+```{python}
+
+W1, W2, W3 = RV(Exponential(rate = 2) ** 3)
+
+T = W1 + W2 + W3
+
+T.sim(10000).plot()
+
+Gamma(3, rate = 2).plot()
+plt.show()
+
+```
+
+
+
+```{definition}
+
+A continuous random variable $X$ has a **Gamma distribution** with *shape* parameter $\alpha$, a positive integer^[There is a more general expression of the pdf which replaces $(\alpha-1)!$ with the *Gamma function* $\Gamma(\alpha)=\int_0^\infty u^{\alpha-1}e^{-u} du$, that can be used to define a Gamma pdf for any $\alpha>0$.  When $\alpha$ is a positive integer, $\Gamma(\alpha)=(\alpha-1)!$.], and *rate* parameter^[Like Exponential distributions, Gamma distributions are sometimes parametrized directly by their mean $1/\lambda$, instead of the rate parameter $\lambda$.  The mean $1/\lambda$ is called the scale parameter.] $\lambda>0$ if its pdf is
+\begin{align*}
+f_X(x) & = \frac{\lambda^\alpha}{(\alpha-1)!} x^{\alpha-1}e^{-\lambda x} , & x \ge 0,\\
+& \propto x^{\alpha-1}e^{-\lambda x} , & x \ge 0
+\end{align*}
+If $X$ has a Gamma($\alpha$, $\lambda$) distribution then
+\begin{align*}
+\E(X) & = \frac{\alpha}{\lambda}\\
+\Var(X) & = \frac{\alpha}{\lambda^2}\\
+\SD(X) & = \frac{\sqrt{\alpha}}{\lambda}
+\end{align*}
+
+```
+
+
+If $W_1, \ldots, W_n$ are independent and each $W_i$ has an Exponential($\lambda$) distribution then $(W_1+\cdots+W_n)$ has a Gamma($n$,$\lambda$) distribution.
+Each $W_i$ represents the waiting time *between* two occurrences of some event, so  $W_1 + \cdots+ W_n$ represents the total waiting time until a total of $n$ occurrences.
+
+Exponential distributions are continuous analogs of Geometric distributions, and Gamma distributions are continuous analogs of Negative Binomial distributions.
+ 
+
+For a positive integer $d$, the Gamma($d/2, 1/2$) distribution is also known as the **chi-square distribution with $d$ degrees of freedom**.
+
+
+## Normal distributions
+
+Normal distributions are probably the most important distributions in probability and statistics.
+We have already seen Normal distributions in many previous examples.
+In this section we'll explore properties of Normal distributions in a little more depth.
+
+
+
+Any Normal distribution follows the "empirical rule" which determines the percentiles that give a Normal distribution its particular bell shape.
+For example, for any Normal distribution the 84th percentile is about 1 standard deviation above the mean, the 16th percentile is about 1 standard deviation below the mean, and about 68% of values lie within 1 standard deviation of the mean.
+The table below lists some percentiles of a Normal distribution.
+
+```{r, echo = FALSE}
+
+p = c(0.001, 0.005, 0.01, 0.025, 0.10, pnorm(-1), 0.25, pnorm(-0.5), 0.5, pnorm(0.5), 0.75, pnorm(1), 0.90, 0.975, 0.99, 0.995, 0.999)
+
+z = round(qnorm(p), 2)
+
+data.frame(p = paste(round(100 * p, 1), "%", sep = ""),
+           z = paste(abs(z), "SDs", if_else(z<0, "below", "above"), "the mean")) %>%
+  kbl(col.names = c("Percentile", "SDs away from the mean"),
+      caption = "Empirical rule for Normal distributions",
+      align = c('r', 'l')) %>%
+  kable_styling(fixed_thead = TRUE)
+
+```
+
+The table only lists select percentiles. An even more compact version: For a Normal distribution
+
+- 38% of values are within 0.5 standard deviations of the mean
+- 68% of values are within 1 standard deviation of the mean
+- 87% of values are within 0.5 standard deviations of the mean
+- 95% of values are within 2 standard deviations of the mean
+- 99% of values are within 2.6 standard deviations of the mean
+- 99.7% of values are within 3 standard deviations of the mean
+
+
+```{r, ref.label = 'normal-empirical-rule', echo=FALSE}
+
+```
+
+The "standard" Normal distribution is a Normal(0, 1) distribution, with a mean 0 and a standard deviation of 1. Notice how the empirical rule corresponds to the standard Normal spinner below.
+
+
+```{r, ref.label = 'standard-normal-spinner', echo=FALSE, fig.cap="(ref:cap-standard-normal-spinner)", fig.align='center', fig.show="hold", out.width="50%"}
+
+```
+
+Now we look more closely at where the empirical distribution and the particular bell shape of Normal distributions comes from.
+
+
+
+
+
+A Normal density is a continuous density on the real line with a particular symmetric "bell" shape.  The heart of a Normal density is the function
+\[
+e^{-z^2/2}, \qquad -\infty < z< \infty,
+\]
+which defines the general shape of a Normal density.  [It can be shown that](https://en.wikipedia.org/wiki/Gaussian_integral#By_polar_coordinates)
+\[
+\int_{-\infty}^\infty e^{-z^2/2}dz = \sqrt{2\pi} 
+\]
+Therefore the function $e^{-z^2/2}/\sqrt{2\pi}$ integrates to 1.
+
+```{definition}
+A continuous random variable $Z$ has a **Standard Normal** distribution if its pdf^[The Standard Normal pdf is typically denoted $\phi(\cdot)$, the lowercase Greek letter "phi", and the cdf is denoted $\Phi(\cdot)$, the uppercase Greek letter "phi".] is
+\begin{align*}
+\phi(z) & = \frac{1}{\sqrt{2\pi}}\,e^{-z^2/2}, \quad -\infty<z<\infty,\\
+& \propto e^{-z^2/2}, \quad -\infty<z<\infty.
+\end{align*}
+
+```
+
+
+
+```{python}
+
+Z = RV(Normal())
+
+Z.sim(100).plot('rug')
+plt.show()
+
+```
+
+
+```{python}
+
+z = Z.sim(10000)
+
+z.plot()
+
+Normal().plot()
+plt.show()
+
+```
+
+```{python}
+
+z.mean(), z.sd()
+
+```
+
+
+If $Z$ has a Standard Normal distribution then
+
+\begin{align*}
+\E(Z) & = 0\\
+\SD(Z) & = 1 
+\end{align*}
+
+The Standard Normal pdf is symmetric about its mean of 0, and the peak of the density occurs at 0.  The standard deviation is 1, and 1 also indicates the distance from the mean to where the concavity of the density changes.  That is, there are inflection points at $\pm1$.
+
+A random variable with a Standard Normal distribution is in standardized units; the mean is 0 and the standard deviation is 1. We can obtain Normal distribution with other means and standard deviations via linear rescaling.  If $Z$ has a Standard Normal distribution then $X=\mu + \sigma Z$ has a Normal distribution with mean $\mu$ and standard deviation $\sigma$.
+
+```{definition}
+
+A continuous random variable $X$ has a **Normal** (a.k.a., Gaussian) distribution with mean $\mu\in (-\infty,\infty)$ and standard deviation $\sigma>0$ if its pdf is
+\begin{align*}
+f_X(x) & = \frac{1}{\sigma\sqrt{2\pi}}\,\exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right), \quad -\infty<x<\infty,\\
+& \propto \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right), \quad -\infty<x<\infty.
+\end{align*}
+
+``` 
+
+
+The Standard Normal distribution is the Normal(0, 1) distribution with mean 0 and standard deviation 1.
+
+If $X$ has a Normal($\mu$, $\sigma$) distribution then^[If we write $N(0, 4)$ we mean a Normal distribution with mean 0 and standard deviation 4.  Be aware that some references refer to a Normal distribution by its mean and variance, in which case $N(0, 4)$ would refer to a Normal distribution with mean 0 and variance 4.]
+\begin{align*}
+\E(X) & = \mu\\
+\SD(X) & = \sigma
+\end{align*}
+
+A Normal density is a particular "bell-shaped" curve which is symmetric about its mean $\mu$. The mean $\mu$ is a *location* parameter: $\mu$ indicates where the center and peak of the distribution is.
+
+The standard deviation $\sigma$ is a *scale* parameter: $\sigma$ indicates the distance from the mean to where the concavity of the density changes.  That is, there are inflection points at $\mu\pm \sigma$.
+
+
+```{example, normal-pdf-matching}
+The pdfs in the plot below represent the distribution of hypothetical test scores in three classes. The test scores in each class follow a Normal distribution.  Identify the mean and standard deviation for each class.
+
+```
+
+
+```{python, echo = FALSE}
+
+Normal(60, 10).plot()
+Normal(70, 10).plot()
+Normal(70, 5).plot()
+plt.show()
+
+```
+
+
+
+```{solution, normal-pdf-matching-sol}
+to Example \@ref(exm:normal-pdf-matching)
+```
+
+```{asis, fold.chunk = TRUE}
+
+The blue curve corresponds to a mean of 60; the others to a mean of 70.  The green curve corresponds to a standard deviation of 5.  Notice that the concavity changes around 65 and 75, so 5 is the distance from the mean to the inflection points.  The standard deviation is 10 in the other plots.
+
+``` 
+
+
+If $Z$ has a Standard Normal distribution its cdf is
+\[
+\Phi(z) = \IP(Z \le z) = \int_{-\infty}^z \frac{1}{\sqrt{2\pi}}\,e^{-u^2/2}du, \quad -\infty<z<\infty.
+\]
+However, there is no closed-form expression for the above integral.  The above integral, hence probabilities for a Standard Normal distribution, must be computed through numerical methods. 
+
+If $X$ has a Normal($\mu$, $\sigma$) distribution then $X$ has the same distribution as $\mu + \sigma Z$ where $Z$ has a Standard Normal distribution, so its cdf is
+\[
+F_X(x) = \IP(X \le x) = \IP(\mu + \sigma Z \le x) = \IP\left(Z \le \frac{x-\mu}{\sigma}\right) = \Phi\left(\frac{x-\mu}{\sigma}\right)
+\]
+Therefore, probabilities for any Normal distribution can be found by standardizing and using the Standard Normal cdf, which is basically what we do when we use the "empirical rule".
+
+
+```{example, normal-cdf}
+
+Use the empirical rule to evaluate the following.
+
+1. $\Phi(-1)$
+1. $\Phi(1.5)$
+1. $\Phi^{-1}(0.31)$
+1. $\Phi^{-1}(0.975)$
+
+``` 
+
+
+```{solution, normal-cdf-sol}
+to Example \@ref(exm:normal-cdf)
+```
+
+
+```{asis, fold.chunk = TRUE}
+
+1. $\Phi(-1)\approx 0.16$.  If 68% of values fall in the interval $(-1, 1)$, then 32% fall outside this range, and since the distribution is symmetric, 16% fall in either tail.
+1. $\Phi(1.5)\approx 0.935$. If 87% of values fall in the interval $(-1.5, 1.5)$, then 1% fall outside this range, and since the distribution is symmetric, 6.25% fall in either tail.
+1. $\Phi^{-1}(0.31)\approx -0.5$. The inverse of the cdf is the quantile function; $\Phi^{-1}(0.31)$ represents the 31st percentile. Since 38% of values fall in the interval $(-0.5, 0.5)$, then 62% fall outside this range, and since the distribution is symmetric, 31% fall in either tail.
+1. $\Phi^{-1}(0.975)\approx 2$. The inverse of the cdf is the quantile function; $\Phi^{-1}(0.975)$ represents the 97.5th percentile. Since 95% of values fall in the interval $(-2, 2)$, then 5% fall outside this range, and since the distribution is symmetric, 2.5% fall in either tail.
+
+
+```
+
+
+```{python}
+
+Normal().cdf(-1), Normal().cdf(1.5)
+
+```
+
+
+```{python}
+
+Normal().quantile(0.31), Normal().quantile(0.975)
+
+```
+
+
+Probabilities and quantiles for Normal distributions can be computed with software.  However, you should practice making ballpark estimates without software, by standardizing and using the empirical rule.
+
+```{example, normal-weight}
+The wrapper of a package of candy lists a weight of 47.9 grams. Naturally, the
+weights of individual packages vary somewhat. Suppose package weights have an approximate Normal distribution with a mean of 49.8 grams and a standard deviation of 1.3 grams.
+```
+
+
+
+1. Sketch the distribution of package weights.  Carefully label the variable axis. It is helpful to draw two axes: one in the measurement units of the variable, and one in standardized units.
+1. Why wouldn't the company print the mean weight of 49.8 grams as the weight on the package?
+1. Estimate the probability that a package weighs less than the printed weight of 47.9 grams.
+1. Estimate the probability that a package weighs between 47.9 and 53.0 grams.
+1. Suppose that the company only wants 1% of packages to be underweight.  Find the weight that must be printed on the packages. 
+1. Find the 25th percentile (a.k.a., first (lower) quartile) of package weights.
+1. Find the 75th percentile (a.k.a., third (upper) quartile) of package weights.  How can you use the work you did in the previous part?
+
+
+
+
+```{solution, normal-weight-sol}
+to Example \@ref(exm:normal-weight)
+```
+
+
+```{asis, fold.chunk = TRUE}
+1. See the plot below.  Be sure to label the variable axis so that the inflection points are 1 SD away from the mean.
+1. If the company prints the mean weight of 49.8 grams on the package then 50% of the packages would weigh less than the printed weight.
+1. The standardized value for a weight of 47.9 grams is $(47.9 - 49.8) /1.3=-1.46$.  That is, a package weight of 47.9 grams is 1.46 SDs below the mean.  From the empirical rule, about 87% of values are within 1.5 SDs of the mean, so 6.5% in either tail.  We estimate that the probability is a little larger than 6.5%. Software (below) shows that the probability is 0.072.
+1. The standardized value for a weight of 53.0 grams is $(53.0 - 49.8) /1.3=-2.46$.  That is, a package weight of 53.0 grams is 2.46 SDs above the mean.  From the empirical rule, about 99% of values are within 2.6 SDs of the mean, so 0.5% in either tail.  Therefore, about 99.5% of packages weigh no more than 53.0 grams.  So about $99.5 - 6.5 = 93$ percent of packages weight between 47.9 and 53.0 grams. Software shows that the probability is 0.921.
+1. From the empirical rule for 95%, the 2.5th percentile is 2 SDs below the mean.  From the empirical rule for 99%, the 0.5th percentile is 2.6 SDs below the mean.  So the 1st percentile is between 2 and 2.6 SDs below the mean; software shows that the first percentile is 2.33 SDs below the mean.  Therefore, the 1st percentile of package weights is $49.8 - 2.33\times 1.3 =    46.8$ grams.
+1. From the empirical rule for 38%, the 31st percentile is 0.5 SDs below the mean.  From the empirical rule for 68%, the 16th percentile is 1 SD below the mean.  So the 25th percentile is between 0.5 and 1 SDs below the mean; software shows that the 25th percentile is 0.6745 SDs below the mean.  Therefore, the 25th percentile of package weights is $49.8 - 0.6745\times 1.3 =    48.9$ grams.
+1. By symmetry, if the 25th percentile is 0.6745 SDs below the mean, then the 75th percentile is 0.6745 SDs above the mean.  Therefore, the 75th percentile of package weights is $49.8 + 0.6745\times 1.3 =    50.7$ grams.
+
+```
+
+
+```{r normal-package-weights, echo=FALSE, fig.show="hold", out.width="50%"}
+
+
+mu = 49.8
+sig = 1.3
+
+z = seq(-3, 3, 0.0001)
+za = -3:3
+xa = mu + za * sig
+
+
+plot(z, dnorm(z), xlim=range(z),
+     type = "l",
+     yaxt='n', xaxt='n', ylab = "", xlab = "", lwd = 2,
+     main = "Normal(49.8, 1.3)") 
+axis(1, at = za, labels = xa, line=0.5,cex.axis=1.0)
+axis(1, at = za, labels = za, line=2.7,cex.axis=1.0)
+# axis(1, at = xa, labels = seq(-4, 4, 1), line=2.7,cex.axis=1.0)
+mtext("standard units",cex=0.80, side=1, line=3.5, at=-3.7)
+mtext("grams",cex=0.80,side=1,line=1.3,at=-3.7)
+      
+   
+
+
+mu = 49.8
+sig = 1.3
+xl = 47.9
+zl = round((xl-mu)/sig,2)
+xr = 51.0
+zr = round((xr-mu)/sig,2)
+zlim = 3.0
+xlim1 = mu-zlim*sig
+xlim2 = mu+zlim*sig
+cols = "orange"
+
+# area to the left
+x=xl
+z=zl
+par(mar=c(5,4,2,2)+0.1)
+curve(dnorm(x,0,1),xlim=c(-zlim,zlim),ylim=c(0,dnorm(0)),main="",col="black",lwd=3,xlab="",ylab="density",xaxt='n', yaxt = 'n') 
+axis(1, at = c(-zlim,0,zlim),labels=c("",mu,""),line=2.7,cex.axis=1.0)
+axis(1, at=c(-zlim,0,zlim),labels=c("",0,""),cex.axis=1.0,line=0.5)
+axis(1, at=c(-zlim,z),labels=c("",x),cex.axis=1.0,line=2.7,col=cols,lwd=6)#tck=0
+axis(1, at=c(-zlim,z),labels=c("",z),cex.axis=1.0,line=0.5,col=cols,lwd=6)
+mtext("standard units",cex=0.80,side=1,line=1.3,at=-3.7)
+mtext("grams",cex=0.80,side=1,line=3.5,at=-4.0)
+#mtext("data units",cex=0.80,side=1,line=3.5,at=-3.9)
+cord.x <- c(-zlim,seq(-zlim,z,0.01),z) 
+cord.y <- c(0,dnorm(seq(-zlim,z,0.01)),0) 
+polygon(cord.x,cord.y,col=cols)
+
+
+
+
+```
+
+```{python}
+
+Normal(0, 1).cdf((47.9 - 49.8) / 1.3), Normal(49.8, 1.3).cdf(47.9)
+
+```
+
+
+```{python}
+
+Normal(49.8, 1.3).cdf(53.0) - Normal(49.8, 1.3).cdf(47.9)
+
+```
+
+```{python}
+
+Normal(0, 1).quantile(0.01), Normal(49.8, 1.3).quantile(0.01)
+
+```
+
+```{python}
+
+Normal(0, 1).quantile(0.25), Normal(0, 1).quantile(0.75)
+```
+
+
+Standardization is a specific linear rescaling. If $X$ has a Normal distribution then any linear rescaling of $X$ also has a Normal distribution.  Namely, if $X$ has a  Normal$\left(\mu,\sigma\right)$ distribution and $Y=aX+b$ for constants $a,b$ with $a\neq 0$, then $Y$ has a Normal$\left(a\mu+b, |a|\sigma\right)$ distribution.
+
+Any linear combination of independent Normal random variables has a Normal distribution.
+If $X$ and $Y$ are independent, each with a marginal Normal distribution, and $a, b$ are non-random constants then $aX + bY$ has a Normal distribution.
+(We will see a more general result when we discuss Bivariate Normal distributions.)
+
+
+```{example normal-meeting-linear-combo}
+
+Two people are meeting. (Who? You decide!)
+Arrival time are measured in minutes after noon, with negative times representing arrivals before noon.
+Each arrival time follows a Normal distribution with mean 30 and SD 17 minutes, independently of each other. 
+```
+
+1. Compute the probability that the first person to arrive has to wait more than 15 minutes for the second person to arrive.
+1. Compute the probability that the first person to arrive arrives before 12:15.
+
+
+```{asis, fold.chunk = TRUE}
+1. Let $X, Y$ be the two arrival times, so that $W=|X-Y|$ is the waiting time. We want $\text{P}(|X - Y| >15) = \text{P}(X - Y > 15) + \text{P}(X - Y < -15)$. Since $X$ and $Y$ are independent each with a Normal distribution, then $X - Y$ has a Normal distribution; the mean is $30-30 = 0$, and since $X$ and $Y$ are independent
+    $$
+    \text{Var}(X - Y) = \text{Var}(X) + \text{Var}(V) - 2\text{Cov}(X, Y) = 17^2 + 17^2 - 0 = 578
+    $$
+    So $\text{SD}(X - Y) = \sqrt{578} = 24.0$. 
+    The standardized value for 15 is $(15 - 0)/24.0=0.624$; that is, 15 is 0.624 SDs above the mean, so $\IP(X - Y>15) = 0.266$. Since the distribution of $X - Y$ is symmetric about 0,
+    \[
+    \IP(W > 15) = \IP(|X-Y|>15) = \IP(X - Y > 15) + \IP(X - Y < - 15) = 2(0.266) = 0.53.
+    \]
+    On about 53% of days the first person to arrive has to wait more than 15 minutes for the second to arrive.
+1. $T = \min(X, Y)$ is the time at which the first person arrives. The first person arrives before 12:15 if either $X<15$ or $Y < 15$, so $\IP(T < 15) = \IP(\{X < 15\}\cup\{Y < 15\})$. It's easier to compute the probability of the complement. Note that 15 is 0.88 SDs below the mean of $X$ ($(15 - 30)/17 = -0.88$) so $\IP(X>15) = 0.811$; similarly, $\IP(Y > 15) = 0.811$. We want
+\begin{align*}
+\IP(T < 15) & = 1 - \IP(X > 15, Y > 15) && \text{Complement rule}\\
+& = 1 - \IP(X>15)\IP(Y > 15) && \text{independence of $X, Y$}\\
+& = 1- (0.811)(0.811) & & \text{Normal distributions}\\
+& = 0.342
+\end{align*}
+On about 34% of days the first person arrives before 12:15.
+```
+
+
+```{python}
+X, Y = RV(Normal(mean = 30, sd = 17) * Normal(mean = 30, sd = 17))
+
+W = abs(X - Y)
+
+T = (X & Y).apply(min)
+```
+
+
+```{python}
+w = W.sim(10000)
+
+plt.figure()
+w.plot()
+plt.show()
+
+w.mean(), w.sd(), w.count_gt(15) / w.count()
+```
+
+
+```{python}
+t = T.sim(10000)
+
+plt.figure()
+t.plot()
+plt.show()
+
+t.mean(), t.sd(), t.count_lt(15) / w.count()
+```
+
+
+```{example}
+Daily high temperatures (degrees Fahrenheit) in San Luis Obispo in August follow (approximately) A Normal distribution with a mean of 76.9 degrees F.
+The temperature exceeds 100 degrees Fahrenheit on about 1.5% of August days.
+
+```
+
+1. What is the standard deviation?
+1. Suppose the mean increases by 2 degrees Fahrenheit. On what percentage of August days will the daily high temperature exceed 100 degrees Fahrenheit?
+(Assume the standard deviation does not change.)
+1. A mean of 78.9 is 1.02 times greater than a mean of 76.9.
+By what (multiplicative) factor has the percentage of 100-degree days increased?
+What do you notice?
+
+
+
+```{asis, fold.chunk = TRUE}
+1. We are given that 100 is the 98.5th percentile.
+Software (`Normal(0, 1).quantile(0.985)`) shows that for a Normal distribution the 98.5th percentile is 2.17 standard deviations above the mean.
+Set $100 = 76.9 + 2.17\sigma$ and solve for the standard deviation $\sigma = 10.65$ degrees F.
+1. The mean is now 78.9. Now the value 100 is $(100-78.9)/10.65 = 1.98$ standard deviations above the mean.
+Software (`1 - Normal(0, 1).cdf(1.98)`) shows that for a Normal distribution the probability of a value more than 1.98 standard deviations above the mean is 0.023.
+On 2.3% of August days the daily high temperature will exceed 100 degrees F.
+1. $0.023/0.015 = 1.53$. A 2 percent increase in the mean results in a 53 percent increase in the probability that a day has a daily high temperature above 100 degrees F.
+Relative small changes in the mean can have relative large impacts on tail probabilities.
+
+
+```
+
+
+
+```{example}
+In a large class, scores on midterm 1 follow (approximately) a Normal$(\mu_1, \sigma)$ distribution and scores on midterm 2 follow (approximately) a Normal$(\mu_2, \sigma)$ distribution.  Note that the SD $\sigma$ is the same on both exams. The 40th percentile of midterm 1 scores is equal to the 70th percentile of midterm 2 scores.  Compute
+\[
+\frac{\mu_1-\mu_2}{\sigma}
+\]
+(This is one statistical measure of *effect size*.)
+
+```
+
+```{asis, fold.chunk = TRUE}
+
+Software shows that for a Normal distribution, the 40th percentile is 0.253 SDs below the mean and the 70th percentile is 0.524 SDs above the mean.
+The 40th percentile of midterm 1 scores is $\mu_1 - 0.253 \sigma$, and the 70th percentile of midterm 2 scores is $\mu_2 + 0.524\sigma$.
+We are told
+\[
+\mu_1 - 0.253 \sigma = \mu_2 + 0.524\sigma
+\]
+Solve for
+\[
+\frac{\mu_1-\mu_2}{\sigma} = 0.524 + 0.253 = 0.78
+\]
+The effect size is 0.78.  The mean on midterm 1 is 0.78 SDs above the mean on midterm 2.
+
+```
+
+
+The previous example illustrates a common problem in statistics: comparing two (or more) groups; in particular, comparing two means.
+When comparing groups, a more important question than "is there a difference?" is "*how large* is the difference?"
+An **effect size** is a measure of the magnitude of a difference between groups.
+When comparing a numerical variable between two groups, one measure of the population effect size is **Cohens's $d$**
+\[
+\frac{\mu_1 - \mu_2}{\sigma}
+\]
+
+The values of any numerical variable vary naturally from unit to unit.
+The SD of the numerical variable measures the degree to which individual values of the variable vary naturally, so the SD provides a natural "scale" for the variable.
+Cohen's $d$ compares the magnitude of the difference in means relative to the natural scale (SD) for the variable
+
+
+Some rough guidelines for interpreting $|d|$:
+
+|             |       |        |       |            |      |
+|------------:|------:|-------:|------:|-----------:|-----:|
+|         *d* |   0.2 |    0.5 |   0.8 |        1.2 |  2.0 |
+| Effect size | Small | Medium | Large | Very Large | Huge |
+|             |       |        |       |            |      |
+
+For example, assume the two population distributions are Normal and the two population standard deviations are equal. Then when the effect size is 1.0 the median of the distribution with the higher mean is the 84th percentile of the distribution with the lower mean, which is a very large difference.
+
+|                                    |       |        |       |      |            |      |
+|:-----------------------------------|:-----:|:------:|:-----:|:----:|:----------:|:----:|
+| *d*                                |  0.2  |  0.5   |  0.8  | 1.0  |    1.2     | 2.0  |
+| Effect size                        | Small | Medium | Large |      | Very Large | Huge |
+| Median of population 1 is          |       |        |       |      |            |      |
+| (blank) percentile of population 2 | 58th  |  69th  | 79th  | 84th |    89th    | 98th |
+
+
+```{r, echo = FALSE}
+knitr::include_graphics("_graphics/effect_size_plots.png")
+```
+
+
+## Bivariate Normal distributions
+
+Just as Normal distributions are the most important univariate distributions, joint or multivariate Normal distributions are the most important joint distributions.  We mostly focus on the case of two random variables.
+
+Jointly continuous random variables $X$ and $Y$ have a **Bivariate Normal** distribution with parameters $\mu_X$, $\mu_Y$, $\sigma_X>0$, $\sigma_Y>0$, and $-1<\rho<1$ if the joint pdf is
+
+\scriptsize{
+\begin{align*}
+f_{X, Y}(x,y) & = 
+ \frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\exp\left(-\frac{1}{2(1-\rho^2)}\left[\left(\frac{x-\mu_X}{\sigma_X}\right)^2+\left(\frac{y-\mu_Y}{\sigma_Y}\right)^2-2\rho\left(\frac{x-\mu_X}{\sigma_X}\right)\left(\frac{y-\mu_Y}{\sigma_Y}\right)\right]\right), \quad -\infty <x<\infty, -\infty<y<\infty
+\end{align*}
+}
+
+It can be shown that if the pair $(X, Y)$ has a BivariateNormal($\mu_X$, $\mu_Y$, $\sigma_X$, $\sigma_Y$, $\rho$) distribution
+\begin{align*}
+\E(X) & =\mu_X\\
+\E(Y) & =\mu_Y\\
+\SD(X) & = \sigma_X\\
+\SD(Y) & = \sigma_Y\\
+\Corr(X, Y) & = \rho
+\end{align*}
+A Bivariate Normal pdf is a density on $(x, y)$ pairs.  The density surface looks like a mound with a peak at the point of means $(\mu_X,\mu_Y)$.
+
+A Bivariate Normal Density has elliptical contours. For each height $c>0$ the set $\{(x,y): f_{X, Y}(x,y)=c\}$ is an ellipse. The density decreases as $(x, y)$ moves away from $(\mu_X, \mu_Y)$, most steeply along the minor axis of the ellipse, and least steeply along the major of the ellipse.
+
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE,  fig.show="hold", out.width="50%"}
+
+library(GA)
+
+#input
+mu1<-0 #mean of X_1
+mu2<-0 #mean of X_2
+sigma11<-1 #variance of X_1
+sigma22<-1 #variance of X_2
+sigma12<-0.7 #covariance of X_1 and X_2 
+
+# 3D plot
+x1 <- seq(mu1-3, mu1+3, length= 500)
+x2 <- seq(mu2-3, mu2+3, length= 500)
+z <- function(x1,x2){ z <- exp(-(sigma22*(x1-mu1)^2+sigma11*(x2-mu2)^2-2*sigma12*(x1-mu1)*(x2-mu2))/(2*(sigma11*sigma22-sigma12^2)))/(2*pi*sqrt(sigma11*sigma22-sigma12^2)) }
+f <- outer(x1,x2,z)
+persp3D(x1, x2, f, theta = 30, phi = 30, expand = 0.5)
+
+# contour plot
+library(plotly)
+z <- function(x1,x2){ z <- exp(-(sigma22*(x1-mu1)^2+sigma11*(x2-mu2)^2-2*sigma12*(x1-mu1)*(x2-mu2))/(2*(sigma11*sigma22-sigma12^2)))/(2*pi*sqrt(sigma11*sigma22-sigma12^2)) }
+f <- t(outer(x1,x2,z))
+
+
+plot_ly(x=x1,y=x2,z=f,type = "contour")%>%layout(xaxis=list(title="x1"),yaxis=list(title="x2"))
+
+```
+
+A scatterplot of $(x,y)$ pairs generated from a Bivariate Normal distribution will have a rough linear association and the cloud of points will resemble an ellipse.
+
+
+```{python}
+X,Y = RV(BivariateNormal(mean1 = 0, mean2 = 0, sd1 = 1, sd2 = 1, corr = -0.5))
+
+(X & Y).sim(1000).plot(['scatter', 'marginal'])
+plt.show()
+
+```
+
+If $X$ and $Y$ have a Bivariate Normal distribution, then the marginal distributions are also Normal: $X$ has a Normal$\left(\mu_X,\sigma_X\right)$ distribution and  $Y$ has a Normal$\left(\mu_Y,\sigma_Y\right)$.
+
+
+The strength of the association in a Bivariate Normal distribution is completely determined by the correlation $\rho$.
+Remember, in general it is possible to have situations where the correlation is 0 but the random variables are not independent.  However, for Bivariate Normal distributions independence and uncorrelatedness are equivalent.
+
+```{theorem}
+If $X$ and $Y$ have a Bivariate Normal distribution and $\Corr(X, Y)=0$ then $X$ and $Y$ are independent.
+```
+
+The above is true because the joint pdf factors into the product of the marginal pdfs if and only if $\rho=0$.
+
+It can also be shown that if $X$ and $Y$ have a Bivariate Normal distribution then any conditional distribution is Normal. The conditional distribution of $Y$ given $X=x$ is
+\[
+N\left(\mu_Y + \frac{\rho\sigma_Y}{\sigma_X}\left(x-\mu_X\right),\;\sigma_Y\sqrt{1-\rho^2}\right)
+\]
+
+```{python}
+
+(Y | (abs(X - 1.5) < 0.1) ).sim(1000).plot()
+(Y | (abs(X - (-0.5)) < 0.1) ).sim(1000).plot()
+plt.show()
+
+```
+
+The conditional expected value of $Y$ given $X=x$ is a *linear* function of $x$, called the *regression line of $Y$ on $X$*:
+\[
+\E(Y | X=x) = \mu_Y + \rho\sigma_Y\left(\frac{x-\mu_X}{\sigma_X}\right)
+\]
+The regression line passes through the point of means $(\mu_X, \mu_Y)$ and has slope
+\[
+\frac{\rho \sigma_Y}{\sigma_X}
+\]
+The regression line estimates that if the given $x$ value is $z$ SDs above of the mean of $X$, then the corresponding $Y$ values will be, on average, $\rho z$ SDs away from the mean of $Y$
+\[
+\frac{\E(Y|X=x) - \mu_Y}{\sigma_Y} = \rho\left(\frac{x-\mu_X}{\sigma_X}\right)
+\]
+Since $|\rho|\le 1$, for a given $x$ value the corresponding $Y$ values will be, on average, relatively closer to the mean of $Y$ than the given $x$ value is to the mean of $X$.  This is known as *regression to the mean*.
+
+
+```{r ref.label = 'meeting-bvn-conditional-ce', echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE, fig.cap="A Bivariate Normal distribution with some conditional distributions and conditional expected values highlighted."}
+
+```
+
+For Bivariate Normal distributions, the conditional variance of $Y$ given $X=x$ does not depend on $x$:
+\[
+\SD(Y |X = x) = \sigma_Y\sqrt{1-\rho^2}
+\]
+The $Y$ values corresponding to a particular $x$ value are less variable then the entire collection of $Y$ values.
+
+```{theorem}
+$X$ and $Y$ have a Bivariate Normal distribution if and only if every linear combination of $X$ and $Y$ has a Normal distribution. That is, $X$ and $Y$ have a Bivariate Normal distribution if and only if $aX+bY+c$ has a  Normal distribution for all^[At least one of $a$, $b$ must not be 0, unless degenerate Normal distributions are considered.  A non-random constant $c$ can be considered a *degenerate* Normal random variable with a mean of $c$ and a SD of 0.] $a$, $b$, $c$. 
+```
+
+```{python}
+(X + Y).sim(10000).plot()
+plt.show()
+```
+
+In short, if $X$ and $Y$ have a Bivariate Normal distribution then "everything is Normal": marginal distributions are Normal, conditional distributions are Normal, and distributions of linear combinations are Normal.  Therefore, probabilities for Bivariate Normal distribution problems can be solved by identifying the proper Normal distribution --- that is, its mean and variance --- standardizing, and using the empirical rule.
+
+```{example}
+Suppose that SAT Math ($M$) and Reading ($R$) scores of CalPoly students have a Bivariate Normal distribution.  Math scores have mean 640 and SD 80, Reading scores have mean 610 and SD 70, and the correlation between scores is 0.7.
+```
+
+1. Find the probability that a student has a Math score above 700.
+1. Find the probability that a student has a total score above 1500.
+1. Compute and interpret $\E(M|R = 700)$.
+1. Find the probability that a student has a higher Math than Reading score if the student scores 700 on Reading.
+1. Describe how you could use a Normal(0, 1) spinner to simulate an $(X, Y)$ pair.
+1. Find the probability that a student has a higher Math than Reading score.
+
+
+```{asis, fold.chunk = TRUE}
+
+1. Find the probability that a student has a Math score above 700. Math score $M$ has a Normal(640, 80) distribution.  A Math score of 700 is $(700-640)/80=0.75$ SDs above the mean Math score.  The probability is $\IP(M > 700) = 1-\Phi(0.75)\approx 0.227$.
+1. Find the probability that a student has a total score above 1500. Total score $T=M+R$ has a Normal distribution with mean $\E(T)=\E(M)+\E(R) = 640 + 610 = 1250$.  The variance is
+    \begin{align*}
+    \Var(M+R) & = \Var(M) + \Var(R) + 2\Cov(M, R)\\
+    & = 80^2 + 70^2 + 2(0.7)(80)(70) = 19140
+    \end{align*}
+    The SD is 138.  Therefore we want to find $\IP(T > 1500)$ where $T$ has a Normal(1250, 138) distribution.  With respect to this distribution, a total score of 1500 is $(1500-1250)/138 = 1.81$ SDs above the mean so $\IP(T >1500) = 1 - \Phi(1.81)\approx 0.035$.
+1. Compute and interpret $\E(M|R = 700)$.  A Reading score of 700 is $(700-610)/70=1.29$ SDs above the mean Reading score.  The correlation is 0.7, so we expect the Math score to be $(0.7)(1.29)=0.9$ SDs above the mean Math score, so $\E(M|R = 700) = 640 + 0.9(80) = 712$.  Among students who score a 700 on Reading the average Math score is 712.
+1. Find the probability that a student has a higher Math than Reading score if the student scores 700 on Reading. We want $\IP(M > R|R = 700) = \IP(M > 700 | R = 700)$. The conditional distribution of $M$ given $R=700$ is Normal with mean 712 and SD $80\sqrt{1-0.7^2} = 57.1$.  With respect to this distribution, a M score of 700 is $(700-712)/57.1=-0.2$, that is 0.2 SDs below the conditional mean Math score.  The probability that we want is $\IP(M > 700 | R = 700) = 1 - \Phi(-0.21) =0.583$. 
+1. Spin the Normal(0, 1) spinner to generate $Z_1$ and let $R = 610 + 70Z_1$.  For any $R$, the conditional SD of $M$ given $R$ is $80\sqrt{1-0.7^2} = 57.1$. Given $R$ find the conditional mean of $M$, $\mu_{M|R}$.  For example, if $R=700$ then the conditional mean of $M$ is $\mu_{M|R=700}=712$.  Spin the Normal(0, 1) spinner again to generate $Z_2$ and let $M=\mu_{M|R} + 57.1Z_2$.
+1. Find the probability that a student has a higher Math than Reading score. We want $\IP(M > R)$.  The key is to write this probability in terms of a linear combination: $\IP(M >R) = \IP(M - R > 0)$.  The linear combination $M-R$ has a Normal distribution with mean $\E(M-R)=\E(M)-\E(R) = 640 - 610 = 30$ and variance
+    \begin{align*}
+    \Var(M-R) & = \Var(M) + \Var(R) - 2\Cov(M, R)\\
+    & = 80^2 + 70^2 - 2(0.7)(80)(70) = 3460
+    \end{align*}
+    The SD is 58.8.  Therefore we want to find $\IP(D > 0)$ where $D=M-R$ has a Normal(30, 58.8) distribution.  With respect to this distribution, a difference of 0 is $(0-30)/58.8 = -0.51$, that is 0.51 SDs below the mean so $\IP(D >0) = 1 - \Phi(-0.51)\approx 0.695$.
+
+
+```
+
+```{python}
+M, R = RV(BivariateNormal(mean1 = 640, sd1 = 80, mean2 = 610, sd2 = 70, corr = 0.7))
+
+(M & R).sim(1000).plot()
+plt.show()
+
+```
+
+
+
+You might think that if both $X$ and $Y$ have Normal distributions then their joint distribution is Bivariate Normal.  But this is *not* true in general, as the following example shows. This is a particular example of a general concept we have seen often: marginal distributions alone are not enough to specify the joint distribution (unless the random variables are independent).
+
+```{example}
+Let $X$ and $I$ be independent, $X$ has a Normal(0,1) distribution, and $I$ takes values 1 or $-1$ with probability $1/2$ each.  Let $Y=IX$.
+
+```
+
+1. How could you use spinners to simulate an $(X, Y)$ pair?
+1. Identify the distribution of $Y$.
+1. Sketch a scatterplot of simulated $(X, Y)$ values.
+1. Are $X$ and $Y$ independent? (Careful, it is not enough to say "no, because $Y$ is a function of $X$".  You can check that $Y$ and $I$ are independent even though $Y$ is a function of $I$.)
+1. Find $\Cov(X,Y)$ and $\Corr(X,Y)$.
+1. Is the distribution of $X+Y$ Normal?  (Hint: find $\IP(X+Y=0)$.)
+1. Does the pair $(X, Y)$ have a Bivariate Normal distribution?
+
+
+```{asis, fold.chunk = TRUE}
+
+1. $I$ can be determined by a coin flip; $I=1$ if the flip lands on Heads, $I=-1$ if the flip lands on Tails.  Spin the Normal(0, 1) spinner to generate $Z$ and flip the coin; if it lands Heads then $Y=Z$, if Tails then $Y=-Z$. 
+1. The conditional distribution of $Y$ given $I=1$ is Normal(0, 1) since in this case $Y=Z$. The conditional distribution of $Y$ given $I=-1$ is Normal(0, 1) since in this case $Y=-Z$, and the Normal(0, 1) distribution is symmetric about 0.
+1. Half of the $(X, Y)$ pairs lie on the line $y=x$ and the other half on the line $y=-x$.  So the scatter plot looks like an "X".
+1. $X$ and $Y$ are not independent.  The marginal distribution of $Y$ is Normal(0, 1), but conditional on $X=1$, $Y$ only takes value 1 or $-1$ with probability 1/2 each. 
+1. Conditional $X=x$, $Y$ only takes value $x$ or $-x$ with probability 1/2 each, so $\E(Y|X)=0$.  Therefore, $\Cov(X, Y) = 0$.  $X$ and $Y$ are uncorrelated.
+1. $X+Y$ does not have a continuous distribution.  $\IP(X + Y = 0) = \IP(Y = -X) = \IP(I=-1)=1/2\neq 0$.  If $X+Y$ had a Normal distribution then $\IP(X+Y=0)$ would be 0 because a Normal distribution is a continuous distribution.  (The random variable $X+Y$ is neither discrete nor continuous.)
+1. Even though each of $X$ and $Y$ has a Normal distribution, the pair $(X, Y)$ does not have a Bivariate Normal distribution.
+    - The scatterplot of $(X, Y)$ pairs is not elliptical.
+    - $X$ and $Y$ are uncorrelated but not independent.
+    - The conditional distribution of $Y$ given $X=x$ is not Normal.
+    - The linear combination $X+Y$ does not have a Normal distribution.
+
+```
+
+If the pair $(X,Y)$ has a joint Normal distribution then each of $X$ and $Y$ has a Normal distribution.
+But the example shows that the converse is not true.  That is, if each of $X$ and $Y$ has a  Normal distribution, it is not necessarily true that the pair $(X, Y)$ has a joint Normal distribution
+
+However, if $X$ and $Y$ are *independent* and each of $X$ and $Y$ has a  Normal distribution, then the pair $(X, Y)$ has a joint Normal distribution.
+
+The following is a standardization result for which can be used to simulate values from a Bivariate Normal distribution.
+
+Let $Z_1, Z_2$ be independent, each having a Normal(0, 1) distribution.  For constants $\mu_X$, $\mu_Y$, $\sigma_X$, $\sigma_Y$, and $-1<\rho<1$ define
+\begin{align*}
+X & = \mu_X + \sigma_X Z_1\\
+Y & = \mu_Y + \rho\sigma_Y Z_1 + \sqrt{1-\rho^2}\, \sigma_Y Z_2.
+\end{align*}
+Then the pair $(X,Y)$ has a BivariateNormal($\mu_X,\mu_Y,\sigma_X,\sigma_Y,\rho)$ distribution.
+
+
+
+Random variables $X_1, \ldots, X_n$ have a **Multivariate Normal (MVN)** (a.k.a., joint Gaussian) distribution if and only if for all non-random constants $a_1,\ldots,a_n$, the RV $a_1X_1+\cdots+a_n X_n$ has a Normal distribution. That is, if random variables have a MVN distribution then any random variable formed by taking a *linear combination* of the RVs has a Normal distribution.  In particular, each $X_i$ must have a marginal Normal distribution.
+
+In fact, a more general result is true: any random *vector* whose components are formed by taking linear combinations of a MVN random vector is itself a MVN random vector. As a special case, if $X_1,\ldots, X_n$ are independent and each $X_i$ has a Normal distribution, then their joint distribution is MVN.
+
+If random variables $X_1,\ldots, X_n$ have a Multivariate Normal distribution, then their joint distribution is fully specified by
+
+- the mean vector, with entries $\E(X_i)$, $i=1,\ldots,n$
+- the covariance matrix, with entries $\Cov(X_i,X_j)$, $i,j=1,\ldots, n$
+
+Random variables $X$ and $Y$ which have a MVN distribution are independent if and only if $\Cov(X,Y)=0$.
+
+

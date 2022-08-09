@@ -29,46 +29,64 @@ In this chapter we will see how characteristics based on long run averages can b
 ## "Expected" value
 
 
-```{example, matching-ev, name='Matching problem'}
 
-Rocks labeled 1, 2, 3, 4, are placed at random in spots labeled 1, 2, 3, 4, with spot 1 the correct spot for rock 1, etc.
-Recall the sample space from Example \@ref(exm:matching-outcome). 
-Let the random variable $Y$ count the number of rocks that are put back in the correct spot. (Hint: recall Table \@ref(tab:matching-indicator-tab).)
-Let $\IP$ denote the probability measure corresponding to the assumption that the rocks are equally likely to be placed in any spot, so that the 24 possible placements are equally.
+```{example, matching-ev}
+
+Recall the matching problem with $n=4$: objects labeled 1, 2, 3, 4, are placed at random in spots labeled 1, 2, 3, 4, with spot 1 the correct spot for object 1, etc.
+Let the random variable $X$ count the number of objects that are put back in the correct spot.
+Let $\IP$ denote the probability measure corresponding to the assumption that the objects are equally likely to be placed in any spot, so that the 24 possible placements are equally.
+
+In \@ref(exm:matching-probspace) we determined the distribution of $X$, displayed in Table \@ref(tab:matching-distribution-table) below.
+
+```
+
+(ref:matching-distribution-table-cap) The distribution of the number of matches ($X$) in the matching problem in Example \@ref(exm:matching-ev).
+
+```{r, matching-distribution-table, echo = FALSE}
+
+kbl(
+  data.frame(c(0, 1, 2, 4), round(c(9, 8, 6, 1) / 24, 4)),
+  booktabs = TRUE,
+  col.names = c("x", "P(X=x)"),
+  caption = '(ref:matching-distribution-table-cap)'
+) %>%
+  kable_styling(fixed_thead = TRUE)
 
 ```
 
 
 
-1. Identify the distribution of $Y$.
-1. Describe two ways for simulating values of $Y$.
-1. The table below displays 10 simulated values of $Y$.  How could you use the results of this simulation to approximate the long run average value of $Y$? How could you get a better approximation of the long run average?
+
+1. Describe two ways for simulating values of $X$.
+1. The table below displays 10 simulated values of $X$.  How could you use the results of this simulation to approximate the long run average value of $X$? How could you get a better approximation of the long run average?
     ```{r, matching-sim-10-ev, echo = FALSE}
 
 
-    knitr::kable(
+    kbl(
       data.frame(1:10, c(0, 1, 0, 0, 2, 0, 1, 1, 4, 2)),
       booktabs = TRUE,
       col.names = c("Repetition", "Y"),
-      caption = "Results of the number of matches ($Y$) in 10 repetitions of the matching problem."
-    )
+      caption = "Results of the number of matches ($X$) in 10 repetitions of the matching problem."
+    )  %>%
+      kable_styling(fixed_thead = TRUE)
 
     ```
 1. Rather than adding the 10 values and dividing by 10, how could you simplify the calculation in the previous part?
-1. The table below summarizes 24000 simulated values of $Y$.  Approximate the long run average value of $Y$.
+1. The table below summarizes 24000 simulated values of $X$.  Approximate the long run average value of $X$.
     ```{r, matching-sim-ev, echo = FALSE}
 
-    knitr::kable(
+    kbl(
       data.frame(c(0, 1, 2, 4), c(8979, 7993, 6068, 960)),
       booktabs = TRUE,
-      col.names = c("Value of Y", "Number of repetitions"),
-      caption = "Results of the number of matches ($Y$) in 24000 repetitions of the matching problem."
-    )
+      col.names = c("Value of X", "Number of repetitions"),
+      caption = "Results of the number of matches ($X$) in 24000 repetitions of the matching problem."
+    ) %>%
+  kable_styling(fixed_thead = TRUE)
 
     ```
-1. Recall the distribution of $Y$. What would be the corresponding mathematical formula for the theoretical long run average value of $Y$?  This number is called the "expected value" of $Y$.
-1. Is the expected value the most likely value of $Y$?
-1. Is the expected value of $Y$ the "value that we would expect" on a *single* repetition of the phenomenon?
+1. Recall the distribution of $X$. What would be the corresponding mathematical formula for the theoretical long run average value of $X$?  This number is called the "expected value" of $X$.
+1. Is the expected value the most likely value of $X$?
+1. Is the expected value of $X$ the "value that we would expect" on a *single* repetition of the phenomenon?
 1. Explain in what sense the expected value is "expected".
 
 ```{solution matching-ev-sol}
@@ -82,18 +100,18 @@ to Example \@ref(exm:matching-ev)
 
 ```{asis, fold.chunk = TRUE}
 
-1. Recall the solution to Example \@ref(exm:matching-indicator).  The distribution of $Y$ is displayed in Table \@ref(tab:matching-distribution-table) below.
-1. We could shuffle cards labeled 1 through 4 and then distribute them into boxes labeled 1 through 4, and count the number of matches; that's one simulated value of $Y$.  Or we could construct a spinner corresponding to the distribution of $Y$ in the previous part and spin it once to obtain one simulated value of $Y$.  We could then repeat either method many times to obtain many simulated values of $Y$.
+
+1. We could shuffle cards labeled 1 through 4 and then distribute them into boxes labeled 1 through 4, and count the number of matches; that's one simulated value of $X$.  Or we could construct a spinner corresponding to the distribution of $X$ in the previous part and spin it once to obtain one simulated value of $X$.  We could then repeat either method many times to obtain many simulated values of $X$.
 1. Compute the average of the 10 values simply by summing the values and dividing by 10.
     \[
     \frac{0 + 1 + 0 + 0 + 2 + 0 + 1 + 1 + 4 + 2}{10} = 1.1
     \]
-    We could get a better approximation to the *long run* average value by simulating *many* values of $Y$ and then taking the average.
-1. Since every value of $Y$ is either 0, 1, 2, or 4, we can compute the sum of the simulated values by multiplying each possible value by the number of repetitions on which it occurs and then adding these terms.  Then the average of the 10 values is equal to the sum of each possible value times its relative frequency
+    We could get a better approximation to the *long run* average value by simulating *many* values of $X$ and then taking the average.
+1. Since every value of $X$ is either 0, 1, 2, or 4, we can compute the sum of the simulated values by multiplying each possible value by the number of repetitions on which it occurs and then adding these terms.  Then the average of the 10 values is equal to the sum of each possible value times its relative frequency
     \[
     \frac{0 \times 4 + 1 \times 3 + 2 \times 2 + 4 \times 1}{10} = 0\left(\frac{4}{10}\right)+ 1\left(\frac{3}{10}\right) + 2\left(\frac{2}{10}\right)+ 4\left(\frac{1}{10}\right) = 1.1
     \]
-1. Sum the 24000 values and divide by 24000. The only possible values of $Y$ are 0, 1, 2, 4 so the sum of simulated values, sorted, will be of the form
+1. Sum the 24000 values and divide by 24000. The only possible values of $X$ are 0, 1, 2, 4 so the sum of simulated values, sorted, will be of the form
     \[
     0 + 0 + \cdots 0 + 1 + 1 + \cdots + 1 + 2 + 2 +\cdots + 2 + 4 + 4 + \cdots + 4.
     \]
@@ -102,33 +120,21 @@ to Example \@ref(exm:matching-ev)
     & \qquad \frac{0 \times 8979 + 1 \times 7993 + 2 \times 6068 + 4 \times 960}{24000}\\ &= \frac{23969}{24000} = 0.99870\\
     & = 0\left(\frac{8979}{24000}\right)+ 1\left(\frac{7993}{24000}\right) + 2\left(\frac{6068}{24000}\right)+ 4\left(\frac{960}{24000}\right)
     \end{align*}
-    The average of the 24000 values is equal to the sum of each possible value times its simulated relative frequency. Based on the results of this simulation, the long run average value of $Y$ is approximately 0.9987.
+    The average of the 24000 values is equal to the sum of each possible value times its simulated relative frequency. Based on the results of this simulation, the long run average value of $X$ is approximately 0.9987.
 1. Theoretical probabilities are long run relative frequencies.  In the long run, the simulated relative frequency of 0 will approach 9/24, of 1 will approach 8/24, etc.  So in the long run, the calculation from the previous part should approach
     \[
     0\left(\frac{9}{24}\right)+ 1\left(\frac{8}{24}\right)  + 2\left(\frac{6}{24}\right)+ 4\left(\frac{1}{24}\right) = 1
     \]
-    That is, we compute the *probability-weighted average value*. The expected value of $Y$ is 1.
-1. No, the most likely value of $Y$ is 0, not 1.
-1. No, 1 is not the value of $Y$ we would expect on a single repetition. The value 1 occurs with probability 1/3 and does not occur with probability 2/3.  So it's twice as likely to see a value other than 1 than to see 1.  In particularly, 0 has a higher probability of occuring than 1.
-1. 1 is the value of $Y$ that would we expect to see *on average in the long run.* If the matching scenario were repeated many times, then the long run average number of matches would be (close to) 1. 
+    That is, we compute the *probability-weighted average value*. The expected value of $X$ is 1.
+1. No, the most likely value of $X$ is 0, not 1.
+1. No, 1 is not the value of $X$ we would expect on a single repetition. The value 1 occurs with probability 1/3 and does not occur with probability 2/3.  So it's twice as likely to see a value other than 1 than to see 1.  In particularly, 0 has a higher probability of occuring than 1.
+1. 1 is the value of $X$ that would we expect to see *on average in the long run.* If the matching scenario were repeated many times, then the long run average number of matches would be (close to) 1. 
 
 ```
 
 
-(ref:matching-distribution-table-cap) The distribution of the number of matches ($Y$) in the matching problem in Example \@ref(exm:matching-ev).
 
-```{r, matching-distribution-table, echo = FALSE}
-
-    knitr::kable(
-      data.frame(c(0, 1, 2, 4), round(c(9, 8, 6, 1) / 24, 4)),
-      booktabs = TRUE,
-      col.names = c("y", "P(Y=y)"),
-      caption = '(ref:matching-distribution-table-cap)'
-    )
-
-```
-
-The following Symbulate code simulates the matching problem.  The main programming aspect is to write the `count_matches` function which takes as an input a sequence of prizes and returns as an output the number of matches.  This function can then be used to define a `RV` (just as we use built in functions like `sum` and `max`).  With Python's zero-based indexing, the rocks/spots are labeled 0, 1, 2, 3.
+The following Symbulate code simulates the matching problem.  The main programming aspect is to write the `count_matches` function which takes as an input a sequence of prizes and returns as an output the number of matches.  This function can then be used to define a `RV` (just as we use built in functions like `sum` and `max`).  With Python's zero-based indexing, the objects/spots are labeled 0, 1, 2, 3.
 
 ```{python}
 
@@ -145,25 +151,30 @@ def count_matches(x):
 
 P = BoxModel(labels, size = n, replace = False)
 
-Y = RV(P, count_matches)
+X = RV(P, count_matches)
 
-(RV(P) & Y).sim(10)
-
-```
-
-
-```{python}
-
-y = Y.sim(24000)
-
-y.tabulate()
+(RV(P) & X).sim(10)
 
 ```
 
 
 ```{python}
 
-y.plot()
+x = X.sim(24000)
+
+x.tabulate()
+
+```
+
+
+```{python, eval = FALSE}
+x.plot()
+
+```
+
+```{python, echo = FALSE}
+plt.figure()
+x.plot()
 plt.show()
 
 ```
@@ -172,7 +183,7 @@ The average of the 24000 simulated values is founded by summing all the values a
 
 ```{python}
 
-y.sum(), y.sum() / 24000, y.mean()
+x.sum(), x.sum() / 24000, x.mean()
 
 ```
 
@@ -193,12 +204,13 @@ Let $X$ be a random variable which has the Exponential(1) distribution. To motiv
     ```{r, exponential-discrete-sim, echo = FALSE}
     ff = c(6302, 2327, 915, 287, 94, 43, 22, 5, 4, 1)
 
-    knitr::kable(
+    kbl(
       data.frame(0:9, ff),
       booktabs = TRUE,
       col.names = c("Truncated value of X", "Number of repetitions"),
       caption = '10000 simulated values of X, truncated, for X with an Exponential(1) distribution'
-    )
+    ) %>%
+  kable_styling(fixed_thead = TRUE)
 
     ```
 1. How could you *approximate* the probability that the truncated value of $X$ is 0? 1? 2? Suggest a formula for the (approximate) long run average value of $X$.  (Don't worry if the approximation isn't great; we'll see how to improve it.)
@@ -346,7 +358,9 @@ distribution.  Imagine the impulse plot/histogram is constructed by stacking blo
 
 The probability of an event $A$, $\IP(A)$, is defined by the underlying probability measure $\IP$.  However, $\IP(A)$ can be interpreted as a long run relative frequency and can be approximated via a simulation consisting of many repetitions of the random phenomenon.  Similarly, the expected value of a random variable $X$ is defined by the probability-weighted average according to the underlying probability measure.  But the expected value can also be interpreted as the **long-run average value**, and so can be approximated via simulation. The fact that the long run average is equal to the probability-weighted average is known as the *law of large numbers*.  (We will see the law of large numbers in more detail later.)
 
-The plots below illustrate the running average of $Y$ in  Example \@ref(exm:matching-ev).  As the number of repetitions increases, the running average of the number of matches would tend to stabilize around the expected value of 1.
+Recall the discussion in Section \@ref(sim-lra), which we briefly recap here in the context of the matching problem.
+
+The plots below illustrates the running average of $X$ in  Example \@ref(exm:matching-ev).  
 
 (ref:cap-matching-lln-10) Running average for number of matches in the matching problem based on the simulation results in Table \@ref(tab:matching-sim-10-ev).
 
@@ -358,14 +372,15 @@ n = length(x)
 
 xbar = cumsum(x) / (1:n)
 
-knitr::kable(
+kbl(
   data.frame(1:n, x, xbar),
   align = "r",
-  col.names = c("Repetition", "Value of Y", "Running average of Y"),
+  col.names = c("Repetition", "Value of X", "Running average of X"),
   booktabs = TRUE,
   caption = "(ref:cap-matching-lln-10)",
   digits = 3
-)
+) %>%
+  kable_styling(fixed_thead = TRUE)
 
 ```  
 
@@ -377,7 +392,7 @@ knitr::kable(
 
 plot(1:n, xbar, type = "o",
      xlab = "Repetition",
-     ylab = "Running average of Y",
+     ylab = "Running average of X",
      ylim = c(0, 4),
      col = "blue",
      xaxt = "n")
@@ -387,11 +402,13 @@ abline(h = 1, lty = 2, col = "orange")
 ```
 
 
-<!-- (ref:cap-matching-lln) An illustration of the law of large numbers for the matching problem with $n=4$.  The plot displays the running average of simulated values of $Y$, the number of matches, as the number of simulated values increases (from 1 to 100) for each of five separate simulations.  We can see that when the number of simulated values is small, the averages vary a great deal from simulation to simulation.  But as the number of simulated values increases, the average for each simulation starts to settle down to 1, the theoretical expected value. -->
+
+As the number of repetitions increases, the running average of the number of matches tends to stabilize around the expected value of 1, regardless of the particular sequence of $X$ values in the simulation.
+There is some natural simulation variability in the running average, but that variability decreases as the number of independently simulated values used to compute the average increases.
 
 
-```{python, matching-lln, eval = FALSE, echo=FALSE, fig.cap="(ref:cap-matching-lln)"}
 
+```{python, eval = FALSE, echo=TRUE}
 rmax = 100
 
 P = BoxModel([0, 1, 2, 4], probs = [9/24, 8/24, 6/24, 1/24]) ** rmax
@@ -404,10 +421,22 @@ for r in range(rmax):
     Xbar_r[r] = X[0:(r + 1)].apply(mean)
 
 Xbar_r.sim(5).plot(tmax = rmax)
+
 plt.ylim(0, 4);
-plt.show()
+plt.xlabel('Repetition');
+plt.ylabel('Running average of X');
 
 ```
+
+
+(ref:cap-matching-lln) An illustration of the law of large numbers for the matching problem with $n=4$.  The plot displays the running average of simulated values of $X$, the number of matches, as the number of simulated values increases (from 1 to 100) for each of five separate simulations.  We can see that when the number of simulated values is small, the averages vary a great deal from simulation to simulation.  But as the number of simulated values increases, the average for each simulation starts to settle down to 1, the theoretical expected value.
+
+
+```{r, matching-lln, echo=FALSE, fig.cap="(ref:cap-matching-lln)"}
+
+knitr::include_graphics(c("_graphics/matching-lln.png"))
+```
+
 
 An expected value is defined as a probability-weight average value, but it often helps to interpret expected value as a long run average value. From a simulation perspective, you can read the symbol $\E(\cdot)$ as
 
@@ -420,16 +449,16 @@ An expected value is defined as a probability-weight average value, but it often
 
 ```{example coin-heads-tails-streak-ev}
 
-Recall Example \@ref(exm:coin-HT-same-dist). Consider the probability space corresponding to a sequence of three
-flips of a fair coin. Let $X$ be the number of heads, $Y$ the number of
-tails, and $Z$ the length of the longest streak of heads.
+Consider the probability space corresponding to a sequence of three
+flips of a fair coin. Let $X$ be the number of H, $Y$ the number of
+tails, and $Z$ the length of the longest streak of H in a row (which can be 0 (TTT), 1 (e.g., HTT), 2 (e.g. THH), or 3 (HHH)).
 
 
 ```
 
 1. Compute $\E(X)$.
 1. Find and interpret $\IP(X=\E(X))$.
-1. Is \(E(X)\) the "value that we would expect" on a \emph{single} repetition of the process?
+1. Is $\E(X)$ the "value that we would expect" on a *single* repetition of the process?
 1. Write a clearly worded sentence interpreting $\E(X)$ in context.
 1. Here is Donny Dont's response to the previous part: "1.5 is the long run average value."  Does he get full credit?  If not, what is wrong/missing? 
 1. Donny tries again: "1.5 is the average number of heads in three flips."  Does he get full credit?  If not, what is wrong/missing?
@@ -445,18 +474,46 @@ to Example \@ref(exm:coin-heads-tails-streak-ev)
 
 ```{asis, fold.chunk = TRUE}
 
-1. $\E(X)=0(1/8) + 1(3/8) + 2(3/8) + 3(1/8) = 1.5$.
+1. $X$ has a Binomial(3, 0.5) distribution, taking values 0, 1, 2, 3, with respective probability 1/8, 3/8, 3/8, 1/8.
+$$
+\E(X)=0(1/8) + 1(3/8) + 2(3/8) + 3(1/8) = 1.5.
+$$
 1. $\IP(X=\E(X))=\IP(X = 1.5) = 0$. Remember, $\E(X)$ is just a number.
-1. $E(X)$ is not the "value that we would expect" on a \emph{single} repetition of the process; it's not even possible to observe an  $X$ of 1.5 on a single repetition. You can't flip a coin 3 times and observe 1.5 heads in the 3 flips.
+1. $E(X)$ is not the "value that we would expect" on a *single* repetition of the process; it's not even possible to observe an  $X$ of 1.5 on a single repetition. You can't flip a coin 3 times and observe 1.5 heads in the 3 flips.
 1. Over many sets of 3 fair coin flips, we expect 1.5 heads per set on average in the long run.
 1. Donny only gets partial credit; he's missing the *context*.  The long run average value of what?
 1. Donny only gets partial credit; he's missing any reference to the *long run*.
 1. Donny only gets partial credit.  His sentence is pretty good with reference to the context and a long run description. But he's missing one extremely important word: *average*.
 1. If the coin is fair then $X$ and $Y$ have the same distribution and so $\E(Y) =\E(X) = 1.5$.  If $X$ and $Y$ have the same long run pattern of variability, then they will have the same long run average value.
-1. Since for each outcome $X\ge Z$ we have $\E(X) \ge \E(Z)$.  If for every outcome $X$ is at least as large as $Z$, then the long run average value of $X$ should be at least as large as the long run average value of $Z$. $\E(Z)=0(1/8) + 1(4/8) + 2(2/8) + 3(1/8) = 11/8=1.375$.
+1. For any outcome, the length of the longest streak of H can't be more than the number of H. That is $X\ge Z$, so we must have $\E(X) \ge \E(Z)$.  If for every outcome $X$ is at least as large as $Z$, then the long run average value of $X$ should be at least as large as the long run average value of $Z$. See Table \@ref(tab:coin-transform-tab2). $\E(Z)=0(1/8) + 1(4/8) + 2(2/8) + 3(1/8) = 11/8=1.375$.
 1. The sample space and the RVs would not change.  But the probability measure $\IP$ would change and so would the distribution of $X$ and $\E(X)$.  Also, the distribution of $X$ and $Y$ would not be the same anymore, and neither would the expected values.
 
 ```
+
+
+```{r, coin-transform-tab22, echo = FALSE, fold.chunk = FALSE}
+n = 3
+# u1 = sort(rep(c("H", "T"), 4))
+# u2 = rep(sort(rep(c("H", "T"), 2)), 2)
+# u3 = rep(c("H", "T"), 4)
+# u = paste(u1, u2, u3, sep = "")
+u = c("HHH", "HHT", "HTH", "THH", "HTT", "THT", "TTH", "TTT")
+
+x = c(3, rep(2, 3), rep(1, 3), 0)
+y = 3 - x
+z = c(3, 2, 1, 2, rep(1, 3), 0)
+
+
+kbl(
+  data.frame(u, x, y, z),
+  col.names = c("Outcome", "X", "Y", "Z"),
+  booktabs = TRUE,
+  caption = 'Table representing $X$ the number of heads, $Y$ the number of tails, and $Z$ the length of the longest streak of heads in a row in 3 flips of a coin.'
+)  %>%
+  kable_styling(fixed_thead = TRUE)
+
+```
+
 
 
 If two random variables $X$ and $Y$ have the same distribution
@@ -527,15 +584,15 @@ to Example \@ref(exm:homerun-poisson-ev)
 
 1. $X$ is a discrete random variable that takes infinitely many possible values.  The sum in the expected value definition is now an infinite series.
 
-\begin{align*}
-\E(X) & = \sum_{x = 0}^\infty x p_X(x) & & \\
-& = \sum_{x = 0}^\infty x \left(e^{-2.3} \frac{2.3^x}{x!}\right) & & \\
-& = \sum_{x = 1}^\infty e^{-2.3} \frac{2.3^x}{(x-1)!}& & (x=0 \text{ term is 0})\\
-& = 2.3 \sum_{x = 1}^\infty e^{-2.3} \frac{2.3^{x-1}}{(x-1)!} & & \\
-& = 2.3(1) & & \text{Taylor series for $e^u$ at $u=2.3$}
-\end{align*}
+    \begin{align*}
+    \E(X) & = \sum_{x = 0}^\infty x p_X(x) & & \\
+    & = \sum_{x = 0}^\infty x \left(e^{-2.3} \frac{2.3^x}{x!}\right) & & \\
+    & = \sum_{x = 1}^\infty e^{-2.3} \frac{2.3^x}{(x-1)!}& & (x=0 \text{ term is 0})\\
+    & = 2.3 \sum_{x = 1}^\infty e^{-2.3} \frac{2.3^{x-1}}{(x-1)!} & & \\
+    & = 2.3(1) & & \text{Taylor series for $e^u$ at $u=2.3$}
+    \end{align*}
 
-So $\E(X)=2.3$.
+    So $\E(X)=2.3$.
 
 1. Over many MLB games, there are 2.3 home runs hit per game on average in the long run.  Note that 2.3 is the observed average number of home runs per game in the 2018 MLB season data, displayed in Figure \@ref(fig:poisson-hr-data).
 
@@ -602,7 +659,7 @@ A distribution is the complete picture of the long run pattern of variability of
 
 ```{example rw-lotus}
 
-Recall Example \@ref(exm:coin-transform). Flip a coin 3 times and let $X$ be the number of flips that result in H, and let $Y=(X-1.5)^2$. (We will see later why we might be interested in such a transformation.)
+Flip a coin 3 times and let $X$ be the number of flips that result in H, and let $Y=(X-1.5)^2$. (We will see later why we might be interested in such a transformation.)
 
 ```
 
@@ -618,7 +675,7 @@ to Example \@ref(exm:rw-lotus)
 
 ```{asis, fold.chunk = TRUE}
 
-1. The possible values of $X$ are 0, 1, 2, 3, so the possible values of $Y$ are $(0 - 1.5)^2= 2.25$, $(1 - 1.5)^2= 0.25$, $(2 - 1.5)^2=0.25$, $(3 - 1.5)^2=2.25$.  That is, the possible values of $Y$ are  0.25 and 2.25.  $\IP(Y = 2.24) = \IP(X = 0)+\IP(X = 3) = 2/8$.  The following table provides the distribution of $Y$.  
+1. The possible values of $X$ are 0, 1, 2, 3, so the possible values of $Y$ are $(0 - 1.5)^2= 2.25$, $(1 - 1.5)^2= 0.25$, $(2 - 1.5)^2=0.25$, $(3 - 1.5)^2=2.25$.  That is, the possible values of $Y$ are  0.25 and 2.25.  $\IP(Y = 2.25) = \IP(X = 0)+\IP(X = 3) = 2/8$.  The following table provides the distribution of $Y$.  
 
     |  $y$ | $p_Y(y)$ |
     |-----:|---------:|
@@ -710,18 +767,27 @@ In terms of expected values, in general
 The left side $\E(g(X))$ represents first transforming the $X$ values and then averaging the transformed values. The right side $g(\E(X))$ represents first averaging the $X$ values and then plugging the average (a single number) into the transformation formula.  
 
 ```{python}
-
 X = RV(Uniform(-1, 1))
 
 Y = X ** 2
 
 y = Y.sim(10000)
 
+y.mean()
+```
+
+```{python, eval = FALSE}
+y.plot()
+```
+
+```{python, echo = FALSE}
+
+plt.figure()
+
 y.plot()
 
 plt.show()
 
-y.mean()
 
 ```
 
@@ -830,6 +896,7 @@ LOTUS for two continuous random variables requires double integration.  However,
 Of course, LOTUS only gives a shortcut to computing expected values of transformations.  Remember that expected values are only summary characteristics of a distribution.  If we want more information about a distribution, e.g., its pdf or cdf, then LOTUS will not be enough.
 
 
+
 ## Variance and standard deviation
 
 The values of a random variable vary.  The distribution of a random variable describes its pattern of variability. The expected value of a random variable summarizes the distribution in just a single number, the long run average value.  But the expected value does not tell us much^[You might think that the expected value doesn't tell us *anything* about the degree of variability.  But knowing the expected value does put a very rough limit on the probability that the random variable takes very large values.  We'll discuss this idea when we cover *Markov's inequality* in Section \@ref(markov-inequality).  In any case, the expected value alone tells us very little about the degree of variability.] about the degree of variability of the random variable.  Do the values of the random variable tend to be close to the expected value, or are they spread out?  Variance and standard deviation are numbers that address these questions.
@@ -924,8 +991,13 @@ w.tabulate()
 
 ```
 
-```{python}
+```{python, eval = FALSE}
+w.plot()
+```
 
+
+```{python, echo = FALSE}
+plt.figure()
 w.plot()
 plt.show()
 
@@ -1001,11 +1073,19 @@ Standard deviation measures, roughly, the long run average distance from the mea
 
 The definition $\E((X-\E(X))^2)$ represents the concept of variance. However, variance is usually computed using the following equivalent but slightly simpler formula.
 
-\[
+$$
 \Var(X) = \E\left(X^2\right) - \left(\E\left(X\right)\right)^2
-\]
+$$
 
 That is, variance is the expected value of the square of $X$ minus the square of the expected value of $X$.  The above formula basically allows us to subtract $\E(X)$ once rather than subtracting it from each value.  The expected value of the square, $\E(X^2)$, can be computed with LOTUS.
+
+In some cases, we have the expected value and variance and we want to compute $\E(X^2)$. Rearranging the above formula yields
+
+$$
+\E\left(X^2\right)  = \Var(X) + \left(\E\left(X\right)\right)^2
+$$
+
+
 
 We will see that variance has many nice theoretical properties.  Whenever you  need to compute a standard deviation, first find the variance and then take the square root at the end.
 
@@ -1218,70 +1298,16 @@ X.sim(10000).sd()
 
 ### Standardization
 
-Standard deviation provides a "ruler" by which we can judge a particular realized value of a random variable relative to the distribution of values.  This idea is particularly useful when comparing random variables with different measurement units but whose distributions have similar shapes.
+Standard deviation provides a "ruler" by which we can judge a particular realized value of a random variable relative to the distribution of values.  This idea is particularly useful when comparing random variables with different measurement units but whose distributions have *similar shapes*.
 
-```{example sat-z-score}
-SAT scores have, approximately, a Normal distribution with a mean of 1050 and a standard deviation of 200. ACT scores have, approximately, a Normal distribution with a mean of 21 and a standard deviation of 5.5.  Darius's score on the SAT is 1500.  Alfred's score on the ACT is 31.  Who scored relatively better on their test?
+Recall Example \@ref(exm:sat-z-score) where we assumed SAT scores have, approximately, a Normal distribution with a mean of 1050 and a standard deviation of 200, and ACT scores have, approximately, a Normal distribution with a mean of 21 and a standard deviation of 5.5.  Darius's score of 1500 on the SAT was 2.25 standard deviations above the mean, relatively better than Alfred's score of 31 on the ACT which was 1.82 above the mean.
 
-```
-
-1. Compute the deviation from the mean for Darius's SAT score.  How does this compare to the average deviation from the mean for SAT scores?
-1. Compute the deviation from the mean for Alfred's ACT score.  How does this compare to the average deviation from the mean for ACT scores?
-1. Who scored relatively better on their test?
-
-```{solution sat-z-score-sol}
-to Example \@ref(exm:sat-z-score)
-```
-
-```{asis, fold.chunk = TRUE}
-
-1. Darius's score is $1500-1050 = 450$ points above the mean SAT score.  The average deviation of SAT scores from the mean is 200 points.  So the deviation of Darius's score from the mean is $450/200 = 2.25$ times larger the average deviation.  
-1. Alfred's score is $31-21 = 10$ points above the mean ACT score.  The average deviation of ACT scores from the mean is 5.5 points.  So the deviation of Alfred's score from the mean is $10/5.5 = 1.82$ times larger than the average deviation.
-1. Both scores are above average, but Darius's is farther above average than Alfred's.  Both distributions are Normal, so the probability that an SAT score is greater than Darius's is smaller than the probability that an ACT score is greater than Alfred's. That is, Darius scored relatively better. See Figure \@ref(fig:sat-z-score-plot).
-
-```
-
-(ref:cap-sat-z-score-plot) Comparison of the Normal distributions in Example \@ref(exm:sat-z-score). The blue mark indicates Darius's SAT score and the orange mark indicates Alfred's ACT score.
-
-
-```{r, sat-z-score-plot, echo=FALSE, fig.cap="(ref:cap-sat-z-score-plot)", fig.width=8}
-
-
-par(mfrow=c(2, 1))
-
-za = seq(-3, 3, 0.5)
-z = seq(-3, 3, 0.001)
-
-x1a = 1050 + 200 * za 
-
-plot(z, dnorm(z), xlim=range(z), ylim=c(0,dnorm(0)),
-     type = "l",
-      yaxt='n', xaxt='n', ylab = "", xlab = "", lwd = 2,
-      main = "SAT scores: Normal distribution with mean 1050 and SD 200") 
-axis(1, at = za, labels = x1a, line=0.5,cex.axis=1.0)
-axis(1, at = za, labels = za, line=2.7,cex.axis=1.0)
-# axis(1, at = xa, labels = seq(-4, 4, 1), line=2.7,cex.axis=1.0)
-mtext("SDs", cex = 0.80, side = 1, line = 3.5, at = -3.5)
-mtext("Score", cex = 0.80, side = 1, line = 1.3, at= -3.5)
-mtext(c("|"), side=1, line=0, at=c((1500 - 1050) / 200), cex = 2, col = "blue")
-
-x2a = 21 + 5.5 * za 
-
-plot(z, dnorm(z), xlim=range(z), ylim=c(0,dnorm(0)),
-     type = "l",
-      yaxt='n', xaxt='n', ylab = "", xlab = "", lwd = 2,
-      main = "ACT scores: Normal distribution with mean 21 and SD 5.5") 
-axis(1, at = za, labels = x2a, line=0.5,cex.axis=1.0)
-axis(1, at = za, labels = za, line=2.7,cex.axis=1.0)
-# axis(1, at = xa, labels = seq(-4, 4, 1), line=2.7,cex.axis=1.0)
-mtext("SDs", cex = 0.80, side = 1, line = 3.5, at = -3.5)
-mtext("Score", cex = 0.80, side = 1, line = 1.3, at= -3.5)
-mtext(c("|"), side=1, line=0, at=c((31 - 21) / 5.5), cex = 2, col = "orange")
+```{r, sat-z-score-plot-again, ref.label='sat-z-score-plot', echo=FALSE, fig.cap="(ref:cap-sat-z-score-plot)", fig.width=8}
 
 ```
 
 
-Standard deviation provides a "ruler" by which we can judge a particular realized value of a random variable relative to the distribution of values.  Consider the plot for SAT scores in Figure \@ref(fig:sat-z-score-plot). The are two scales on the variable axis: one representing the actual measurement units, and one representing "standardized units".  In the standardized scale, values are measured in terms of standard deviations away from the mean:
+Consider the plot for SAT scores in Figure \@ref(fig:sat-z-score-plot-again). There are two scales on the variable axis: one representing the actual measurement units, and one representing "standardized units".  In the standardized scale, values are measured in terms of standard deviations away from the mean:
 
 - The mean corresponds to a value of 0.
 - A one unit increment on the standardized scale corresponds to an increment equal to the standard deviation in the measurement unit scale.
@@ -1302,16 +1328,22 @@ For each outcome $\omega$, the standardized value $Z(\omega)$ measures how far t
 Standardization --- that is, subtracting the mean and dividing by the standard deviation --- is a linear rescaling.  Therefore, the shape of the distribution of the standardized random variable will be the same as the shape of the distribution of the original random variable. However, the possible values will be different, and so will the mean and standard deviation. Regardless of the original measurement units, a standardized random variable has mean 0 and standard deviation 1.
 
 
+However, keep in mind that comparing standardized values is most appropriate for distributions that have *similar shapes*.
+
 ```{example dd-z-score}
 
-For which spinner --- Uniform(0, 1) or Exponential(1) --- is it more unsual to see a value smaller than 0.15?
+For which distribution --- Uniform(0, 1) or Exponential(1) --- is it more unsual to see a value smaller than 0.15?
 
 ```
 
 1. Standardize the value 0.15 relative to the Uniform(0, 1) distribution.
 1. Standardize the value 0.15 relative to the Exponential(1) distribution.
-1. Donny Dont says: "For the Uniform(0, 1) distribution, a value of 0.15 is 1.2 SDs below the mean.  For the Exponential(1) distribution, a value of 0.15 is 0.85 SDs below the mean.  So a value smaller than 0.15 is more unusual for a Uniform(0, 1) distribution."  Do you agree with his conclusion?  Explain.
+1. Donny Dont says: "For the Uniform(0, 1) distribution, a value of 0.15 is 1.2 standard deviations below the mean.  For the Exponential(1) distribution, a value of 0.15 is 0.85 standard deviations below the mean.  So a value smaller than 0.15 is more unusual for a Uniform(0, 1) distribution, since there it's more standard deviations below the mean."  Do you agree with his conclusion?  Explain.
 1. How can you answer the original question in the setup?
+1. The value 0.15 is what percentile for a Uniform(0, 1) distribution?
+1. The value 0.15 is what percentile for an Exponential(1) distribution?
+1. For which distribution --- Uniform(0, 1) or Exponential(1) --- is it more unsual to see a value smaller than 0.15?
+
 
 ```{solution dd-z-score-sol}
 to Example \@ref(exm:dd-z-score)
@@ -1320,17 +1352,18 @@ to Example \@ref(exm:dd-z-score)
 ```{asis, fold.chunk = TRUE}
 
 1. The mean of the Uniform(0, 1) distribution is 0.5, and the standard deviation is $1/\sqrt{12}\approx 0.289$. (See Example \@ref(exm:uniform-sd).) The standardized value for 0.15 is $(0.15 - 0.5)/(1/\sqrt{12})\approx -1.2$.  Relative to the Uniform(0, 1) distribution, a value of 0.15 is about 1.2 SDs below the mean.
-1. The mean of the Exponential(1) distribution is 1, and the standard deviation is $1$. (See Example \@ref(exm:exponential-sd).) The standardized value for 0.15 is $(0.15 - 1)/1 = -0.85$.  Relative to the Exponential(1) distribution, a value of 0.15 is 0.85 SDs below the mean.
+1. The mean of the Exponential(1) distribution is 1, and the standard deviation is 1. (See Example \@ref(exm:exponential-sd).) The standardized value for 0.15 is $(0.15 - 1)/1 = -0.85$.  Relative to the Exponential(1) distribution, a value of 0.15 is 0.85 SDs below the mean.
 1. Donny's statements about the standardized values are fine, but his conclusion is not.  The distributions here have different shapes, so for example, 1 SD below the mean does not correspond to the same percentile for the two distributions.
-1. We can see what percentile a value of 0.15 represents for each distribution.  The Uniform(0, 1) cdf is $F(x) = x, 0<x<1$, so $F(0.15) = 0.15$.  For the Uniform(0, 1) distribution, the probability of a value smaller than 0.15 is 0.15; 0.15 is the 15th percentile.
-    The Exponential(1) cdf is $F(x) = 1-e^{-x}, x>0$, so $F(0.15) = 1-e^{-0.15} \approx 0.14$.  For the Exponential(1) distribution, the probability of a value smaller than 0.15 is 0.14; 0.15 is the 14th percentile.
-    While it's close, it is a little less likely to see a value smaller than 0.15 for the Exponential(1) distribution than for the Uniform(0, 1) distribution.  Notice that this is true despite the fact that the standardized value for 0.15 is farther from 0 for the Uniform(0, 1) distribution than for the Exponential(1) distribution.  
+1. We can see what percentile a value of 0.15 represents for each distribution.
+1. The Uniform(0, 1) cdf is $F(x) = x, 0<x<1$, so $F(0.15) = 0.15$.  For the Uniform(0, 1) distribution, the probability of a value smaller than 0.15 is 0.15; 0.15 is the 15th percentile.
+1. The Exponential(1) cdf is $F(x) = 1-e^{-x}, x>0$, so $F(0.15) = 1-e^{-0.15} \approx 0.14$.  For the Exponential(1) distribution, the probability of a value smaller than 0.15 is 0.14; 0.15 is the 14th percentile.
+1. While it's close, it is a little less likely to see a value smaller than 0.15 for the Exponential(1) distribution than for the Uniform(0, 1) distribution.  Notice that this is true despite the fact that the standardized value for 0.15 is more standard deviations below the mean for the Uniform(0, 1) distribution than for the Exponential(1) distribution.  
 
 ``` 
 
 Standardization is useful when comparing random variables with different measurement units but whose distributions have similar shapes.  However, standardized values are only based on two features of a distribution --- mean and standard deviation --- rather than the complete pattern of variability.  Distributions with different shapes have different patterns of variability. Therefore, when comparing distributions with different shapes, it is better to compare percentiles rather than standardized values to determine what is "extreme" or "unusual".
 
-See Figure \@ref(fig:dd-z-score-plot) for an illustration.  The figure displays the cdf of each of the Normal(0, 1), Exponential(1), and Uniform(0, 1) distributions as a function of standardized values.  Notice how the standardized values correspond to different percentiles for the three distributions. In particular, a standardized value of 0 corresponds to the median for the Normal(0, 1) and Uniform(0, 1) distributions, but it represents the 63rd percentile for the Exponential(1) distribution.  For another example, a standardized value of $-0.95$ corresponds to:
+See Figure \@ref(fig:dd-z-score-plot) for an illustration.  The figure displays the cdf of each of the Normal(0, 1), Exponential(1), and Uniform(0, 1) distributions *as a function of standardized values*.  Notice how the standardized values correspond to different percentiles for the three distributions. In particular, a standardized value of 0 corresponds to the median for the Normal(0, 1) and Uniform(0, 1) distributions, but it represents the 63rd percentile for the Exponential(1) distribution.  For another example, a standardized value of $-0.95$ corresponds to:
 
 - a value of $-0.95$ from the Normal(0, 1) distribution, which is about the 17th percentile
 - a value of $1-0.95(1) = 0.05$ from the Exponential(1) distribution, which is about the 5th percentile
@@ -1376,14 +1409,14 @@ legend("topleft",
 ```
 
 
-Any random variable can be standardized, but keep in mind that just how extreme any particular standardized value is depends on the shape of the distribution.  We will see LATER that standardization is most natural for random variables that follow a Normal distribution.
+Any random variable can be standardized, but keep in mind that just how extreme any particular standardized value is depends on the shape of the distribution.  In general, standardization is most natural for random variables that follow a Normal distribution, where percentiles follow the empirical rule discussed in Section \@ref(sec-empirical-rule).
 
-## Probability inequalitlies
+### Probability inequalitlies
 
 
 The distribution of a random variable is a complete description of its pattern of variability.  Knowing the distribution of  a random variable allows you to compute the probability of any event involving it, but the full distribution is often unavailable or difficult to obtain.  However, certain summary characteristics, like the mean or standard deviation, might be available.  What can we say about a distribution based on only information about its mean or standard deviation?
 
-### Markov's inequality {#markov-inequality}
+#### Markov's inequality {#markov-inequality}
 
 ```{example, markov-income}
 
@@ -1410,7 +1443,7 @@ to Example \@ref(exm:markov-income)
 
 ```
 
-The scenario corresponding to 10\% in the previous example is hypothetical, and in reality much less than 10\% of U.S. households have incomes of at least \$1 million.  (Only about 10\% of households have incomes above \$200,000, so the percentage of households with incomes above \$1 million is much smaller than 10\%.) However, the scenario is theoretically possible so we must account for it. We can't do any better based on knowing just the mean alone without any additional information about the distribution of incomes.
+The scenario corresponding to 10\% in the previous example is hypothetical, and in reality far fewer than 10\% of U.S. households have incomes of at least \$1 million.  (Only about 10\% of households have incomes above \$200,000, so the percentage of households with incomes above \$1 million is much smaller than 10\%.) However, the scenario is theoretically possible so we must account for it. We can't do any better based on knowing just the mean alone without any additional information about the distribution of incomes.
 
 The previous example illustrates *Markov's inequality.*
 
@@ -1424,7 +1457,7 @@ In particular, if $\IP(X\ge0)=1$ then $\IP(X > c) \le \E(X)/c$.
 ```
 
 
-The idea behind Markov's inequality is that large values pull the mean up, so given a fixed value of the mean there is a limit on the probability that the random variable takes large values. The proof uses the same strategy as Example \@ref(exm:markov-income). Each value of $|X|$ is either at least $c$ or not.  Consider the extreme situation where each value of $|X|$ is either 0 or $c$. That is, define the random variable $Y=c\ind\{|X|\ge c\}$. Then $|X|\ge Y$; if $|X|\ge c$ then $Y=c$; if $|X|<c$ then $Y=0$.
+The idea behind Markov's inequality is that large values pull the mean up, so given a fixed value of the mean there is a limit on the probability that the random variable takes large values. The proof uses the same strategy as Example \@ref(exm:markov-income). Each value of $|X|$ is either at least $c$ or not.  Consider the extreme situation where each value of $|X|$ is either $c$ or 0. That is, define the random variable $Y=c\ind\{|X|\ge c\}$. Then $|X|\ge Y$; if $|X|\ge c$ then $Y=c$; if $|X|<c$ then $Y=0$.
 Therefore $\E(|X|)\ge \E(Y)$ and 
 \[
 \E(|X|)\ge\E(Y) = \E(c\ind\{|X|\ge c\}) = c\IP(|X| \ge c).
@@ -1469,9 +1502,9 @@ The upper bound provided by Markov's inequality often grossly overestimates the 
 If the upper bound is so bad, how is Markov's inequality useful? Think of reading a news article involving some numerical variable.  The article might mention the mean, but have you ever read a news article that mentions the standard deviation?  At best, you might get a range of "typical" values, maybe a percentile or two, or a graph if you're really lucky.  But in many situations, the mean might be all that is available, and Markov's inequality at least tells you something about the distribution based on the mean alone (even if it doesn't tell you much).
 
 
-### Chebyshev's inequality
+#### Chebyshev's inequality
 
-Markov's inequality only relies on the mean, but it provides very rough bounds on tail probabilities.  If we have more information, then we can do better.  In particular, if we also know the standard deviation then we can put better bounds on the probability that a random variable takes a value far from its mean.
+Markov's inequality only relies on the mean, but it provides very rough bounds on tail probabilities.  If we have more information, then we can do better.  In particular, if we also know the standard deviation --- which describes the overall degree of variability --- then we can put better bounds on the probability that a random variable takes a value far from its mean.
 
 
 
@@ -1500,7 +1533,7 @@ that a random variable is at least $c$ *measurement units* away from its mean.  
 
 ```{example, chebyshev-income}
 
-Continuing Example \@ref(exm:markov-income), suppose again that annual income for U.S. households is about \$100,000. Now assume the standard deviation of income is about \$230,000.
+Continuing Example \@ref(exm:markov-income), suppose again that average annual income for U.S. households is about \$100,000. Now assume the standard deviation of income is about \$230,000.
 What can you say about the percent of households with incomes of at least \$1 million?
 
 ```
@@ -1527,13 +1560,23 @@ The bound in Markov's inequality is on the order of $1/c$ and the bound in Cheby
 
 
 The second version of Chebyshev's inequality follows by taking $c = z\SD(X)$ in the first version. The second version bounds the probability that a random variable
-is at least $z$ *standard deviations* away from its mean.  Chebyshev's inequality says that for any distribution, the probability that the random variable takes a value within $z$ SDs of its mean is at least $1 - 1 / z^2$.  For any distribution,
+is at least $z$ *standard deviations* away from its mean.  Chebyshev's inequality says that for *any* distribution, the probability that the random variable takes a value within $z$ SDs of its mean is at least $1 - 1 / z^2$.  For *any* distribution,
 
-- ($z = 2$.) At least 75% of values fall within 2 standard deviations of the mean.
-- ($z = 3$.) At least 88.8% of values fall within 3 standard deviations of the mean.
-- ($z = 4$.) At least 93.75% of values fall within 4 standard deviations of the mean.
-- ($z = 5$.) At least 96% of values fall within 5 standard deviations of the mean.
-- ($z = 6$.) At least 97.2\% of values fall within 6 standard deviations of the mean.
+- ($z = 2$.) *At least* 75% of values fall within 2 standard deviations of the mean.
+- ($z = 3$.) *At least* 88.9% of values fall within 3 standard deviations of the mean.
+- ($z = 4$.) *At least* 93.75% of values fall within 4 standard deviations of the mean.
+- ($z = 5$.) *At least* 96% of values fall within 5 standard deviations of the mean.
+- ($z = 6$.) *At least* 97.2\% of values fall within 6 standard deviations of the mean.
+- and so on, for different values of $z$.
+
+
+The complementary probabilities: For *any* distribution,
+
+- ($z = 2$.) *At most* 25% of values fall more than 2 standard deviations away from the mean.
+- ($z = 3$.) *At most* 11.1% of values fall more than 3 standard deviations away from the mean.
+- ($z = 4$.) *At most* 6.25% of values fall more than 4 standard deviations away from the mean.
+- ($z = 5$.) *At most* 4% of values fall more than 5 standard deviations away from the mean.
+- ($z = 6$.) *At most* 2.8% of values fall more than 6 standard deviations away from the mean.
 - and so on, for different values of $z$.
 
 This universal "empirical rule" works for any distribution, but will tend to be very conservative when applied to any particular distribution.
@@ -1562,16 +1605,29 @@ Both the mean and the standard deviation of an Exponential(1) distribution are 1
 
 
 
-Another situation where bounds like Markov's or Chebyshev's inequality are useful is in proofs.  Many theorems in probability consider what happens in the long run.  For example, various results say certain probabilities approach 0 in the long run.  (The law of large numbers, which we will see later, is of this form.) To prove such theorems, you don't necessarily need to compute the probabilities to show they approach 0.  It is enough to show that some rough upper bound on the probability converges to 0.
+Another situation where bounds like Markov's or Chebyshev's inequality are useful is in proofs.  Many theorems in probability consider what happens in the long run.  For example, various results say certain probabilities approach 0 in the long run.  (The law of large numbers is of this form.) To prove such theorems, you don't necessarily need to compute the probabilities to show they approach 0.  It is enough to show that some rough upper bound on the probability converges to 0.
 
 
 
 
 
-## Covariance and correlation
+## Covariance and correlation 
 
 
 Quantities like expected value and variance summarize characteristics of the *marginal* distribution of a single random variable. When there are multiple random variables their *joint* distribution is of interest.  Covariance summarizes in a single number a characteristic of the joint distribution of two random variables, namely, the degree to which they "co-deviate from the their respective means".
+
+Recall Section \@ref(sec-sim-corr) where we saw that **covariance** of random variables $X$ and $Y$ is the long run average of the product of the paired deviations from the respective means
+
+$$
+\text{Covariance($X$, $Y$)} = \text{Average of} ((X - \text{Average of }X)(Y - \text{Average of }Y))
+$$
+It turns out that covariance is equivalent to the average of the product minus the product of the averages.
+
+$$
+\text{Covariance($X$, $Y$)} = \text{Average of} XY  - (\text{Average of }X)(\text{Average of }Y)
+$$
+
+Translating the long run averages into expected values yields the following definition.
 
 ```{definition, covariance}
 The **covariance** between two random variables $X$ and $Y$ is
@@ -1590,7 +1646,7 @@ The first line above defines covariance as the long run average product of paire
 
 
 
-```{example, dice-covariance}
+```{example, dice-covariance22}
 Consider the probability space corresponding to two rolls of a fair four-sided die.  Let $X$ be the sum of the two rolls, $Y$ the larger of the two rolls, $W$ the number of rolls equal to 4, and $Z$ the number of rolls equal to 1.
 
 ``` 
@@ -1606,8 +1662,8 @@ Consider the probability space corresponding to two rolls of a fair four-sided d
 1. Is $\Cov(W, Z)$ positive, negative, or zero? Why?
 
 
-```{solution dice-covariance-sol}
-to Example \@ref(exm:dice-covariance)
+```{solution dice-covariance22-sol}
+to Example \@ref(exm:dice-covariance22)
 ```
 
 ```{asis, fold.chunk = TRUE}
@@ -1631,8 +1687,9 @@ The sign of the covariance indicates the overall direction of the association be
 
 - $\Cov(X,Y)>0$ (positive association): above average values of $X$ tend to be associated with above average values of $Y$
 - $\Cov(X,Y)<0$ (negative association): above average values of $X$ tend to be associated with below average values of $Y$
+- $\Cov(X,Y)=0$  indicates that the random variables are  **uncorrelated**: there is no overall positive or negative association. But be careful: if $X$ and $Y$ are  uncorrelated there can still be a relationship between $X$ and $Y$; there is just no overall positive or negative association.. We will see examples that demonstrate that being uncorrelated does not necessarily imply that random variables are independent.
 
-Random variables $X$ and $Y$ are **uncorrelated** if $\Cov(X, Y) = 0$.  For uncorrelated random variables there is no overall tendency for above/below average values of one variable to be associated with above/below average values of the other.  But be careful: if $X$ and $Y$ are  uncorrelated there can still be a relationship between $X$ and $Y$; there is just no overall positive or negative association.  (We will see later than being uncorrelated does not necessarily imply that random variables are independent.)
+
 
 
 
@@ -1669,7 +1726,7 @@ Donny's code attempts to simulate values of $X$ and values of $Y$ separately, fr
 
 Since $\Cov(X, Y)$ is based on expected values, it can be approximated by simulating appropriate long run averages.
 
-- Simulate an $(X, Y)$ pair from the joint distribution.
+- Simulate an $(X, Y)$ *pair* from the *joint* distribution.
 - Find the value of the product $XY$ for the simulated pair.
 - Repeat many times, simulating many $(X, Y)$ pairs and finding their product $XY$.
 - Average the simulated values of the product $XY$ to approximate $\E(XY)$.
@@ -1708,7 +1765,7 @@ xy
 
 
 ```{python, eval = TRUE}
-
+plt.figure()
 xy.plot('tile')
 plt.show()
 
@@ -1765,6 +1822,7 @@ Y = RV(P, max)
 
 xy = (X & Y).sim(10000)
 
+plt.figure()
 xy.plot('density')
 plt.show()
 
@@ -1781,6 +1839,7 @@ Y = (U1 & U2).apply(max)
 
 xy = (X & Y).sim(10000)
 
+plt.figure()
 xy.plot('density')
 plt.show()
 
@@ -1860,6 +1919,75 @@ A correlation coefficient has no units and is measured on a universal scale. Reg
 
 Therefore, correlation is a standardized measure of the strength of the *linear* association between two random variables.
 
+
+The following plots display a few Bivariate Normal distributions with different correlations.
+
+
+```{r bvn-correlation, echo = FALSE, warning = FALSE, message = FALSE, fig.cap="Bivariate Normal distributions"}
+# | echo: false
+# | label: fig-meeting-bivariate-normal
+# | fig-cap: "add"
+# | fig-alt: "add"
+
+
+normal_box <- expand_grid(x = seq(-4, 4, 0.1), y = seq(-4, 4, 0.1))
+
+normal_box_prob <- normal_box %>%
+  mutate(independent_normal = dnorm(x, 0, 1) * dnorm(y, 0, 1),
+         bivariate_normal_positive_corr = dbvn(x, y, 0, 0, 1, 1, 0.7),
+         bivariate_normal_negative_corr = dbvn(x, y, 0, 0, 1, 1, -0.9),
+         bivariate_normal_weak_corr = dbvn(x, y, 0, 0, 1, 1, 0.5))
+
+normal_box_max_prob = normal_box_prob %>%
+  dplyr::select(!(1:2)) %>%
+  pivot_longer(cols = everything()) %>%
+  summarize(max(value)) %>%
+  pull()
+
+bvn_template = ggplot(normal_box_prob,
+       aes(x = x,
+           y = y)) +
+  scale_x_continuous(expand = c(0, 0), limits = c(-2.5, 2.5)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(-2.5, 2.5)) +
+  scale_fill_viridis(limits = c(0, normal_box_max_prob)) +
+  labs(x = "x",
+       y = "y",
+       fill = "Density") +
+  coord_fixed() +
+  theme_classic() +
+  theme(plot.margin = unit(c(0, -3, 0, -3), "cm"))
+
+ggarrange(
+  bvn_template +
+    geom_raster(aes(fill = bivariate_normal_positive_corr),
+                interpolate = TRUE) +
+    geom_contour(aes(z = bivariate_normal_positive_corr),
+                 color = "white") +
+    ggtitle("Corr(X, Y) = 0.7"),
+  bvn_template +
+    geom_raster(aes(fill = independent_normal),
+                interpolate = TRUE) +
+    geom_contour(aes(z = independent_normal),
+                 color = "white") +
+        ggtitle("Corr(X, Y) = 0"),
+  bvn_template +
+    geom_raster(aes(fill = bivariate_normal_negative_corr),
+                interpolate = TRUE) +
+    geom_contour(aes(z = bivariate_normal_negative_corr),
+                 color = "white") +
+        ggtitle("Corr(X, Y) = -0.9"),
+  bvn_template +
+    geom_raster(aes(fill = bivariate_normal_weak_corr),
+                interpolate = TRUE) +
+    geom_contour(aes(z = bivariate_normal_weak_corr),
+                 color = "white") +
+        ggtitle("Corr(X, Y) = 0.5"),
+  common.legend = TRUE,
+  legend = "right")
+
+
+```
+
 ```{example}
 
 The covariance between height in inches and weight in pounds for football players is 96.  Heights have mean 74 and SD 3 inches.  Weights have mean 250 pounds and SD 45 pounds.  Find the correlation between weight and height.  
@@ -1884,17 +2012,70 @@ In many problems we are given the correlation directly and need to find the cova
 \Cov(X, Y) = \Corr(X, Y)\SD(X)\SD(Y)
 \]
 
+
+
+### Independent versus uncorrelated
+
+The condition for independence of random variables is fairly strict.  Random variables are independent only if the joint distribution is determined by the product of the marginal distributions for all values of the random variables.  Otherwise, the random variables are not independent.  However, you can imagine that there are different degrees of dependence.  For example, the mosaic plot on the right in Figure \@ref(fig:poisson-hr-mosaic) displays a situation  where $X$ and $Y$ are "not too dependent".
+
+We wish to measure degree of dependence in a single number.  Unfortunately, there are many different ways two random variables can be related, and there is no single measure that works well in all cases.
+
+The most commonly used measure of the degree of an association between two random variables is covariance, or its standardized counterpart, correlation.  While covariance does have many uses and nice properties, it does NOT measure whether two random variables are independent.
+
+```{example, zero-covariance}
+Find $\Cov(X,Y)$ in
+each of the following situations. Notice that the marginal distribution
+of $X$ is the same for each part, and similarly for $Y$.
+
+```
+
+1.
+    |            | $p_{X, Y}(x, y)$ |     |     |     |          |
+    |-----------:|-----------------:|----:|----:|----:|---------:|
+    | $x$ \\ $y$ |                  |  -1 |   0 |   1 | $p_X(x)$ |
+    |          0 |                  | 1/6 | 1/6 | 1/6 |      1/2 |
+    |          1 |                  | 1/6 | 1/6 | 1/6 |      1/2 |
+    |   $p_Y(y)$ |                  | 1/3 | 1/3 | 1/3 |          |
+
+1. 
+    |            | $p_{X, Y}(x, y)$ |      |      |      |          |
+    |-----------:|-----------------:|-----:|-----:|-----:|---------:|
+    | $x$ \\ $y$ |                  |   -1 |    0 |    1 | $p_X(x)$ |
+    |          0 |                  | 5/24 | 2/24 | 5/24 |      1/2 |
+    |          1 |                  | 3/24 | 6/24 | 3/24 |      1/2 |
+    |   $p_Y(y)$ |                  |  1/3 |  1/3 |  1/3 |          |
+
+1. In which of the previous parts are $X$ and $Y$ independent?  Why?
+
+```{solution zero-covarance-sol}
+to Example \@ref(exm:zero-covariance)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $\Cov(X, Y) = \E(XY) - \E(X)\E(Y) = \E(XY)$ since $\E(Y)=0$. $\E(XY) = 0 + (1)(1)(1/6) + (1)(-1)(1/6) = 0$. So the covariance is 0.
+1. Again, $\Cov(X, Y) = \E(XY)$ since $\E(Y)=0$. $\E(XY) = 0 + (1)(1)(3/24) + (1)(-1)(3/24) = 0$. So the covariance is 0.
+1. $X$ and $Y$ are independent in part 1 because the joint pmf is the product of the marginal pmfs.  However, $X$ and $Y$ in part 2 are not independent even though the covariance is 0.
+
+```
+
+If $X$ and $Y$ are independent then $X$ and $Y$ are uncorrelated, that is, $\Cov(X, Y) = 0$. However, the converse is not true in general: there are many situations in which $\Cov(X, Y) = 0$ but $X$ and $Y$ are not independent. Independence means there is no probabilistic relationship between two random variables. Covariance only measures a particular kind of probabilistic relationship, namely: how closely do the $(X, Y)$ pairs tend to follow a single straight line with non-zero slope?
+
+
 ## Expected values of linear combinations of random variables
 
 
-Remember that in general
+Remember that, in general, you cannot interchanging averaging and transformation.
+In general, an expected value of a function of random variables is not the function evaluated at the expected values of the random variables.
 
 \begin{align*}
-\E(g(X)) & \neq g(\E(X))\\
-\E(g(X, Y)) & \neq g(\E(X), \E(Y))
+\E(g(X)) & \neq g(\E(X)) & & \text{for most functions $g$}\\
+\E(g(X, Y)) & \neq g(\E(X), \E(Y)) & & \text{for most functions $g$}
 \end{align*}
 
-In this section we will introduce certain transformations of random variables for which the expected value of the transformation is the transformation of the expected value.  We will also study variance of certain transformations of random variables.
+But there are some functions, namely linear functions, for which an expected value of the transformation is the transformation evaluated at the expected values.
+In this section, we will study "linearity of expected value" and applications.
+We will also investigate variance of linear transformations of random variables, and in particular, the role that covariance plays.
 
 ### Linear rescaling
 
@@ -1938,15 +2119,244 @@ Spin the Uniform(1, 4) spinner twice and let $U_1$ be the first spin, $U_2$ the 
 
 ```
 
-In the previous example, the values $U_1$ and $U_2$ came from separate spins so they were unrelated.  What about the expected value of $X+Y$ when $X$ and $Y$ are correlated?
+In the previous example, the values $U_1$ and $U_2$ came from separate spins so they were uncorrelated (in fact, they were independent).  What about the expected value of $X+Y$ when $X$ and $Y$ are correlated?
 
-```{example}
-Recall the Colab activity where you simulated pairs of SAT Math ($X$) and Reading ($Y$) scores from Bivariate Normal distributions with different correlations. You considered the distribution of the sum $T=X+Y$ and difference $D= X - Y$.  Did changing the correlation affect the *distribution* of $T$? of $D$?  Did changing the correction affect the *expected value* of $T$? Of $D$?
-  
+
+
+```{example sat-compare-ev}
+Consider the three scenarios depicted in the tables and plots below.
+Each scenario contains SAT Math ($X$) and Reading ($Y$) scores for 10 hypothetical students, along with the total score ($T  =  X + Y$) and the difference between the Math and Reading scores ($D = X - Y$, negative values indicate lower Math than Reading scores).
+Note that the 10 $X$ values are the same in each scenario, and the 10 $Y$ values are the same in each scenario, but the $(X, Y)$ values are paired in different ways: the correlation^[All averages, including those used to compute variance and covariance, are computed by dividing the appropriate sum by 10.] is 0.78 in scenario 1, -0.02 in scenario 2, and -0.94 in scenario 3.
+
+```
+
+1. What is the mean of $T = X + Y$ in each scenario? How does it relate to the means of $X$ and $Y$?
+Does the correlation affect the mean of $T = X + Y$?
+1. What is the mean of $D = X - Y$ in each scenario? How does it relate to the means of $X$ and $Y$?
+Does the correlation affect the mean of $D = X - Y$?
+
+
+**Scenario 1.**
+
+| Student        |  $X$ | $Y$ |  $T$ | $D$ |
+|----------------|-----:|----:|-----:|----:|
+| 1              |  520 | 530 | 1050 | -10 |
+| 2              |  540 | 470 | 1010 |  70 |
+| 3              |  620 | 670 | 1290 | -50 |
+| 4              |  620 | 630 | 1250 | -10 |
+| 5              |  630 | 600 | 1230 |  30 |
+| 6              |  670 | 610 | 1280 |  60 |
+| 7              |  700 | 680 | 1380 |  20 |
+| 8              |  700 | 580 | 1280 | 120 |
+| 9              |  710 | 640 | 1350 |  70 |
+| 10             |  760 | 720 | 1480 |  40 |
+|                |      |     |      |     |
+| Mean           |  647 | 613 | 1260 |  34 |
+| SD             |   72 |  70 |  134 |  47 |
+| Corr($X$, $Y$) | 0.78 |     |      |     |
+
+
+```{r, echo = FALSE, fig.show="hold", out.width="33%"}
+x = c(520, 540, 620, 620, 630, 670, 700, 700, 710, 760)
+y = c(530, 470, 670, 630, 600, 610, 680, 580, 640, 720)
+
+# mean(x)
+# mean(y)
+# sx = sqrt(mean(x ^ 2) - mean(x) ^ 2); sx
+# sy = sqrt(mean(y ^ 2) - mean(y) ^ 2); sy
+# (mean(x * y) - mean(x) * mean(y)) / sx / sy
+# sqrt(mean((x + y) ^ 2) - mean(x + y) ^ 2)
+# sqrt(mean((x - y) ^ 2) - mean(x - y) ^ 2)
+
+plot(x, y,
+     xlim = c(500, 800),
+     ylim = c(500, 800),
+     xlab = "X", ylab = "Y")
+
+
+ggplot(data.frame(x, y),
+       aes(x = x + y ,
+           y = 0)) +
+  geom_point(shape = "|", size = 10) +
+  scale_y_continuous(limits = c(0, 5), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(1000, 1500)) +
+  theme_classic() +
+  coord_fixed() +
+  labs(x = "X + Y") +
+  theme(axis.text.y=element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y = element_blank()
+  )
+
+
+ggplot(data.frame(x, y),
+       aes(x = x - y ,
+           y = 0)) +
+  geom_point(shape = "|", size = 10) +
+  scale_y_continuous(limits = c(0, 5), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(-200, 300)) +
+  theme_classic() +
+  coord_fixed() +
+  labs(x = "X - Y") +
+  theme(axis.text.y=element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y = element_blank()
+  )
+```
+
+
+**Scenario 2.**
+
+| Student        |   $X$ | $Y$ |  $T$ |  $D$ |
+|----------------|------:|----:|-----:|-----:|
+| 1              |   520 | 680 | 1200 | -160 |
+| 2              |   540 | 530 | 1070 |   10 |
+| 3              |   620 | 630 | 1250 |  -10 |
+| 4              |   620 | 600 | 1220 |   20 |
+| 5              |   630 | 720 | 1350 |  -90 |
+| 6              |   670 | 470 | 1140 |  200 |
+| 7              |   700 | 670 | 1370 |   30 |
+| 8              |   700 | 580 | 1280 |  120 |
+| 9              |   710 | 640 | 1350 |   70 |
+| 10             |   760 | 610 | 1370 |  150 |
+|                |       |     |      |      |
+| Mean           |   647 | 613 | 1260 |   34 |
+| SD             |    72 |  70 |   98 |  103 |
+| Corr($X$, $Y$) | -0.04 |     |      |      |
+
+```{r, echo = FALSE, fig.show="hold", out.width="33%"}
+y = c(680, 530, 630, 600, 720, 470, 670, 580, 640, 610)
+
+# mean(x)
+# mean(y)
+# sx = sqrt(mean(x ^ 2) - mean(x) ^ 2); sx
+# sy = sqrt(mean(y ^ 2) - mean(y) ^ 2); sy
+# (mean(x * y) - mean(x) * mean(y)) / sx / sy
+# sqrt(mean((x + y) ^ 2) - mean(x + y) ^ 2)
+# sqrt(mean((x - y) ^ 2) - mean(x - y) ^ 2)
+
+plot(x, y,
+     xlim = c(500, 800),
+     ylim = c(500, 800),
+     xlab = "X", ylab = "Y")
+
+ggplot(data.frame(x, y),
+       aes(x = x + y ,
+           y = 0)) +
+  geom_point(shape = "|", size = 10) +
+  scale_y_continuous(limits = c(0, 5), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(1000, 1500)) +
+  theme_classic() +
+  coord_fixed() +
+  labs(x = "X + Y") +
+  theme(axis.text.y=element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y = element_blank()
+  )
+
+
+ggplot(data.frame(x, y),
+       aes(x = x - y ,
+           y = 0)) +
+  geom_point(shape = "|", size = 10) +
+  scale_y_continuous(limits = c(0, 5), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(-200, 300)) +
+  theme_classic() +
+  coord_fixed() +
+  labs(x = "X - Y") +
+  theme(axis.text.y=element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y = element_blank()
+  )
+```
+
+**Scenario 3.**
+
+| Student        |   $X$ | $Y$ |  $T$ |  $D$ |
+|----------------|------:|----:|-----:|-----:|
+| 1              |   520 | 720 | 1240 | -200 |
+| 2              |   540 | 680 | 1220 | -140 |
+| 3              |   620 | 670 | 1290 |  -50 |
+| 4              |   620 | 640 | 1260 |  -20 |
+| 5              |   630 | 630 | 1260 |    0 |
+| 6              |   670 | 610 | 1280 |   60 |
+| 7              |   700 | 600 | 1300 |  100 |
+| 8              |   700 | 580 | 1280 |  120 |
+| 9              |   710 | 530 | 1240 |  180 |
+| 10             |   760 | 470 | 1230 |  290 |
+|                |       |     |      |      |
+| Mean           |   647 | 613 | 1260 |   34 |
+| SD             |    72 |  70 |   26 |  140 |
+| Corr($X$, $Y$) | -0.94 |     |      |      |
+
+
+```{r, echo = FALSE, fig.show="hold", out.width="33%"}
+
+y = c(720, 680, 670, 640, 630, 610, 600, 580, 530, 470)
+
+# mean(x)
+# mean(y)
+# sx = sqrt(mean(x ^ 2) - mean(x) ^ 2); sx
+# sy = sqrt(mean(y ^ 2) - mean(y) ^ 2); sy
+# (mean(x * y) - mean(x) * mean(y)) / sx / sy
+# sqrt(mean((x + y) ^ 2) - mean(x + y) ^ 2)
+# sqrt(mean((x - y) ^ 2) - mean(x - y) ^ 2)
+
+plot(x, y,
+     xlim = c(500, 800),
+     ylim = c(500, 800),
+     xlab = "X", ylab = "Y")
+
+ggplot(data.frame(x, y),
+       aes(x = x + y ,
+           y = 0)) +
+  geom_point(shape = "|", size = 10) +
+  scale_y_continuous(limits = c(0, 5), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(1000, 1500)) +
+  theme_classic() +
+  coord_fixed() +
+  labs(x = "X + Y") +
+  theme(axis.text.y=element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y = element_blank()
+  )
+
+
+ggplot(data.frame(x, y),
+       aes(x = x - y ,
+           y = 0)) +
+  geom_point(shape = "|", size = 10) +
+  scale_y_continuous(limits = c(0, 5), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(-200, 300)) +
+  theme_classic() +
+  coord_fixed() +
+  labs(x = "X - Y") +
+  theme(axis.text.y=element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y = element_blank()
+  )
+```
+
+
+
+
+
+```{solution sat-compare-ev-sol}
+to Example \@ref(exm:sat-compare-ev)
 ```
 
 ```{asis, fold.chunk = TRUE}
-You should have observed that, yes, changing the correlation affected the distribution of $T$ and $D$ mainly by changing the degree of variability.  However, you should have also observed that the expected value of $T$ did not change as the correlation changed (after accounting for simulation margin of error).  Similarly, the expected value of $D$ did not change as the correlation changed.
+1. In each situation, the mean of $X+Y$ is $1260 = 647 + 613$, which is equal to the sum of the means of $X$ and $Y$.
+Even though the joint distribution of $(X, Y)$ pairs and the distribution of the sum $X+Y$ are different for each situation, the correlation between $X$ and $Y$ does not affect the average of the $X + Y$. 
+1. In each situation, the mean of $X-Y$ is $1260 = 647 - 613 = 34$, which is equal to the difference of the means of $X$ and $Y$.
+Even though the joint distribution of $(X, Y)$ pairs and the distribution of the difference $X-Y$ are different for each situation, the correlation between $X$ and $Y$ does not affect the average of the $X - Y$. 
+
 
 ```
 
@@ -1966,8 +2376,13 @@ regardless of the joint distribution of $X$ and $Y$.  For example, for the two $
 \[
 \text{Average of $X + Y$ } = \frac{(4+3)+(2+1)}{2} = \frac{4+2}{2} + \frac{3+1}{2} = \text{Average of $X$} + \text{Average of $Y$}.
 \]
+Changing the $(X, Y)$ pairs to (4, 1) and (2, 3) only moves values around in the calculation of the average without affecting the result.
+\[
+\text{Average of $X + Y$ } = \frac{(4+1)+(2+3)}{2} = \frac{4+2}{2} + \frac{3+1}{2} = \text{Average of $X$} + \text{Average of $Y$}.
+\]
 
-A **linear combination** of two random variables $X$ and $Y$ is of the form $aX + bY$ where $a$ and $b$ are non-random constant.  Combining properties of linear rescaling with linearity of expected value yields the expected value of a linear combination
+
+A **linear combination** of two random variables $X$ and $Y$ is of the form $aX + bY$ where $a$ and $b$ are non-random constants.  Combining properties of linear rescaling with linearity of expected value yields the expected value of a linear combination.
 \[
 \E(aX + bY) = a\E(X)+b\E(Y)
 \]
@@ -1977,36 +2392,55 @@ For example, $\E(X - Y) = \E(X) - \E(Y)$. The left side above, $\E(aX+bY)$, repr
 Linearity of expected value extends naturally to more than two random variables.
 
 ```{example, matching-ev-n}
-Recall the matching problem in Example \@ref(exm:matching-ev). We showed that the expected value of the number of matches $Y$ is $\E(Y)=1$ when $n=4$.  Now consider a general $n$: there are $n$ rocks that are shuffled and placed uniformly at random in $n$ spots with one rock per spot.  Let $Y$ be the number of matches.  Can you find a general formula for $\E(Y)$? 
+Recall the matching problem in Example \@ref(exm:matching-ev). We showed that the expected value of the number of matches $X$ is $\E(X)=1$ when $n=4$.  Now consider a general $n$: there are $n$ objects that are shuffled and placed uniformly at random in $n$ spots with one object per spot.  Let $X$ be the number of matches.  Can you find a general formula for $\E(X)$? 
 
 ```
 
-1. How do you think $\E(Y)$ depends on $n$?
-1. Recall the indicator random variables from Example \@ref(exm:matching-indicator).  Let $\ind_1$ be the indicator that rock 1 is placed correctly in spot 1.  Find $\E(\ind_1)$.
-1. Let $\ind_i$ be the indicator that rock $i$ is placed correctly in spot $i$, $i=1, \ldots, n$.  Find $\E(\ind_i)$.
-1. What is the relationship between $Y$ and $\ind_1, \ldots, \ind_n$? 
-1. Find $\E(Y)$.  Be amazed.
+1. Before proceeding take a minute to consider: how do you think $\E(X)$ depends on $n$? Will $\E(X)$ increase as $n$ increases? Decrease? Stay the same?
+1. When $n=4$ we derived the distribution of $X$ and used it to find $\E(X)=1$. Now we'll see how to find $\E(X)$ without first finding the distribution of $X$. The key is to use the indicator random variables from Example \@ref(exm:matching-indicator).  Let $\ind_1$ be the indicator that object 1 is placed correctly in spot 1.  Find $\E(\ind_1)$.
+1. When $n=4$, find $\E(\ind_j)$ for $j=1,2,3, 4$.
+1. What is the relationship between the random variables $X$ and $\ind_1, \ind_2,\ind_3, \ind_4$?
+1. Use the previous parts to find $\E(X)$.
+1. Now consider a general $n$. Let $\ind_i$ be the indicator that object $j$ is placed correctly in spot $j$, $j=1, \ldots, n$.  Find $\E(\ind_j)$.
+1. What is the relationship between $X$ and $\ind_1, \ldots, \ind_n$? 
+1. Find $\E(X)$.  Be amazed.
+1. Interpret $\E(X)$ is context.
 
 ```{asis, fold.chunk = TRUE}
 
-1. There are two common guesses.  (1) As $n$ increases, there are more chances for a match, so maybe $\E(Y)$ increases with $n$. (2) But as $n$ increases the chance that any particular rock goes in the correct spot decreases, so maybe $\E(Y)$ decreases with $n$.  These considerations move $\E(Y)$ in opposite directions; how do they balance?
-1. Recall that the expected value of an indicator random variable is just the probability of the corresponding event. There are $n$ rocks which are equally likely to be placed in spot 1, only 1 of which is correct.  The probability that rock 1 is correctly placed in spot 1 is $1/n$.  That is, $\E(\ind_1) = (1)(1/n) + (0)(1 - 1/n) = 1/n$.
-1. If the rocks are placed uniformly at random then no rock is more or less likely than any other to be placed in its correct spot, so the probability and expected value should be the same for all $i$. Given any spot $i$, any of the $n$ rocks is equally likely to be placed in spot $i$, and only one of those is the correct rock, so $\IP(\ind_i = 1) = 1/n$, and $\E(I_i) = 1/n$.
-1. Recall Section \@ref(indicators).  We can count the total number of matches by incrementally adding 1 to our counter each time rock $i$ matches spot $i$ for $i=1, \ldots, n$.  That is, the total number of matches is the sum of the indicator random variables: $Y=\ind_1 + \cdots + \ind_n$.
+1. There are two common guesses.  (1) As $n$ increases, there are more chances for a match, so maybe $\E(X)$ increases with $n$. (2) But as $n$ increases the chance that any particular object goes in the correct spot decreases, so maybe $\E(X)$ decreases with $n$.  These considerations move $\E(X)$ in opposite directions; how do they balance?
+1. Recall that the expected value of an indicator random variable is just the probability of the corresponding event. There are $4$ objects which are equally likely to be placed in spot 1, only 1 of which is correct.  The probability that object 1 is correctly placed in spot 1 is $1/4$.  That is, $\E(\ind_1) = (1)(1/4) + (0)(1 - 1/4) = 1/4$.
+1. If the objects are placed uniformly at random then no object is more or less likely than any other to be placed in its correct spot, so the probability and expected value should be the same for all $j$. Given any spot $j$, any of the $4$ objects is equally likely to be placed in spot $j$, and only one of those is the correct object, so $\IP(\ind_j = 1) = 1/4$, and $\E(\ind_j) = 1/4$. Note that these are *marginal* probabilities and *marginal* expected values; see the note after the example below.
+1. Recall Example \@ref(exm:matching-indicator). We can count the total number of matches by starting with a count of 0, inspecting each spot, and incrementally adding 1 to our counter each time object $j$ matches spot $j$ for $j=1, \ldots, 4$.  That is, the total number of matches is the sum of the indicator random variables: $X=\ind_1 + \ind_2+\ind_3+\ind_4$.
+1. Linearity of expected value says the expected value of the sum is the sum of the expected values
+\begin{align*}
+\E(X) & = \E(\ind_1 + \ind_2 + \ind_3 + \ind_4)\\
+& = \E(\ind_1) + \E(\ind_2) + \E(\ind_3) + \E(\ind_4)\\
+& = 1/4 + 1/4 + 1/4 + 1/4\\
+& = 4(1/4) = 1
+\end{align*}
+1. Now we repeat the above process for a general $n$.
+If the objects are placed uniformly at random then no object is more or less likely than any other to be placed in its correct spot, so the probability and expected value should be the same for all $j=1, \ldots, n$. Given any spot $j$, any of the $n$ objects is equally likely to be placed in spot $j$, and only one of those is the correct object, so $\IP(\ind_j = 1) = 1/n$, and $\E(I_j) = 1/n$.
+1. We can count the total number of matches by incrementally adding 1 to our counter each time object $j$ matches spot $j$ for $j=1, \ldots, n$.  That is, the total number of matches is the sum of the indicator random variables: $X=\ind_1 + \cdots + \ind_n$.
 1. Use linearity of expected value
 \begin{align*}
-\E(Y) & = \E(\ind_1 + \ind_2 + \cdots + \ind_n)\\
+\E(X) & = \E(\ind_1 + \ind_2 + \cdots + \ind_n)\\
 & = \E(\ind_1) + \E(\ind_2) + \cdots + \E(\ind_n)\\
 & = \frac{1}{n} + \frac{1}{n} + \cdots + \frac{1}{n}\\
 & = n\left(\frac{1}{n}\right) = 1
 \end{align*}
-
+Regardless of the value of $n$, $\E(X) = 1$!
+1. Imagine placing $n$ distinct objects uniformly at random in $n$ distinct spots with one object per spot. Then over many such placements, on average 1 object per placement is placed in the correct spot *regardless of the number of objects/spots*.
 ```
 
-The answer to the previous problem is not an approximation: the expected value of the number of matches is equal to 1 for any $n$.  We think that's pretty amazing.  (We'll see some even more amazing results for this problem later.)  Notice that we computed the expected value without first finding the distribution of $Y$.
+The answer to the previous problem is not an approximation: the expected value of the number of matches is equal to 1 for any $n$.  We think that's pretty amazing.  (We'll see some even more amazing results for this problem later.)  Notice that we computed the expected value without first finding the distribution of $X$.
+When $n=4$ we found the distribution of $X$ by enumerating all the possibilities.
+Obviously this is not feasible when $n$ is large, and in general it is difficult to find the exact distribution of $X$ in the matching problem (though we'll see a pretty good approximation later).
+However, as the previous example shows, we don't need to find the distribution of $X$ to find $\E(X)$.
 
 
-Intuitively, if the rocks are placed in the spots uniformly at random, then the probability that rock $i$ is placed in the correct spot should be the same for all the rocks, $1/n$. But you might have said: "if rock 1 goes in spot 1, there are only $n-1$ rocks that can go in spot 2, so the probability that rock 2 goes in spot to is $1/(n-1)$".  That is true *if rock 1 goes in spot 1*.  However, when computing the *marginal* probability that rock 2 goes in spot 2, we don't know whether rock 1 went in spot 1 or not, so the probability needs to account for both cases.  There is a difference between  *marginal/unconditional* probability and *conditional* probability, which we will discuss in more detail later. 
+Intuitively, if the objects are placed in the spots uniformly at random, then the probability that object $j$ is placed in the correct spot should be the same for all the objects, $1/n$. But you might have said: "if object 1 goes in spot 1, there are only $n-1$ objects that can go in spot 2, so the probability that object 2 goes in spot to is $1/(n-1)$".  That is true *if object 1 goes in spot 1*.  However, when computing the *marginal* probability that object 2 goes in spot 2, we don't know whether object 1 went in spot 1 or not, so the probability needs to account for both cases.  Remember, there is a difference between  *marginal/unconditional* probability and *conditional* probability; recall Section \@ref(conditional-versus-unconditional).
+Linearity of expected value is useful because we only need the marginal distribution of each random variable to compute the sum of their expected values.
 
 When a problem asks "find the expected number of..." it's a good idea to try using indicator random variables and linearity of expected value. The following is a general statement of the strategy we used in the matching problem.
 
@@ -2017,6 +2451,7 @@ Let $A_1, A_2, \ldots, A_n$ be a collection of $n$ events.  Suppose event $i$ oc
 If each event has the same probability, $p_i \equiv p$, then $\E(N)$ is equal to $np$.
 These formulas for the expected number of events are true regardless of whether there is any association between the events (that is, regardless of whether the events are independent.)
 
+For example, in the matching problem $A_i$ was the event that object $i$ was placed in spot $i$ and $p_i=1/n$ for all $i$.
 
 ```{example}
 
@@ -2028,7 +2463,7 @@ Kids wake up during the night. On any given night,
 - the probability that Chris wakes up is 1/2
 - the probability that Slim wakes up is 6/7.
 
-If any kid wakes up they're likely to wake other kids up too.  Find the expected number of kids that wake up on any given night.
+If any kid wakes up they're likely to wake other kids up too.  Find and interpret the expected number of kids that wake up on any given night.
 
 ```
 
@@ -2040,15 +2475,18 @@ The fact that kids wake each other up implies that the events are not independen
 
 ```
 
-When computing the expected value of a random variable, consider if it can be written as a sum of component random variables.  If so, then using linearity of expected value is usually easier than first finding the distribution of the random variable.  Of course, the expected value is only one feature of the distribution of a random variable.
+When computing the expected value of a random variable, consider if it can be written as a sum of component random variables.  If so, then using linearity of expected value is usually easier than first finding the distribution of the random variable.  Of course, the expected value is only one feature of the distribution of a random variable; there is much more to a distribution than its expected value.
 
 ### Variance of linear combinations of random variables
+
+We have seen that correlation does not affect the expected value of a linear combination of random variables.
+But what affect, if any, does correlation have on the variance of a linear combination of random variables?
 
 ```{example}
 Consider a random variable $X$ with $\Var(X)=1$.  What is $\Var(2X)$?
 
-- Walt says: $\Var(2X) = 2^2\Var(X) = 4(1) = 4$.
-- Jesse says: $\Var(2X) = \Var(X+X) = \Var(X)+\Var(X) = 1+1=2$.
+- Walt says: $\SD(2X) = 2\SD(X)$ so $\Var(2X) = 2^2\Var(X) = 4(1) = 4$.
+- Jesse says: Variance of a sum is a sum of variances, so $\Var(2X) = \Var(X+X)$ which is equal to $\Var(X)+\Var(X) = 1+1=2$.
 
 Who is correct?  Why is the other wrong?
   
@@ -2056,25 +2494,51 @@ Who is correct?  Why is the other wrong?
 
 ```{asis, fold.chunk = TRUE}
 
-Walt is correctly using properties of linear rescaling.  Jesse is assuming that a variance of a sum is the sum of the variances, which is not true in general.  We'll see why below.
+If $\Var(X)=1$ then $\Var(2X)= 4$. Walt is correctly using properties of linear rescaling.  Jesse is assuming that a variance of a sum is the sum of the variances, which is not true in general.  We'll see why below.
 
 ```
 
 When two variables are correlated the degree of the association will affect the variability of linear combinations of the two variables.
 
 
+```{example sat-compare-var}
+Recall Example \@ref(exm:sat-compare-ev).
+```
 
-```{example}
+1. In which of the three scenarios is $\Var(X + Y)$ the largest?
+Can you explain why?
+1. In which of the three scenarios is $\Var(X + Y)$ the smallest?
+Can you explain why?
+1. In which scenario is $\Var(X + Y)$ roughly equal to the sum of $\Var(X)$ and $\Var(Y)$?
+1. In which of the three scenarios is $\Var(X - Y)$ the largest?
+Can you explain why?
+1. In which of the three scenarios is $\Var(X - Y)$ the smallest?
+Can you explain why?
+1. In which scenario is $\Var(X - Y)$ roughly equal to the *sum* of $\Var(X)$ and $\Var(Y)$?
 
-Recall the Colab activity where you simulated pairs of SAT Math ($X$) and Reading ($Y$) scores from Bivariate Normal distributions with different correlations. (See also Section \@ref(sec-example-sat-both).) You considered the distribution of the sum $T=X+Y$ and difference $D= X - Y$.  Did changing the correction affect the *variance* of $T$? Of $D$?
-
-``` 
+```{solution sat-compare-var-sol}
+to Example \@ref(exm:sat-compare-var)
+```
 
 
 ```{asis, fold.chunk = TRUE}
-Yes. For the sum $X+Y$, variance was largest when $\Corr(X, Y)$ was near 1 and smallest when $\Corr(X, Y)$ was near $-1$. For the difference $X-Y$, variance was smallest when $\Corr(X, Y)$ was near 1 and largest when $\Corr(X, Y)$ was near $-1$. 
-
+1. Variance of $X + Y$ is largest when $\Corr(X, Y)$ is near 1 (scenario 1).
+With a strong positive correlation, students who scored high on Math tended to also score high on Reading so their total score was very high; students who scored low on Math tended to also score low on Reading so their total score was very low. Of these three scenarios we see the most variability in $X+Y$ in scenario 1. 
+1. Variance of $X + Y$ is smallest when $\Corr(X, Y)$ is near $-1$ (scenario 3).
+With a strong negative correlation, students who scored high on Math tended to score low on Reading so their total score was moderate; students who scored low on Math tended to score high on Reading so their total score was moderate. Of these three scenarios we see the least variability in $X+Y$ in scenario 3. 
+1. When the correlation between $X$ and $Y$ is near 0 (scenario 2) the variance of $X + Y$ is roughly equal to the sum of the variances.
+1. Variance of $X - Y$ is largest when $\Corr(X, Y)$ is near $-1$ (scenario 3).
+With a strong negative correlation, students who scored high on Math tended to score low on Reading so their difference in scores was high and positive; students who scored low on Math tended to score high on Reading so their difference in scores was high and negative. Of these three scenarios we see the most variability in $X-Y$ in scenario 3. 
+1. Variance of $X - Y$ is smallest when $\Corr(X, Y)$ is near 1 (scenario 1).
+With a strong positive correlation, students who scored high on Math tended to also score high on Reading so their difference in scores was small; students who scored low on Math tended to also score low on Reading so their difference in scores was small. Of these three scenarios we see the least variability in $X-Y$ in scenario 1. 
+1. When the correlation between $X$ and $Y$ is near 0 (scenario 2) the variance of $X - Y$ is roughly equal to the *sum* of the variances.
+That is, when the correlation is 0, the sum $X+Y$ and the difference $X-Y$ have the same variance.
 ```
+
+
+The degree of correlation between two random variables affects the variability of their sum and difference.
+The following formulas represent the math behind the observations we made in the previous problem.
+
 
 
 **Variance of sums and differences of random variables.**
@@ -2082,6 +2546,10 @@ Yes. For the sum $X+Y$, variance was largest when $\Corr(X, Y)$ was near 1 and s
 \Var(X + Y) & = \Var(X) + \Var(Y) + 2\Cov(X, Y)\\
 \Var(X - Y) & = \Var(X) + \Var(Y) - 2\Cov(X, Y)
 \end{align*}
+
+The left side represents first finding the distribution of the random variable $X+Y$ and computing its variance.
+The right side represents using the joint (and marginal) distribution of $(X, Y)$ to compute the variance of the sum.
+However, to compute the right side we do not need the full joint and marginal distributions; we simply need the marginal variances and the covariance (or correlation).
 
 ```{example}
 
@@ -2097,7 +2565,9 @@ Assume that SAT Math ($X$) and Reading ($Y$) scores follow a Bivariate Normal di
 
 ```{asis, fold.chunk = TRUE}
 
-1. $\Cov(X, Y) = \Corr(X, Y)\SD(X)\SD(Y) = (0.77)(107)(100) = 8239$. $\Var(X + Y) = \Var(X) + \Var(Y) + 2\Cov(X, Y) = 107^2 + 100^2 + 2(8239)=37927$.  $\SD(X+Y)=\sqrt{37927} = 195$. 
+Recall that we can obtain covariance from correlation: $\Cov(X, Y) = \Corr(X, Y)\SD(X)\SD(Y) = (0.77)(107)(100) = 8239$.
+
+1. $\Var(X + Y) = \Var(X) + \Var(Y) + 2\Cov(X, Y) = 107^2 + 100^2 + 2(8239)=37927$.  $\SD(X+Y)=\sqrt{37927} = 195$. 
 1. $\Var(X + Y) = 107^2 + 100^2 + 2(0.40)(107)(100)=30009$.  $\SD(X+Y)= 173$.
 1. $\Var(X + Y) = 107^2 + 100^2 + 0=21449$.  $\SD(X+Y)= 146$.
 1. $\Var(X + Y) = 107^2 + 100^2 + 2(-0.77)(107)(100)=4971$.  $\SD(X+Y)= 70$.
@@ -2106,9 +2576,130 @@ Assume that SAT Math ($X$) and Reading ($Y$) scores follow a Bivariate Normal di
 ```
 
 
+
+
 If $X$ and $Y$ have a positive correlation: Large values of $X$ are associated with large values of $Y$ so the sum is really large, and small values of $X$ are associated with small values of $Y$ so the sum is really small. That is, the sum exhibits more variability than it would if the values of $X$ and $Y$ were uncorrelated.
 
 If $X$ and $Y$ have a negative correlation: Large values of $X$ are associated with small values of $Y$ so the sum is moderate, and small values of $X$ are associated with large values of $Y$ so the sum is moderate. That is, the sum exhibits less variability than it would if the values of $X$ and $Y$ were uncorrelated.
+
+The following simulation illustrates the previous example when the correlation is 0.77.
+First we simulate $(X, Y)$ pairs.
+
+```{python}
+X, Y = RV(BivariateNormal(mean1 = 527, sd1 = 107, mean2 = 533, sd2 = 100, corr = 0.77))
+
+x_and_y = (X & Y).sim(10000)
+
+x_and_y
+```
+
+
+```{python, eval = FALSE}
+x_and_y.plot()
+```
+
+
+```{python, echo = FALSE}
+plt.figure();
+x_and_y.plot()
+plt.show();
+```
+
+```{python}
+x_and_y.mean()
+```
+
+
+```{python}
+x_and_y.var()
+```
+
+
+```{python}
+x_and_y.sd()
+```
+
+Now we look at the sum $X + Y$.
+So that our simulation results our consistent with those above we'll define `x + y` in "simulation world" (but we could have defined `X + Y` in "random variable world" and then simulated values of it.)
+
+```{python}
+x = x_and_y[0]
+y = x_and_y[1]
+
+t = x + y
+
+t
+```
+
+
+```{python, eval = FALSE}
+t.plot()
+```
+
+
+```{python, echo = FALSE}
+plt.figure()
+t.plot()
+plt.show()
+```
+
+The simulated mean, variance, and standard deviation as close to what we computed in the previous example (of course, there is natural simulation variability).
+
+```{python}
+t.mean()
+```
+
+
+```{python}
+t.var()
+```
+
+
+```{python}
+t.sd()
+```
+
+Now we compare the distribution of the sum for each of the four cases for the correlation.
+Notice how the variability of $X+Y$ changes based on the correlation.
+The variability of $X + Y$ is largest when the correlation is strong and positive, and smallest when the correlation is strong and negative.
+
+```{python}
+
+X2, Y2 = RV(BivariateNormal(mean1 = 527, sd1 = 107, mean2 = 533, sd2 = 100, corr = 0.4))
+t2 = (X2 + Y2).sim(10000)
+
+X3, Y3 = RV(BivariateNormal(mean1 = 527, sd1 = 107, mean2 = 533, sd2 = 100, corr = 0))
+t3 = (X3 + Y3).sim(10000)
+
+X4, Y4 = RV(BivariateNormal(mean1 = 527, sd1 = 107, mean2 = 533, sd2 = 100, corr = -0.77))
+t4 = (X4 + Y4).sim(10000)
+
+plt.figure()
+t.plot()
+t2.plot()
+t3.plot()
+t4.plot()
+
+plt.legend(['corr = 0.77', 'corr = 0.40', 'corr = 0', 'corr = -0.77']);
+plt.show()
+```
+
+The simulated means, variances, and standard deviations as close to what we computed in the previous example (of course, there is natural simulation variability).
+
+```{python}
+t.mean(), t2.mean(), t3.mean(), t4.mean()
+```
+
+```{python}
+t.sd(), t2.sd(), t3.sd(), t4.sd()
+```
+
+Compare the 90th percentiles of $X+Y$. The largest value for the 90th percentile occurs when there is the most variability in the sum, so we see more extreme values of the sum.
+
+
+```{python}
+t.quantile(0.9), t2.quantile(0.9), t3.quantile(0.9), t4.quantile(0.9)
+```
 
 
 
@@ -2143,6 +2734,76 @@ Large values of $X$ are associated with small values of $Y$ so the difference is
 
 
 
+We continue the simulation from above when the correlation is 0.77.
+New we look at the difference $X - Y$.
+Again, we define the difference `x - y` in "simulation world" (but we could have defined `X - Y` in "random variable world" and then simulated values of it).
+
+```{python}
+d = x - y
+
+d
+```
+
+
+```{python, eval = FALSE}
+d.plot()
+```
+
+
+```{python, echo = FALSE}
+plt.figure()
+d.plot()
+plt.show()
+```
+
+
+Now we compare the distributions of the difference $X - Y$ for each of the four cases of correlation.
+Notice how the variability of $X-Y$ changes based on the correlation.
+The variability of $X - Y$ is largest when the correlation is strong and negative, and smallest when the correlation is strong and positive.
+
+
+```{python}
+
+X2, Y2 = RV(BivariateNormal(mean1 = 527, sd1 = 107, mean2 = 533, sd2 = 100, corr = 0.4))
+d2 = (X2 - Y2).sim(10000)
+
+X3, Y3 = RV(BivariateNormal(mean1 = 527, sd1 = 107, mean2 = 533, sd2 = 100, corr = 0))
+d3 = (X3 - Y3).sim(10000)
+
+X4, Y4 = RV(BivariateNormal(mean1 = 527, sd1 = 107, mean2 = 533, sd2 = 100, corr = -0.77))
+d4 = (X4 - Y4).sim(10000)
+
+plt.figure()
+d.plot()
+d2.plot()
+d3.plot()
+d4.plot()
+
+plt.legend(['corr = 0.77', 'corr = 0.40', 'corr = 0', 'corr = -0.77']);
+plt.show()
+```
+
+
+The simulated mean, variance, and standard deviation as close to what we computed in the previous example (of course, there is natural simulation variability).
+
+```{python}
+d.mean(), d2.mean(), d3.mean(), d4.mean()
+```
+
+
+```{python}
+d.sd(), d2.sd(), d3.sd(), d4.sd()
+```
+
+
+Compare the 90th percentiles of $X-Y$. The largest value for the 90th percentile occurs when there is the most variability in the difference, so we see more extreme values of the difference.
+
+```{python}
+d.quantile(0.9), d2.quantile(0.9), d3.quantile(0.9), d4.quantile(0.9)
+```
+
+
+
 The variance of the sum is the sum of the variances if and only if $X$ and $Y$ are uncorrelated.
 \begin{align*}
 \Var(X+Y)  & = \Var(X) + \Var(Y)\qquad \text{if $X, Y$ are uncorrelated}\\
@@ -2157,6 +2818,12 @@ The variance of the difference of uncorrelated random variables is the *sum* of 
 <!-- & \le 0.5 (- \Var(X) - \Var(Y))\\ -->
 <!-- & \le 0.5 (-) -->
 <!-- \end{align*} -->
+
+Combining the formula for variance of sums with some properties of covariance in the next subsection, we have a general formula for the variance of a linear combination of two random variables.
+If $a, b, c$ are non-random constants and $X$ and $Y$ are random variables then
+$$
+\Var(aX + bY + c) = a^2\Var(X) + b^2\Var(Y) + 2ab\Cov(X, Y)
+$$
 
 ### Bilinearity of covariance
 
@@ -2294,5 +2961,913 @@ Let $X$ be the number of two-point field goals a basketball player makes in a ga
 
 <!-- If $X$ can take negative values, it can be written as the difference of its positive and negative parts\footnote{If $x$ is a number, its positive part is $x^{+} = \max(x, 0)$ and its negative part is $x^{-} = -\min(x, 0)$.  For example, if $x=3$ then $x^{+}=3$ and $x^{-}=0$; if $x=-2$ then $x^{+}=0$ and $x^{-}=2$. Note that $x^{-}\ge0$.  Then $x=x^{+}-x^{-}$ and $|x| = x^{+}+x^{-}$. }, $X = X^{+} - X^{-}$.  Since both $X^{+}\ge0$ and $X^{-}\ge 0$, their expected values are given by the tail probability formula.  Then $\E(X)$ is defined to be $\E(X^{+})-\E(X^{-})$, provided that at least one of $\E(X^{+})$ and $\E(X^{-})$ is finite.  If both $\E(X^{+})=\infty$ and $\E(X^{-})=\infty$ then $\E(X)$ is undefined  (since $\infty - \infty$ is undefined.) The most commonly used example for a situation where the expected value is undefined is the Cauchy distribution (a.k.a.\ the $t$-distribution with one degree of freedom). -->
 
+
+
+
+
+## Conditional expected value {#ce}
+
+Conditioning on the value of a random variable $X$ in general changes the distribution of another random variable $Y$.  If a distribution changes, its summary characteristics like expected value and variance can change too.
+
+
+```{example, dice-ce}
+Roll a fair four-sided die twice.  Let $X$ be the sum of the two rolls, and let $Y$ be the larger of the two rolls (or the common value if a tie). We found the joint and marginal distributions of $X$ and $Y$ in Example \@ref(exm:dice-probspace), displayed in the table below.
+
+```
+
+| $p_{X, Y}(x, y)$ |      |      |      |      |            |
+|------------------|-----:|-----:|-----:|-----:|-----------:|
+| $x$ \\ $y$       |    1 |    2 |    3 |    4 | $p_{X}(x)$ |
+| 2                | 1/16 |    0 |    0 |    0 |       1/16 |
+| 3                |    0 | 2/16 |    0 |    0 |       2/16 |
+| 4                |    0 | 1/16 | 2/16 |    0 |       3/16 |
+| 5                |    0 |    0 | 2/16 | 2/16 |       4/16 |
+| 6                |    0 |    0 | 1/16 | 2/16 |       3/16 |
+| 7                |    0 |    0 |    0 | 2/16 |       2/16 |
+| 8                |    0 |    0 |    0 | 1/16 |       1/16 |
+| $p_Y(y)$         | 1/16 | 3/16 | 5/16 | 7/16 |            |
+
+
+1. Find $\E(Y)$. How could you find a simulation-based approximation?
+1. Find $\E(Y|X=6)$.  How could you find a simulation-based approximation?
+1. Find $\E(Y|X=5)$.  How could you find a simulation-based approximation?
+1. Find $\E(Y|X=x)$ for each possible value of $x$ of $X$.
+1. Find $\E(X|Y = 4)$. How could you find a simulation-based approximation?
+1. Find $\E(X|Y = y)$ for each possible value $y$ of $Y$.
+
+
+
+
+
+```{solution, dice-ce-sol}
+to Example \@ref(exm:dice-ce)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $\E(Y) = 1(1/16) + 2(3/16) + 3(5/16) + 4(7/16) = 3.125$.  Approximate this long run average value by simulating many values of $Y$ and computing the average.
+1. The conditional pmf of $Y$ given $X=6$ places probability 2/3 on the value 4 and 1/3 on the value 3.  Compute the expected value using this conditional distribution: $\E(Y|X=6) = 3(1/3) + 4(2/3) = 3.67$.  This conditional long run average value could be approximated by simulating many $(X, Y)$ pairs from the joint distribution, discarding the pairs for which $X\neq 6$, and computing the average value of the $Y$ values for the remaining pairs.
+1. The conditional pmf of $Y$ given $X=5$ places probability 1/2 on the value 4 and 1/2 on the value 3.  Compute the expected value using this conditional distribution: $\E(Y|X=5) = 3(1/2) + 4(1/2) = 3.5$.  This conditional long run average value could be approximated by simulating many $(X, Y)$ pairs from the joint distribution, discarding the pairs for which $X\neq 5$, and computing the average value of the $Y$ values for the remaining pairs.
+1. Proceed as in the previous two parts. Find $\E(Y|X=x)$ for each possible value of $x$ of $X$.
+
+    | $x$ |            $\E(Y|X=x)$ |
+    |----:|-----------------------:|
+    |   2 |               1(1) = 1 |
+    |   3 |               2(1) = 2 |
+    |   4 |  2(1/3) + 3(2/3) = 8/3 |
+    |   5 |  3(1/2) + 4(1/2) = 3.5 |
+    |   6 | 3(1/3) + 4(2/3) = 11/3 |
+    |   7 |               4(1) = 4 |
+    |   8 |               4(1) = 4 |
+  
+1. The conditional pmf of $X$ given $Y=4$ places probability 2/7 on each of the values 5, 6, 7, and 1/7 on the value 8.  Compute the expected value using this conditional distribution: $\E(X|Y=4) = 5(2/7) + 6(2/7) +7(2/7) + 8(1/7)= 6.29$.  This conditional long run average value could be approximated by simulating many $(X, Y)$ pairs from the joint distribution, discarding the pairs for which $Y\neq 4$, and computing the average value of the $X$ values for the remaining pairs.
+1. Proceed as in the previous part.
+
+    | $y$ |                             $\E(X|Y=y)$ |
+    |----:|----------------------------------------:|
+    |   1 |                                2(1) = 2 |
+    |   2 |                  3(2/3) + 4(1/3) = 10/3 |
+    |   3 |          4(2/5) + 5(2/5) + 6(1/5) = 4.8 |
+    |   4 | 5(2/7) + 6(2/7) +7(2/7) + 8(1/7) = 44/7 |
+
+
+```
+
+
+```{python}
+
+U1, U2 = RV(DiscreteUniform(1, 4) ** 2)
+
+X = U1 + U2
+
+Y = (U1 & U2).apply(max)
+
+y_given_Xeq6 = (Y | (X == 6) ).sim(3000)
+
+y_given_Xeq6
+
+```
+
+
+```{python}
+
+y_given_Xeq6.tabulate()
+
+```
+
+```{python}
+
+y_given_Xeq6.mean()
+
+```
+
+
+
+```{definition ce}
+
+The **conditional expected value** (a.k.a. *conditional expectation* a.k.a. *conditional mean*), of a random variable $Y$ given the event $\{X=x\}$, defined on a probability space with measure $\IP$, is a *number* denoted $\E(Y|X=x)$ representing the probability-weighted average value of $Y$, where the weights are determined by the conditional distribution of $Y$ given $X=x$.
+
+\begin{align*}
+	& \text{Discrete $X, Y$ with conditional pmf $p_{Y|X}$:} & \E(Y|X=x) & = \sum_y y p_{Y|X}(y|x)\\
+	& \text{Continuous $X, Y$ with conditional pdf $f_{Y|X}$:} & \E(Y|X=x) & =\int_{-\infty}^\infty y f_{Y|X}(y|x) dy
+\end{align*}
+
+```
+
+
+Remember, when conditioning on $X=x$, $x$ is treated as a fixed constant. The conditional expected value  $\E(Y | X=x)$ is  a *number* representing the mean of the conditional distribution of $Y$ given $X=x$. The conditional expected value $\E(Y | X=x)$ is the long run average value of $Y$ over only those outcomes for which $X=x$.
+To approximate $\E(Y|X = x)$, simulate many $(X, Y)$ pairs, discard the pairs for which $X\neq x$, and average the $Y$ values for the pairs that remain. 
+
+
+
+
+
+
+
+```{example, uniform-sum-max-ce}
+
+Recall Example \@ref(exm:uniform-sum-max-conditional). Consider the probability space corresponding to two spins of the Uniform(1, 4) spinner and let $X$ be the sum of the two spins and $Y$ the larger to the two spins (or the common value if a tie).
+
+```
+
+
+1. Find $\E(X | Y = 3)$.
+1. Find $\E(X | Y = 4)$.
+1. Find $\E(X | Y = y)$ for each value $y$ of $Y$.
+1. Find $\E(Y | X = 3.5)$.
+1. Find $\E(Y | X = 6)$.
+1. Find $\E(Y | X = x)$ for each value $x$ of $X$.
+
+
+
+```{solution, uniform-sum-max-ce-sol}
+to Example \@ref(exm:uniform-sum-max-ce)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Recall Figure \@ref(fig:uniform-sum-max-conditional-plot).  All the conditional distributions (slices) are Uniform, but over different ranges of possible values. Remember, the mean of any Uniform distribution is the midpoint of the possible range of values. The conditional distribution of $X$ given $Y=3$ is the Uniform(4, 6) distribution, which has mean 5.  Therefore, $\E(X | Y = 3)=5$.  As an integral, since $f_{X|Y}(x|3) = 1/2, 4<x<6$,
+\[
+\E(X | Y = 3) = \int_4^6  x (1/2)dx = \frac{x^2}{4}\Bigg|_{x=4}^{x=6} = \frac{6^2}{4} - \frac{4^2}{4} = 5.
+\]
+1. The conditional distribution of $X$ given $Y=4$ is the Uniform(5, 8) distribution, which has mean 6.5.  Therefore, $\E(X | Y = 4)=6.5$.
+1. For a given $y$, the conditional distribution of $X$ given $Y=y$ is the Uniform($y+1$, $2y$) distribution, which has mean $\frac{y+1+2y}{2}=1.5y + 0.5$.  Therefore, $\E(X | Y = y)=1.5y + 0.5$. As an integral, since $f_{X|Y}(x|y) = \frac{1}{y-1}, y+1 < x< 2y$,
+\[
+\E(X | Y = y) = \int_{y+1}^{2y}  x \left(\frac{1}{y-1}\right)dx = \frac{x^2}{2(y-1)}\Bigg|_{x=y+1}^{x=2y} = \frac{(2y)^2}{2(y-1)} - \frac{(y+1)^2}{2(y-1)} = 1.5y + 0.5.
+\]
+In the above, $y$ is treated like a fixed constant, and we are averaging over values of $X$ by taking a $dx$ integral. For a given value of $y$ like $y=3$, $1.5y + 0.5$ is a number like $1.5(3)+0.5=5$.
+1. The conditional distribution of $Y$ given $X=3.5$ is the Uniform(1.75, 2.5) distribution, which has mean 2.125.  Therefore, $\E(Y | X = 3.5)=2.125$.  As an integral, since $f_{Y|X}(y|3.5) = 1/0.75, 1.75<y<2.5$,
+\[
+\E(Y | X = 3.5) = \int_{1.75}^{2.5}  y (1/0.75)dy = \frac{y^2}{1.5}\Bigg|_{y=1.75}^{y=2.5} = \frac{2.5^2}{1.5} - \frac{1.75^2}{1.5} = 2.125.
+\]
+1. The conditional distribution of $Y$ given $X=6$ is the Uniform(3, 4) distribution, which has mean 3.5.  Therefore, $\E(Y | X = 6)=3.5$.
+1. There are two general cases.  If $2<x<5$ then the conditional distribution of $Y$ given $X=x$ is Uniform($0.5x$, $x-1$) so $\E(Y|X = x) = \frac{0.5x + x - 1}{2} = 0.75x - 0.5$. If $5<x<8$ then the conditional distribution of $Y$ given $X=x$ is Uniform($0.5x$, 4) so $\E(Y|X = x) = \frac{0.5x + 4}{2} = 0.25x +2$.  The two cases can be put together as
+\[
+\E(Y | X = x) = 0.25x + 0.5\min(4, x-1).  
+\]
+In the above, $x$ is treated like a fixed constant, and we are averaging over values of $Y$ by taking a $dy$ integral. For a given value of $x$ like $x=3.5$, $0.25x + 0.5\min(4, x-1)$ is a number like $0.25(3.5) + 0.5\min(4, 3.5-1)=2.125$.
+    
+```
+
+
+
+Remember that the probability that a continuous random variable is equal to a particular value is 0; that is, for continuous $X$, $\IP(X=x)=0$. When we condition on $\{X=x\}$ we are really conditioning on $\{|X-x|<\ep\}$ and seeing what happens in the idealized limit when $\ep\to0$.
+
+When simulating, *never* condition on $\{X=x\}$ for a continuous random variable $X$; rather, condition on $\{|X-x|<\ep\}$ where $\ep$ represents some suitable degree of precision (e.g. $\ep=0.005$ if rounding to two decimal places).
+
+To approximate $\E(Y|X = x)$ for continuous random variables, simulate many $(X, Y)$ pairs, discard the pairs for which $X$ *is not close to* $x$, and average the $Y$ values for the pairs that remain. 
+
+```{python}
+
+U1, U2 = RV(Uniform(1, 4) ** 2)
+
+X = U1 + U2
+
+Y = (U1 & U2).apply(max)
+
+x_given_Yeq3 = (X | (abs(Y - 3) < 0.05) ).sim(1000)
+
+x_given_Yeq3
+
+```
+
+
+
+```{python}
+
+x_given_Yeq3.plot()
+plt.show()
+
+x_given_Yeq3.mean()
+
+```
+
+### Conditional expected value as a random variable
+
+
+Given a value $x$ of $X$, the conditional expected value $\E(Y|X=x)$ is a *number*.  However, since $X$ can take different values $x$, then $\E(Y|X=x)$ can also take different values depending on the value of $x$.  That is, $\E(Y|X=x)$ is a function of $x$. Moreover, since $X$ is a random variable, $\E(Y|X=x)$ is a function of values of a random variable.
+
+
+```{example meeting-conditional-then-marginal-ce}
+
+Recall Example \@ref(exm:meeting-conditional-then-marginal).
+In the meeting problem, assume that $R$ follows a Normal(30, 10) distribution.
+For any value $r$, assume that the conditional distribution of $Y$ given $R=r$ is a Normal distribution with mean $30 + 0.7(r - 30)$ and standard deviation 7.14 minutes.
+```
+
+1. Compute and interpret $\E(Y| R = 40)$.
+1. Compute and interpret $\E(Y| R = 15)$.
+1. Provide an expression for $\E(Y|R)$.
+1. Identify the distribution of the random variable $E(Y|R)$.
+1. Explain in words in context what the distribution in the previous part represents.
+
+```{solution, meeting-conditional-then-marginal-ce-sol}
+to Example \@ref(exm:meeting-conditional-then-marginal-ce)
+```
+
+```{asis, fold.chunk = TRUE}
+1. The assumed conditional distribution of $Y$ given $R=40$ is Normal with mean $30 + 0.7(40 - 30) = 37$ and standard deviation 7.14 minutes.
+The mean of this distribution is 37.
+Therefore $\E(Y | R = 40) = 37$.
+Over many days *where Regina arrives 40 minutes after noon*, Cady's conditional average arrival time is 37 minutes after noon.
+1. The assumed conditional distribution of $Y$ given $R=15$ is Normal with mean $30 + 0.7(15 - 30) = 19.5$ and standard deviation 7.14 minutes.
+The mean of this distribution is 19.5.
+Therefore $\E(Y | R) = 19.5$.
+Over many days *where Regina arrives 15 minutes after noon*, Cady's conditional average arrival time is 19.5 minutes after noon.
+1. The assumed conditional distribution of $Y$ given $R=r$ is Normal with mean $30 + 0.7(r - 30)$ and standard deviation 7.14 minutes.
+The mean of this distribution is $30 + 0.7(r - 30)$.
+Therefore $\E(Y | R = r) = 30 + 0.7(r - 30)$; in this expression, $r$ represents a particular number (like 40 or 15).
+Regardless of Regina's arrival time, Cady's conditional average arrival time is given by $\E(Y | R) = 30 + 0.7(R - 30)$; notice that this is a function of the random variable $R$.
+1. $\E(Y | R) = 30 + 0.7(R - 30)$ is a linear rescaling of $R$. Since $R$ has a Normal distribution, any linear rescaling of $R$ also has a Normal distribution.
+The mean is $30 + 0.7(\E(R) - 30) = 30 + 0.7(30-30) = 30$ minutes after noon and the standard deviation is $0.7(\SD(R)) = 0.7(10) = 7$ minutes after noon.
+That is, $\E(Y | R) = 30 + 0.7(R - 30)$ has a Normal(30, 7) distribution.
+1. See below.
+```
+
+
+Consider Figure \@ref(fig:meeting-bvn-conditional-ce) which represents the situation in Example \@ref(exm:meeting-conditional-then-marginal-ce).
+The orange vertical slices represent the conditional distribution of $Y$ given $R=r$ for $r = 10, 15, 20, \ldots, 45, 50$.
+The pink dots in the center of the slices represent the conditional averages, $\E(Y|R = r)$ for the different values of $r$.
+The pink line connecting the conditional averages represents $\E(Y | R) = 30 + 0.7(R - 30)$.
+
+```{r meeting-bvn-conditional-ce, echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE, fig.cap="A Bivariate Normal distribution with some conditional distributions and conditional expected values highlighted."}
+# | echo: false
+# | label: fig-meeting-bivariate-normal
+# | fig-cap: "add"
+# | fig-alt: "add"
+
+xs = seq(10, 50, 5)
+
+ggplot(unit_box_prob,
+       aes(x = x,
+           y = y,
+           z = bivariate_normal)) +
+  geom_raster(aes(fill = bivariate_normal), interpolate = TRUE) +
+  geom_contour(color = "white") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 60)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 60)) +
+  scale_fill_viridis(limits = c(0, unit_box_max_prob)) +
+  labs(x = "Regina's arrival time (minutes after noon)",
+       y = "Cady's arrival time (minutes after noon)",
+       fill = "Density") +
+  coord_fixed() +
+  theme_classic() +
+  geom_vline(xintercept = xs, linetype = "solid", 
+                 color = c("#E69F00"), size = 2, alpha = 0.3) +
+  geom_abline(intercept = 30 - 0.7 * 30, slope = 0.7, linetype = "solid", 
+                 color = c("#CC79A7"), size = 2, alpha = 0.5) +
+  geom_point(data = data.frame(x = xs, y = 30 + 0.7 * (xs - 30)),
+             aes(x = x, y = y, z = 0),
+             color = c("#CC79A7"), size = 3)
+```
+
+In the previous example, suppose that every day when Regina arrives she guesses what time Cady arrived/will arrive that day (if Regina arrives second/first).
+Suppose each day Regina's guess is equal to Cady's conditional average arrival time given Regina's arrival time.
+For example, every day Regina arrives 40 minutes after noon, she guesses Cady's arrival time is 37 minutes after noon; every day Regina arrives 15 minutes after noon, she guess Cady's arrival time is 19.5 minutes after noon.
+Then the distribution of $\E(Y|R)$ represents how Regina's guesses for Cady's arrival time would be distributed over a large number of days.
+The values of $\E(Y|R)$ would be given by $30 + 0.7(R - 30)$, a function of $R$.
+The *distribution* of values of $\E(Y|R)$ would be determined by the distribution of $R$.
+For example, there would be more days where Regina arrives 40 minutes after noon than where she arrives 15 minutes after noon, so guesses of 37 minutes after noon ($\E(Y|R=40)=37$) would occur more frequently than guesses of 19.5 minutes after noon ($\E(Y|R=15)=19.5$).
+
+
+
+```{example, dice-ce-rv}
+Continuing Example \@ref(exm:dice-ce).  Let $X$ be the sum of the two rolls, and let $Y$ be the larger of the two rolls (or the common value if a tie).
+
+```
+
+1. Let $\ell(x)$ denote the function that maps values $x$ of $X$ to $\E(Y|X=x)$.  Find the distribution of the *random variable* $Z=\ell(X)$.
+1. Find $\IP(Z\le 3)$.
+1. Let $\E(X|Y)$ denote the *random variable* that takes value $\E(X|Y=y)$ when $Y=y$.  Find the distribution of $\E(X|Y)$.
+1. Find $\IP(\E(X|Y)\le 4)$.
+
+
+
+
+```{solution, dice-ce-rv-sol}
+to Example \@ref(exm:dice-ce-rv)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. We have already found $\E(Y|X=x)$ for each $x$.  The table below defines the function $\ell$. 
+
+    | $x$ |  $\ell(x) = \E(Y|X =x)$ |
+    |----:|------------------------:|
+    |   2 |                       1 |
+    |   3 |                       2 |
+    |   4 |                     8/3 |
+    |   5 |                     3.5 |
+    |   6 |                    11/3 |
+    |   7 |                       4 |
+    |   8 |                       4 |
+    
+    The random variable $Z=\ell(X)$ takes values 1, 2, 8/3, 3.5, 11/3, and 4.  Since $Z$ is a function of $X$, the distribution of $Z$ is determined by the distribution of $X$.  For example, $\IP(Z = 8/3) = \IP(X=4) = 3/16$, and $\IP(Z = 4) = \IP(X=7)+\IP(X = 8)=3/16$.  The following table displays the pmf of $Z$.
+
+    |  $z$ | $p_Z(z)$ |
+    |-----:|---------:|
+    |    1 |     1/16 |
+    |    2 |     2/16 |
+    |  8/3 |     3/16 |
+    |  3.5 |     4/16 |
+    | 11/3 |     3/16 |
+    |    4 |     3/16 |
+  
+1. Use the table above. The possible values of $Z$ that are at most 3 are 1, 2, 8/3, so $\IP(Z\le 3) = 6/16$.
+1. This is similar to the previous parts, but now we are conditioning the other way and using different notation.  Let $w$ denote a generic possible value of the random variable $\E(X|Y)$.  The possible values of $\E(X|Y)$ are determined by $\E(X|Y=y)$ for each possible value $y$ of $Y$, and the corresponding probabilities are determined by the distribution of $Y$.  The following table displays the pmf of $\E(X|Y)$.
+
+    |  $w$ | $p_{\E(X|Y)}(w)$ |
+    |-----:|-----------------:|
+    |    2 |             1/16 |
+    | 10/3 |             3/16 |
+    |  4.8 |             5/16 |
+    | 44/7 |             7/16 |
+
+1. Use the table above. $\IP(\E(X|Y)\le 4) = 4/16$.
+
+```
+
+```{definition, ce-rv}
+
+The **conditional expected value of $Y$ given $X$** is the *random variable*, denoted $\E(Y|X)$, which takes value $\E(Y|X=x)$ on the occurrence of the event $\{X=x\}$.  The random variable $\E(Y|X)$ is a *function of* $X$.
+
+```
+
+For a given value $x$ of $X$, $\E(Y|X=x)$ is a *number*. Let $\ell$ denote the function which maps $x$ to the number $\ell(x)=\E(Y|X=x)$. The random variable  $\E(Y|X)$ is a function of $X$, namely $\E(Y|X)=\ell(X)$.
+
+Roughly, $\E(Y|X)$ can be thought of as the "best guess" of the value of $Y$ given only the information available from $X$.
+
+Since $\E(Y|X)$ is a random variable, it has a distribution.  And since $\E(Y|X)$ is a function of $X$, the distribution of $X$ will be depend on the distribution of $X$.  However, remember that a transformation generally changes the shape of a distribution, so the distribution of $\E(Y|X)$ will usually have a different shape than that of $X$.
+
+
+```{example, uniform-sum-max-ce-rv}
+
+Continuing Example \@ref(exm:uniform-sum-max-ce). Consider the probability space corresponding to two spins of the Uniform(1, 4) spinner and let $X$ be the sum of the two spins and $Y$ the larger to the two spins (or the common value if a tie).
+
+```
+
+
+1. Find an expression for $\E(X | Y)$.
+1. Find $\IP(\E(X|Y) \le 5)$.
+1. Find the pdf of $\E(X|Y)$.
+1. Find an expression for $\E(Y | X)$.
+
+
+```{solution, uniform-sum-max-ce-rv-sol}
+to Example \@ref(exm:uniform-sum-max-ce-rv)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The conditional distribution of $X$ given $Y=y$ is Uniform($y+1$, $2y$) distribution, which has mean $\frac{y+1+2y}{2}=1.5y + 0.5$.  This is true for any value $y$ of $Y$.  Therefore, $\E(X|Y) = 1.5Y + 0.5$, a function of $Y$.
+1. Remember that the pdf of $Y$ is $f_Y(y) = (2/9)(y-1), 1<y<4$.
+    \[
+    \IP(\E(X|Y) \le 5)   = \IP(1.5Y + 0.5 \le 5) = \IP(Y \le 3) = \int_1^3 (2/9)(y-1)dy = 4/9
+    \]
+1. $E(X|Y)=1.5Y+0.5$ is a linear transformation of $Y$, so the shape of its distribution will be the same as the shape of the distribution of $Y$.  The possible values of $\E(X|Y)$ are 2 to 6.5.  We can use the cdf method.  For $2<w<6.5$,
+
+    \begin{align*}
+    F_{\E(X|Y)}(w) & = \IP(\E(X|Y)\le w)\\
+    & = \IP(1.5Y + 0.5 \le w)\\
+    & = \IP(Y \le (w - 0.5)/1.5)\\
+    F_{\E(X|Y)}(w)& = F_Y((w-0.5)/1.5)
+    \end{align*}
+    
+    Differentiate both sides with respect to $w$; remember the chain rule.
+    \[
+    f_{\E(X|Y)}(w) = f_Y((w-0.5)/1.5)(1/1.5) = (2/9)((w-0.5)/1.5 - 1)/1.5 = (8/81)(w - 2)
+    \]
+
+    That is, the pdf of $\E(X|Y)$ is $f_{\E(X|Y)}(w) = (8/81)(w - 2), 2<w<6.5$.
+    
+1. For each $2<x<8$,
+\[
+\E(Y | X = x) = 0.25x + 0.5\min(4, x-1).  
+\]
+Therefore, $\E(Y | X) = 0.25X + 0.5\min(4, X-1)$, a function of $X$.
+    
+```
+
+### Linearity of conditional expected value
+
+Conditional expected value, whether viewed as a number $\E(Y|X=x)$ or a random variable $\E(Y|X)$, possesses properties analogous to those of (unconditional) expected value.  In particular, we have **linearity of conditional expected value.**
+
+
+If $X, Y_1, \ldots, Y_n$ are RVs and $a_1, \ldots, a_n$ are non-random constants then
+\begin{align*}
+\E(a_1Y_1+\cdots+a_n Y_n|X=x) & = a_1\E(Y_1|X=x)+\cdots+a_n\E(Y_n|X=x)\\
+\E(a_1Y_1+\cdots+a_n Y_n|X) & = a_1\E(Y_1|X)+\cdots+a_n\E(Y_n|X)
+\end{align*}
+The first line above is an equality involving *numbers*; the second line is an equality involving *random variables* (i.e., functions).
+
+
+```{example, uniform-sum-max-ce-rv-linear}
+
+Continuing Example \@ref(exm:uniform-sum-max-ce-rv). Spin the Uniform(1, 4) spinner twice, let $U_1$ be the result of the first spin, $U_2$ the second, and let $X=U_1+U_2$ and $Y=\max(U_1, U_2)$.
+
+```
+
+1. Use linearity to show $\E(U_1|Y) = 0.75Y + 0.25$.
+1. Explain intuitively why $\E(U_1|Y) = 0.75Y + 0.25$.
+
+
+```{solution, uniform-sum-max-ce-rv-linear-sol}
+to Example \@ref(exm:uniform-sum-max-ce-rv-linear)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. By symmetry, $\E(U_1|Y) = \E(U_2|Y)$. By linearity of conditional expected value
+\[
+\E(X|Y) = \E(U_1 + U_2|Y) = \E(U_1|Y) + \E(U_2|Y) = 2\E(U_1|Y)  
+\]
+So $\E(U_1|Y) = 0.5\E(X|Y) = 0.5(1.5Y + 0.5)=0.75Y + 0.25$.
+1. Given the larger value $Y$, there are two cases.  Either the first spin is the larger, which happens with probability 0.5, in which case $U_1=Y$ so $\E(U_1|Y) = Y$.  Otherwise, the second spin is the larger, which happens with probability 0.5, in which case $U_1$ is Uniformly distributed between 1 and $Y$ with mean $(Y+1)/2$.  Therefore, $\E(U_1|Y) = 0.5Y + 0.5(Y+1)/2 = 0.75Y + 0.25$.
+
+```
+
+### Law of total expectation
+
+Analogous to the law of total probability, the law of total expectation 
+ provides a way of computing an expected value by breaking down a problem into various cases, computing the conditional expected value given each case, and then computing the overall expected value as a probability-weighted average of these case-by-case conditional expected values.  
+
+```{example, dice-lte}
+Continuing Example \@ref(exm:dice-ce-rv).  Let $X$ be the sum of the two rolls, and let $Y$ be the larger of the two rolls (or the common value if a tie).
+
+```
+
+1. Find the expected value of the random variable $\E(X|Y)$.  That is, find $\E(\E(X|Y))$.  How does it relate to $\E(X)$?
+1. Find the expected value of the random variable $\E(Y|X)$.  That is, find $\E(\E(Y|X))$.  How does it relate to $\E(Y)$?
+
+```{solution, dice-lte-sol}
+to Example \@ref(exm:dice-lte)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. $\E(X|Y)$ is a discrete random variable with pmf
+
+    |  $w$ | $p_{\E(X|Y)}(w)$ |
+    |-----:|-----------------:|
+    |    2 |             1/16 |
+    | 10/3 |             3/16 |
+    |  4.8 |             5/16 |
+    | 44/7 |             7/16 |
+  
+    Therefore,
+    \[
+    \E(\E(X|Y)) = (2)(1/16) + (10/3)(3/16) + (4.8)(5/16) + (44/7)(7/16) = 5
+    \]
+    We see that $\E(\E(X|Y)) = 5 = \E(X)$.
+    
+1. $\E(Y|X)$ is a discrete random variable with pmf
+
+    |  $z$ | $p_{\E(Y|X)}(z)$ |
+    |-----:|-----------------:|
+    |    1 |             1/16 |
+    |    2 |             2/16 |
+    |  8/3 |             3/16 |
+    |  3.5 |             4/16 |
+    | 11/3 |             3/16 |
+    |    4 |             3/16 |
+
+  
+    Therefore,
+    \[
+    \E(\E(Y|X)) = (1)(1/16) + (2)(2/16) + (8/4)(3/16) + (3.5)(4/16) +(11/3)(3/16)+(4)(3/16)= 3.125
+    \]
+    We see that $\E(\E(Y|X)) = 3.125 = \E(Y)$.
+
+```
+
+
+```{theorem LTE, name="Law of Total Expectation (LTE)"}
+For any two random variables $X$ and $Y$ (defined on the same probability space)
+\[
+\E(Y) = \E(\E(Y|X))
+\]
+```
+
+Remember that $\E(Y|X)$ is a *random variable* and so it has an expected value $\E(\E(Y|X))$ representing the long run average value of the random variable $\E(Y|X)$. Also remember that $\E(Y|X)$ is a function of $X$ and so $\E(\E(Y|X))$ can be computed using LOTUS using the distribution of $X$. For two discrete random variables $X$ and $Y$
+\[
+\E(\E(Y|X)) = \sum_x \E(Y|X=x)p_X(x)
+\]
+
+Here is a proof of the LTE for discrete random variables. (The proof for continuous random variables is analogous).
+\begin{align*}
+\E(\E(Y|X)) & = \sum_x \E(Y|X=x)p_X(x) & & \text{LOTUS, $\E(Y|X)$ is a function of $X$}\\
+& = \sum_x \left(\sum_y y p_{Y|X}(y|x)\right) p_X(x) & & \text{definition of CE}\\
+& = \sum_x \sum_y y p_{X, Y}(x, y) & & \text{joint = conditional $\times$ marginal}\\
+& = \sum_y y \sum_x p_{X, Y}(x, y) & & \text{interchange sums}\\
+& = \sum_y y p_Y(y) & & \text{collapse joint to get marginal}\\
+& = \E(Y) & & \text{definition of expected value}
+\end{align*}
+
+```{example, uniform-sum-max-lte}
+
+Continuing Example \@ref(exm:uniform-sum-max-ce-rv). Consider the probability space corresponding to two spins of the Uniform(1, 4) spinner and let $X$ be the sum of the two spins and $Y$ the larger to the two spins (or the common value if a tie).
+
+```
+
+
+1. Use the distribution of the random variable $E(X|Y)$ to compute $\E(\E(X|Y))$.  Compare to $\E(X)$.
+1. Use the expression for $\E(X|Y)$ and properties of expected value to compute $\E(\E(X|Y))$.
+
+
+```{solution, uniform-sum-max-lte-sol}
+to Example \@ref(exm:uniform-sum-max-lte)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. The continuous random variable $\E(X|Y)$ has pdf $f_{\E(X|Y)}(w) = (8/81)(w - 2), 2<w<6.5$.  So the expected value is
+    \[
+    \E(\E(X|Y))  = \int_2^{6.5} w \left((8/81)(w-2)\right)dw = 5
+    \]
+1. $E(X|Y)=1.5Y+0.5$ so $\E(E(X|Y))=\E(1.5Y+0.5)=1.5\E(Y) + 0.5=1.5(3)+0.5$.  We can find $\E(Y)=3$ using its pdf: $\E(Y) = \int_1^4 y (2/9)(y-1)dy = 3$.
+
+```
+
+Conditioning can be used as a problem solving strategy.  Conditioning can be used with the law of total probability to compute unconditional probabilities.  Likewise, conditioning can be used with the law of total expectation to compute unconditional expected values.
+
+
+
+```{example, coin-lte}
+Flip a fair coin  repeatedly.
+
+```
+
+
+1. What is the expected value of the number of tosses until a flip lands on H?  (Count the tosses that result in H, so H is 1 flip, TH is 2 flips, TTH is 3 flips, etc).
+1. What is the expected value of the number of flips until you see H followed immediately by T?  (HT is 2 flips, HHT is 3 flips, THT is 3 flips, HHHT is 4 flips, etc)
+1. What is the expected value of the number of flips until you see H followed immediately by H?  (HH is 2 flips, THH is 3 flips, HTHH is 4 flips, HTTHH is 5 flips, etc)
+1. Which of the previous two parts has the larger expected value?  Can you explain why?
+
+
+
+```{solution, coin-lte-sol}
+to Example \@ref(exm:coin-lte)
+```
+
+```{asis, fold.chunk = TRUE}
+
+1. Let $\mu$ be the expected value in question.  Condition on the result of the first flip.  Either the first flip is H, with probability 1/2, in which case you're done with 1 flip.  Otherwise, the first flip is T in which case the process starts over after the first flip and the expected number of additional flips is also $\mu$.  Use the law of total expectation to put the two expected values together.
+    \[
+    \mu = (1/2)(1) + (1/2)(1+\mu)
+    \]
+    Solve for $\mu=2$.
+1. To achieve the pattern HT, we first need to flip until we get H, and then we complete the pattern once we get the first T after that. The expected number of flips until the first H is 2 (from the previous part).  By symmetry, the expected number of additional flips until the first T is also 2.  By linearity of expected value, the expected value of the number of flips to achieve HT is 4.
+1. Let $\mu$ denote the expected value in question.  Condition on the result of the first flip.  If we get T, we're right back where we started after 1 flip, and the expected number of additional flips is $\mu$.  If the first flip is H, consider the second flip.  If it's H, then we're done in 2 flips.  If the second flip is T, then after 2 flips we're back at the beginning again and the expected number of additional flips is $\mu$.  Use the law of total expectation to put it all together.
+    \[
+    \mu = (1/2)(1 + \mu) + (1/2)((1/2)(2) + (1/2)(2+\mu))
+    \]
+    Solve to find $\mu = 6$.
+1. It takes longer on average to see HH than HT. When trying for HH, any T that follows H destroys our progress and takes us back to the beginning.  But when trying for HT, any H that follows H just maintains our current position.
+
+```
+
+
+```{example lookaway-ce}
+Recall Example \@ref(exm:lookaway).
+You and your friend are playing the ["lookaway challenge"](https://fivethirtyeight.com/features/what-are-your-chances-of-winning-the-u-s-open/).
+The game consists of possibly multiple rounds. In the first round, you point in one of four directions: up, down, left or right. At the exact same time, your friend also looks in one of those four directions. If your friend looks in the same direction you're pointing, you win! Otherwise, you switch roles and the game continues to the next round — now your friend points in a direction and you try to look away. (So the player who starts as the pointer is the pointer in the odd-numbered rounds, and the player who starts as the looker is the pointer in the even-numbered rounds, until the game ends.) As long as no one wins, you keep switching off who points and who looks.
+The game ends, and the current "pointer" wins, whenever the  "looker" looks in the same direction as the pointer.
+
+We saw in Example \@ref(exm:lookaway) that the probability that the player who starts as the pointer wins the game is 4/7 = 0.571.
+
+```
+
+
+1. Compute and interpret the expected number of rounds in a game.
+1. Compute and intepret the conditional expected number of rounds in a game given that the player who is the pointer in the first round wins the game.
+1. Compute and interpret the conditional expected number of rounds in a game given that the player who is the looker in the first round wins the game.
+
+
+
+
+```{solution, lookaway-ce-sol}
+to Example \@ref(exm:lookaway-ce)
+```
+
+```{asis, fold.chunk = TRUE}
+1. Let $X$ be the number of rounds in the game. We want $\mu = \E(X)$.
+Condition on the result of the first round.
+If the pointer wins the first round, which occurs with probability 1/4, the game is over and $X=1$.
+If the pointer does now win the first round, which occurs with probability 3/4, one round is played and then the game "starts over" and the expected number of additional rounds is $\mu$.
+By the law of total expectation $\mu = (1)(1/4) + (1+\mu)(3/4)$; solve for $\mu = 4$.
+Over many games, on average 4 rounds are played.
+1. Let $I$ be the indicator that the player who starts as the pointer wins the game.
+We want $\mu_1 = \E(X|I=1)$.
+We can basically repeat our strategy from the previous part, but now we condition on the player who starts as the pointer winning the game everywhere.
+Again, we'll consider two cases based on the results of the first round.
+If the pointer wins the first round, the game ends and $X = 1$; the weight of this case is the *conditional* probability that the pointer wins in the first round given that the pointer wins the game, which is
+$$
+\IP(\text{first pointer wins first round} | \text{first pointer wins game}) = \frac{\IP(\text{first pointer wins first round and first pointer wins game})}{\IP(\text{first pointer wins game})} = \frac{1/4}{4/7} = 7/16=0.4375
+$$
+If the pointer does not win the first round, *given that the first pointer wins the game* then 2 more rounds are played --- given that the first pointer wins the game, the game cannot end in round 2 --- and then the game "starts over".
+By the law of total expectation
+$$
+\mu_1 = (1)(7/16) + (2 + \mu_1)(9/16)
+$$
+Solve for $\mu_1 = 25/7 = 3.57$.
+Over many games *where the player who starts as the pointer wins* on average 3.57 rounds are played.  
+1. We might expect the answer to this part to be 32/7, the answer to the previous part plus 1; the previous part is the average number of rounds given that the game ends in an odd number of rounds, and now we want the average number of rounds give that the game ends in an even number of rounds. We want $\mu_0 = \E(X|I=0)$.
+We can use the results of the previous two parts if we condition on which player wins the game and use the law of total expectation.
+If the first pointer wins the game, which happens with probability 4/7, the conditional expected value is 25/7.
+If the first pointer does not win the game, which happens with probability 3/7, the conditional expected value is $\mu_0$.
+The overall expected value is 4, so use the law of total expected value
+\begin{align*}
+\E(X) & = \E(X|I = 1)\IP(I = 1) + \E(X | I = 0)\IP(I = 0)\\
+4 & = (25/7)(4/7) + \mu_0(3/7)
+\end{align*}
+Solve for $\mu_0 = 32/7 = 4.57$.
+Over many games *where the player who starts as the pointer does not win* on average 4.57 rounds are played.
+
+```
+
+The following is a simulation of the lookaway challenge problem.
+
+
+```{python}
+
+def count_rounds(sequence):
+    for r, pair in enumerate(sequence):
+        if pair[0] == pair[1]:
+            return r + 1 # +1 for 0 indexing
+
+P = BoxModel([1, 2, 3, 4], size = 2) ** inf
+
+X = RV(P, count_rounds)
+
+x = X.sim(25000)
+
+x
+```
+
+
+Approximate distribution of the number of rounds.
+
+```{python, eval = FALSE}
+x.plot()
+```
+
+
+```{python, echo = FALSE}
+plt.figure()
+x.plot()
+plt.show()
+```
+
+Approximate probability that the player who starts as the pointer wins the game (which occurs if the game ends in an odd number of rounds).
+
+```{python}
+def is_odd(u):
+    return (u % 2) == 1 # odd if the remainder when dividing by 2 is 1
+
+x.count(is_odd) / x.count()
+```
+
+
+Approximate expected number of rounds.
+
+```{python}
+x.mean()
+```
+
+
+Approximate conditional probability that the player who starts as the pointer wins in the first round given that the player who starts as the pointer wins the game.
+
+```{python}
+
+x.count_eq(1) / x.count(is_odd)
+
+```
+
+
+Approximate conditional expected number of rounds given that the player who starts as the pointer wins the game.
+
+
+```{python}
+x.filter(is_odd).mean()
+```
+
+
+Approximate conditional expected number of rounds given that the player who starts as the pointer does not win the game.
+
+
+```{python}
+def is_even(x):
+    return (x % 2) == 0 # odd if the remainder when dividing by 2 is 0
+
+x.filter(is_even).mean()
+```
+
+
+
+### Taking out what is known
+
+
+
+
+
+```{example random-rectangle-height}
+
+Suppose you construct a "random rectangle" as follows. The base $X$  is a random variable with a Uniform(0, 1) distribution.  The height $Y$ is a random variable whose conditional distribution given $X=x$ is  Uniform(0, $x$). We are interested in $\E(Y)$ the expected value of the height of the rectangle.
+
+```
+
+1. Explain how you could use the Uniform(0, 1) spinner to simulate an $(X, Y)$ pair.
+1. Explain how you could use simulation to approximate $\E(Y)$.
+1. Find $\E(Y|X=0.5)$.
+1. Find $\E(Y|X=0.2)$.
+1. Find $\E(Y|X=x)$ for a generic $x\in(0, 1)$.
+1. Identify the random variable $\E(Y|X)$.
+1. Use LTE to find $\E(Y)$.
+1. Sketch a plot of the joint distribution of $(X, Y)$.
+1. Sketch a plot of the marginal distribution of $Y$.  Be sure to specify the possible values.  Is it Uniform?
+1. What would you need to do to find $\E(Y)$ using the definition of expected value?
+
+```{solution, random-rectangle-height-sol}
+to Example \@ref(exm:random-rectangle-height)
+```
+
+1. Spin the spinner twice and let $U_1$ be the result of the first spin and $U_2$ the result of the second.  Let $X=U_1$.  Now consider an example. Given $X=0.2$, we want $Y$ to have a Uniform(0, 0.2) distribution. So we could take the result of the second spin (on a (0, 1) scale) and multiply by 0.2 to get a value on a (0, 0.2) scale.  (Remember: linear rescaling only changes the possible values and not the shape of the distribution; see Section \@ref(sec-linear-rescaling).)  That is, conditional on $X=0.2$, $0.2U_2$ will have a Uniform(0, 0.2) distribution.  Conditional on a general $x$, $xU_2$ will have a Uniform(0, $x$) distribution.  So if we define the random variable $Y$ as $Y=XU_2$, then the conditional distribution of $Y$ given $X=x$ will be Uniform(0, $x$).
+1. Simulate many $(X, Y)$ pairs in the above manner, and find the average of the simulated $Y$ values to approximate $\E(Y)$.
+1. The conditional distribution of $Y$ given $X=0.5$ is Uniform(0, 0.5) so $\E(Y|X=0.5)=0.5/2 = 0.25$.
+1. The conditional distribution of $Y$ given $X=0.2$ is Uniform(0, 0.2) so $\E(Y|X=0.2)=0.2/2 = 0.10$.
+1. For $x\in(0, 1)$, the conditional distribution of $Y$ given $X=x$ is Uniform(0, $x$) so $\E(Y|X=0.2)=x/2$.  Note that for any particular $x$, $\E(Y|X=x)$ is a *number* (e.g., $\E(Y|X=0.2)= 0.10$).
+1. $\E(Y|X)=X/2$.  Recall that $\E(Y|X)$ is a random variable, and moreover a function of $X$.  From the previous part we can see that $x/2$ maps $x\mapsto\E(Y|X=x)$, so $\E(Y|X) = X/2$.
+1. Use LTE.  Remember that non-random constants pop out of expected values.
+\[
+\E(Y) = \E(\E(Y|X)) = \E(X/2) = \E(X)/2 = (0.5)/2 = 0.25
+\]
+1. The $x$ values will be uniformly distributed between 0 and 1.  For each $x$, the $y$ values will be uniformly distributed along the vertical strip between 0 and $x$.  The $(X, Y)$ pairs will lie in the triangular region, $\{(x,y):0<y<x<1\}$, but since the vertical strips are shorter for smaller values of $x$, the density will be higher when $x$ is small than when $x$ is large.  The joint pdf is
+\[
+f_{X,Y}(x,y) = f_{Y|X}(y|x)f_X(x) = \frac{1}{x}(1), \qquad 0<y<x<1
+\]
+1. Unconditionally, $Y$ can take any value between 0 and 1.  Collapse $x$ values in the joint pdf.  By looking the horizontal strips in the joint pdf plot, we see that the density of $Y$ will be higher when $y$ is near 0.  We can find the marginal pdf by integrating out the $x$.  For a fixed $y$ in (0, 1) the joint density is positive only if $x$ is in $(y, 1)$.
+\[
+f_Y(y) = \int f_{X,Y}(x,y) dx = \int_y^1 \frac{1}{x} dx = -\log(y), \qquad 0<y<1
+\]
+1. In order to find $\E(Y)$ using the definition of expected value, you would need to (1) find the joint pdf of $(X, Y)$, (2) integrate the joint pdf with respect to $x$ to find the marginal pdf of $Y$, and (3) then integrate $\int y f_Y(y) dy$ to find $\E(Y)$:
+\[
+\int_0^1 y \left(-\log(y)\right)dy=0.25
+\]
+
+
+
+```{example random-rectangle-area}
+
+Continuing the previous example. Suppose you construct a "random rectangle" as follows. The base $X$  is a random variable with a Uniform(0, 1) distribution.  The height $Y$ is a random variable whose conditional distribution given $X=x$ is  Uniform(0, $x$). We are interested in $\E(XY)$ the expected value of the area of the rectangle.
+
+```
+
+1. Explain how you could use simulation to approximate $\E(XY)$.
+1. Find $\E(XY|X=0.5)$.
+1. Find $\E(XY|X=0.2)$.
+1. Find $\E(XY|X=x)$ for a generic $x\in(0, 1)$.  How does $\E(XY|X=x)$ relate to $\E(Y|X=x)$?
+1. Identify the random variable $\E(XY|X)$. How does $\E(XY|X)$ relate to $\E(Y|X)$?
+1. Use LTE to find $\E(XY)$.
+1. Find $\Cov(X, Y)$.  Does the sign of the covariance make sense?
+
+```{solution, random-rectangle-area-sol}
+to Example \@ref(exm:random-rectangle-area)
+```
+
+```{asis, fold.chunk = TRUE}
+
+
+1. Generate an $(X, Y)$ pair as in the previous part: spin the Uniform(0, 1) spinner twice, let $X$ be the result of the first spin and let $Y=XU$ where $U$ is the result of the second spin. Simulate many $(X, Y)$ pairs, for each pair compute the product $XY$, and find the average of the simulated $XY$ values to approximate $\E(XY)$.
+1. The conditional distribution of $XY$ given $X=0.5$ is the same as the conditional distribution of $0.5Y$ given $X=0.5$.  Conditional on $X=0.5$ we treat $X$ like the constant 0.5.  So $\E(XY|X=0.5)=\E(0.5Y|X=0.5) = 0.5\E(Y|X=0.5) = 0.5(0.25)=0.125$.  $\E(Y|X=0.5)=0.25$ because the conditional distribution of $Y$ given $X=0.5$ is Uniform(0, 0.5), with mean 0.25.
+1. Similar to the previous part, $\E(XY|X=0.2)=\E(0.2Y|X=0.2) = 0.2\E(Y|X=0.2) = 0.2(0.1) = 0.02$.  Notice that even after replacing $X$ with 0.2 we can't drop the conditioning, since the condition $X=2$ changes the distribution of $Y$; $\E(Y|X=0.2)=0.1$ is not the same as $\E(Y)=0.25$.
+1. Observe the pattern in the two previous parts and replace 0.5 and 0.2  with a generic $x$: $\E(XY|X=x)=\E(xY|X=x) = x\E(Y|X=x)$.  So we have $\E(XY|X=x)=x\E(Y|X=x)$; conditioning on $X=x$, we treat $X$ as the non-random constant $x$ and so it pops out of the expected value, just like 0.5 and 0.2 did.    Since $\E(Y|X=x)=x/2$ we have $\E(XY|X=x)=x\E(Y|X=x)=x(x/2)=x^2/2$. Note that for any particular $x$, $\E(XY|X=x)$ is a *number* (e.g., $\E(XY|X=0.2)= 0.2^2/2 = 0.02$).
+1. $\E(XY|X)=X\E(Y|X)$ and moreover $\E(XY|X)=X^2/2$.  Recall that $\E(XY|X)$ is a random variable, and moreover a function of $X$.  From the previous part we can see that $x^2/2$ maps $x\mapsto\E(Y|X=x)$, so $\E(XY|X) = X^2/2$.
+1. Use LTE.  Remember that non-random constants pop out of expected values.
+\[
+\E(XY) = \E(\E(XY|X)) = \E(X\E(Y|X))) = \E(X^2/2) = \E(X^2)/2 = (1/3)/2 = 1/6
+\]
+$\E(X^2)=1/3$ follows either by LOTUS, $\int_0^1 x^2(1)dx=1/3$, or since $\E(X^2) = \Var(X) + (\E(X))^2 = 1/12 + (1/2)^2=1/3$ where $\E(X)=1/12$ and $\Var(X)=1/12$ since $X$ has a Uniform(0, 1) distribution.
+
+```
+
+
+
+
+```{theorem TOWIK, name="Taking out what is known (TOWIK)"}
+\[
+\E(g(X)Y|X) = g(X)\E(Y|X)
+\]
+```
+
+In particular, $\E(XY|X) = X\E(Y|X)$, $\E(X|X)=X$, and $\E(g(X)|X)=g(X)$.
+Intuitively, when we condition on $X$ we treat it as though its value is known, so it behaves like a non-random constant. For example, $\E(XY|X)=X\E(Y|X)$ is the conditional, random variable analog of the unconditional, numerical relationship $\E(cY) = c\E(Y)$ where $c$ is a constant. Note that TOWIK is a relationship between *random variables*.
+
+Let $x$ be a particular possible value of $X$.  Then $g(x)$ is just a number.
+Remember that given $X=x$, the random variable $X$ is treated as the fixed constant $x$. Therefore, the conditional distribution of the random variable $g(X)Y$ given $X=x$ is the same as the conditional distribution of the random variable $g(x)Y$ given $X=x$.  Therefore $\E(g(X)Y|X=x) = \E(g(x)Y|X=x)= g(x)\E(Y|X=x)$, where $g(x)$ pops out of the expected value since it is just a number.
+
+
+
+
+A rectangle example like the one in Example \@ref(exm:random-rectangle-area) illustrates the ideas behind the law of total expectation and taking out what is known. Suppose $X$ represents the base of a rectangle and $Y$ its height; the product $XY$ represents the area of the rectangle. We can simulate a rectangle by simulating an $(X, Y)$ from the joint distribution, which might be specified by a marginal distribution of one variable and the conditional distribution of the other.  After simulating many rectangles, we can compute the average height to estimate $\E(Y)$ and the average area to estimate $\E(XY)$.
+
+To estimate $\E(Y)$ and $\E(XY)$ by conditioning on $X$ and using the law of total expectation, we first sort and group the rectangles according to the value of their base $X$.
+
+- One group consists of all the rectangles with a base of $X=0.1$.  The heights of the rectangles in this group are distributed according to the conditional distribution of $Y$ given $X=0.1$.  The average height of the rectangles in this group is $\E(Y|X=0.1)$.  Since all areas in this group have a base of 0.1, the average area of rectangles in this group is $(0.1)\E(Y|X=0.1)$.
+- Similarly, the average height of the rectangles with base of $X=0.2$ is $\E(Y|X=0.2)$ and the average area is $(0.2)\E(Y|X=0.2)$.
+- Generally, the average height of the rectangles with base of $X=x$ is $\E(Y|X=x)$ and the average area is $(x)\E(Y|X=x)$.
+
+
+We now have the average height and average area of the rectangles in each group.  But not all groups have the same number of rectangles.  So when computing the overall average height and average area groups with more rectangles get more weight.
+
+
+
+
+### Independent, uncorrelated, and something in between
+
+```{theorem}
+For any random variables $X$ and $Y$,
+
+1. If $X$ and $Y$ are independent then $\IP(\E(Y|X)=\E(Y))=1$ and $\IP(\E(X|Y)=\E(X)) = 1$.
+1. If either $\IP(\E(Y|X)=\E(Y))=1$ or $\IP(\E(X|Y)=\E(X)) = 1$ then $X$ and $Y$ are uncorrelated.
+
+```
+
+Roughly, if $X$ and $Y$ are independent then $\E(Y|X)=\E(Y)$.  However, this is a  nonsensical statement: on the left is $\E(Y|X)$ a random variable (a function), and on the right is $\E(Y)$ a number.  If $X$ and $Y$ are independent, then the conditional distribution of $Y$ is the same for all values of $X$, and so the mean of $Y$ is the same for all values of $X$.
+
+If, roughly, $\E(Y|X)=\E(Y)$, then the average value of $Y$ does not change with $X$.  This is enough for $X$ and $Y$ to be uncorrelated.  Since the average value of $Y$ does not change with $X$ there is no overall positive or negative association.  Here is a proof; suppose $\IP(\E(Y|X)=\E(Y))=1$, then
+
+\begin{align*}
+\E(XY) & = \E(\E(XY|X)) & & \text{LTE}\\
+& = \E(X\E(Y|X)) & & \text{TOWIK}\\
+& = \E(X\E(Y)) & & \text{by assumption}\\
+& = \E(X)\E(Y) & & \text{$\E(Y)$ is a number}
+\end{align*}
+
+So if $\IP(\E(Y|X)=\E(Y))=1$ then $X$ and $Y$ are uncorrelated.
+
+In short, if $X$ and $Y$ are independent then $\E(Y|X)=\E(Y)$, and if $\E(Y|X)=\E(Y)$ then $X$ and $Y$ are uncorrelated.  By the converses are not true.
+
+```{example uncorrelated-not-orthogonal}
+
+Let $X$ and $Y$ be discrete random variables with joint pmf
+
+|             |       |       |       |
+|------------	|-----:	|-----:	|-----:	|
+| $x$ \\ $y$ 	|   -1 	|    0 	|    1 	|
+| -1        	| 0.10 	|    0 	| 0.25 	|
+| 0          	| 0.30 	|    0 	|    0 	|
+| 1          	|    0 	| 0.20	| 0.15 	|
+
+```
+
+1. Find $\E(Y)$.
+1. Find $\E(Y|X=x)$ for each $x$.  Is $\E(Y|X)$ constant?
+1. Find $\E(X)$.
+1. Find $\E(X|Y=y)$ for each $y$.  Is $\E(X|Y)$ constant?
+1. Find $\Cov(X, Y)$. Are $X$ and $Y$ uncorrelated?
+1. Are $X$ and $Y$ independent?
+
+
+
+```{solution, uncorrelated-not-orthogonal-sol}
+to Example \@ref(exm:uncorrelated-not-orthogonal)
+```
+
+1. $\E(Y)= (-1)(0.40) + (0)(0.20)+(1)(0.40) = 0$.
+1. No, as is true in general, $\E(Y|X)$ is not constant in this example.
+\begin{align*}
+\E(Y|X=-1) & = (-1)(10/35) + (0)(0)+(1)(20/35) = 2/7\\
+\E(Y|X=0) & = (-1)(1) + (0)(0)+(1)(0) = -1\\
+\E(Y|X=1) & = (-1)(0) + (0)(20/35)+(1)(10/35) = 2/7\\
+\end{align*}
+1.$\E(X)= (-1)(0.40) + (0)(0.20)+(1)(0.40) = 0$.
+1. No, as is true in general, $\E(X|Y)$ is not constant in this example.
+\begin{align*}
+\E(X|Y=-1) & = (-1)(1/4) + (0)(3/4)+(1)(0) = -1/4\\
+\E(X|Y=0) & = (-1)(0) + (0)(0)+(1)(1) = 1\\
+\E(X|Y=1) & = (-1)(25/40) + (0)(0)+(1)(15/40) = -1/4\\
+\end{align*}
+1. $\E(XY)= (-1)(-1)(0.1)+(1)(-1)(0.25) + (1)(-1)(0)+(1)(1)(0.15)+0=0$ so $\Cov(X, Y)=\E(XY)-\E(X)\E(Y)=0$. Yes, $X$ and $Y$ are uncorrelated.
+1. No, $X$ and $Y$ are not independent.  For example $\E(Y|X=-1)=2/7$ but $\E(Y|X=0)=-1$.
 
 
